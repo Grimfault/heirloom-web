@@ -66,8 +66,20 @@ const btnModalClose = document.getElementById("btnModalClose");
 let state = null;
 let currentEvent = null;
 let selectedOutcomeIndex = null;
-let hand = [];
-let committed = [];
+let hand = [];        // [{ iid, cid }]
+let committed = [];   // [iid, iid]
+let nextHandIid = 1;
+
+function getHandEntry(iid) {
+  return hand.find(h => h.iid === iid) || null;
+}
+
+function committedCardIds() {
+  return committed
+    .map(iid => getHandEntry(iid)?.cid)
+    .filter(Boolean);
+}
+
 
 // ---------- Persistence ----------
 const SAVE_KEY = "heirloom_runstate_v01";
@@ -287,17 +299,18 @@ function openDraftModal(onPicked) {
   wrap.appendChild(p);
 
   const list = document.createElement("div");
-  list.className = "hand"; // re-use existing layout style
+  list.className = "hand";
   wrap.appendChild(list);
 
   for (const cid of choices) {
     const c = DATA.cardsById[cid];
     const lvlData = getCardLevelData(c);
 
-    const btn = document.createElement("button");
-    btn.className = "cardbtn";
-    btn.type = "button";
-    btn.innerHTML = `
+    const div = document.createElement("div");
+    div.className = "cardbtn";
+    div.tabIndex = 0;
+
+    div.innerHTML = `
       <div class="cardname">${c.name}</div>
       <div class="cardmeta">
         <span class="badge">${c.discipline}</span>
@@ -308,20 +321,24 @@ function openDraftModal(onPicked) {
       <div class="muted">Click to choose</div>
     `;
 
-    btn.addEventListener("click", () => {
+    const choose = () => {
       state.discardPile.push(cid);
       log(`Draft reward chosen: ${c.name}.`);
+      saveState();
+      renderAll();
       modalLocked = false;
       closeModal();
       onPicked?.();
-    });
+    };
 
-    list.appendChild(btn);
+    div.addEventListener("click", choose);
+    div.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") choose(); });
+
+    list.appendChild(div);
   }
 
   openModal("Draft Reward", wrap, { locked: true });
 }
-
 
 function expandDeck(deckField) {
   // supports:
@@ -348,7 +365,8 @@ function drawHand(n) {
       state.discardPile = [];
       if (state.drawPile.length === 0) break;
     }
-    hand.push(state.drawPile.pop());
+    const cid = state.drawPile.pop();
+    hand.push({ iid: nextHandIid++, cid });
   }
 }
 
@@ -560,7 +578,10 @@ function renderOutcomes() {
     div.addEventListener("click", () => {
       if (disabled) return;
       selectedOutcomeIndex = idx;
-      committed = committed.filter(cid => isCardUsable(cid, idx));
+      committed = committed.filter(iid => {
+  const cid = getHandEntry(iid)?.cid;
+  return cid && isCardUsable(cid, idx);
+});
       renderAll();
     });
 
@@ -569,10 +590,12 @@ function renderOutcomes() {
 }
 
 function renderHand() {
-  slot1.textContent = committed[0] ? cardLabel(committed[0]) : "—";
-  slot1.classList.toggle("muted", !committed[0]);
-  slot2.textContent = committed[1] ? cardLabel(committed[1]) : "—";
-  slot2.classList.toggle("muted", !committed[1]);
+  const cids = committedCardIds();
+
+  slot1.textContent = cids[0] ? cardLabel(cids[0]) : "—";
+  slot1.classList.toggle("muted", !cids[0]);
+  slot2.textContent = cids[1] ? cardLabel(cids[1]) : "—";
+  slot2.classList.toggle("muted", !cids[1]);
 
   if (selectedOutcomeIndex == null) {
     handHint.textContent = "Pick an outcome to see which cards are playable.";
@@ -581,11 +604,13 @@ function renderHand() {
   }
 
   handEl.innerHTML = "";
-  for (const cid of hand) {
+  for (const entry of hand) {
+    const cid = entry.cid;
     const c = DATA.cardsById[cid];
     if (!c) continue;
+
     const usable = (selectedOutcomeIndex != null) ? isCardUsable(cid, selectedOutcomeIndex) : false;
-    const isCommitted = committed.includes(cid);
+    const isCommitted = committed.includes(entry.iid);
 
     const lvlData = getCardLevelData(c);
     const extra = lvlData.partialOnFail ? "Partial-on-fail" : null;
@@ -610,10 +635,11 @@ function renderHand() {
       if (selectedOutcomeIndex == null) return;
       if (!usable) return;
 
-      if (isCommitted) committed = committed.filter(x => x !== cid);
-      else {
+      if (isCommitted) {
+        committed = committed.filter(x => x !== entry.iid);
+      } else {
         if (committed.length >= 2) return;
-        committed.push(cid);
+        committed.push(entry.iid);
       }
       renderAll();
     });
@@ -635,7 +661,7 @@ function renderChance() {
   const statVal = state.stats[o.stat] ?? 0;
   const diff = o.diff ?? 3;
 
-  const cardBonus = committed.reduce((sum, cid) => {
+  const cardBonus = committedCardIds().reduce((sum, cid) => {
     const c = DATA.cardsById[cid];
     if (!c) return sum;
     return sum + (getCardLevelData(c).bonus ?? 0);
@@ -714,12 +740,14 @@ function resolveSelectedOutcome() {
   const o = currentEvent.outcomes[selectedOutcomeIndex];
   const wasMajor = isMajorEventNow();
   const reasons = unmetReasons(o.requirements);
-  if (reasons.length) return; // safety
+  if (reasons.length) return;
 
   const statVal = state.stats[o.stat] ?? 0;
   const diff = o.diff ?? 3;
 
-  const cardBonus = committed.reduce((sum, cid) => {
+  const committedCids = committedCardIds();
+
+  const cardBonus = committedCids.reduce((sum, cid) => {
     const c = DATA.cardsById[cid];
     if (!c) return sum;
     return sum + (getCardLevelData(c).bonus ?? 0);
@@ -731,15 +759,12 @@ function resolveSelectedOutcome() {
   const roll = rInt(1, 100);
   const success = roll <= chance;
 
-  // Discard committed cards
-  for (const cid of committed) state.discardPile.push(cid);
-
-  // Move all uncommitted hand cards to discard (so the deck loop works)
-  for (const cid of hand) {
-     if (!committed.includes(cid)) state.discardPile.push(cid);
-     }
+  // Discard: push underlying cardIds (NOT instance ids)
+  const committedSet = new Set(committed);
+  for (const entry of hand) {
+    state.discardPile.push(entry.cid);
+  }
   hand = [];
-
 
   // Mortality tracking
   const severeBefore = state.conditions.filter(c => c.severity === "Severe").length;
@@ -748,7 +773,7 @@ function resolveSelectedOutcome() {
     applyBundle(o.success);
     log(`SUCCESS (${roll} ≤ ${chance}) → ${o.title}`);
   } else {
-    const partial = committed.some(cid => {
+    const partial = committedCids.some(cid => {
       const c = DATA.cardsById[cid];
       return c ? Boolean(getCardLevelData(c).partialOnFail) : false;
     });
@@ -756,7 +781,6 @@ function resolveSelectedOutcome() {
     if (partial) {
       log(`FAIL (${roll} > ${chance}) but PARTIAL triggers → ${o.title}`);
 
-      // Partial rule (simple): half of success resources (toward 0), plus failure conditions downgraded to Minor.
       for (const d of (o.success?.resources ?? [])) {
         applyResourceDelta({ resource: d.resource, amount: Math.trunc((d.amount ?? 0) / 2) });
       }
@@ -794,38 +818,28 @@ function resolveSelectedOutcome() {
     }
   }
 
-  
-
-  // Advance and cleanup
+  // Cleanup
   tickFlags();
-committed = [];
-selectedOutcomeIndex = null;
-
-if (wasMajor) {
-  saveState();
-  renderAll();
-
-  openDraftModal(() => {
-    advanceTime();
-    saveState();
-    renderAll();
-    loadRandomEvent();
-  });
-
-  return;
-}
-
-// normal flow (non-major)
-advanceTime();
-saveState();
-renderAll();
-loadRandomEvent();
-
-  advanceTime();
-
   committed = [];
   selectedOutcomeIndex = null;
 
+  // Draft reward on majors
+  if (wasMajor) {
+    saveState();
+    renderAll();
+
+    openDraftModal(() => {
+      advanceTime();
+      saveState();
+      renderAll();
+      loadRandomEvent();
+    });
+
+    return;
+  }
+
+  // Normal flow
+  advanceTime();
   saveState();
   renderAll();
   loadRandomEvent();
@@ -854,7 +868,7 @@ function handleDeath() {
   state.stats[focus] = clamp((state.stats[focus] ?? 0) + 1, 0, 5);
 
   // Refresh deck: shuffle everything back
-  state.drawPile = shuffle([...state.drawPile, ...state.discardPile, ...hand]);
+  state.drawPile = shuffle([...state.drawPile, ...state.discardPile, ...hand.map(h => h.cid)]);
   state.discardPile = [];
   hand = [];
   committed = [];
