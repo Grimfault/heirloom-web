@@ -38,6 +38,7 @@ const btnNewEvent = document.getElementById("btnNewEvent");
 const btnDebugPickEvent = document.getElementById("btnDebugPickEvent");
 
 const statusLine = document.getElementById("statusLine");
+const statsLine = document.getElementById("statsLine");
 const resourceLine = document.getElementById("resourceLine");
 const conditionLine = document.getElementById("conditionLine");
 const majorPill = document.getElementById("majorPill");
@@ -533,7 +534,9 @@ function isMajorEventNow() {
 
 function renderStatus() {
   const season = SEASONS[state.seasonIndex];
-  statusLine.textContent = `Age ${state.age} • ${season} • Heirs ${state.heirCount ?? 0}`;
+  statusLine.textContent = statsLine.textContent =
+  `Stats • Might ${state.stats.Might} • Wit ${state.stats.Wit} • Guile ${state.stats.Guile} • Gravitas ${state.stats.Gravitas} • Resolve ${state.stats.Resolve} (Heir Focus: ${state.heirFocus})`;
+`Age ${state.age} • ${season} • Heirs ${state.heirCount ?? 0}`;
 
   resourceLine.textContent =
     `Coin ${state.res.Coin} • Supplies ${state.res.Supplies} • Renown ${state.res.Renown} • Influence ${state.res.Influence} • Secrets ${state.res.Secrets}`;
