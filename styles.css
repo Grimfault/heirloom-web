@@ -1,0 +1,137 @@
+:root {
+  --bg: #0f1115;
+  --card: #171a21;
+  --card2: #1e2230;
+  --text: #e9eef5;
+  --muted: #aab3c2;
+  --line: #2a3142;
+  --good: #62d36b;
+  --bad: #ff6b6b;
+  --warn: #f3c969;
+  --accent: #7aa8ff;
+  --danger: #ff4d4d;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app { max-width: 820px; margin: 0 auto; padding: 12px; }
+.topbar { display:flex; justify-content:space-between; align-items:center; gap:12px; padding: 10px 6px; }
+.title { font-weight: 800; font-size: 20px; }
+.subtitle { color: var(--muted); font-size: 12px; }
+.topbar-actions { display:flex; gap:8px; }
+
+.main { display:flex; flex-direction:column; gap:12px; }
+.card {
+  background: linear-gradient(180deg, var(--card), var(--card2));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+}
+h2, h3 { margin: 0 0 8px 0; }
+.muted { color: var(--muted); font-size: 13px; }
+.prompt { margin: 10px 0 0 0; line-height: 1.35; }
+.hidden { display:none !important; }
+
+.grid { display:grid; grid-template-columns: 1fr; gap:10px; margin: 10px 0; }
+@media (min-width: 700px) {
+  .grid { grid-template-columns: 1fr 1fr; }
+}
+.field span { display:block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+select {
+  width:100%;
+  padding:10px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #0f131c;
+  color: var(--text);
+}
+
+.row { display:flex; align-items:center; gap:10px; }
+.space { justify-content:space-between; }
+.status { font-weight: 700; }
+.pill {
+  display:none;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #111;
+  background: var(--warn);
+}
+.pill.show { display:inline-flex; }
+
+.btn {
+  border: 1px solid var(--line);
+  background: #101521;
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn.small { padding: 6px 10px; border-radius: 10px; font-size: 12px; }
+.btn.primary { background: var(--accent); color: #0a0d14; border-color: transparent; }
+.btn.danger { background: var(--danger); color: #0a0d14; border-color: transparent; }
+.btn.ghost { background: transparent; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+
+.outcomes { display:grid; gap:10px; margin-top: 12px; }
+.outcome {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(0,0,0,0.18);
+  cursor: pointer;
+}
+.outcome.selected { outline: 2px solid var(--accent); }
+.outcome-title { font-weight: 800; }
+.outcome-meta { margin-top: 4px; color: var(--muted); font-size: 12px; display:flex; flex-wrap:wrap; gap:8px; }
+.badge { padding: 2px 8px; border-radius: 999px; border:1px solid var(--line); font-size: 12px; }
+
+.slots { display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin: 10px 0; }
+.slot { border:1px dashed var(--line); border-radius: 12px; padding:10px; }
+.slot-label { color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+.slot-card { font-weight: 700; }
+
+.hand { display:grid; grid-template-columns: 1fr; gap:10px; }
+@media (min-width: 700px) {
+  .hand { grid-template-columns: 1fr 1fr; }
+}
+.cardbtn {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(0,0,0,0.20);
+  cursor: pointer;
+}
+.cardbtn.disabled { opacity: .45; cursor: not-allowed; }
+.cardbtn.committed { outline: 2px solid var(--good); }
+.cardname { font-weight: 800; }
+.cardmeta { margin-top: 4px; color: var(--muted); font-size: 12px; display:flex; flex-wrap:wrap; gap:8px; }
+
+.chance { font-weight: 900; }
+.good { color: var(--good); }
+.bad { color: var(--bad); }
+
+.log { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; white-space: pre-wrap; }
+.footer { padding: 10px 6px; }
+
+.backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  display:flex; align-items:center; justify-content:center;
+  padding: 12px;
+}
+.modal {
+  width: min(820px, 100%);
+  background: #0f131c;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+}

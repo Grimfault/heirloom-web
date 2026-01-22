@@ -1,0 +1,2011 @@
+[
+  {
+    "id": "gev_001_roadside_ambush",
+    "name": "Roadside Ambush",
+    "context": "Strife",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "Bandits spring from the brush. They aren’t here to talk—unless you make them.",
+    "outcomes": [
+      {
+        "title": "Break Their Line",
+        "desc": "Meet violence with violence.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Hearth"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Fight Dirty",
+        "desc": "Win fast, and regret it later.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Steel"],
+        "tags": ["Scandalous", "Perilous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 3 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Bargain for Passage",
+        "desc": "Pay the toll of the wild.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": -2 }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -3 }], "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Hold the Rear, Save the Pack",
+        "desc": "Endure the worst so the rest survives.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Steel"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Supplies", "amount": -1 }, { "resource": "Renown", "amount": 1 }] },
+        "fail": { "resources": [{ "resource": "Supplies", "amount": -2 }], "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_002_duel_at_dawn",
+    "name": "Duel at Dawn",
+    "context": "Strife",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "An insult has teeth. A rival demands satisfaction at first light.",
+    "outcomes": [
+      {
+        "title": "Answer the Challenge",
+        "desc": "Steel speaks plainly.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Hearth"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Win with a Feint",
+        "desc": "A clean cut, a quick end.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Steel"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Minor" }, { "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Dissect the Claim",
+        "desc": "Words and precedent can blunt a blade.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Refuse and Endure",
+        "desc": "You do not bend—but you may be judged.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "conditions": [{ "id": "Disgraced", "mode": "Downgrade" }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_003_siege_fire",
+    "name": "Siege Fire",
+    "context": "Strife",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A town burns at the edges. Someone must organize defense—or exploit the chaos.",
+    "outcomes": [
+      {
+        "title": "Lead a Sortie",
+        "desc": "Drive them back before the flames spread.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": ["Steel", "Seal"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 3 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Plan the Defenses",
+        "desc": "Barricades, buckets, rotations—order in the panic.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Steel"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Supplies", "amount": 1 }, { "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Sabotage the Raiders",
+        "desc": "A quiet knife does more than a loud shout.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": ["Veil", "Steel"],
+        "tags": ["Scandalous", "Perilous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 2 }, { "resource": "Renown", "amount": 2 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Hold Morale Together",
+        "desc": "Keep the people moving, keep the line from breaking.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Hearth"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Influence", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_004_mercenary_offer",
+    "name": "Mercenary Offer",
+    "context": "Strife",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A mercenary captain offers a contract. Their loyalty is priced, not pledged.",
+    "outcomes": [
+      {
+        "title": "Hire Them",
+        "desc": "Coin for blades—clean and simple.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": -3 }, { "resource": "Renown", "amount": 1 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -3 }], "conditions": [{ "id": "Obligation", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Train with Them",
+        "desc": "Learn their tricks and harden your edge.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }], "conditions": [{ "id": "Exhausted", "mode": "Downgrade" }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Cheat the Captain",
+        "desc": "Promise payment you don’t intend to deliver.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Seal"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 3 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Decline Politely",
+        "desc": "No deal, no debt—just distance.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+
+  {
+    "id": "gev_005_missing_purse",
+    "name": "Missing Purse",
+    "context": "Scheme",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "Your coin is lighter than it should be. Someone nearby is heavier.",
+    "outcomes": [
+      {
+        "title": "Catch the Thief",
+        "desc": "A hard grab ends a soft crime.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Hearth"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 2 }, { "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Spot the Trick",
+        "desc": "Watch the hands, not the face.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Veil"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": 2 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -1 }] }
+      },
+      {
+        "title": "Set a Bait",
+        "desc": "Let them steal again—this time into a trap.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Quill"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 3 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Appeal to the Crowd",
+        "desc": "Make it everyone’s problem.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Hearth"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 1 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_006_whispered_allegation",
+    "name": "Whispered Allegation",
+    "context": "Scheme",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A rumor about you spreads with suspicious speed. Someone is feeding it.",
+    "outcomes": [
+      {
+        "title": "Confront the Source",
+        "desc": "Make the whisperers speak aloud.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Steel"],
+        "tags": ["Public"],
+        "success": { "conditions": [{ "id": "Disgraced", "mode": "Downgrade" }], "resources": [{ "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Follow the Trail",
+        "desc": "Names, dates, who benefited.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Veil"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Spread a Counter-Rumor",
+        "desc": "Poison the well before you drink from it.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Seal"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Say Nothing",
+        "desc": "Silence can starve a lie—sometimes.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Quill"],
+        "tags": [],
+        "success": { "flags": [{ "id": "rumor_shield", "mode": "Add", "durationEvents": 2 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_007_counterfeit_seal",
+    "name": "Counterfeit Seal",
+    "context": "Scheme",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "You discover documents bearing a seal that isn’t quite right. A forgery—skilled enough to matter.",
+    "outcomes": [
+      {
+        "title": "Report It",
+        "desc": "Bring the fraud into the light.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }, { "resource": "Renown", "amount": 1 }] },
+        "fail": { "flags": [{ "id": "counterfeiters_alerted", "mode": "Add", "durationEvents": 0 }] }
+      },
+      {
+        "title": "Use It",
+        "desc": "A false seal opens real doors.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": ["Veil", "Seal"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Influence", "amount": 2 }, { "resource": "Coin", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Study the Method",
+        "desc": "Learn how the lie was built.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": ["Quill", "Veil"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Destroy the Evidence",
+        "desc": "No paper, no problem—until someone notices.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Marked", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_008_backroom_auction",
+    "name": "Backroom Auction",
+    "context": "Scheme",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "Behind a shuttered door, forbidden goods change hands. You can buy, steal, watch—or leave.",
+    "outcomes": [
+      {
+        "title": "Bid for the Prize",
+        "desc": "Spend coin to gain leverage.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Quill"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": -3 }, { "resource": "Secrets", "amount": 1 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -3 }], "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Steal It",
+        "desc": "Take what you want and vanish.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": ["Veil", "Steel"],
+        "tags": ["Scandalous", "Perilous"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }, { "resource": "Coin", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Identify the Buyers",
+        "desc": "Names are worth more than trinkets.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Veil"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Walk Away",
+        "desc": "You keep your hands clean. Mostly.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": {},
+        "fail": { "resources": [{ "resource": "Influence", "amount": -1 }] }
+      }
+    ]
+  },
+
+  {
+    "id": "gev_009_petition_day",
+    "name": "Petition Day",
+    "context": "Court",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A hall of grievances. Everyone wants justice. Someone wants your favor.",
+    "outcomes": [
+      {
+        "title": "Back the Commoners",
+        "desc": "Risk angering the powerful to gain a name.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Hearth"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Back the Lords",
+        "desc": "Choose stability over fairness.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Quill"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Influence", "amount": 2 }, { "resource": "Coin", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Investigate the Claim",
+        "desc": "Find what’s true before choosing sides.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Seal"],
+        "tags": ["Scholarly"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }, { "resource": "Coin", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Profit Quietly",
+        "desc": "Make coin while others argue.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Seal"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 4 }] },
+        "fail": { "resources": [{ "resource": "Influence", "amount": -1 }], "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_010_feast_of_favors",
+    "name": "Feast of Favors",
+    "context": "Court",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A banquet of polished smiles. Every toast is a trade in disguise.",
+    "outcomes": [
+      {
+        "title": "Toast the Host",
+        "desc": "Say the right words to the right ears.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Hearth"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Influence", "amount": 2 }, { "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Listen for Leverage",
+        "desc": "Collect whispers between courses.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Quill"],
+        "tags": ["Covert"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Marked", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Win the Debate",
+        "desc": "Outshine a rival in open discourse.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Seal"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Keep Your Limits",
+        "desc": "Decline the cups, keep your head.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Quill"],
+        "tags": [],
+        "success": { "conditions": [{ "id": "Exhausted", "mode": "Downgrade" }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Severe" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_011_heralds_challenge",
+    "name": "Herald's Challenge",
+    "context": "Court",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A herald announces contests: arms, riddles, and wagers. Reputation is on the line.",
+    "outcomes": [
+      {
+        "title": "Enter the Lists",
+        "desc": "Win with strength and skill.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": ["Steel", "Seal"],
+        "tags": ["Perilous", "Public"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 3 }, { "resource": "Coin", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Solve the Riddle",
+        "desc": "Win without a bruise.",
+        "stat": "Wit",
+        "diff": 4,
+        "allowed": ["Quill", "Hearth"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Sponsor a Contender",
+        "desc": "Put coin behind someone stronger than you.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": -2 }, { "resource": "Influence", "amount": 2 }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -2 }], "conditions": [{ "id": "InDebt", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Fix the Wager",
+        "desc": "Make sure the outcome is profitable.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": ["Veil", "Seal"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 4 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }, { "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_012_tax_collectors_audit",
+    "name": "Tax Collector's Audit",
+    "context": "Court",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A clerk arrives with ledgers and a practiced frown. They want coin—and perhaps something else.",
+    "outcomes": [
+      {
+        "title": "Pay What’s Due",
+        "desc": "Simple, bitter, done.",
+        "stat": "Resolve",
+        "diff": 1,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": -2 }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -3 }], "conditions": [{ "id": "InDebt", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Argue Exemptions",
+        "desc": "Find a legal crack in their certainty.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": -1 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "InDebt", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Bribe the Clerk",
+        "desc": "Turn official duty into private profit.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Seal"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": -2 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Rally the Town",
+        "desc": "Make the audit politically costly.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Hearth"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+
+  {
+    "id": "gev_013_river_crossing",
+    "name": "River Crossing",
+    "context": "Journey",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "The river runs high. Crossing costs time, coin, or skin.",
+    "outcomes": [
+      {
+        "title": "Force the Ford",
+        "desc": "Wade through and trust your strength.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Hearth"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Supplies", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Build a Raft",
+        "desc": "Make safety with clever hands.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Steel"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Supplies", "amount": 2 }] },
+        "fail": { "resources": [{ "resource": "Supplies", "amount": -1 }], "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Pay the Ferryman",
+        "desc": "Coin buys dry boots.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": -2 }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -2 }, { "resource": "Supplies", "amount": -1 }] }
+      },
+      {
+        "title": "Cross at Night",
+        "desc": "Avoid the eyes that watch the bridge.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Hearth"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_014_swamp_detour",
+    "name": "Swamp Detour",
+    "context": "Journey",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "The road sinks into swamp. Each step is a tax on your will and supplies.",
+    "outcomes": [
+      {
+        "title": "Push Through",
+        "desc": "Endure the mire and move on.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": ["Hearth", "Steel"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Ill", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Find High Ground",
+        "desc": "Chart a safer path, even if it’s longer.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Supplies", "amount": -1 }] },
+        "fail": { "resources": [{ "resource": "Supplies", "amount": -2 }], "conditions": [{ "id": "Ill", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Hire a Guide",
+        "desc": "Local knowledge has a price.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": -2 }, { "resource": "Supplies", "amount": 1 }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -2 }], "conditions": [{ "id": "Obligation", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Cut Corners",
+        "desc": "Slip where others slog.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Quill"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Supplies", "amount": 1 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Severe" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_015_broken_compass",
+    "name": "Broken Compass",
+    "context": "Journey",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "Your compass needle spins uselessly. Direction becomes a guessing game.",
+    "outcomes": [
+      {
+        "title": "Read the Stars",
+        "desc": "Old knowledge, steady sky.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }] },
+        "fail": { "resources": [{ "resource": "Supplies", "amount": -2 }] }
+      },
+      {
+        "title": "Follow the River",
+        "desc": "Water leads somewhere, eventually.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Supplies", "amount": -1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Ask the Locals",
+        "desc": "Pride down, help up.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Steal a Map",
+        "desc": "If you can’t find the way, take it.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Steel"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_016_the_hungry_year",
+    "name": "The Hungry Year",
+    "context": "Journey",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "Food is scarce. Prices rise. People watch your pack.",
+    "outcomes": [
+      {
+        "title": "Ration Strictly",
+        "desc": "Survive by discipline.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": ["Hearth", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Supplies", "amount": -1 }] },
+        "fail": { "conditions": [{ "id": "Starving", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Buy Grain",
+        "desc": "Pay now, eat later.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": -3 }, { "resource": "Supplies", "amount": 3 }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -3 }, { "resource": "Supplies", "amount": 1 }] }
+      },
+      {
+        "title": "Take What You Need",
+        "desc": "A hungry hand becomes a thief.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Veil"],
+        "tags": ["Scandalous", "Perilous"],
+        "success": { "resources": [{ "resource": "Supplies", "amount": 2 }], "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Work for Your Meal",
+        "desc": "Trade sweat for bread.",
+        "stat": "Might",
+        "diff": 2,
+        "allowed": ["Steel", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Supplies", "amount": 1 }, { "resource": "Coin", "amount": 1 }], "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Severe" }] }
+      }
+    ]
+  },
+
+  {
+    "id": "gev_017_ruined_watchtower",
+    "name": "The Ruined Watchtower",
+    "context": "Lore",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "An old watchtower stands broken. Something glints inside.",
+    "outcomes": [
+      {
+        "title": "Search Carefully",
+        "desc": "Patience over greed.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": 3 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Ill", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Force the Door",
+        "desc": "Make your own way.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": 4 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Look for Traps",
+        "desc": "Assume danger is everywhere.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Leave It Be",
+        "desc": "Not every treasure is worth it.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }] },
+        "fail": {}
+      }
+    ]
+  },
+  {
+    "id": "gev_018_forbidden_folio",
+    "name": "Forbidden Folio",
+    "context": "Lore",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "You find a folio wrapped in oilcloth. Its ink is old. Its content is dangerous.",
+    "outcomes": [
+      {
+        "title": "Study It",
+        "desc": "Knowledge is worth a little risk.",
+        "stat": "Wit",
+        "diff": 4,
+        "allowed": ["Quill", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Cursed", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Sell to a Collector",
+        "desc": "Someone will pay dearly for forbidden ink.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Seal"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 4 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Donate to a Shrine",
+        "desc": "Let piety keep you safe.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Hide It Away",
+        "desc": "Keep it close, keep it quiet.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": ["Hearth", "Veil"],
+        "tags": ["Covert"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }], "flags": [{ "id": "stashed_folio", "mode": "Add", "durationEvents": 0 }] },
+        "fail": { "conditions": [{ "id": "Marked", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_019_village_relic",
+    "name": "Village Relic",
+    "context": "Lore",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A village begs your help: their relic was taken. It’s only wood and metal—yet it matters.",
+    "outcomes": [
+      {
+        "title": "Recover It",
+        "desc": "Bring it back the hard way.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Hearth"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }, { "resource": "Supplies", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Research Its History",
+        "desc": "Learn who took it—and why.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Swap It for a Fake",
+        "desc": "Give them comfort, keep the value.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Quill"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 3 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Offer a Blessing",
+        "desc": "A kind gesture can be its own currency.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Hearth"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }] },
+        "fail": {}
+      }
+    ]
+  },
+  {
+    "id": "gev_020_old_stone_circle",
+    "name": "Old Stone Circle",
+    "context": "Lore",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "Ancient stones stand in a silent ring. The air feels older than your name.",
+    "outcomes": [
+      {
+        "title": "Camp Within the Ring",
+        "desc": "Rest where few dare rest.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": ["Hearth", "Quill"],
+        "tags": [],
+        "success": { "conditions": [{ "id": "Exhausted", "mode": "Downgrade" }], "resources": [{ "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Cursed", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Take a Rubbing",
+        "desc": "Record symbols and patterns.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Ill", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Carve Your Mark",
+        "desc": "Leave proof you were here.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Steel"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Marked", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Loot the Offerings",
+        "desc": "Coins glitter at the base of the stones.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Quill"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 2 }, { "resource": "Supplies", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Cursed", "mode": "Add", "severity": "Minor" }, { "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+
+  {
+    "id": "gev_021_tavern_brawl",
+    "name": "Tavern Brawl",
+    "context": "Strife",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A cheap insult turns into fists, stools, and broken teeth.",
+    "outcomes": [
+      {
+        "title": "Drop the Loudest One",
+        "desc": "End it fast with a decisive blow.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Hearth"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }, { "resource": "Coin", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Win With Positioning",
+        "desc": "Let others fall where you choose.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Steel"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Turn It Into a Shakedown",
+        "desc": "Make the chaos profitable.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Steel"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 3 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Calm the Room",
+        "desc": "A steady voice can stop a riot.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Hearth"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }], "conditions": [{ "id": "Disgraced", "mode": "Downgrade" }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_022_arrow_from_treeline",
+    "name": "Arrow From the Treeline",
+    "context": "Strife",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A single arrow thuds into the dirt by your foot. A warning—or the first shot.",
+    "outcomes": [
+      {
+        "title": "Charge the Shooter",
+        "desc": "Close the distance before they nock again.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": ["Steel", "Hearth"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }], "conditions": [{ "id": "Wanted", "mode": "Downgrade" }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Find Their Nest",
+        "desc": "Read the terrain and cut the angle.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Steel"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }, { "resource": "Supplies", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Slip Away Quietly",
+        "desc": "Don’t give them a target.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Parley Under Truce",
+        "desc": "Turn tension into information.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }], "flags": [{ "id": "pursuer_named", "mode": "Add", "durationEvents": 0 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_023_hunt_gone_wrong",
+    "name": "Hunt Gone Wrong",
+    "context": "Strife",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "The hunt is supposed to feed you. Instead, something corners you.",
+    "outcomes": [
+      {
+        "title": "Bring It Down",
+        "desc": "End the threat and claim the meat.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Hearth"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Supplies", "amount": 3 }, { "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Outthink the Beast",
+        "desc": "Use terrain and timing.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Steel"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Supplies", "amount": 2 }] },
+        "fail": { "resources": [{ "resource": "Supplies", "amount": 1 }], "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Lay a Dirty Trap",
+        "desc": "Win in a way you won’t brag about.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Quill"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Supplies", "amount": 3 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Ill", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Back Away Slowly",
+        "desc": "Live to hunt again.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "conditions": [{ "id": "Exhausted", "mode": "Downgrade" }] },
+        "fail": { "resources": [{ "resource": "Supplies", "amount": -2 }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_024_guard_captains_suspicion",
+    "name": "Guard Captain’s Suspicion",
+    "context": "Strife",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A guard captain blocks your path, hand on hilt. “State your business.”",
+    "outcomes": [
+      {
+        "title": "Stand Tall",
+        "desc": "Make your presence an argument.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Steel"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }], "conditions": [{ "id": "Wanted", "mode": "Downgrade" }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Explain Precisely",
+        "desc": "Details that withstand inspection.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Slip Past the Net",
+        "desc": "Be gone before questions become chains.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": ["Veil", "Hearth"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Break and Run",
+        "desc": "If they won’t listen, outrun them.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": ["Steel", "Veil"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Severe" }] }
+      }
+    ]
+  },
+
+  {
+    "id": "gev_025_stolen_correspondence",
+    "name": "Stolen Correspondence",
+    "context": "Scheme",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A bundle of letters falls into your hands—enough to ruin someone important.",
+    "outcomes": [
+      {
+        "title": "Sell Them",
+        "desc": "Turn paper into coin.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Seal"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 4 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Use Them for Leverage",
+        "desc": "A quiet threat, a loud result.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Veil"],
+        "tags": ["Covert"],
+        "success": { "resources": [{ "resource": "Influence", "amount": 2 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "flags": [{ "id": "offended_house", "mode": "Add", "durationEvents": 0 }] }
+      },
+      {
+        "title": "Study the Pattern",
+        "desc": "Find what they’re really saying.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Veil"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Burn Them",
+        "desc": "Destroy the weapon you could become addicted to.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }], "conditions": [{ "id": "Disgraced", "mode": "Downgrade" }] },
+        "fail": {}
+      }
+    ]
+  },
+  {
+    "id": "gev_026_rumor_mill",
+    "name": "Rumor Mill",
+    "context": "Scheme",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "The city’s whispers turn. You can steer them—or be swallowed.",
+    "outcomes": [
+      {
+        "title": "Plant a Favorable Tale",
+        "desc": "Make your name shine.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Quill"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Spook Your Rivals",
+        "desc": "Let them feel watched.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Seal"],
+        "tags": ["Covert"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }], "flags": [{ "id": "rival_pressure", "mode": "Remove" }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Verify What’s True",
+        "desc": "Separate malice from fact.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }], "conditions": [{ "id": "Disgraced", "mode": "Downgrade" }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Ignore It Entirely",
+        "desc": "Don’t feed the fire—starve it.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Quill"],
+        "tags": [],
+        "success": { "flags": [{ "id": "rumor_shield", "mode": "Add", "durationEvents": 2 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_027_hidden_safehouse",
+    "name": "Hidden Safehouse",
+    "context": "Scheme",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "Someone offers a safehouse. It smells like generosity—and hooks.",
+    "outcomes": [
+      {
+        "title": "Accept Shelter",
+        "desc": "Safety now, questions later.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Veil"],
+        "tags": [],
+        "success": { "conditions": [{ "id": "Exhausted", "mode": "Downgrade" }, { "id": "Wanted", "mode": "Downgrade" }] },
+        "fail": { "conditions": [{ "id": "Obligation", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Inspect for Traps",
+        "desc": "Assume kindness costs something.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Veil"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Turn It Into a Trap",
+        "desc": "If someone set bait, bite back.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": ["Veil", "Steel"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 4 }], "flags": [{ "id": "rival_removed", "mode": "Add", "durationEvents": 0 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Refuse and Relocate",
+        "desc": "Keep your independence—even if it hurts.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_028_smugglers_choice",
+    "name": "Smuggler’s Choice",
+    "context": "Scheme",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A smuggler offers to move goods—or people—under cover of night.",
+    "outcomes": [
+      {
+        "title": "Move Goods",
+        "desc": "Easy profit, dirty hands.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Quill"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 4 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Move a Person",
+        "desc": "A life delivered buys lasting favor.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": ["Hearth", "Veil"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 2 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Obligation", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Negotiate a Better Cut",
+        "desc": "Respect is a currency too.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": 3 }, { "resource": "Supplies", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Turn Them In",
+        "desc": "Make law your weapon.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }] },
+        "fail": { "flags": [{ "id": "smuggler_ring_rival", "mode": "Add", "durationEvents": 0 }] }
+      }
+    ]
+  },
+
+  {
+    "id": "gev_029_disputed_inheritance",
+    "name": "Disputed Inheritance",
+    "context": "Court",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "Two claimants demand you support their right. Both will remember.",
+    "outcomes": [
+      {
+        "title": "Support the Lawful Claim",
+        "desc": "Let paper outweigh power.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }, { "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Support the Powerful Claim",
+        "desc": "Bet on the winning horse.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Steel"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 2 }] },
+        "fail": { "flags": [{ "id": "dispossessed_heir_rival", "mode": "Add", "durationEvents": 0 }] }
+      },
+      {
+        "title": "Forge a Compromise",
+        "desc": "Everyone gets something. No one is happy.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "conditions": [{ "id": "Disgraced", "mode": "Downgrade" }], "resources": [{ "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Profit in the Shadows",
+        "desc": "Sell your support twice.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Seal"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 4 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }, { "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_030_trial_of_a_friend",
+    "name": "Trial of a Friend",
+    "context": "Court",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "Someone who once helped you is on trial. Helping them could stain you.",
+    "outcomes": [
+      {
+        "title": "Speak for Them",
+        "desc": "Put your name behind theirs.",
+        "stat": "Gravitas",
+        "diff": 4,
+        "allowed": ["Seal", "Hearth"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Influence", "amount": 2 }, { "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Find Exonerating Detail",
+        "desc": "One fact can flip a verdict.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Bribe the Clerk",
+        "desc": "Make the record say what you need.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Seal"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": -2 }, { "resource": "Influence", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }, { "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Let the Law Run",
+        "desc": "You learn how courts truly work.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }], "conditions": [{ "id": "Exhausted", "mode": "Downgrade" }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_031_a_patrons_request",
+    "name": "A Patron’s Request",
+    "context": "Court",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A patron asks for a “small service.” It won’t be small.",
+    "outcomes": [
+      {
+        "title": "Accept Dutifully",
+        "desc": "Do what you’re asked and take the reward.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 2 }, { "resource": "Coin", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Obligation", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Set Terms",
+        "desc": "Make the price explicit.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }, { "resource": "Coin", "amount": 3 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Investigate Motives",
+        "desc": "Understand the trap before you step in it.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Veil"],
+        "tags": ["Covert"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "flags": [{ "id": "patron_agent_rival", "mode": "Add", "durationEvents": 0 }] }
+      },
+      {
+        "title": "Decline Publicly",
+        "desc": "Keep your soul—lose your access.",
+        "stat": "Gravitas",
+        "diff": 4,
+        "allowed": ["Seal", "Hearth"],
+        "tags": ["Public"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }, { "resource": "Influence", "amount": -1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Severe" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_032_marriage_proposal",
+    "name": "Marriage Proposal",
+    "context": "Court",
+    "minAge": 18,
+    "maxAge": 45,
+    "prompt": "A match is proposed. It can stabilize your line—or cage it.",
+    "outcomes": [
+      {
+        "title": "Accept the Match",
+        "desc": "Security, alliances, obligations.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 2 }, { "resource": "Coin", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Obligation", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Negotiate Better Terms",
+        "desc": "If you must be bound, be well-paid.",
+        "stat": "Wit",
+        "diff": 4,
+        "allowed": ["Quill", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 2 }, { "resource": "Coin", "amount": 3 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Sabotage Quietly",
+        "desc": "Make it fail without making it personal.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Seal"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }], "flags": [{ "id": "spurned_suitor_rival", "mode": "Add", "durationEvents": 0 }] }
+      },
+      {
+        "title": "Refuse With Grace",
+        "desc": "No, but not an insult.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": ["Hearth", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }], "conditions": [{ "id": "Disgraced", "mode": "Downgrade" }] },
+        "fail": { "resources": [{ "resource": "Influence", "amount": -1 }] }
+      }
+    ]
+  },
+
+  {
+    "id": "gev_033_broken_wheel",
+    "name": "Broken Wheel",
+    "context": "Journey",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "Your cart (or pack rig) breaks. Night is coming fast.",
+    "outcomes": [
+      {
+        "title": "Fix It Yourself",
+        "desc": "Hands to work, mind to task.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Steel"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Supplies", "amount": 1 }] },
+        "fail": { "resources": [{ "resource": "Supplies", "amount": -2 }], "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Muscle Through",
+        "desc": "Carry what you must and move.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Supplies", "amount": -1 }, { "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Borrow What You Need",
+        "desc": "Ask like it’s your right.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }, { "resource": "Supplies", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Steal a Replacement",
+        "desc": "If it’s unattended, it’s yours.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Steel"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Supplies", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_034_snowed_in_pass",
+    "name": "Snowed-In Pass",
+    "context": "Journey",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "Snow seals the pass. You can wait, risk the slope, or find shelter.",
+    "outcomes": [
+      {
+        "title": "Climb Through",
+        "desc": "Force your way over the teeth of the mountain.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": ["Steel", "Hearth"],
+        "tags": ["Perilous"],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Severe" }] }
+      },
+      {
+        "title": "Chart a Detour",
+        "desc": "Time lost, life saved.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Supplies", "amount": -1 }] },
+        "fail": { "resources": [{ "resource": "Supplies", "amount": -3 }] }
+      },
+      {
+        "title": "Sneak Into a Lodge",
+        "desc": "Warmth stolen is still warmth.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Hearth"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Supplies", "amount": 1 }], "conditions": [{ "id": "Exhausted", "mode": "Downgrade" }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Treat With Locals",
+        "desc": "Pay for a roof and a bowl.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": -2 }, { "resource": "Supplies", "amount": 2 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -2 }], "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_035_campfire_visitors",
+    "name": "Campfire Visitors",
+    "context": "Journey",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "Strangers approach your camp. Friendly… or hungry.",
+    "outcomes": [
+      {
+        "title": "Share the Fire",
+        "desc": "Hospitality earns goodwill—or invites thieves.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Influence", "amount": 1 }], "conditions": [{ "id": "Exhausted", "mode": "Downgrade" }] },
+        "fail": { "resources": [{ "resource": "Supplies", "amount": -2 }] }
+      },
+      {
+        "title": "Question Them Carefully",
+        "desc": "Learn who walks at night and why.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }, { "resource": "Supplies", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Send Them Away",
+        "desc": "Draw a line and hold it.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Slip Away First",
+        "desc": "Leave no trace, no target.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }] },
+        "fail": { "resources": [{ "resource": "Supplies", "amount": -2 }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_036_the_toll_road",
+    "name": "The Toll Road",
+    "context": "Journey",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A tollkeeper claims official authority. The papers look… plausible.",
+    "outcomes": [
+      {
+        "title": "Pay and Pass",
+        "desc": "Sometimes you buy peace.",
+        "stat": "Resolve",
+        "diff": 1,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": -2 }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -2 }], "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Demand Proof",
+        "desc": "Make them show their hand.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Threaten the Fraud",
+        "desc": "Force the gate with reputation and steel.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }, { "resource": "Supplies", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Forge Your Own Pass",
+        "desc": "Meet fraud with fraud.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": ["Veil", "Quill"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+
+  {
+    "id": "gev_037_crumbling_shrine",
+    "name": "Crumbling Shrine",
+    "context": "Lore",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A roadside shrine has fallen into ruin. Offerings still sit inside.",
+    "outcomes": [
+      {
+        "title": "Restore It",
+        "desc": "A small act of reverence.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }], "conditions": [{ "id": "Disgraced", "mode": "Downgrade" }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Study the Carvings",
+        "desc": "Old faith leaves old clues.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Ill", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Take the Offerings",
+        "desc": "Need makes thieves of saints.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Quill"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Coin", "amount": 3 }, { "resource": "Supplies", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Leave It Alone",
+        "desc": "Walk on without touching what isn’t yours.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": ["Hearth", "Quill"],
+        "tags": [],
+        "success": { "conditions": [{ "id": "Exhausted", "mode": "Downgrade" }] },
+        "fail": {}
+      }
+    ]
+  },
+  {
+    "id": "gev_038_an_old_veterans_tale",
+    "name": "An Old Veteran’s Tale",
+    "context": "Lore",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A scarred veteran offers lessons—for coin, for respect, or for a favor.",
+    "outcomes": [
+      {
+        "title": "Pay for Lessons",
+        "desc": "Spend now, learn forever.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": ["Quill", "Steel"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": -2 }, { "resource": "Renown", "amount": 1 }], "flags": [{ "id": "scrip_plus_1", "mode": "Add", "durationEvents": 0 }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -2 }], "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Earn It in Sparring",
+        "desc": "Prove you’re worth teaching.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Ask About the Past",
+        "desc": "War stories hide real information.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }] },
+        "fail": { "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Coax Him Into Boasting",
+        "desc": "Let pride do your work.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 1 }, { "resource": "Coin", "amount": 2 }] },
+        "fail": { "flags": [{ "id": "offended_veteran_rival", "mode": "Add", "durationEvents": 0 }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_039_sealed_coffer",
+    "name": "Sealed Coffer",
+    "context": "Lore",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "You find a sealed coffer with no mark. It hums with importance, not magic.",
+    "outcomes": [
+      {
+        "title": "Pick the Lock",
+        "desc": "Quiet hands, quick profit.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": ["Veil", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": 4 }, { "resource": "Secrets", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Break It Open",
+        "desc": "Noise now, gold now.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": ["Steel", "Quill"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": 5 }] },
+        "fail": { "conditions": [{ "id": "Wounded", "mode": "Add", "severity": "Minor" }, { "id": "Disgraced", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Deliver It",
+        "desc": "Let others pay you to be honest.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": ["Seal", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": 3 }, { "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Obligation", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Hide It Away",
+        "desc": "Keep it for when you need it most.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": ["Hearth", "Veil"],
+        "tags": ["Covert"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }], "flags": [{ "id": "stashed", "mode": "Add", "durationEvents": 0 }] },
+        "fail": { "conditions": [{ "id": "Marked", "mode": "Add", "severity": "Minor" }] }
+      }
+    ]
+  },
+  {
+    "id": "gev_040_scribes_error",
+    "name": "Scribe’s Error",
+    "context": "Lore",
+    "minAge": 18,
+    "maxAge": 50,
+    "prompt": "A clerical mistake puts your name on a list it shouldn’t be on—taxes, crimes, or debts.",
+    "outcomes": [
+      {
+        "title": "Correct the Record",
+        "desc": "Fix it properly, in daylight.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": ["Quill", "Seal"],
+        "tags": [],
+        "success": { "conditions": [{ "id": "InDebt", "mode": "Downgrade" }], "resources": [{ "resource": "Influence", "amount": 1 }] },
+        "fail": { "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Pay to Make It Go Away",
+        "desc": "Coin buys silence and stamps.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": ["Seal", "Hearth"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Coin", "amount": -2 }], "conditions": [{ "id": "Disgraced", "mode": "Downgrade" }] },
+        "fail": { "resources": [{ "resource": "Coin", "amount": -2 }], "conditions": [{ "id": "InDebt", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Alter It Quietly",
+        "desc": "A little ink, a big change.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": ["Veil", "Quill"],
+        "tags": ["Scandalous"],
+        "success": { "resources": [{ "resource": "Secrets", "amount": 2 }], "conditions": [{ "id": "InDebt", "mode": "Downgrade" }] },
+        "fail": { "conditions": [{ "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
+      },
+      {
+        "title": "Endure the Consequences",
+        "desc": "Take the hit and outlast the record.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": ["Hearth", "Seal"],
+        "tags": [],
+        "success": { "resources": [{ "resource": "Renown", "amount": 1 }], "flags": [{ "id": "delayed_fix", "mode": "Add", "durationEvents": 3 }] },
+        "fail": { "conditions": [{ "id": "InDebt", "mode": "Add", "severity": "Severe" }] }
+      }
+    ]
+  }
+]

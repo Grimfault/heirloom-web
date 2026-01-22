@@ -1,0 +1,326 @@
+[
+  {
+    "id": "forward_strike",
+    "name": "Forward Strike",
+    "discipline": "Steel",
+    "contexts": ["Strife"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "shieldwall",
+    "name": "Shieldwall",
+    "discipline": "Steel",
+    "contexts": ["Strife", "Court"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "iron_discipline",
+    "name": "Iron Discipline",
+    "discipline": "Steel",
+    "contexts": ["Strife", "Journey"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "hard_march",
+    "name": "Hard March",
+    "discipline": "Steel",
+    "contexts": ["Journey"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "cornered_beast",
+    "name": "Cornered Beast",
+    "discipline": "Steel",
+    "contexts": ["Strife", "Scheme"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 13, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "crushing_blow",
+    "name": "Crushing Blow",
+    "discipline": "Steel",
+    "contexts": ["Strife"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 14, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "last_stand",
+    "name": "Last Stand",
+    "discipline": "Steel",
+    "contexts": ["Strife", "Journey"],
+    "rarity": "Rare",
+    "levels": [{ "level": 1, "bonus": 8, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "weapon_mastery",
+    "name": "Weapon Mastery",
+    "discipline": "Steel",
+    "contexts": ["Strife", "Lore"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 11, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+
+  {
+    "id": "read_the_room",
+    "name": "Read the Room",
+    "discipline": "Quill",
+    "contexts": ["Court"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "map_the_way",
+    "name": "Map the Way",
+    "discipline": "Quill",
+    "contexts": ["Journey", "Lore"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "studied_ledger",
+    "name": "Studied Ledger",
+    "discipline": "Quill",
+    "contexts": ["Court", "Scheme"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "keen_observation",
+    "name": "Keen Observation",
+    "discipline": "Quill",
+    "contexts": ["Lore", "Court"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "counterplan",
+    "name": "Counterplan",
+    "discipline": "Quill",
+    "contexts": ["Scheme", "Court"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 11, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "forensic_reading",
+    "name": "Forensic Reading",
+    "discipline": "Quill",
+    "contexts": ["Lore", "Scheme"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "scribe_a_petition",
+    "name": "Scribe a Petition",
+    "discipline": "Quill",
+    "contexts": ["Court"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "field_notes",
+    "name": "Field Notes",
+    "discipline": "Quill",
+    "contexts": ["Journey", "Lore"],
+    "rarity": "Rare",
+    "levels": [{ "level": 1, "bonus": 8, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+  },
+
+  {
+    "id": "false_papers",
+    "name": "False Papers",
+    "discipline": "Veil",
+    "contexts": ["Journey", "Court"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "cutpurse",
+    "name": "Cutpurse",
+    "discipline": "Veil",
+    "contexts": ["Scheme", "Journey"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "silent_entry",
+    "name": "Silent Entry",
+    "discipline": "Veil",
+    "contexts": ["Scheme", "Court"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "misdirection",
+    "name": "Misdirection",
+    "discipline": "Veil",
+    "contexts": ["Scheme", "Strife"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "blackmail_whisper",
+    "name": "Blackmail Whisper",
+    "discipline": "Veil",
+    "contexts": ["Scheme", "Court"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 13, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "vanish_into_crowd",
+    "name": "Vanish into the Crowd",
+    "discipline": "Veil",
+    "contexts": ["Court", "Journey"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "poisoned_ink",
+    "name": "Poisoned Ink",
+    "discipline": "Veil",
+    "contexts": ["Scheme", "Lore"],
+    "rarity": "Rare",
+    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "shadow_contact",
+    "name": "Shadow Contact",
+    "discipline": "Veil",
+    "contexts": ["Scheme"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 11, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+
+  {
+    "id": "public_speech",
+    "name": "Public Speech",
+    "discipline": "Seal",
+    "contexts": ["Court"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "invoke_patronage",
+    "name": "Invoke Patronage",
+    "discipline": "Seal",
+    "contexts": ["Court"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "formal_audience",
+    "name": "Formal Audience",
+    "discipline": "Seal",
+    "contexts": ["Court", "Lore"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "seal_of_authority",
+    "name": "Seal of Authority",
+    "discipline": "Seal",
+    "contexts": ["Court", "Scheme"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "oath_of_service",
+    "name": "Oath of Service",
+    "discipline": "Seal",
+    "contexts": ["Court", "Journey"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "turn_the_blame",
+    "name": "Turn the Blame",
+    "discipline": "Seal",
+    "contexts": ["Court", "Scheme"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 13, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "dignified_refusal",
+    "name": "Dignified Refusal",
+    "discipline": "Seal",
+    "contexts": ["Court"],
+    "rarity": "Rare",
+    "levels": [{ "level": 1, "bonus": 8, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "treaty_language",
+    "name": "Treaty Language",
+    "discipline": "Seal",
+    "contexts": ["Court", "Lore"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 11, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+
+  {
+    "id": "hold_fast",
+    "name": "Hold Fast",
+    "discipline": "Hearth",
+    "contexts": ["Strife", "Scheme", "Court", "Journey", "Lore"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 6, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "night_watch",
+    "name": "Night Watch",
+    "discipline": "Hearth",
+    "contexts": ["Journey", "Scheme"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "steady_breath",
+    "name": "Steady Breath",
+    "discipline": "Hearth",
+    "contexts": ["Strife", "Journey"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "shared_fire",
+    "name": "Shared Fire",
+    "discipline": "Hearth",
+    "contexts": ["Journey", "Court"],
+    "rarity": "Common",
+    "levels": [{ "level": 1, "bonus": 8, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "stubborn_refusal",
+    "name": "Stubborn Refusal",
+    "discipline": "Hearth",
+    "contexts": ["Court", "Scheme"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "pilgrims_patience",
+    "name": "Pilgrim's Patience",
+    "discipline": "Hearth",
+    "contexts": ["Lore", "Journey"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 11, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "cold_comfort",
+    "name": "Cold Comfort",
+    "discipline": "Hearth",
+    "contexts": ["Lore", "Strife"],
+    "rarity": "Rare",
+    "levels": [{ "level": 1, "bonus": 8, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+  },
+  {
+    "id": "unyielding_will",
+    "name": "Unyielding Will",
+    "discipline": "Hearth",
+    "contexts": ["Strife", "Court", "Journey"],
+    "rarity": "Uncommon",
+    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+  }
+]

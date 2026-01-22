@@ -1,0 +1,87 @@
+[
+  {
+    "id": "squire",
+    "name": "Squire",
+    "startStats": { "Might": 3, "Wit": 1, "Guile": 1, "Gravitas": 1, "Resolve": 2 },
+    "startRes": { "Coin": 2, "Supplies": 3, "Renown": 0, "Influence": 0, "Secrets": 0 },
+    "deck": [
+      { "cardId": "forward_strike", "count": 2 },
+      { "cardId": "shieldwall", "count": 2 },
+      { "cardId": "iron_discipline", "count": 1 },
+      { "cardId": "crushing_blow", "count": 1 },
+      { "cardId": "hold_fast", "count": 2 },
+      { "cardId": "steady_breath", "count": 1 },
+      { "cardId": "public_speech", "count": 1 },
+      { "cardId": "read_the_room", "count": 1 },
+      { "cardId": "oath_of_service", "count": 1 }
+    ]
+  },
+  {
+    "id": "ledger_clerk",
+    "name": "Ledger Clerk",
+    "startStats": { "Might": 1, "Wit": 3, "Guile": 1, "Gravitas": 2, "Resolve": 1 },
+    "startRes": { "Coin": 1, "Supplies": 2, "Renown": 0, "Influence": 1, "Secrets": 0 },
+    "deck": [
+      { "cardId": "read_the_room", "count": 2 },
+      { "cardId": "studied_ledger", "count": 2 },
+      { "cardId": "keen_observation", "count": 2 },
+      { "cardId": "scribe_a_petition", "count": 1 },
+      { "cardId": "formal_audience", "count": 1 },
+      { "cardId": "treaty_language", "count": 1 },
+      { "cardId": "public_speech", "count": 1 },
+      { "cardId": "counterplan", "count": 1 },
+      { "cardId": "hold_fast", "count": 1 }
+    ]
+  },
+  {
+    "id": "street_urchin",
+    "name": "Street Urchin",
+    "startStats": { "Might": 1, "Wit": 2, "Guile": 3, "Gravitas": 1, "Resolve": 1 },
+    "startRes": { "Coin": 1, "Supplies": 2, "Renown": 0, "Influence": 0, "Secrets": 1 },
+    "deck": [
+      { "cardId": "cutpurse", "count": 2 },
+      { "cardId": "silent_entry", "count": 2 },
+      { "cardId": "misdirection", "count": 2 },
+      { "cardId": "false_papers", "count": 1 },
+      { "cardId": "vanish_into_crowd", "count": 1 },
+      { "cardId": "shadow_contact", "count": 1 },
+      { "cardId": "night_watch", "count": 1 },
+      { "cardId": "map_the_way", "count": 1 },
+      { "cardId": "hold_fast", "count": 1 }
+    ]
+  },
+  {
+    "id": "minor_noble",
+    "name": "Minor Noble",
+    "startStats": { "Might": 1, "Wit": 2, "Guile": 1, "Gravitas": 3, "Resolve": 1 },
+    "startRes": { "Coin": 3, "Supplies": 2, "Renown": 1, "Influence": 1, "Secrets": 0 },
+    "deck": [
+      { "cardId": "public_speech", "count": 2 },
+      { "cardId": "invoke_patronage", "count": 2 },
+      { "cardId": "seal_of_authority", "count": 1 },
+      { "cardId": "treaty_language", "count": 1 },
+      { "cardId": "formal_audience", "count": 1 },
+      { "cardId": "turn_the_blame", "count": 1 },
+      { "cardId": "dignified_refusal", "count": 1 },
+      { "cardId": "read_the_room", "count": 1 },
+      { "cardId": "shared_fire", "count": 1 },
+      { "cardId": "hold_fast", "count": 1 }
+    ]
+  },
+  {
+    "id": "pilgrim_wanderer",
+    "name": "Pilgrim Wanderer",
+    "startStats": { "Might": 1, "Wit": 2, "Guile": 1, "Gravitas": 1, "Resolve": 3 },
+    "startRes": { "Coin": 1, "Supplies": 3, "Renown": 0, "Influence": 0, "Secrets": 0 },
+    "deck": [
+      { "cardId": "pilgrims_patience", "count": 2 },
+      { "cardId": "field_notes", "count": 2 },
+      { "cardId": "map_the_way", "count": 2 },
+      { "cardId": "shared_fire", "count": 1 },
+      { "cardId": "steady_breath", "count": 1 },
+      { "cardId": "hold_fast", "count": 2 },
+      { "cardId": "hard_march", "count": 1 },
+      { "cardId": "iron_discipline", "count": 1 }
+    ]
+  }
+]
