@@ -534,10 +534,16 @@ function isMajorEventNow() {
 
 function renderStatus() {
   const season = SEASONS[state.seasonIndex];
-  statusLine.textContent = statsLine.textContent =
-  `Stats • Might ${state.stats.Might} • Wit ${state.stats.Wit} • Guile ${state.stats.Guile} • Gravitas ${state.stats.Gravitas} • Resolve ${state.stats.Resolve} (Heir Focus: ${state.heirFocus})`;
-`Age ${state.age} • ${season} • Heirs ${state.heirCount ?? 0}`;
 
+  statusLine.textContent = `Age ${state.age} • ${season} • Heirs ${state.heirCount ?? 0}`;
+
+  // Stats
+  if (statsLine) {
+    statsLine.textContent =
+      `Stats • Might ${state.stats.Might} • Wit ${state.stats.Wit} • Guile ${state.stats.Guile} • Gravitas ${state.stats.Gravitas} • Resolve ${state.stats.Resolve} (Heir Focus: ${state.heirFocus})`;
+  }
+
+  // Resources
   resourceLine.textContent =
     `Coin ${state.res.Coin} • Supplies ${state.res.Supplies} • Renown ${state.res.Renown} • Influence ${state.res.Influence} • Secrets ${state.res.Secrets}`;
 
