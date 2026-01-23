@@ -1051,6 +1051,8 @@ function resolveSelectedOutcome() {
   const roll = rInt(1, 100);
   const success = roll <= chance;
 
+   let continueAfterModal = null;
+
   // Discard: push underlying cardIds (NOT instance ids)
   const committedSet = new Set(committed);
   for (const entry of hand) {
@@ -1110,10 +1112,49 @@ function resolveSelectedOutcome() {
     }
   }
 
-  // Cleanup
-  tickFlags();
-  committed = [];
-  selectedOutcomeIndex = null;
+// Cleanup
+tickFlags();
+committed = [];
+selectedOutcomeIndex = null;
+
+// Build result summary
+const bundleUsed = success ? o.success : o.fail;
+const lines = summarizeBundle(bundleUsed);
+
+const subtitle = success
+  ? `Success! You pursued: ${o.title}`
+  : `Failure. You pursued: ${o.title}`;
+
+continueAfterModal = () => {
+  if (wasMajor) {
+    // majors: draft reward then time
+    openDraftModal(() => {
+      advanceTime();
+      saveState();
+      renderAll();
+      loadRandomEvent();
+    });
+    return;
+  }
+
+  advanceTime();
+  saveState();
+  renderAll();
+  loadRandomEvent();
+};
+
+// Show popup before continuing
+saveState();
+renderAll();
+openResultModal({
+  title: success ? "Outcome: Success" : "Outcome: Failure",
+  subtitle,
+  lines,
+  locked: false,
+  onClose: continueAfterModal
+});
+return;
+
 
   // Draft reward on majors
   if (wasMajor) {
