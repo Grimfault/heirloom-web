@@ -101,6 +101,80 @@ function generateHeirNameChoices(n = 5) {
   return pool.slice(0, n);
 }
 
+function fmtDelta(n) {
+  if (!n) return "0";
+  return (n > 0 ? `+${n}` : `${n}`);
+}
+
+function summarizeBundle(bundle) {
+  const lines = [];
+  if (!bundle) return lines;
+
+  for (const d of (bundle.resources ?? [])) {
+    const amt = d.amount ?? 0;
+    if (amt === 0) continue;
+    lines.push(`${d.resource}: ${fmtDelta(amt)}`);
+  }
+
+  for (const c of (bundle.conditions ?? [])) {
+    const sev = c.severity ?? "Minor";
+    if (c.mode === "Add") lines.push(`Condition gained: ${c.id} (${sev})`);
+    if (c.mode === "Remove") lines.push(`Condition removed: ${c.id}`);
+    if (c.mode === "Downgrade") lines.push(`Condition eased: ${c.id}`);
+    if (c.mode === "Upgrade") lines.push(`Condition worsened: ${c.id}`);
+  }
+
+  for (const f of (bundle.flags ?? [])) {
+    if (f.mode === "Add") lines.push(`Flag gained: ${f.id}`);
+    if (f.mode === "Remove") lines.push(`Flag cleared: ${f.id}`);
+  }
+
+  for (const s of (bundle.standings ?? [])) {
+    const steps = s.steps ?? 0;
+    if (steps !== 0) lines.push(`Standing ${s.factionId}: ${steps > 0 ? "+" : ""}${steps} tier(s)`);
+  }
+
+  return lines;
+}
+
+function openResultModal({ title, subtitle, lines, locked = false, onClose }) {
+  const wrap = document.createElement("div");
+
+  const sub = document.createElement("div");
+  sub.className = "muted";
+  sub.style.marginBottom = "8px";
+  sub.textContent = subtitle || "";
+  wrap.appendChild(sub);
+
+  const ul = document.createElement("ul");
+  ul.style.margin = "0";
+  ul.style.paddingLeft = "18px";
+
+  if (!lines || lines.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "No changes.";
+    ul.appendChild(li);
+  } else {
+    for (const l of lines) {
+      const li = document.createElement("li");
+      li.textContent = l;
+      ul.appendChild(li);
+    }
+  }
+
+  wrap.appendChild(ul);
+
+  openModal(title, wrap, { locked });
+
+  // If you want auto-continue after closing, you can do that here later.
+  // For now, we’ll call onClose when the modal is closed via button.
+  const prev = btnModalClose.onclick;
+  btnModalClose.onclick = () => {
+    if (prev) prev();
+    onClose?.();
+  };
+}
+
 function openSuccessionModal(onConfirm) {
   const wrap = document.createElement("div");
 
