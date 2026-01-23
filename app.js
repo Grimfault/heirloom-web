@@ -89,6 +89,8 @@ const HEIR_NAMES = [
   "Hugh","Isolde","Corin","Maera","Alina","Cedric","Ronan","Eloen","Soren","Willa"
 ];
 
+const deepCopy = (obj) => (obj == null ? null : JSON.parse(JSON.stringify(obj)));
+
 function difficultyProfileForEvent(ev) {
   // defaults: "general"
   const kind = ev.kind ?? "general"; // later: "major", "faction"
@@ -762,7 +764,8 @@ function renderCreationUI() {
     const row = document.createElement("div");
     row.className = "allocRow";
 
-    const base = bg.startStats[s] ?? 0;
+    const startStats = bg.startStats ?? bg.stats ?? {};
+      const base = startStats[s] ?? 0;
     const alloc = creation.alloc[s] ?? 0;
     const final = finalStats[s] ?? 0;
 
@@ -788,7 +791,7 @@ function renderCreationUI() {
         if (delta < 0 && (creation.alloc[stat] ?? 0) <= 0) return;
 
         // prevent exceeding cap (based on base+alloc before trait mods)
-        const baseVal = bg.startStats[stat] ?? 0;
+        const baseVal = startStats[stat] ?? 0;
         const nextAlloc = (creation.alloc[stat] ?? 0) + delta;
         const capped = clamp(baseVal + nextAlloc, 0, STAT_CAP);
 
@@ -1291,11 +1294,20 @@ function traitById(id) {
   return TRAITS.find(t => t.id === id) || null;
 }
 
+function defaultStats() {
+  return Object.fromEntries(STATS.map(s => [s, 0]));
+}
+function defaultRes() {
+  return Object.fromEntries(RES.map(r => [r, 0]));
+}
+
 function computeFinalStats(bg) {
-  const base = deepCopy(bg.startStats);
-  // allocation
-  for (const s of STATS) base[s] = clamp((base[s] ?? 0) + (creation.alloc[s] ?? 0), 0, STAT_CAP);
-  // traits
+  const base = deepCopy(bg.startStats ?? bg.stats) ?? defaultStats();
+
+  for (const s of STATS) {
+    base[s] = clamp((base[s] ?? 0) + (creation.alloc[s] ?? 0), 0, STAT_CAP);
+  }
+
   for (const tid of creation.traits) {
     const t = traitById(tid);
     if (t?.statMods) {
@@ -1308,7 +1320,8 @@ function computeFinalStats(bg) {
 }
 
 function computeFinalResources(bg) {
-  const r = deepCopy(bg.startRes);
+  const r = deepCopy(bg.startRes ?? bg.res) ?? defaultRes();
+
   for (const tid of creation.traits) {
     const t = traitById(tid);
     if (t?.resMods) {
