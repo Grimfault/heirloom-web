@@ -616,7 +616,8 @@ function cardLabel(cardId) {
   const c = DATA.cardsById[cardId];
   if (!c) return cardId;
   const lvlData = getCardLevelData(c);
-  return `${c.name} (+${lvlData.bonus}%)`;
+  const arrows = arrowsForBonus(lvlData.bonus);
+  return arrows ? `${c.name} ${arrows}` : c.name;
 }
 
 // ---------- Effects ----------
@@ -941,7 +942,7 @@ function renderHand() {
       <div class="cardmeta">
         <span class="badge">${c.discipline}</span>
         <span class="badge">Contexts: ${(c.contexts ?? []).join(", ")}</span>
-        <span class="badge">+${lvlData.bonus}%</span>
+        <span class="badge arrow">${arrowsForBonus(lvlData.bonus)}</span>
         ${extra ? `<span class="badge">${extra}</span>` : ``}
       </div>
       ${selectedOutcomeIndex != null && !usable ? `<div class="muted">Not usable for this outcome.</div>` : ``}
