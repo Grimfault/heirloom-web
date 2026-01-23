@@ -1136,11 +1136,6 @@ btnModalClose.addEventListener("click", closeModal);
 modalBackdrop.addEventListener("click", (e) => { if (e.target === modalBackdrop) closeModal(); });
 
 // ---------- Start / Load ----------
-let creation = {
-  bgId: null,
-  alloc: Object.fromEntries(STATS.map(s => [s, 0])),
-  traits: new Set()
-};
 
 function pointsSpent() {
   return STATS.reduce((sum, s) => sum + (creation.alloc[s] ?? 0), 0);
