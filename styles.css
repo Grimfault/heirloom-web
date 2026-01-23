@@ -66,6 +66,11 @@ select {
 }
 .pill.show { display:inline-flex; }
 
+.badge .arrow, .arrow {
+  color: #59d36a;
+  font-weight: 700;
+}
+
 .btn {
   border: 1px solid var(--line);
   background: #101521;
