@@ -7,7 +7,7 @@
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const rInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
+const deepCopy = (obj) => (obj == null ? null : JSON.parse(JSON.stringify(obj)));
 
 const MAJOR_AGES = new Set([20,25,30,35,40,45,50]);
 const SEASONS = ["Vernal", "Autumnal"];
@@ -88,8 +88,6 @@ const HEIR_NAMES = [
   "Alden","Rowan","Elric","Tamsin","Bran","Edric","Mira","Sabine","Garrick","Linette",
   "Hugh","Isolde","Corin","Maera","Alina","Cedric","Ronan","Eloen","Soren","Willa"
 ];
-
-const deepCopy = (obj) => (obj == null ? null : JSON.parse(JSON.stringify(obj)));
 
 function difficultyProfileForEvent(ev) {
   // defaults: "general"
