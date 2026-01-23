@@ -89,6 +89,12 @@ const HEIR_NAMES = [
   "Hugh","Isolde","Corin","Maera","Alina","Cedric","Ronan","Eloen","Soren","Willa"
 ];
 
+let creation = {
+  bgId: null,
+  alloc: Object.fromEntries(STATS.map(s => [s, 0])),
+  traits: new Set()
+};
+
 function generateHeirNameChoices(n = 5) {
   const pool = [...HEIR_NAMES];
   shuffle(pool);
@@ -741,17 +747,12 @@ function renderStatus() {
   const season = SEASONS[state.seasonIndex];
 
   const who = `${state.charName ?? "Unknown"} ${state.familyName ?? ""}`.trim();
-statusLine.textContent = `${who} • Age ${state.age} • ${season} • Heirs ${state.heirCount ?? 0}`;
+  statusLine.textContent = `${who} • Age ${state.age} • ${season} • Heirs ${state.heirCount ?? 0}`;
 
+  const hf = state.heirFocus ? ` (Heir Focus: ${state.heirFocus})` : "";
+  statsLine.textContent =
+    `Stats • Might ${state.stats.Might} • Wit ${state.stats.Wit} • Guile ${state.stats.Guile} • Gravitas ${state.stats.Gravitas} • Resolve ${state.stats.Resolve}${hf}`;
 
-  // Stats
- const hf = state.heirFocus ? ` (Heir Focus: ${state.heirFocus})` : "";
-statsLine.textContent =
-  `Stats • Might ${state.stats.Might} • Wit ${state.stats.Wit} • Guile ${state.stats.Guile} • Gravitas ${state.stats.Gravitas} • Resolve ${state.stats.Resolve}${hf}`;
-
-  }
-
-  // Resources
   resourceLine.textContent =
     `Coin ${state.res.Coin} • Supplies ${state.res.Supplies} • Renown ${state.res.Renown} • Influence ${state.res.Influence} • Secrets ${state.res.Secrets}`;
 
@@ -1192,12 +1193,36 @@ function computeStartingConditions() {
 }
 
 
-function populateBackgroundSelect() {
-  bgSelect.addEventListener("change", () => {
+function resetCreation() {
+  creation.bgId = bgSelect.value || null;
   creation.alloc = Object.fromEntries(STATS.map(s => [s, 0]));
   creation.traits = new Set();
+}
+
+function populateBackgroundSelect() {
+  bgSelect.innerHTML = "";
+
+  for (const bg of DATA.backgrounds) {
+    const opt = document.createElement("option");
+    opt.value = bg.id;
+    opt.textContent = bg.name;
+    bgSelect.appendChild(opt);
+  }
+
+  if (DATA.backgrounds.length) {
+    bgSelect.value = DATA.backgrounds[0].id;
+  }
+
+  resetCreation();
+  renderCreationUI();
+}
+
+// ONLY wire this once:
+bgSelect.addEventListener("change", () => {
+  resetCreation();
   renderCreationUI();
 });
+
 
 
 function showLoadingUI(isLoading) {
@@ -1247,11 +1272,22 @@ function startRunFromBuilder(bg, givenName, familyName) {
 }
 
 
-  populateBackgroundSelect();
+ async function boot() {
+  showLoadingUI(true);
+
+  try {
+    await loadAllData();
+  } catch (e) {
+    showLoadingUI(false);
+    logEl.textContent = `ERROR: ${e.message}\n\nMake sure /data files exist and you’re serving via a local server.`;
+    showStart();
+    return;
+  }
+
   showLoadingUI(false);
+  populateBackgroundSelect();   // fills the dropdown and renders creation UI
 
   if (loadState()) {
-    // Ensure maps exist (older saves)
     state.flags ??= {};
     state.standings ??= {};
     showGame();
@@ -1262,10 +1298,6 @@ function startRunFromBuilder(bg, givenName, familyName) {
     showStart();
   }
 }
-bgSelect.addEventListener("change", () => {
-  creation.alloc = Object.fromEntries(STATS.map(s => [s, 0]));
-  creation.traits = new Set();
-  renderCreationUI();
-});
 
 boot();
+
