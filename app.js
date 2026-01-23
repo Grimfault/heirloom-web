@@ -62,6 +62,9 @@ const chanceLine = document.getElementById("chanceLine");
 const chanceBreakdown = document.getElementById("chanceBreakdown");
 const logEl = document.getElementById("log");
 
+const bootMsg = document.getElementById("bootMsg");
+const setBootMsg = (msg) => { if (bootMsg) bootMsg.textContent = msg || ""; };
+
 const START_ALLOC_POINTS = 4;
 const STAT_CAP = 5;
 
@@ -1420,20 +1423,24 @@ function startRunFromBuilder(bg, givenName, familyName) {
 }
 
 
- async function boot() {
+async function boot() {
   showLoadingUI(true);
+  setBootMsg("Loading data...");
 
   try {
     await loadAllData();
   } catch (e) {
+    console.error(e);
     showLoadingUI(false);
-    logEl.textContent = `ERROR: ${e.message}\n\nMake sure /data files exist and you’re serving via a local server.`;
+    setBootMsg(`ERROR: ${e.message} (check /data paths + JSON validity)`);
     showStart();
     return;
   }
 
   showLoadingUI(false);
-  populateBackgroundSelect();   // fills the dropdown and renders creation UI
+  setBootMsg("");
+
+  populateBackgroundSelect();
 
   if (loadState()) {
     state.flags ??= {};
@@ -1446,6 +1453,3 @@ function startRunFromBuilder(bg, givenName, familyName) {
     showStart();
   }
 }
-
-boot();
-
