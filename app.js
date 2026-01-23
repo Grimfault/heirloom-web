@@ -89,6 +89,30 @@ const HEIR_NAMES = [
   "Hugh","Isolde","Corin","Maera","Alina","Cedric","Ronan","Eloen","Soren","Willa"
 ];
 
+function difficultyProfileForEvent(ev) {
+  // defaults: "general"
+  const kind = ev.kind ?? "general"; // later: "major", "faction"
+  if (kind === "general") return { base: 60, statMult: 9, diffMult: 8 };
+  if (kind === "faction")  return { base: 55, statMult: 9, diffMult: 10 };
+  if (kind === "major")    return { base: 50, statMult: 8, diffMult: 11 };
+  return { base: 55, statMult: 8, diffMult: 10 };
+}
+
+function chanceBand(pct) {
+  // 20% bands
+  if (pct <= 20) return "Desperate";
+  if (pct <= 40) return "Hard";
+  if (pct <= 60) return "Moderate";
+  if (pct <= 80) return "Easy";
+  return "Trivial";
+}
+
+function arrowsForBonus(bonusPct) {
+  // 1 arrow per 5% bonus
+  const n = Math.max(0, Math.floor((bonusPct ?? 0) / 5));
+  return "↑".repeat(n);
+}
+
 let creation = {
   bgId: null,
   alloc: Object.fromEntries(STATS.map(s => [s, 0])),
@@ -509,7 +533,7 @@ function openDraftModal(onPicked) {
       <div class="cardmeta">
         <span class="badge">${c.discipline}</span>
         <span class="badge">Contexts: ${(c.contexts ?? []).join(", ")}</span>
-        <span class="badge">+${lvlData.bonus}%</span>
+        <span class="badge">${arrowsForBonus(lvlData.bonus)}</span>
         <span class="badge">${c.rarity}</span>
       </div>
       <div class="muted">Click to choose</div>
@@ -959,13 +983,14 @@ function renderChance() {
     return sum + (getCardLevelData(c).bonus ?? 0);
   }, 0);
 
-  let chance = 50 + (statVal * 8) + cardBonus - (diff * 10);
-  chance = clamp(chance, 5, 95);
+const prof = difficultyProfileForEvent(currentEvent);
+let chance = prof.base + (statVal * prof.statMult) + cardBonus - (diff * prof.diffMult);
+chance = clamp(chance, 5, 95);
 
   const cls = (chance >= 60) ? "good" : (chance <= 35) ? "bad" : "";
-  chanceLine.innerHTML = `Success chance: <span class="${cls}">${chance}%</span>`;
-  chanceBreakdown.textContent =
-    `50 + (${o.stat} ${statVal}×8=${statVal*8}) + cards ${cardBonus} − (diff ${diff}×10=${diff*10})`;
+  const band = chanceBand(chance);
+chanceLine.innerHTML = `Chance: <span class="${cls}">${band}</span>`;
+chanceBreakdown.textContent = ""; // hide breakdown for now
 }
 
 function renderAll() {
@@ -1045,8 +1070,9 @@ function resolveSelectedOutcome() {
     return sum + (getCardLevelData(c).bonus ?? 0);
   }, 0);
 
-  let chance = 50 + (statVal * 8) + cardBonus - (diff * 10);
-  chance = clamp(chance, 5, 95);
+  const prof = difficultyProfileForEvent(currentEvent);
+let chance = prof.base + (statVal * prof.statMult) + cardBonus - (diff * prof.diffMult);
+chance = clamp(chance, 5, 95);
 
   const roll = rInt(1, 100);
   const success = roll <= chance;
