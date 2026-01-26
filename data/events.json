@@ -3061,7 +3061,7 @@
           "conditions": [{ "id": "Exhausted", "mode": "Downgrade" }]
         },
         "fail": {
-          "text": "You leave it behind. The world does not reward you for it—at least not today.",
+          "text": "You leave it behind. The world does not reward you for it—at least not today."
         }
       }
     ]
