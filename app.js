@@ -192,15 +192,7 @@ function openResultModal({ title, subtitle, lines, locked = false, onClose }) {
 
   wrap.appendChild(ul);
 
-  openModal(title, wrap, { locked });
-
-  // If you want auto-continue after closing, you can do that here later.
-  // For now, we’ll call onClose when the modal is closed via button.
-  const prev = btnModalClose.onclick;
-  btnModalClose.onclick = () => {
-    if (prev) prev();
-    onClose?.();
-  };
+  openModal(title, wrap, { locked, onClose });
 }
 
 function openSuccessionModal(onConfirm) {
@@ -724,6 +716,7 @@ function showGame() {
 }
 
 let modalLocked = false;
+let modalOnClose = null;
 
 function openModal(title, bodyEl, opts = {}) {
   modalTitle.textContent = title;
@@ -733,14 +726,23 @@ function openModal(title, bodyEl, opts = {}) {
   modalLocked = Boolean(opts.locked);
   btnModalClose.style.display = modalLocked ? "none" : "";
 
+  // NEW: store the close callback for this modal only
+  modalOnClose = typeof opts.onClose === "function" ? opts.onClose : null;
+
   modalBackdrop.classList.remove("hidden");
 }
 
 function closeModal() {
   if (modalLocked) return;
+
   modalBackdrop.classList.add("hidden");
   modalLocked = false;
   btnModalClose.style.display = "";
+
+  // NEW: fire once, then clear so it can't stack
+  const cb = modalOnClose;
+  modalOnClose = null;
+  cb?.();
 }
 
 function log(msg) {
