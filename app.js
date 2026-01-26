@@ -12,6 +12,13 @@ const deepCopy = (obj) => (obj == null ? null : JSON.parse(JSON.stringify(obj)))
 
 const MAJOR_AGES = new Set([20,25,30,35,40,45,50]);
 const SEASONS = ["Vernal", "Autumnal"];
+// ---------- Storylines (explicit draw + pacing) ----------
+const STORYLINE_DRAW_CHANCE = 0.28; // 28% chance per non-major event to pull a storyline hook (if eligible)
+const STORYLINE_STEP_GAP_MIN = 4;
+const STORYLINE_STEP_GAP_MAX = 8;
+const MAX_ACTIVE_STORYLINES = 2;
+const STORYLINE_RARITY_WEIGHTS = { common: 6, uncommon: 3, rare: 1 };
+
 
 const STATS = ["Might","Wit","Guile","Gravitas","Resolve"];
 const RES = ["Coin","Supplies","Renown","Influence","Secrets"];
@@ -366,6 +373,7 @@ async function loadAllData() {
   DATA.backgrounds = backgrounds;
   indexData();
   annotateEventSignals();
+  DATA.storylineMetaById = null; // rebuilt lazily
 
   // Minimal validation (helps catch typos early)
   for (const bg of DATA.backgrounds) {
@@ -1222,8 +1230,148 @@ function weightedPick(items, weightFn) {
   return items[items.length - 1] ?? null;
 }
 
+
+function isStoryEvent(ev) {
+  return Boolean(ev && ev.storyline && ev.storyline.id);
+}
+function storyFlag(id, key) {
+  return `sl_${id}_${key}`;
+}
+function ensureStorylineMeta() {
+  if (DATA.storylineMetaById) return;
+  const map = {};
+  for (const ev of (DATA.events ?? [])) {
+    const sl = ev?.storyline;
+    if (!sl?.id) continue;
+    map[sl.id] ??= { id: sl.id, name: sl.name ?? sl.id, rarity: sl.rarity ?? "common" };
+  }
+  DATA.storylineMetaById = map;
+}
+function storylineMeta(id) {
+  ensureStorylineMeta();
+  return DATA.storylineMetaById?.[id] ?? { id, name: id, rarity: "common" };
+}
+function storylineRarityWeight(id) {
+  const r = (storylineMeta(id).rarity ?? "common").toLowerCase();
+  return STORYLINE_RARITY_WEIGHTS[r] ?? 1;
+}
+function activeStorylineIds() {
+  ensureStorylineMeta();
+  return Object.keys(DATA.storylineMetaById ?? {}).filter(id => Boolean(state?.flags?.[storyFlag(id, "active")]));
+}
+function isStoryActive(id) {
+  return Boolean(state?.flags?.[storyFlag(id, "active")]);
+}
+function isStoryDone(id) {
+  return Boolean(state?.flags?.[storyFlag(id, "done")]);
+}
+function storyDueIndex(id) {
+  const due = state?.story?.due?.[id];
+  return Number.isFinite(due) ? due : Infinity;
+}
+function isMajorBeatAt(age, seasonIndex) {
+  return seasonIndex === 1 && MAJOR_AGES.has(age);
+}
+function simulateAgeSeason(age, seasonIndex, steps) {
+  let a = age;
+  let s = seasonIndex;
+  for (let i = 0; i < steps; i++) {
+    s = 1 - s;
+    if (s === 0) a += 1;
+  }
+  return { age: a, seasonIndex: s };
+}
+function pickGapAvoidingMajorFromNow() {
+  // "Now" is the current selection state (after the last event has been resolved).
+  const candidates = [];
+  for (let g = STORYLINE_STEP_GAP_MIN; g <= STORYLINE_STEP_GAP_MAX; g++) {
+    const sim = simulateAgeSeason(state.age, state.seasonIndex, g);
+    if (!isMajorBeatAt(sim.age, sim.seasonIndex)) candidates.push(g);
+  }
+  if (!candidates.length) return STORYLINE_STEP_GAP_MAX;
+  return candidates[rInt(0, candidates.length - 1)];
+}
+function updateStoryPacingAfterResolvedEvent(evJustResolved) {
+  if (!state) return;
+  state.story ??= { due: {} };
+  state.story.due ??= {};
+
+  if (!isStoryEvent(evJustResolved)) return;
+
+  const sid = evJustResolved.storyline.id;
+
+  // If the storyline ended (or never truly activated), clear its schedule.
+  if (isStoryDone(sid) || !isStoryActive(sid)) {
+    delete state.story.due[sid];
+    return;
+  }
+
+  // Schedule the next step to *appear* after 4–8 intervening events,
+  // and ensure the earliest-appearance slot is not a major beat.
+  const gap = pickGapAvoidingMajorFromNow();
+  state.story.due[sid] = (state.runEventIndex ?? 0) + gap;
+}
+function pickDueStoryEvent() {
+  // Forced pick when a storyline step is due.
+  const idx = state?.runEventIndex ?? 0;
+  const dueMap = state?.story?.due ?? {};
+  const dueIds = Object.entries(dueMap)
+    .filter(([id, due]) => Number.isFinite(due) && due <= idx && isStoryActive(id) && !isStoryDone(id))
+    .map(([id]) => id);
+
+  if (!dueIds.length) return null;
+
+  // If multiple are due, pick by earliest due date; tie-break by rarity.
+  dueIds.sort((a, b) => {
+    const da = storyDueIndex(a);
+    const db = storyDueIndex(b);
+    if (da !== db) return da - db;
+    return storylineRarityWeight(b) - storylineRarityWeight(a);
+  });
+
+  const chosenId = dueIds[0];
+
+  // Pick the next eligible event for that storyline.
+  const pool = eligibleEvents({ kind: "general", story: "only", storyId: chosenId });
+  const ev = weightedPick(pool, eventDirectorWeight);
+  if (!ev) {
+    // If something went wrong (requirements mismatch), nudge due forward to avoid deadlock.
+    state.story.due[chosenId] = (idx + 1);
+    return null;
+  }
+
+  return ev;
+}
+function tryPickStoryHookEvent() {
+  // Only hooks for inactive storylines. Also enforce max active storylines.
+  const active = activeStorylineIds();
+  if (active.length >= MAX_ACTIVE_STORYLINES) return null;
+
+  const pool = eligibleEvents({ kind: "general", story: "only", storyRole: "hook", onlyInactiveStorylines: true });
+
+  if (!pool.length) return null;
+
+  return weightedPick(pool, (ev) => {
+    const sid = ev.storyline.id;
+    const rarityW = storylineRarityWeight(sid);
+    // Use the normal director weights too, so background/context/scarcity still matter.
+    return rarityW * eventDirectorWeight(ev);
+  });
+}
+
+
 function eligibleEvents(opts = {}) {
   const kind = opts.kind ?? null;
+
+  // Story filtering:
+  // - story: "any" | "exclude" | "only"
+  // - storyId: restrict to a specific storyline id
+  // - storyRole: restrict to storyline.role (e.g., "hook")
+  // - onlyInactiveStorylines: when true, excludes storylines that are active or done
+  const storyMode = (opts.story ?? "any");
+  const storyId = opts.storyId ?? null;
+  const storyRole = opts.storyRole ?? null;
+  const onlyInactive = Boolean(opts.onlyInactiveStorylines);
 
   return DATA.events.filter(e => {
     if (state.age < (e.minAge ?? 16)) return false;
@@ -1232,6 +1380,27 @@ function eligibleEvents(opts = {}) {
     const k = e.kind ?? "general";
     if (kind && k !== kind) return false;
 
+    const isStory = isStoryEvent(e);
+    if (storyMode === "exclude" && isStory) return false;
+    if (storyMode === "only" && !isStory) return false;
+
+    if (isStory) {
+      const sid = e.storyline.id;
+
+      if (storyId && sid !== storyId) return false;
+      if (storyRole && (e.storyline.role ?? null) !== storyRole) return false;
+
+      if (onlyInactive) {
+        if (isStoryActive(sid) || isStoryDone(sid)) return false;
+      }
+
+      // Pacing rule: if a storyline is active, its steps can only appear when due.
+      if (isStoryActive(sid)) {
+        const due = storyDueIndex(sid);
+        if ((state.runEventIndex ?? 0) < due) return false;
+      }
+    }
+
     // Optional future-proofing: support event-level requirements (not just outcome requirements)
     if (Array.isArray(e.requirements) && unmetReasons(e.requirements).length) return false;
 
@@ -1239,15 +1408,39 @@ function eligibleEvents(opts = {}) {
   });
 }
 
+
+
 function loadRandomEvent() {
   const majorBeat = isMajorEventNow();
 
+  // Rule: never show storyline steps at the same time as a major beat.
+  if (!majorBeat) {
+    // 1) Forced storyline step if one is due.
+    const due = pickDueStoryEvent();
+    if (due) {
+      beginEvent(due);
+      return;
+    }
+
+    // 2) Explicit storyline draw chance: pull a hook based on rarity and eligibility.
+    if (Math.random() < STORYLINE_DRAW_CHANCE) {
+      const hook = tryPickStoryHookEvent();
+      if (hook) {
+        beginEvent(hook);
+        return;
+      }
+    }
+  }
+
+  // 3) Otherwise, pick a normal general event (excluding storyline events).
   // Prefer explicit major events if/when you add them to events.json
-  let pool = majorBeat ? eligibleEvents({ kind: "major" }) : [];
+  let pool = majorBeat
+    ? eligibleEvents({ kind: "major", story: "exclude" })
+    : [];
 
   // Fall back to normal pool
-  if (!pool.length) pool = eligibleEvents({ kind: "general" });
-  if (!pool.length) pool = eligibleEvents(); // last resort
+  if (!pool.length) pool = eligibleEvents({ kind: "general", story: "exclude" });
+  if (!pool.length) pool = eligibleEvents({ story: "exclude" }); // last resort
 
   const ev = weightedPick(pool, eventDirectorWeight);
   if (!ev) {
@@ -1257,6 +1450,7 @@ function loadRandomEvent() {
 
   beginEvent(ev);
 }
+
 
 function beginEvent(ev) {
   selectedOutcomeIndex = null;
@@ -1288,13 +1482,18 @@ function openEventPickerModal() {
 }
 
 // ---------- Time ----------
+
 function advanceTime() {
+  // Count events completed (drives storyline pacing).
+  state.runEventIndex = (state.runEventIndex ?? 0) + 1;
+
   state.seasonIndex = 1 - state.seasonIndex;
   if (state.seasonIndex === 0) {
     state.age += 1;
     log(`— A year passes. Age is now ${state.age}.`);
   }
 }
+
 
 // ---------- Resolve ----------
 function resolveSelectedOutcome() {
@@ -1323,6 +1522,7 @@ function resolveSelectedOutcome() {
 
       recordEventHistory(currentEvent);
       advanceTime();
+      updateStoryPacingAfterResolvedEvent(currentEvent);
       saveState();
       renderAll();
 
@@ -1477,6 +1677,13 @@ function handleDeath() {
 
   state.age = 18;
   state.seasonIndex = 0;
+  state.runEventIndex = 0;
+  state.story = { due: {} };
+
+  // Storylines are per-life in this prototype: clear any storyline flags to prevent cross-heir weirdness.
+  for (const k of Object.keys(state.flags ?? {})) {
+    if (k.startsWith("sl_")) delete state.flags[k];
+  }
 
  openSuccessionModal((heirName, focus) => {
   state.charName = heirName;
@@ -1652,6 +1859,8 @@ function startRunFromBuilder(bg, givenName, familyName) {
     age: 18,
     seasonIndex: 0,
     heirCount: 0,
+    runEventIndex: 0,
+    story: { due: {} },
 
     // IMPORTANT: no heir focus until you actually have an heir
     heirFocus: null,
@@ -1698,6 +1907,9 @@ async function boot() {
   if (loadState()) {
     state.flags ??= {};
     state.standings ??= {};
+    state.runEventIndex ??= 0;
+    state.story ??= { due: {} };
+    state.story.due ??= {};
     showGame();
     logEl.textContent = "";
     log("Loaded saved run state.");
