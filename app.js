@@ -12,8 +12,20 @@ const deepCopy = (obj) => (obj == null ? null : JSON.parse(JSON.stringify(obj)))
 
 const MAJOR_AGES = new Set([20,25,30,35,40,45,50]);
 const SEASONS = ["Vernal", "Autumnal"];
-// ---------- Storylines (explicit draw + pacing) ----------
-const STORYLINE_DRAW_CHANCE = 0.28; // 28% chance per non-major event to pull a storyline hook (if eligible)
+// ---------- Storylines (explicit draw + pacing + pity) ----------
+/*
+  Goals:
+  - You *will* encounter storyline content in a reasonable time window (even with only a few storylines loaded).
+  - Story hooks have an explicit draw roll, weighted by rarity and eligibility.
+  - Once a storyline step is played, the next step is scheduled 4–8 events later,
+    and never appears on a Major Beat.
+*/
+const STORYLINE_BASE_CHANCE = 0.32;        // baseline per non-major event to pull a storyline hook (if eligible)
+const STORYLINE_MAX_CHANCE  = 0.70;        // cap (ramp won't exceed this)
+const STORYLINE_RAMP_START  = 6;           // after this many non-story events in a row, hook chance ramps up
+const STORYLINE_RAMP_PER_EVENT = 0.05;     // additional chance per event past ramp start
+const STORYLINE_PITY_EVENTS = 10;          // force a hook attempt after this many non-story events in a row
+
 const STORYLINE_STEP_GAP_MIN = 4;
 const STORYLINE_STEP_GAP_MAX = 8;
 const MAX_ACTIVE_STORYLINES = 2;
@@ -1270,7 +1282,8 @@ function storyDueIndex(id) {
   return Number.isFinite(due) ? due : Infinity;
 }
 function isMajorBeatAt(age, seasonIndex) {
-  return seasonIndex === 1 && MAJOR_AGES.has(age);
+  // Major beats happen on Vernal (seasonIndex 0) at key ages.
+  return seasonIndex === 0 && MAJOR_AGES.has(age);
 }
 function simulateAgeSeason(age, seasonIndex, steps) {
   let a = age;
@@ -1360,8 +1373,41 @@ function tryPickStoryHookEvent() {
 }
 
 
+function ensureStoryState() {
+  if (!state) return;
+  state.story ??= { due: {}, noStoryEvents: 0 };
+  state.story.due ??= {};
+  if (!Number.isFinite(state.story.noStoryEvents)) state.story.noStoryEvents = 0;
+}
+function updateStoryCountersAfterResolvedEvent(evJustResolved) {
+  if (!state) return;
+  ensureStoryState();
+
+  if (isStoryEvent(evJustResolved)) {
+    state.story.noStoryEvents = 0;
+  } else {
+    state.story.noStoryEvents = (state.story.noStoryEvents ?? 0) + 1;
+  }
+}
+function storylineHookChance() {
+  ensureStoryState();
+  const n = state.story.noStoryEvents ?? 0;
+  let ch = STORYLINE_BASE_CHANCE;
+  if (n >= STORYLINE_RAMP_START) {
+    ch += (n - STORYLINE_RAMP_START + 1) * STORYLINE_RAMP_PER_EVENT;
+  }
+  return clamp(ch, 0, STORYLINE_MAX_CHANCE);
+}
+function shouldForceStoryHookAttempt() {
+  ensureStoryState();
+  return (state.story.noStoryEvents ?? 0) >= STORYLINE_PITY_EVENTS;
+}
+
+
 function eligibleEvents(opts = {}) {
   const kind = opts.kind ?? null;
+  const majorStage = opts.majorStage ?? null; // only applies when kind:"major"
+
 
   // Story filtering:
   // - story: "any" | "exclude" | "only"
@@ -1379,6 +1425,15 @@ function eligibleEvents(opts = {}) {
 
     const k = e.kind ?? "general";
     if (kind && k !== kind) return false;
+
+    // Major-stage filtering (Fate Knots + regular majors)
+    if (k === "major" && majorStage) {
+      if (Array.isArray(majorStage)) {
+        if (!majorStage.includes(e.majorStage)) return false;
+      } else {
+        if ((e.majorStage ?? null) !== majorStage) return false;
+      }
+    }
 
     const isStory = isStoryEvent(e);
     if (storyMode === "exclude" && isStory) return false;
@@ -1412,34 +1467,56 @@ function eligibleEvents(opts = {}) {
 
 function loadRandomEvent() {
   const majorBeat = isMajorEventNow();
+  ensureStoryState();
 
-  // Rule: never show storyline steps at the same time as a major beat.
-  if (!majorBeat) {
-    // 1) Forced storyline step if one is due.
-    const due = pickDueStoryEvent();
-    if (due) {
-      beginEvent(due);
+  // ---------- Major beats ----------
+  if (majorBeat) {
+    // Rule: never show storyline steps at the same time as a major beat.
+    // Prefer Fate Knots when they are due; otherwise pull a regular major.
+    let desiredStage = "major";
+
+    if (state.age === 20 && !state.flags?.knot1_done) desiredStage = "knot1";
+    if (state.age === 35 && !state.flags?.knot2_done) desiredStage = "knot2";
+    if (state.age === 50 && !state.flags?.knot3_done) desiredStage = "knot3";
+
+    let pool = eligibleEvents({ kind: "major", story: "exclude", majorStage: desiredStage });
+
+    // Fallbacks (in case of missing content or edge-case flags)
+    if (!pool.length && desiredStage !== "major") pool = eligibleEvents({ kind: "major", story: "exclude" });
+    if (!pool.length) pool = eligibleEvents({ kind: "general", story: "exclude" });
+    if (!pool.length) pool = eligibleEvents({ story: "exclude" });
+
+    const ev = weightedPick(pool, eventDirectorWeight);
+    if (!ev) {
+      console.warn("No eligible events found for current age/filters.");
       return;
     }
+    beginEvent(ev);
+    return;
+  }
 
-    // 2) Explicit storyline draw chance: pull a hook based on rarity and eligibility.
-    if (Math.random() < STORYLINE_DRAW_CHANCE) {
-      const hook = tryPickStoryHookEvent();
-      if (hook) {
-        beginEvent(hook);
-        return;
-      }
+  // ---------- Non-major beats ----------
+  // 1) Forced storyline step if one is due (4–8 events after last step; never on majors).
+  const due = pickDueStoryEvent();
+  if (due) {
+    beginEvent(due);
+    return;
+  }
+
+  // 2) Storyline hook attempt (explicit draw chance + ramp + pity)
+  const forceHook = shouldForceStoryHookAttempt();
+  const hookChance = storylineHookChance();
+
+  if (forceHook || Math.random() < hookChance) {
+    const hook = tryPickStoryHookEvent();
+    if (hook) {
+      beginEvent(hook);
+      return;
     }
   }
 
   // 3) Otherwise, pick a normal general event (excluding storyline events).
-  // Prefer explicit major events if/when you add them to events.json
-  let pool = majorBeat
-    ? eligibleEvents({ kind: "major", story: "exclude" })
-    : [];
-
-  // Fall back to normal pool
-  if (!pool.length) pool = eligibleEvents({ kind: "general", story: "exclude" });
+  let pool = eligibleEvents({ kind: "general", story: "exclude" });
   if (!pool.length) pool = eligibleEvents({ story: "exclude" }); // last resort
 
   const ev = weightedPick(pool, eventDirectorWeight);
@@ -1450,7 +1527,6 @@ function loadRandomEvent() {
 
   beginEvent(ev);
 }
-
 
 function beginEvent(ev) {
   selectedOutcomeIndex = null;
@@ -1521,6 +1597,7 @@ function resolveSelectedOutcome() {
       done = true;
 
       recordEventHistory(currentEvent);
+      updateStoryCountersAfterResolvedEvent(currentEvent);
       advanceTime();
       updateStoryPacingAfterResolvedEvent(currentEvent);
       saveState();
@@ -1678,7 +1755,7 @@ function handleDeath() {
   state.age = 18;
   state.seasonIndex = 0;
   state.runEventIndex = 0;
-  state.story = { due: {} };
+  state.story = { due: {}, noStoryEvents: 0 };
 
   // Storylines are per-life in this prototype: clear any storyline flags to prevent cross-heir weirdness.
   for (const k of Object.keys(state.flags ?? {})) {
@@ -1860,7 +1937,7 @@ function startRunFromBuilder(bg, givenName, familyName) {
     seasonIndex: 0,
     heirCount: 0,
     runEventIndex: 0,
-    story: { due: {} },
+    story: { due: {}, noStoryEvents: 0 },
 
     // IMPORTANT: no heir focus until you actually have an heir
     heirFocus: null,
@@ -1908,8 +1985,9 @@ async function boot() {
     state.flags ??= {};
     state.standings ??= {};
     state.runEventIndex ??= 0;
-    state.story ??= { due: {} };
+    state.story ??= { due: {}, noStoryEvents: 0 };
     state.story.due ??= {};
+    if (!Number.isFinite(state.story.noStoryEvents)) state.story.noStoryEvents = 0;
     showGame();
     logEl.textContent = "";
     log("Loaded saved run state.");
