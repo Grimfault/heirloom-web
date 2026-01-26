@@ -186,32 +186,114 @@ function summarizeBundle(bundle) {
   return lines;
 }
 
-function openResultModal({ title, subtitle, lines, locked = false, onClose }) {
-  const wrap = document.createElement("div");
+function summarizeBundleForPlayer(bundle) {
+  const resources = [];
+  const conditions = [];
+  if (!bundle) return { resources, conditions };
 
-  const sub = document.createElement("div");
-  sub.className = "muted";
-  sub.style.marginBottom = "8px";
-  sub.textContent = subtitle || "";
-  wrap.appendChild(sub);
-
-  const ul = document.createElement("ul");
-  ul.style.margin = "0";
-  ul.style.paddingLeft = "18px";
-
-  if (!lines || lines.length === 0) {
-    const li = document.createElement("li");
-    li.textContent = "No changes.";
-    ul.appendChild(li);
-  } else {
-    for (const l of lines) {
-      const li = document.createElement("li");
-      li.textContent = l;
-      ul.appendChild(li);
-    }
+  for (const d of (bundle.resources ?? [])) {
+    const amt = d.amount ?? 0;
+    if (!amt) continue;
+    resources.push(`${d.resource}: ${fmtDelta(amt)}`);
   }
 
-  wrap.appendChild(ul);
+  for (const c of (bundle.conditions ?? [])) {
+    const sev = c.severity ?? "Minor";
+    if (c.mode === "Add") conditions.push(`Gained: ${c.id} (${sev})`);
+    if (c.mode === "Remove") conditions.push(`Removed: ${c.id}`);
+    if (c.mode === "Downgrade") conditions.push(`Eased: ${c.id}`);
+    if (c.mode === "Upgrade") conditions.push(`Worsened: ${c.id} (${sev})`);
+  }
+
+  return { resources, conditions };
+}
+
+function defaultResultNarrative(ev, outcome, success, partial) {
+  const ctx = (ev?.context ?? "").toLowerCase();
+  const opener =
+    ctx === "court"  ? "In the hush of the hall," :
+    ctx === "scheme" ? "In whispered corners," :
+    ctx === "journey"? "On the road," :
+    ctx === "strife" ? "In the clash and scramble," :
+    ctx === "lore"   ? "By lamplight," :
+                       "In the moment,";
+
+  const prompt = String(ev?.prompt ?? "").trim().replace(/\s+/g, " ");
+  let hook = prompt;
+  const m = prompt.match(/^(.+?[.!?])\s/);
+  if (m) hook = m[1];
+  if (hook.length > 140) hook = hook.slice(0, 137) + "…";
+
+  const choice = outcome?.title ? `“${outcome.title}”` : "your choice";
+
+  if (partial) return `${opener} ${hook} You don’t quite get what you wanted, but you salvage something from ${choice}.`;
+  if (success) return `${opener} ${hook} ${choice} lands cleanly, and the consequences fall your way.`;
+  return `${opener} ${hook} ${choice} carries a cost, and you feel it immediately.`;
+}
+
+function openResultModal({ title, subtitle, narrative, resources, conditions, locked = false, onClose }) {
+  const wrap = document.createElement("div");
+
+  if (subtitle) {
+    const sub = document.createElement("div");
+    sub.className = "muted";
+    sub.style.marginBottom = "8px";
+    sub.textContent = subtitle;
+    wrap.appendChild(sub);
+  }
+
+  if (narrative) {
+    const p = document.createElement("div");
+    p.style.marginBottom = "10px";
+    p.textContent = narrative;
+    wrap.appendChild(p);
+  }
+
+  const hasRes = Array.isArray(resources) && resources.length > 0;
+  const hasConds = Array.isArray(conditions) && conditions.length > 0;
+
+  if (!hasRes && !hasConds) {
+    const none = document.createElement("div");
+    none.className = "muted";
+    none.textContent = "No changes.";
+    wrap.appendChild(none);
+  } else {
+    if (hasRes) {
+      const h = document.createElement("div");
+      h.className = "muted";
+      h.style.margin = "6px 0 4px";
+      h.textContent = "Resources";
+      wrap.appendChild(h);
+
+      const ul = document.createElement("ul");
+      ul.style.margin = "0 0 6px";
+      ul.style.paddingLeft = "18px";
+      for (const l of resources) {
+        const li = document.createElement("li");
+        li.textContent = l;
+        ul.appendChild(li);
+      }
+      wrap.appendChild(ul);
+    }
+
+    if (hasConds) {
+      const h = document.createElement("div");
+      h.className = "muted";
+      h.style.margin = "6px 0 4px";
+      h.textContent = "Conditions";
+      wrap.appendChild(h);
+
+      const ul = document.createElement("ul");
+      ul.style.margin = "0";
+      ul.style.paddingLeft = "18px";
+      for (const l of conditions) {
+        const li = document.createElement("li");
+        li.textContent = l;
+        ul.appendChild(li);
+      }
+      wrap.appendChild(ul);
+    }
+  }
 
   openModal(title, wrap, { locked, onClose });
 }
@@ -1637,6 +1719,7 @@ function resolveSelectedOutcome() {
 
   // Apply outcome effects
   let bundleForSummary = null;
+  let isPartial = false;
 
   if (success) {
     applyBundle(o.success);
@@ -1649,6 +1732,7 @@ function resolveSelectedOutcome() {
     });
 
     if (partial) {
+      isPartial = true;
       log(`FAIL (${roll} > ${chance}) but PARTIAL triggers → ${o.title}`);
 
       const halfResources = [];
@@ -1665,7 +1749,9 @@ function resolveSelectedOutcome() {
       }
 
       // Build a best-effort summary so the result modal matches what actually happened.
-      bundleForSummary = { resources: halfResources, conditions: softenedConds };
+      const baseTxt = (o.fail?.text ?? '').trim() || (o.success?.text ?? '').trim();
+      const partialTxt = baseTxt ? (baseTxt + "\n\nStill, you salvage what you can.") : "You don’t quite get what you wanted, but you salvage something.";
+      bundleForSummary = { text: partialTxt, resources: halfResources, conditions: softenedConds };
     } else {
       applyBundle(o.fail);
       bundleForSummary = o.fail;
@@ -1711,30 +1797,34 @@ function resolveSelectedOutcome() {
   selectedOutcomeIndex = null;
 
   // Result modal -> (Major? draft modal) -> finishEvent()
-  const subtitle = success
-    ? `Success! You pursued: ${o.title}`
-    : `Failure. You pursued: ${o.title}`;
+const outcomeLabel = success ? "Success" : (isPartial ? "Partial" : "Failure");
+const subtitle = success
+  ? `Success! You pursued: ${o.title}`
+  : (isPartial ? `Partial success. You pursued: ${o.title}` : `Failure. You pursued: ${o.title}`);
 
-  const lines = summarizeBundle(bundleForSummary);
+const narrative = (bundleForSummary?.text ?? "").trim() || defaultResultNarrative(currentEvent, o, success, isPartial);
+const { resources, conditions } = summarizeBundleForPlayer(bundleForSummary);
 
-  saveState();
-  renderAll();
+saveState();
+renderAll();
 
-  openResultModal({
-    title: success ? "Outcome: Success" : "Outcome: Failure",
-    subtitle,
-    lines,
-    locked: false,
-    onClose: () => {
-      if (wasMajor) {
-        if (draftOpened) return;
-        draftOpened = true;
-        openDraftModal(() => finishEvent());
-      } else {
-        finishEvent();
-      }
+openResultModal({
+  title: `Outcome: ${outcomeLabel}`,
+  subtitle,
+  narrative,
+  resources,
+  conditions,
+  locked: false,
+  onClose: () => {
+    if (wasMajor) {
+      if (draftOpened) return;
+      draftOpened = true;
+      openDraftModal(() => finishEvent());
+    } else {
+      finishEvent();
     }
-  });
+  }
+});
 }
 
 // ---------- Succession ----------
