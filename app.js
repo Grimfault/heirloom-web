@@ -3,6 +3,7 @@
    - Supports: requirements → disabled outcomes with reasons
    - Card levels: uses level 1 by default (upgrade-ready later)
 */
+console.log("✅ app.js loaded");
 
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const rInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
