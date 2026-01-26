@@ -617,7 +617,7 @@
       }
     }
   ]
-}
+},
   {
     "id": "gev_008_backroom_auction",
     "name": "Backroom Auction",
@@ -706,7 +706,7 @@
         }
       }
     ]
-  }
+  },
   {
     "id": "gev_009_petition_day",
     "name": "Petition Day",
@@ -1493,7 +1493,6 @@
         },
         "fail": {
           "text": "You walk away… but you keep looking back. The tower sits in your mind like an itch, and the indecision nags at you. Nothing bad happens—nothing good either. Just the quiet irritation of an unanswered question.",
-          "fail": {}
         }
       }
     ]
@@ -1577,7 +1576,7 @@
       }
     }
   ]
-}
+},
   {
     "id": "gev_019_village_relic",
     "name": "Village Relic",
@@ -1660,7 +1659,6 @@
         },
         "fail": {
           "text": "Your attempt lands wrong—too formal, too hollow, too much like a traveler pretending to care. They nod politely and you leave, but the village keeps its hurt. Some problems can’t be smoothed over with a speech.",
-          "fail": {}
         }
       }
     ]
@@ -2089,8 +2087,7 @@
         }
       }
     ]
-  }
- [
+  },
   {
   "id": "gev_025_stolen_correspondence",
   "name": "Stolen Correspondence",
