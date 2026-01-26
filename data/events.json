@@ -7,11 +7,12 @@
     "weight": 1,
     "tags": [
       "Road",
-      "Bandits"
+      "Bandits",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "The road narrows between thorn and stone. A snap of brush—then men with patched mail and bright, hungry eyes step out with blades drawn. They don’t ask for coin. They ask how much you’re willing to bleed.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, the road narrows between thorn and stone. A snap of brush—then men with patched mail and bright, hungry eyes step out with blades drawn. They don’t ask for coin. They ask how much you’re willing to bleed.",
     "outcomes": [
       {
         "title": "Break Their Line",
@@ -201,11 +202,12 @@
     "weight": 1,
     "tags": [
       "Honor",
-      "Rival"
+      "Rival",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 40,
-    "prompt": "A careless word becomes a careful threat. At first light, your rival waits in the dew-silver grass with witnesses who pretend they’re impartial. A duel is a story people tell forever—especially if you lose.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a careless word becomes a careful threat. At first light, your rival waits in the dew-silver grass with witnesses who pretend they’re impartial. A duel is a story people tell forever—especially if you lose.",
     "outcomes": [
       {
         "title": "Answer the Challenge",
@@ -385,11 +387,12 @@
     "tags": [
       "Town",
       "Fire",
-      "Raid"
+      "Raid",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A town’s edge is on fire—roof-thatch and tar running like oil. Raiders move in the smoke, half seen and fully cruel. Someone has to impose order… or decide what’s worth saving.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a town’s edge is on fire—roof-thatch and tar running like oil. Raiders move in the smoke, half seen and fully cruel. Someone has to impose order… or decide what’s worth saving.",
     "outcomes": [
       {
         "title": "Lead a Sortie",
@@ -580,11 +583,12 @@
     "weight": 1,
     "tags": [
       "Contract",
-      "Blades"
+      "Blades",
+      "Gilderhaven"
     ],
     "minAge": 16,
     "maxAge": 55,
-    "prompt": "A mercenary captain sits easy by their cookfire, armor oiled and boots muddy. They offer you a contract with the smile of someone who has sold loyalty a hundred times and never once believed in it.",
+    "prompt": "In Gilderhaven’s shipyards, where storms are politics and insurance is prayer, a mercenary captain sits easy by their cookfire, armor oiled and boots muddy. They offer you a contract with the smile of someone who has sold loyalty a hundred times and never once believed in it.",
     "outcomes": [
       {
         "title": "Hire Them",
@@ -776,12 +780,13 @@
     "weight": 1,
     "tags": [
       "Market",
-      "PettyCrime",
-      "Urban"
+      "Petty Crime",
+      "Urban",
+      "Kestrelbank"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "You reach for your coin and find only cloth. The crowd is thick, the air smells of spice and sweat, and someone nearby is suddenly walking very fast. In a city, theft is a language—do you answer it?",
+    "prompt": "In Kestrelbank, where bridges and ledgers decide who eats, you reach for your coin and find only cloth. The crowd is thick, the air smells of spice and sweat, and someone nearby is suddenly walking very fast. In a city, theft is a language—do you answer it?",
     "outcomes": [
       {
         "title": "Catch the Thief",
@@ -966,11 +971,12 @@
     "tags": [
       "Rumor",
       "Reputation",
-      "Urban"
+      "Urban",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "You hear it in the pauses between greetings: a rumor about you, polished and ready, spreading too quickly to be chance. Someone is feeding it—quietly, carefully—like a fire they want to look accidental.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, you hear it in the pauses between greetings: a rumor about you, polished and ready, spreading too quickly to be chance. Someone is feeding it—quietly, carefully—like a fire they want to look accidental.",
     "outcomes": [
       {
         "title": "Confront the Source",
@@ -1151,11 +1157,12 @@
     "tags": [
       "Forgery",
       "Leverage",
-      "Paperwork"
+      "Paperwork",
+      "Kestrelbank"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A packet of papers crosses your hands—clean vellum, expensive ink, and a seal that is almost perfect. Almost. Whoever made it understands authority well enough to imitate it, and that makes the forgery more dangerous than any clumsy lie. If you expose it, you’ll anger someone. If you use it, you’ll become someone worth hunting. If you study it… you may find yourself thinking like its maker.",
+    "prompt": "In Kestrelbank, where bridges and ledgers decide who eats, a packet of papers crosses your hands—clean vellum, expensive ink, and a seal that is almost perfect. Almost. Whoever made it understands authority well enough to imitate it, and that makes the forgery more dangerous than any clumsy lie. If you expose it, you’ll anger someone. If you use it, you’ll become someone worth hunting. If you study it… you may find yourself thinking like its maker.",
     "outcomes": [
       {
         "title": "Report It to a Proper Clerk",
@@ -1330,13 +1337,14 @@
     "kind": "general",
     "weight": 1,
     "tags": [
-      "BlackMarket",
+      "Black Market",
       "Underworld",
-      "Urban"
+      "Urban",
+      "Marrowgate"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Behind a shuttered door, a dozen quiet people pretend they’re strangers. Forbidden goods sit on a cloth like offerings: a reliquary shard, a sealed letter, a knife that looks too honest. Every bid is a confession in a different accent.",
+    "prompt": "In Marrowgate, where tolls are tradition and corruption is a local craft, behind a shuttered door, a dozen quiet people pretend they’re strangers. Forbidden goods sit on a cloth like offerings: a reliquary shard, a sealed letter, a knife that looks too honest. Every bid is a confession in a different accent.",
     "outcomes": [
       {
         "title": "Bid for the Prize",
@@ -1519,11 +1527,12 @@
     "tags": [
       "Court",
       "Grievances",
-      "Public"
+      "Public",
+      "High Valewyr"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "The hall is packed with people who have practiced their suffering in front of mirrors. A farmer with cracked hands. A widow with a folded deed. A minor lord with a voice trained to sound inevitable. The steward calls names, the crowd mutters, and somewhere in it all—someone wants your favor. Whatever you do, someone else will call it corruption.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, the hall is packed with people who have practiced their suffering in front of mirrors. A farmer with cracked hands. A widow with a folded deed. A minor lord with a voice trained to sound inevitable. The steward calls names, the crowd mutters, and somewhere in it all—someone wants your favor. Whatever you do, someone else will call it corruption.",
     "outcomes": [
       {
         "title": "Back the Commoners",
@@ -1718,11 +1727,12 @@
     "tags": [
       "Court",
       "Banquet",
-      "Politics"
+      "Politics",
+      "High Valewyr"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "The table groans with roasted meat and sugared fruit, but the real weight in the room is invisible. Every toast is a trade. Every laugh is an audition. Servants drift like ghosts, collecting scraps and secrets with the same practiced care.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, the table groans with roasted meat and sugared fruit, but the real weight in the room is invisible. Every toast is a trade. Every laugh is an audition. Servants drift like ghosts, collecting scraps and secrets with the same practiced care.",
     "outcomes": [
       {
         "title": "Toast the Host",
@@ -1898,11 +1908,12 @@
     "tags": [
       "Festival",
       "Contest",
-      "Public"
+      "Public",
+      "High Valewyr"
     ],
     "minAge": 16,
     "maxAge": 35,
-    "prompt": "A herald’s voice rings out over the square: contests of arms, riddles, and wagers. People gather for spectacle, but the true audience is the one that counts reputations like coin. Win, and you rise. Lose, and you become a story someone else tells.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, a herald’s voice rings out over the square: contests of arms, riddles, and wagers. People gather for spectacle, but the true audience is the one that counts reputations like coin. Win, and you rise. Lose, and you become a story someone else tells.",
     "outcomes": [
       {
         "title": "Enter the Lists",
@@ -2101,11 +2112,12 @@
     "tags": [
       "Bureaucracy",
       "Coin",
-      "Pressure"
+      "Pressure",
+      "Ashqar"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A clerk arrives with ledgers and a practiced frown, accompanied by a guard who looks bored in the way only armed men can. They lay stamped papers on your table as if setting down a verdict. The numbers are ‘what’s due.’ The real question is what else they think they can take.",
+    "prompt": "At Ashqar’s oasis court, where shade and law trade places by noon, a clerk arrives with ledgers and a practiced frown, accompanied by a guard who looks bored in the way only armed men can. They lay stamped papers on your table as if setting down a verdict. The numbers are ‘what’s due.’ The real question is what else they think they can take.",
     "outcomes": [
       {
         "title": "Pay What’s Due",
@@ -2292,11 +2304,12 @@
     "tags": [
       "Travel",
       "River",
-      "Risk"
+      "Risk",
+      "Marrowgate"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "The river runs high and fast, carrying branches like thrown spears. The far bank is close enough to want, far enough to punish impatience. There’s a ferryman watching from the reeds—if he’s real, and if he’s honest.",
+    "prompt": "In Marrowgate, where tolls are tradition and corruption is a local craft, the river runs high and fast, carrying branches like thrown spears. The far bank is close enough to want, far enough to punish impatience. There’s a ferryman watching from the reeds—if he’s real, and if he’s honest.",
     "outcomes": [
       {
         "title": "Force the Ford",
@@ -2474,11 +2487,12 @@
     "tags": [
       "Travel",
       "Swamp",
-      "Hardship"
+      "Hardship",
+      "Frostbarrow Pass"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "The road sinks into swamp like a bad promise. Mosquitoes rise in clouds, and the ground argues with every step. Somewhere out there is firmer land—if you can find it before the mire taxes your will, your supplies, or your health.",
+    "prompt": "At Frostbarrow Pass, where winter bargains hard and mercy is expensive, the road sinks into swamp like a bad promise. Mosquitoes rise in clouds, and the ground argues with every step. Somewhere out there is firmer land—if you can find it before the mire taxes your will, your supplies, or your health.",
     "outcomes": [
       {
         "title": "Push Through",
@@ -2668,11 +2682,12 @@
     "tags": [
       "Travel",
       "Lost",
-      "Navigation"
+      "Navigation",
+      "Frostbarrow Pass"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Your compass needle spins like a frightened animal. North, south—meaningless. The sky is hazy, the paths fork too often, and the day is already leaning toward evening. Getting lost isn’t dramatic. It’s slow, quiet, and hungry.",
+    "prompt": "At Frostbarrow Pass, where winter bargains hard and mercy is expensive, your compass needle spins like a frightened animal. North, south—meaningless. The sky is hazy, the paths fork too often, and the day is already leaning toward evening. Getting lost isn’t dramatic. It’s slow, quiet, and hungry.",
     "outcomes": [
       {
         "title": "Read the Stars",
@@ -2837,11 +2852,12 @@
     "tags": [
       "Scarcity",
       "Travel",
-      "Hunger"
+      "Hunger",
+      "Wrenfield"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "The roads are thin with travelers and thick with staring eyes. Markets sell emptier sacks for higher prices. Even friendly faces measure your pack as if doing math. Hunger doesn’t make monsters—it just makes choices honest.",
+    "prompt": "In Wrenfield, where plague taught people to count breaths and measure trust, the roads are thin with travelers and thick with staring eyes. Markets sell emptier sacks for higher prices. Even friendly faces measure your pack as if doing math. Hunger doesn’t make monsters—it just makes choices honest.",
     "outcomes": [
       {
         "title": "Ration Strictly",
@@ -3034,11 +3050,12 @@
     "tags": [
       "Lore",
       "Ruin",
-      "Opportunity"
+      "Opportunity",
+      "Sable Coast"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "The watchtower’s bones still stand, though the roof is long gone and rain has eaten the mortar into soft grit. Birds nest where sentries once paced. Inside, the air smells of wet stone and old ash. Something catches the light in the rubble—metal, glass, or the pale gleam of coin. A place like this doesn’t keep its treasures without keeping a price beside them.",
+    "prompt": "Along the Sable Coast, where the sea keeps what it takes and gives back strangers, the watchtower’s bones still stand, though the roof is long gone and rain has eaten the mortar into soft grit. Birds nest where sentries once paced. Inside, the air smells of wet stone and old ash. Something catches the light in the rubble—metal, glass, or the pale gleam of coin. A place like this doesn’t keep its treasures without keeping a price beside them.",
     "outcomes": [
       {
         "title": "Search Carefully",
@@ -3199,11 +3216,12 @@
     "tags": [
       "Low Magic",
       "Temptation",
-      "Scholarship"
+      "Scholarship",
+      "Gloambridge"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "The folio is wrapped in oilcloth like contraband. The ink is old, the margins dense with a second hand arguing the first. Nothing glows. Nothing whispers. And yet you can feel the danger in the way the author assumes they will not be forgiven. Here is knowledge that makes enemies merely by existing.",
+    "prompt": "In Gloambridge, where every tavern has a scholar and a spy, the folio is wrapped in oilcloth like contraband. The ink is old, the margins dense with a second hand arguing the first. Nothing glows. Nothing whispers. And yet you can feel the danger in the way the author assumes they will not be forgiven. Here is knowledge that makes enemies merely by existing.",
     "outcomes": [
       {
         "title": "Study in Secret",
@@ -3373,11 +3391,12 @@
     "tags": [
       "Lore",
       "Village",
-      "Faith"
+      "Faith",
+      "Verdemont Abbey"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A village meets you at the edge of the road as if they’ve been rehearsing the plea. Their relic is gone—wood and metal, worn smooth by hands that needed something to hold onto. ‘It’s not valuable,’ they insist, which is exactly why the loss hurts. A thief took it anyway, and now the villagers look at the empty shrine like it’s a wound that won’t stop bleeding.",
+    "prompt": "At Verdemont Abbey, where vines climb stone and confession is a kind of currency, a village meets you at the edge of the road as if they’ve been rehearsing the plea. Their relic is gone—wood and metal, worn smooth by hands that needed something to hold onto. ‘It’s not valuable,’ they insist, which is exactly why the loss hurts. A thief took it anyway, and now the villagers look at the empty shrine like it’s a wound that won’t stop bleeding.",
     "outcomes": [
       {
         "title": "Recover It",
@@ -3549,11 +3568,12 @@
     "tags": [
       "Lore",
       "Ancient",
-      "Unease"
+      "Unease",
+      "Gloambridge"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Ancient stones stand in a ring like teeth around a silent mouth. Lichen maps their surfaces in pale greens, and shallow carvings run beneath the growth—lines that look like writing until you stare too long. The air inside the circle feels… attentive. Not magical, exactly. Just older than comfort. People have left offerings at the bases of a few stones: coins, ribbons, a broken knife laid down with surprising care.",
+    "prompt": "In Gloambridge, where every tavern has a scholar and a spy, ancient stones stand in a ring like teeth around a silent mouth. Lichen maps their surfaces in pale greens, and shallow carvings run beneath the growth—lines that look like writing until you stare too long. The air inside the circle feels… attentive. Not magical, exactly. Just older than comfort. People have left offerings at the bases of a few stones: coins, ribbons, a broken knife laid down with surprising care.",
     "outcomes": [
       {
         "title": "Camp Within the Ring",
@@ -3740,11 +3760,12 @@
     "tags": [
       "Strife",
       "Tavern",
-      "Public"
+      "Public",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 60,
-    "prompt": "The tavern is loud in the way that makes mistakes feel like inevitability. Someone says something cheap. Someone else hears it like a knife. A chair scrapes back, a mug shatters, and suddenly the room is a storm of fists and splinters. In a brawl, nobody is innocent—only quicker or slower to choose a side.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, the tavern is loud in the way that makes mistakes feel like inevitability. Someone says something cheap. Someone else hears it like a knife. A chair scrapes back, a mug shatters, and suddenly the room is a storm of fists and splinters. In a brawl, nobody is innocent—only quicker or slower to choose a side.",
     "outcomes": [
       {
         "title": "Drop the Loudest One",
@@ -3932,11 +3953,12 @@
     "tags": [
       "Ambush",
       "Pursuit",
-      "Road Danger"
+      "Road Danger",
+      "Stonewold"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "An arrow thuds into the dirt beside your boot—close enough to be deliberate. The treeline is still. No bandit cry, no demands, no laughter. Just the message: someone has range, patience, and the choice of whether the next shot lands in soil or flesh.",
+    "prompt": "In Stonewold, where iron sings and tempers run as hot as the forges, an arrow thuds into the dirt beside your boot—close enough to be deliberate. The treeline is still. No bandit cry, no demands, no laughter. Just the message: someone has range, patience, and the choice of whether the next shot lands in soil or flesh.",
     "outcomes": [
       {
         "title": "Charge the Line",
@@ -4088,11 +4110,12 @@
     "tags": [
       "Strife",
       "Hunt",
-      "Wild"
+      "Wild",
+      "Stonewold"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "The hunt was meant to be routine: track, stalk, kill, eat. Instead, the woods shift and the air turns sharp. Something larger than you expected moves where it shouldn’t. Your quarry stops being food and becomes a problem with teeth, weight, and the will to make you bleed.",
+    "prompt": "In Stonewold, where iron sings and tempers run as hot as the forges, the hunt was meant to be routine: track, stalk, kill, eat. Instead, the woods shift and the air turns sharp. Something larger than you expected moves where it shouldn’t. Your quarry stops being food and becomes a problem with teeth, weight, and the will to make you bleed.",
     "outcomes": [
       {
         "title": "Bring It Down",
@@ -4277,11 +4300,12 @@
       "Strife",
       "Authority",
       "Checkpoint",
-      "Public"
+      "Public",
+      "Briarwatch"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A guard captain steps into your path with the easy confidence of someone backed by steel and paperwork. Their hand rests near the hilt, not gripping—just reminding. “State your business.” Behind them, two guards watch your hands more than your face. This isn’t a fight yet. It’s a decision about what kind of story you’re going to be today.",
+    "prompt": "Outside Briarwatch, where the frontier keeps its teeth, a guard captain steps into your path with the easy confidence of someone backed by steel and paperwork. Their hand rests near the hilt, not gripping—just reminding. “State your business.” Behind them, two guards watch your hands more than your face. This isn’t a fight yet. It’s a decision about what kind of story you’re going to be today.",
     "outcomes": [
       {
         "title": "Stand Tall",
@@ -4459,11 +4483,12 @@
     "tags": [
       "Blackmail",
       "Court Intrigue",
-      "Leverage"
+      "Leverage",
+      "Marrowgate"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A bundle of letters falls into your hands—sealed, scented, and written with the reckless confidence of people who assume servants are deaf and walls are loyal. Names appear often enough to matter. So do promises. You could profit, you could threaten, you could decode what they’re really saying… or you could burn the weapon before you learn to love holding it.",
+    "prompt": "In Marrowgate, where tolls are tradition and corruption is a local craft, a bundle of letters falls into your hands—sealed, scented, and written with the reckless confidence of people who assume servants are deaf and walls are loyal. Names appear often enough to matter. So do promises. You could profit, you could threaten, you could decode what they’re really saying… or you could burn the weapon before you learn to love holding it.",
     "outcomes": [
       {
         "title": "Sell Them Quietly",
@@ -4611,7 +4636,8 @@
       "Scheme",
       "City",
       "Reputation",
-      "Whispers"
+      "Whispers",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 70,
@@ -4799,11 +4825,12 @@
     "tags": [
       "Shelter",
       "Debt",
-      "Street Contacts"
+      "Street Contacts",
+      "Kestrelbank"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A hooded figure offers you a safehouse: a quiet room above a shop, a cellar with a second door, a place where questions don’t arrive with daylight. The offer smells of generosity—and hooks. Safehouses are never free. They are paid in coin, in favors, or in the slow realization that someone now knows where you sleep.",
+    "prompt": "In Kestrelbank, where bridges and ledgers decide who eats, a hooded figure offers you a safehouse: a quiet room above a shop, a cellar with a second door, a place where questions don’t arrive with daylight. The offer smells of generosity—and hooks. Safehouses are never free. They are paid in coin, in favors, or in the slow realization that someone now knows where you sleep.",
     "outcomes": [
       {
         "title": "Accept Shelter",
@@ -4956,11 +4983,12 @@
     "tags": [
       "Underworld",
       "Night Work",
-      "Risk"
+      "Risk",
+      "Kestrelbank"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A smuggler offers you work under moonlight. They don’t say ‘crime.’ They say ‘opportunity.’ A crate can be ‘goods.’ A hooded figure can be ‘cargo.’ The same boat carries both, and the same silence buys both. If you accept, you profit. If you refuse, you stay clean. If you betray them, you invite consequences that never knock politely.",
+    "prompt": "In Kestrelbank, where bridges and ledgers decide who eats, a smuggler offers you work under moonlight. They don’t say ‘crime.’ They say ‘opportunity.’ A crate can be ‘goods.’ A hooded figure can be ‘cargo.’ The same boat carries both, and the same silence buys both. If you accept, you profit. If you refuse, you stay clean. If you betray them, you invite consequences that never knock politely.",
     "outcomes": [
       {
         "title": "Move Goods",
@@ -5103,11 +5131,12 @@
     "tags": [
       "Court",
       "Law",
-      "Grudges"
+      "Grudges",
+      "Ashqar"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Two claimants corner you with smiles that don’t reach their eyes. One has paper. One has friends with swords. Both want your public support, because your support is a story they can tell the room. You can weigh the law, weigh the power, build a compromise, or profit from the uncertainty—knowing that people remember who they begged.",
+    "prompt": "At Ashqar’s oasis court, where shade and law trade places by noon, two claimants corner you with smiles that don’t reach their eyes. One has paper. One has friends with swords. Both want your public support, because your support is a story they can tell the room. You can weigh the law, weigh the power, build a compromise, or profit from the uncertainty—knowing that people remember who they begged.",
     "outcomes": [
       {
         "title": "Back the Lawful Claim",
@@ -5265,11 +5294,12 @@
       "Trial",
       "Loyalty",
       "Stakes",
-      "Public"
+      "Public",
+      "Ashqar"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "The courtroom smells of ink, sweat, and old authority. Your friend stands where the accused stand: shoulders squared, eyes tired, trying not to look at you too much. Their charge is the kind that stains by proximity. Helping them is not merely kindness—it is alignment. The judge watches. The crowd watches. And somewhere in the back, someone who benefits from your friend’s fall watches most closely of all.",
+    "prompt": "At Ashqar’s oasis court, where shade and law trade places by noon, the courtroom smells of ink, sweat, and old authority. Your friend stands where the accused stand: shoulders squared, eyes tired, trying not to look at you too much. Their charge is the kind that stains by proximity. Helping them is not merely kindness—it is alignment. The judge watches. The crowd watches. And somewhere in the back, someone who benefits from your friend’s fall watches most closely of all.",
     "outcomes": [
       {
         "title": "Speak for Them",
@@ -5468,11 +5498,12 @@
     "tags": [
       "Patronage",
       "Favors",
-      "Strings"
+      "Strings",
+      "High Valewyr"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A patron smiles as if you belong to their success. They ask for a ‘small service’ in a tone that makes it clear the service is only small to *them*. This is how power reproduces: favors traded like coins, obligations tucked into velvet. You can accept, negotiate, probe for the trap, or refuse where others can see—knowing refusal is its own kind of insult.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, a patron smiles as if you belong to their success. They ask for a ‘small service’ in a tone that makes it clear the service is only small to *them*. This is how power reproduces: favors traded like coins, obligations tucked into velvet. You can accept, negotiate, probe for the trap, or refuse where others can see—knowing refusal is its own kind of insult.",
     "outcomes": [
       {
         "title": "Accept Dutifully",
@@ -5622,11 +5653,12 @@
       "Court",
       "Reputation",
       "Social Pressure",
-      "Public"
+      "Public",
+      "High Valewyr"
     ],
     "minAge": 16,
     "maxAge": 45,
-    "prompt": "A matron with excellent memory and sharper etiquette draws you into a polite corner. She speaks of \"a most suitable match\"—names never quite said, intentions never quite confirmed. By the time you realize it, you’re already part of the evening’s entertainment: a possibility to be discussed, weighed, improved, or dismissed. In a hall like this, even rumors have teeth. You can play along, cut it cleanly, find the hand behind it, or turn the conversation into a weapon.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, a matron with excellent memory and sharper etiquette draws you into a polite corner. She speaks of \"a most suitable match\"—names never quite said, intentions never quite confirmed. By the time you realize it, you’re already part of the evening’s entertainment: a possibility to be discussed, weighed, improved, or dismissed. In a hall like this, even rumors have teeth. You can play along, cut it cleanly, find the hand behind it, or turn the conversation into a weapon.",
     "outcomes": [
       {
         "title": "Smile and Let It Spread",
@@ -5819,11 +5851,12 @@
       "Journey",
       "Breakdown",
       "Time Pressure",
-      "Roadside"
+      "Roadside",
+      "Briarwatch"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "The failure is sudden and final: a crack like a snapped bone, then the sickening tilt of your cart—or the sag of a pack rig—dumping weight into the mud. The sun is already dropping, and the road ahead is the kind that grows teeth after dusk. You can hear distant life on the wind: a dog barking, a wagon far off, maybe nothing at all. Whatever you decide, it has to happen now. Night does not negotiate.",
+    "prompt": "Outside Briarwatch, where the frontier keeps its teeth, the failure is sudden and final: a crack like a snapped bone, then the sickening tilt of your cart—or the sag of a pack rig—dumping weight into the mud. The sun is already dropping, and the road ahead is the kind that grows teeth after dusk. You can hear distant life on the wind: a dog barking, a wagon far off, maybe nothing at all. Whatever you decide, it has to happen now. Night does not negotiate.",
     "outcomes": [
       {
         "title": "Fix It Yourself",
@@ -6010,11 +6043,12 @@
       "Journey",
       "Winter",
       "Mountain",
-      "Isolation"
+      "Isolation",
+      "Frostbarrow Pass"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "The pass disappears under fresh snowfall as if the mountain has decided you don’t deserve to cross. Wind cuts the breath out of you. The world narrows to white, stone, and the cruel arithmetic of cold. Waiting means burning supplies and time. Pushing forward means risking the slope, the drop, the sudden silence of a buried path. Somewhere nearby, smoke might mean shelter—or strangers who won’t ask nicely before taking what you have.",
+    "prompt": "At Frostbarrow Pass, where winter bargains hard and mercy is expensive, the pass disappears under fresh snowfall as if the mountain has decided you don’t deserve to cross. Wind cuts the breath out of you. The world narrows to white, stone, and the cruel arithmetic of cold. Waiting means burning supplies and time. Pushing forward means risking the slope, the drop, the sudden silence of a buried path. Somewhere nearby, smoke might mean shelter—or strangers who won’t ask nicely before taking what you have.",
     "outcomes": [
       {
         "title": "Climb Through",
@@ -6208,11 +6242,12 @@
       "Journey",
       "Night",
       "Strangers",
-      "Risk"
+      "Risk",
+      "Briarwatch"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Your fire is a beacon, and beacons draw ships—sometimes wrecks. Footsteps approach beyond the light’s edge. A few figures emerge with palms open and voices soft. They claim to be travelers. They might be. They might also be hungry, desperate, armed, or simply opportunistic. In the dark, intent is hard to read. The choice you make now decides whether this night becomes a story you tell… or one told about you.",
+    "prompt": "Outside Briarwatch, where the frontier keeps its teeth, your fire is a beacon, and beacons draw ships—sometimes wrecks. Footsteps approach beyond the light’s edge. A few figures emerge with palms open and voices soft. They claim to be travelers. They might be. They might also be hungry, desperate, armed, or simply opportunistic. In the dark, intent is hard to read. The choice you make now decides whether this night becomes a story you tell… or one told about you.",
     "outcomes": [
       {
         "title": "Share the Fire",
@@ -6388,11 +6423,12 @@
       "Journey",
       "Toll",
       "Fraud",
-      "Authority"
+      "Authority",
+      "Marrowgate"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A rope across the road, a crude gate, and a man with a ledger that looks a little too clean for the mud around him. He claims official authority, names a lord you’ve heard of, and flashes papers that are plausible at a glance and suspicious on the second look. Behind him stand a few hard-eyed ‘assistants’ who don’t smile. Whether he’s legitimate or a thief in ink-stained clothing, he wants coin. The road is narrow. Turning back costs time. Going forward costs something else.",
+    "prompt": "In Marrowgate, where tolls are tradition and corruption is a local craft, a rope across the road, a crude gate, and a man with a ledger that looks a little too clean for the mud around him. He claims official authority, names a lord you’ve heard of, and flashes papers that are plausible at a glance and suspicious on the second look. Behind him stand a few hard-eyed ‘assistants’ who don’t smile. Whether he’s legitimate or a thief in ink-stained clothing, he wants coin. The road is narrow. Turning back costs time. Going forward costs something else.",
     "outcomes": [
       {
         "title": "Pay and Pass",
@@ -6571,11 +6607,12 @@
       "Lore",
       "Shrine",
       "Faith",
-      "Temptation"
+      "Temptation",
+      "Verdemont Abbey"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A roadside shrine leans like an old man who refuses to sit. Weather has gnawed the carvings smooth. The offering bowl still holds a few coins, a ribbon, a small charm of wood and wire. Someone still cares enough to leave something—yet no one cares enough to repair it. The air is quiet in that specific way that makes you feel watched, even if there’s nothing there. You can honor the place, study it, steal from it, or leave it to rot as the world does.",
+    "prompt": "At Verdemont Abbey, where vines climb stone and confession is a kind of currency, a roadside shrine leans like an old man who refuses to sit. Weather has gnawed the carvings smooth. The offering bowl still holds a few coins, a ribbon, a small charm of wood and wire. Someone still cares enough to leave something—yet no one cares enough to repair it. The air is quiet in that specific way that makes you feel watched, even if there’s nothing there. You can honor the place, study it, steal from it, or leave it to rot as the world does.",
     "outcomes": [
       {
         "title": "Restore It",
@@ -6750,11 +6787,12 @@
     "tags": [
       "Mentorship",
       "War Stories",
-      "Lessons"
+      "Lessons",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A scarred veteran speaks like someone who has stopped pretending the world is fair. They offer lessons—for coin, for respect, or for a favor you won’t understand until later. Their stories are entertaining, but the useful parts are the ones they don’t dramatize: small decisions made under pressure, and the ways people lie to themselves to keep moving.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a scarred veteran speaks like someone who has stopped pretending the world is fair. They offer lessons—for coin, for respect, or for a favor you won’t understand until later. Their stories are entertaining, but the useful parts are the ones they don’t dramatize: small decisions made under pressure, and the ways people lie to themselves to keep moving.",
     "outcomes": [
       {
         "title": "Pay for Lessons",
@@ -6901,11 +6939,12 @@
     "tags": [
       "Found Object",
       "Temptation",
-      "Secrecy"
+      "Secrecy",
+      "Gloambridge"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "You find a sealed coffer with no crest and no explanation. It doesn’t hum with magic. It hums with *importance*—the kind that gets couriers killed and makes honest men lie. The lock is clean. The wood is old. Whoever owned it expected it to arrive somewhere, and it did not.",
+    "prompt": "In Gloambridge, where every tavern has a scholar and a spy, you find a sealed coffer with no crest and no explanation. It doesn’t hum with magic. It hums with *importance*—the kind that gets couriers killed and makes honest men lie. The lock is clean. The wood is old. Whoever owned it expected it to arrive somewhere, and it did not.",
     "outcomes": [
       {
         "title": "Pick the Lock",
@@ -7061,11 +7100,12 @@
       "Lore",
       "Bureaucracy",
       "Records",
-      "Identity"
+      "Identity",
+      "Kestrelbank"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A mistake in ink can ruin you as thoroughly as a blade. Somewhere in a ledger, your name has been placed where it doesn’t belong—taxes you don’t owe, a crime you didn’t commit, a debt that isn’t yours. The people who trust paper more than faces will treat the record as truth. Correcting it means time, politics, and patience. Ignoring it means consequences that compound. And the quietest solution—the one done with forged strokes—risks becoming a crime of your own.",
+    "prompt": "In Kestrelbank, where bridges and ledgers decide who eats, a mistake in ink can ruin you as thoroughly as a blade. Somewhere in a ledger, your name has been placed where it doesn’t belong—taxes you don’t owe, a crime you didn’t commit, a debt that isn’t yours. The people who trust paper more than faces will treat the record as truth. Correcting it means time, politics, and patience. Ignoring it means consequences that compound. And the quietest solution—the one done with forged strokes—risks becoming a crime of your own.",
     "outcomes": [
       {
         "title": "Correct the Record",
@@ -7269,11 +7309,12 @@
     "tags": [
       "Travel",
       "Law",
-      "Public"
+      "Public",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 60,
-    "prompt": "A rope barrier and a bored sergeant stop the road. A ledger is opened, a hand is held out. The toll is small—until they decide you look like trouble.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a rope barrier and a bored sergeant stop the road. A ledger is opened, a hand is held out. The toll is small—until they decide you look like trouble.",
     "outcomes": [
       {
         "title": "Pay Without Fuss",
@@ -7436,11 +7477,12 @@
     "weight": 2,
     "tags": [
       "Travel",
-      "Scarcity"
+      "Scarcity",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Rain turns the world into a gray sheet. Your tinder is damp, your fingers numb. Night arrives with a hungry kind of silence.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, rain turns the world into a gray sheet. Your tinder is damp, your fingers numb. Night arrives with a hungry kind of silence.",
     "outcomes": [
       {
         "title": "Spend Supplies",
@@ -7607,11 +7649,12 @@
     "weight": 1,
     "tags": [
       "Travel",
-      "Trade"
+      "Trade",
+      "Gilderhaven"
     ],
     "minAge": 16,
     "maxAge": 60,
-    "prompt": "A small cart lies cockeyed in the ditch, axle snapped. The driver looks at you like you’re either salvation or another spectator.",
+    "prompt": "In Gilderhaven’s shipyards, where storms are politics and insurance is prayer, a small cart lies cockeyed in the ditch, axle snapped. The driver looks at you like you’re either salvation or another spectator.",
     "outcomes": [
       {
         "title": "Lift and Haul",
@@ -7778,11 +7821,12 @@
     "tags": [
       "Faith",
       "Lore",
-      "Travel"
+      "Travel",
+      "Verdemont Abbey"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A roadside shrine—stone bowl, faded icon, a stub of candle. Someone has left a tiny offering: bread, a copper, a ribbon.",
+    "prompt": "At Verdemont Abbey, where vines climb stone and confession is a kind of currency, a roadside shrine—stone bowl, faded icon, a stub of candle. Someone has left a tiny offering: bread, a copper, a ribbon.",
     "outcomes": [
       {
         "title": "Leave an Offering",
@@ -7945,11 +7989,12 @@
     "tags": [
       "Travel",
       "Risk",
-      "Temptation"
+      "Temptation",
+      "Briarwatch"
     ],
     "minAge": 16,
     "maxAge": 55,
-    "prompt": "Your fire is low. Nearby travelers speak in murmurs—plans, names, the sound of coin. They glance your way, measuring.",
+    "prompt": "Outside Briarwatch, where the frontier keeps its teeth, your fire is low. Nearby travelers speak in murmurs—plans, names, the sound of coin. They glance your way, measuring.",
     "outcomes": [
       {
         "title": "Keep Watch",
@@ -8123,11 +8168,12 @@
       "Court",
       "Public",
       "Reputation",
-      "Nobility"
+      "Nobility",
+      "High Valewyr"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A hall of waiting faces: farmers with caps in hands, merchants with ledgers, guards with bored eyes. Somewhere beyond a curtain, decisions are made.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, a hall of waiting faces: farmers with caps in hands, merchants with ledgers, guards with bored eyes. Somewhere beyond a curtain, decisions are made.",
     "outcomes": [
       {
         "title": "Speak for the Smallfolk",
@@ -8283,11 +8329,12 @@
     "tags": [
       "Court",
       "Reputation",
-      "Temptation"
+      "Temptation",
+      "High Valewyr"
     ],
     "minAge": 20,
     "maxAge": 70,
-    "prompt": "A laugh behind a goblet. A name spoken softly. Someone offers you a rumor like a sweet—dangerous and irresistible.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, a laugh behind a goblet. A name spoken softly. Someone offers you a rumor like a sweet—dangerous and irresistible.",
     "outcomes": [
       {
         "title": "Deflect with Grace",
@@ -8444,11 +8491,12 @@
     "tags": [
       "Court",
       "Law",
-      "Public"
+      "Public",
+      "Ashqar"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A herald reads proclamations until words lose meaning—then your ears catch one: new restrictions, new taxes, new punishments.",
+    "prompt": "At Ashqar’s oasis court, where shade and law trade places by noon, a herald reads proclamations until words lose meaning—then your ears catch one: new restrictions, new taxes, new punishments.",
     "outcomes": [
       {
         "title": "Learn the Letter of It",
@@ -8587,11 +8635,12 @@
     "tags": [
       "Court",
       "Temptation",
-      "Reputation"
+      "Reputation",
+      "Ashqar"
     ],
     "minAge": 28,
     "maxAge": 70,
-    "prompt": "A figure in a half-mask requests a private word. They offer assistance—coin, introductions, protection—in exchange for a future promise.",
+    "prompt": "At Ashqar’s oasis court, where shade and law trade places by noon, a figure in a half-mask requests a private word. They offer assistance—coin, introductions, protection—in exchange for a future promise.",
     "outcomes": [
       {
         "title": "Accept the Patronage",
@@ -8757,11 +8806,12 @@
     "tags": [
       "Court",
       "Trade",
-      "Law"
+      "Law",
+      "High Valewyr"
     ],
     "minAge": 22,
     "maxAge": 70,
-    "prompt": "An auditor’s clerk asks to see accounts, papers, receipts. Their quill pauses at your name like it has been waiting for it.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, an auditor’s clerk asks to see accounts, papers, receipts. Their quill pauses at your name like it has been waiting for it.",
     "outcomes": [
       {
         "title": "Produce Clean Records",
@@ -8931,7 +8981,8 @@
     "tags": [
       "Urban",
       "Underworld",
-      "Risk"
+      "Risk",
+      "Kestrelbank"
     ],
     "minAge": 16,
     "maxAge": 60,
@@ -9102,11 +9153,12 @@
     "weight": 2,
     "tags": [
       "Urban",
-      "Temptation"
+      "Temptation",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 28,
-    "prompt": "A ring of onlookers cheers as dice clatter on a crate. The stakes climb faster than sense. A hustler’s grin invites you in.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a ring of onlookers cheers as dice clatter on a crate. The stakes climb faster than sense. A hustler’s grin invites you in.",
     "outcomes": [
       {
         "title": "Play Straight",
@@ -9276,11 +9328,12 @@
     "weight": 1,
     "tags": [
       "Lore",
-      "Underworld"
+      "Underworld",
+      "Kestrelbank"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A folded note is slipped into your hand in the crowd. The symbols aren’t words—until you look at them sideways.",
+    "prompt": "In Kestrelbank, where bridges and ledgers decide who eats, a folded note is slipped into your hand in the crowd. The symbols aren’t words—until you look at them sideways.",
     "outcomes": [
       {
         "title": "Crack It Yourself",
@@ -9454,11 +9507,12 @@
     "tags": [
       "Urban",
       "Risk",
-      "Temptation"
+      "Temptation",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 55,
-    "prompt": "Behind a loose stone in an inn wall, you find an alcove: a small pouch, a ring, a list of names. Someone meant to return.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, behind a loose stone in an inn wall, you find an alcove: a small pouch, a ring, a list of names. Someone meant to return.",
     "outcomes": [
       {
         "title": "Take Only Coin",
@@ -9623,11 +9677,12 @@
     "tags": [
       "Urban",
       "Trade",
-      "Law"
+      "Law",
+      "Gilderhaven"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A hard knock at an inconvenient hour. A collector with polite eyes and strong friends asks about money you may or may not owe.",
+    "prompt": "In Gilderhaven’s shipyards, where storms are politics and insurance is prayer, a hard knock at an inconvenient hour. A collector with polite eyes and strong friends asks about money you may or may not owe.",
     "outcomes": [
       {
         "title": "Pay Something",
@@ -9795,7 +9850,8 @@
     "tags": [
       "Strife",
       "Reputation",
-      "Knightly"
+      "Knightly",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 32,
@@ -9962,11 +10018,12 @@
     "tags": [
       "Urban",
       "Risk",
-      "Public"
+      "Public",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 60,
-    "prompt": "A spilled drink becomes an insult, becomes a shove, becomes a room full of fists. Chairs scrape. Someone locks the door.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a spilled drink becomes an insult, becomes a shove, becomes a room full of fists. Chairs scrape. Someone locks the door.",
     "outcomes": [
       {
         "title": "End It Fast",
@@ -10131,11 +10188,12 @@
     "tags": [
       "Law",
       "Public",
-      "Strife"
+      "Strife",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A captain calls for able hands. Bandits, wolves, raiders—something has townsfolk scared enough to pay for spears.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a captain calls for able hands. Bandits, wolves, raiders—something has townsfolk scared enough to pay for spears.",
     "outcomes": [
       {
         "title": "Volunteer",
@@ -10305,11 +10363,12 @@
     "tags": [
       "Travel",
       "Trade",
-      "Risk"
+      "Risk",
+      "Gilderhaven"
     ],
     "minAge": 16,
     "maxAge": 60,
-    "prompt": "A merchant caravan offers you temporary work: one road, one payout. They warn you the last caravan lost two guards and all its spice.",
+    "prompt": "In Gilderhaven’s shipyards, where storms are politics and insurance is prayer, a merchant caravan offers you temporary work: one road, one payout. They warn you the last caravan lost two guards and all its spice.",
     "outcomes": [
       {
         "title": "Take the Job",
@@ -10483,11 +10542,12 @@
     "tags": [
       "Reputation",
       "Risk",
-      "Travel"
+      "Travel",
+      "Greenfold"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A hunt meant for sport turns sharp. The boar doesn’t flee; it charges. Someone screams. The forest decides who gets to be noble today.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a hunt meant for sport turns sharp. The boar doesn’t flee; it charges. Someone screams. The forest decides who gets to be noble today.",
     "outcomes": [
       {
         "title": "Face the Beast",
@@ -10657,11 +10717,12 @@
     "weight": 2,
     "tags": [
       "Lore",
-      "Travel"
+      "Travel",
+      "Greyvault"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A book you borrowed for one purpose contains another: a map scribbled in the margins, roads that don’t exist anymore, a mark that might mean treasure—or tragedy.",
+    "prompt": "Near Greyvault’s cliff-carved archives, where the wind tastes like old ink, a book you borrowed for one purpose contains another: a map scribbled in the margins, roads that don’t exist anymore, a mark that might mean treasure—or tragedy.",
     "outcomes": [
       {
         "title": "Copy the Map",
@@ -10828,7 +10889,8 @@
     "weight": 1,
     "tags": [
       "Lore",
-      "Risk"
+      "Risk",
+      "Gloambridge"
     ],
     "minAge": 16,
     "maxAge": 70,
@@ -10995,11 +11057,12 @@
     "tags": [
       "Lore",
       "Travel",
-      "Faith"
+      "Faith",
+      "Verdemont Abbey"
     ],
     "minAge": 16,
     "maxAge": 30,
-    "prompt": "A hedge-healer invites you to identify plants by smell and bitterness. 'The world wants to poison you,' they say. 'Learn its language.'",
+    "prompt": "At Verdemont Abbey, where vines climb stone and confession is a kind of currency, a hedge-healer invites you to identify plants by smell and bitterness. 'The world wants to poison you,' they say. 'Learn its language.'",
     "outcomes": [
       {
         "title": "Learn Diligently",
@@ -11174,11 +11237,12 @@
     "tags": [
       "Lore",
       "Court",
-      "Law"
+      "Law",
+      "Gloambridge"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A clerk miscopies a name in a register. The mistake is small—until you realize the wrong name is yours.",
+    "prompt": "In Gloambridge, where every tavern has a scholar and a spy, a clerk miscopies a name in a register. The mistake is small—until you realize the wrong name is yours.",
     "outcomes": [
       {
         "title": "Correct It Politely",
@@ -11334,11 +11398,12 @@
     "weight": 1,
     "tags": [
       "Lore",
-      "LowMagic"
+      "Low Magic",
+      "Greyvault"
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "A clear night reveals a strange alignment—one star blinking red as if embarrassed to be seen. Old folk mutter prayers. Scholars mutter theories. You mutter… decisions.",
+    "prompt": "Near Greyvault’s cliff-carved archives, where the wind tastes like old ink, a clear night reveals a strange alignment—one star blinking red as if embarrassed to be seen. Old folk mutter prayers. Scholars mutter theories. You mutter… decisions.",
     "outcomes": [
       {
         "title": "Treat It as Superstition",
@@ -11507,11 +11572,12 @@
     "tags": [
       "Court",
       "Family",
-      "Reputation"
+      "Reputation",
+      "High Valewyr"
     ],
     "minAge": 50,
     "maxAge": 70,
-    "prompt": "Letters arrive with wax seals and fine hands: offers, insinuations, and ‘helpful’ counsel on whom your heir ought to wed. Each comes with a price—spoken or not.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, letters arrive with wax seals and fine hands: offers, insinuations, and ‘helpful’ counsel on whom your heir ought to wed. Each comes with a price—spoken or not.",
     "outcomes": [
       {
         "title": "Choose the Strongest Alliance",
@@ -11697,11 +11763,12 @@
     "tags": [
       "Lore",
       "Health",
-      "Court"
+      "Court",
+      "Wrenfield"
     ],
     "minAge": 52,
     "maxAge": 70,
-    "prompt": "A physician with careful eyes asks to see your hands, your tongue, the whites of your eyes. Their answer is measured—but it lands like a hammer all the same.",
+    "prompt": "In Wrenfield, where plague taught people to count breaths and measure trust, a physician with careful eyes asks to see your hands, your tongue, the whites of your eyes. Their answer is measured—but it lands like a hammer all the same.",
     "outcomes": [
       {
         "title": "Follow the Regimen",
@@ -11892,11 +11959,12 @@
       "Urban",
       "Underworld",
       "Secrets",
-      "Law"
+      "Law",
+      "Marrowgate"
     ],
     "minAge": 50,
     "maxAge": 70,
-    "prompt": "A face you haven’t seen in years appears in a doorway—older, sharper, and smiling like they already know what you did to survive.",
+    "prompt": "In Marrowgate, where tolls are tradition and corruption is a local craft, a face you haven’t seen in years appears in a doorway—older, sharper, and smiling like they already know what you did to survive.",
     "outcomes": [
       {
         "title": "Pay Them Off",
@@ -12081,11 +12149,12 @@
     "tags": [
       "Travel",
       "Scarcity",
-      "Health"
+      "Health",
+      "Wrenfield"
     ],
     "minAge": 55,
     "maxAge": 70,
-    "prompt": "The same road you once took in a day now demands two. Every hill feels steeper; every mile asks a price in breath.",
+    "prompt": "In Wrenfield, where plague taught people to count breaths and measure trust, the same road you once took in a day now demands two. Every hill feels steeper; every mile asks a price in breath.",
     "outcomes": [
       {
         "title": "Travel Light",
@@ -12283,11 +12352,12 @@
       "Law",
       "Public",
       "Strife",
-      "Reputation"
+      "Reputation",
+      "Greenfold"
     ],
     "minAge": 50,
     "maxAge": 70,
-    "prompt": "A messenger arrives with a muster order. The realm calls bodies to a banner—and your name is on the list, as if time never touched you.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a messenger arrives with a muster order. The realm calls bodies to a banner—and your name is on the list, as if time never touched you.",
     "outcomes": [
       {
         "title": "Attend as a Captain",
@@ -12481,11 +12551,12 @@
       "Court",
       "Law",
       "Family",
-      "Trade"
+      "Trade",
+      "High Valewyr"
     ],
     "minAge": 60,
     "maxAge": 70,
-    "prompt": "A distant cousin produces a ‘true’ copy of a testament, and suddenly your house is a table where strangers sit and count your silver.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, a distant cousin produces a ‘true’ copy of a testament, and suddenly your house is a table where strangers sit and count your silver.",
     "outcomes": [
       {
         "title": "Produce the Original",
@@ -12671,11 +12742,12 @@
     "tags": [
       "Lore",
       "Mentorship",
-      "Public"
+      "Public",
+      "Greyvault"
     ],
     "minAge": 50,
     "maxAge": 70,
-    "prompt": "A bright-eyed apprentice begs for lessons: sword forms, ledger tricks, court etiquette—whatever you’re known for. Teaching is a kind of legacy.",
+    "prompt": "Near Greyvault’s cliff-carved archives, where the wind tastes like old ink, a bright-eyed apprentice begs for lessons: sword forms, ledger tricks, court etiquette—whatever you’re known for. Teaching is a kind of legacy.",
     "outcomes": [
       {
         "title": "Teach with Patience",
@@ -12847,11 +12919,12 @@
     "tags": [
       "Urban",
       "Reputation",
-      "Secrets"
+      "Secrets",
+      "Greenfold"
     ],
     "minAge": 55,
     "maxAge": 70,
-    "prompt": "A note arrives without signature. It lists three facts only you would know, and ends with a request written as if it’s already agreed upon.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a note arrives without signature. It lists three facts only you would know, and ends with a request written as if it’s already agreed upon.",
     "outcomes": [
       {
         "title": "Pay in Secrets",
@@ -13030,11 +13103,12 @@
     "tags": [
       "Faith",
       "Travel",
-      "Health"
+      "Health",
+      "Verdemont Abbey"
     ],
     "minAge": 55,
     "maxAge": 70,
-    "prompt": "You consider a pilgrimage—not for glory, but for quiet. A road walked slowly can still change you, if you survive it.",
+    "prompt": "At Verdemont Abbey, where vines climb stone and confession is a kind of currency, you consider a pilgrimage—not for glory, but for quiet. A road walked slowly can still change you, if you survive it.",
     "outcomes": [
       {
         "title": "Walk the Long Road",
@@ -13092,7 +13166,7 @@
         }
       },
       {
-        "title": "Ride with the Synod",
+        "title": "Ride with the Hospice Caravan",
         "desc": "Travel under holy protection—at a cost in favors.",
         "stat": "Gravitas",
         "diff": 2,
@@ -13250,11 +13324,12 @@
     "tags": [
       "Underworld",
       "Risk",
-      "Strife"
+      "Strife",
+      "Marrowgate"
     ],
     "minAge": 50,
     "maxAge": 70,
-    "prompt": "You wake to the softest sound: cloth on stone, breath held too carefully. Someone is in the room with you, and they did not come to talk.",
+    "prompt": "In Marrowgate, where tolls are tradition and corruption is a local craft, you wake to the softest sound: cloth on stone, breath held too carefully. Someone is in the room with you, and they did not come to talk.",
     "outcomes": [
       {
         "title": "Fight From the Bed",
