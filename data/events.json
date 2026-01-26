@@ -29857,5 +29857,3198 @@
       }
     ],
     "majorStage": "major"
+  },
+  {
+    "id": "sl_wc_01_wolfish_invitation",
+    "name": "A Wolfish Invitation",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "High Valewyr",
+      "Stag Court",
+      "Storyline: Wolf Court",
+      "Story:WC"
+    ],
+    "minAge": 18,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "NotFlag",
+        "id": "sl_wc_active"
+      },
+      {
+        "type": "NotFlag",
+        "id": "sl_wc_done"
+      }
+    ],
+    "prompt": "In High Valewyr, invitations are weapons dressed as parchment. A sealed note finds your hand at dusk: a small supper in a side-hall of the palace, where the laughter is softer and the knives are sharper. The messenger doesn\u2019t say your host\u2019s name\u2014only that you\u2019ve been 'noticed.' In the margin, a wolf\u2019s head is drawn in ink so fine it could be a threat or a joke.",
+    "outcomes": [
+      {
+        "title": "Attend With Care",
+        "desc": "Show up, say little, and listen harder than you speak.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You arrive early enough to see who arrives late on purpose. You trade pleasantries like small coins and spend them only when it buys you silence. When the supper ends, a hand lingers on your shoulder a heartbeat too long\u2014approval, or possession. Either way, you are now inside the room where reputations are made.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_entry_care",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You keep your face composed, but your timing betrays you\u2014one laugh too late, one glance too long. A few eyes mark you for later use. You leave the hall with the sense that you\u2019ve stepped into a game whose rules you do not yet know.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_entry_care",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Arrive in Splendor",
+        "desc": "Let them see you before they decide what you are worth.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown",
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You make an entrance that forces the room to account for you. Conversation turns, then returns, but it returns differently\u2014adjusted. Someone who matters laughs at your smallest joke. Someone who hates you decides you\u2019re dangerous. The wolf\u2019s head in the margin feels less like a doodle now, and more like a mark of prey and hunter both.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            },
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_entry_bold",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your finery draws attention, but attention is not always respect. A small comment\u2014perfectly placed\u2014turns your display into a story about vanity. You smile through it, yet you can feel the room\u2019s teeth. The invitation has worked: you are a topic now.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_entry_bold",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Send a Substitute",
+        "desc": "Keep yourself out of sight and learn what you can through another\u2019s eyes.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "Your proxy returns with a careful recounting of names, mannerisms, and who avoided whose gaze. It isn\u2019t as good as being there, but it is safer, and you still come away with a thread you can pull later. In the court, absence is suspicious\u2014yet sometimes suspicion keeps you alive.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_entry_shadow",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your proxy is noticed. Questions are asked in the wrong tone. By morning, a rumor has already blossomed: that you fear the hall, or that you have something to hide. In places like this, either rumor can be made into an arrest.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_entry_shadow",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Decline Publicly",
+        "desc": "Refuse the invitation as a statement. Let them wonder why.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Oathbound (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You refuse with calm certainty and offer no explanation. The messenger bows and leaves, but the message has been delivered all the same. Some respect you for it. Others decide they\u2019ll bring you to heel. Either way, you\u2019ve announced yourself to the wolves.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_entry_refusal",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your refusal becomes entanglement. Someone counters with a 'request' framed as a courtesy you cannot decline. By the end of the day, your name has been tied to a promise you did not mean to make. In High Valewyr, a refusal can be rewritten into an obligation.",
+          "conditions": [
+            {
+              "id": "Oathbound",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_entry_refusal",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "wc",
+      "name": "The Wolf Court",
+      "rarity": "uncommon",
+      "step": 1,
+      "role": "hook",
+      "total": 5
+    }
+  },
+  {
+    "id": "sl_wc_02_the_seating_ledger",
+    "name": "The Seating Ledger",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "High Valewyr",
+      "Widow\u2019s Market",
+      "Storyline: Wolf Court",
+      "Story:WC"
+    ],
+    "minAge": 18,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "HasFlag",
+        "id": "sl_wc_step2"
+      }
+    ],
+    "prompt": "The next time you step into the palace precincts, a clerk you\u2019ve never met greets you like an old friend. Under their arm is a thin ledger\u2014nothing official, nothing that should exist. It lists who sat beside whom, who was served first, who was made to wait. In the margins: tiny wolf heads, one beside each name that can ruin you with a smile.",
+    "outcomes": [
+      {
+        "title": "Buy the Ledger Quietly",
+        "desc": "Coin for ink, ink for leverage.",
+        "stat": "Coin",
+        "diff": 0,
+        "allowed": [
+          "Seal",
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "In Debt (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You pay without haggling and tuck the ledger where no honest eye will see it. The clerk\u2019s relief is practiced\u2014like they\u2019ve sold the same danger before. Later, alone, you read the seating like a battlefield map. It doesn\u2019t tell you who the wolves are. It tells you who they\u2019ve already chosen to circle.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step2",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step3",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_path_ledger",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You pay, but payment is a trail. Before you\u2019ve even opened the ledger, someone else knows you have it. The clerk vanishes. A door you used to pass through without notice feels watched. Leverage is only leverage if you\u2019re the one holding it.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step2",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step3",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_path_ledger",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Memorize and Return It",
+        "desc": "Take the knowledge and leave no object to be found.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You read quickly and commit the patterns to memory\u2014who is rising, who is being iced out, who pretends not to notice. You hand the ledger back as though it were boring. That night, you repeat names in the dark until they feel carved into your skull. No one can steal what you never carried.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            },
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step2",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step3",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_path_rumor",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You try to swallow the ledger in a single glance, but the details slip through you like water. You give it back too quickly and the clerk looks disappointed\u2014or relieved. You leave with only fragments: enough to make you suspicious, not enough to make you safe.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step2",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step3",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_path_rumor",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Challenge the Clerk",
+        "desc": "Demand to know who pays them to keep such a book.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "Your grip on their sleeve is firm enough to make the ledger tremble. The clerk hisses a name\u2014not a person, but a place: a side-hall where laughter stays low and doors lock from the outside. You release them before you cross a line you can\u2019t uncross, but you feel the court react, as if it has scented blood.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step2",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step3",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_path_blade",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You loom, and they cry out. Suddenly you are the threat, and threats in palaces are handled quickly. The ledger disappears under a dozen hands. You are escorted away with polite force and the certainty that you\u2019ve made an enemy you can\u2019t see.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step2",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step3",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_path_blade",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "wc",
+      "name": "The Wolf Court",
+      "rarity": "uncommon",
+      "step": 2,
+      "role": "step",
+      "total": 5
+    }
+  },
+  {
+    "id": "sl_wc_03a_ink_between_names",
+    "name": "Ink Between Names",
+    "context": "Scheme",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "High Valewyr",
+      "Widow\u2019s Market",
+      "Storyline: Wolf Court",
+      "Story:WC"
+    ],
+    "minAge": 18,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "HasFlag",
+        "id": "sl_wc_step3"
+      },
+      {
+        "type": "HasFlag",
+        "id": "wc_path_ledger"
+      }
+    ],
+    "prompt": "You take what you\u2019ve learned and test it against the city. In Widow\u2019s Market, gossip is bought and sold like fish\u2014fresh, slippery, and best consumed quickly. A washerwoman mentions a courtier\u2019s 'new friend.' A guard complains about a sudden reassignment. The patterns from the seating ledger echo everywhere, as if the court\u2019s hunger has spilled into the streets.",
+    "outcomes": [
+      {
+        "title": "Follow the Pattern",
+        "desc": "Trace the connections until you find the wolf-head at the center.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Veil"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You connect three small stories into one large truth. The wolf-head marks a circle of favors exchanged in private rooms, all pointing toward a single patron with a gentle voice and brutal reach. You leave with a name you can use\u2014or fear.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 2
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_clue_named",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You chase rumors until they start chasing you. By nightfall you\u2019re not sure which whispers are true and which were planted to guide you into a trap. You get out, but you\u2019ve spent yourself.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_clue_named",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Pay for the Truth",
+        "desc": "Slip coin where honesty won\u2019t go.",
+        "stat": "Coin",
+        "diff": 0,
+        "allowed": [
+          "Seal",
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "In Debt (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You buy a confession in three installments: a drink, a favor, and a coin. The truth arrives as if it were nothing, and yet it changes the shape of the court in your mind. Someone important is collecting debts like trophies.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_paid_truth",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You pay, and you receive something\u2014but you can\u2019t tell if it\u2019s truth or a story crafted to waste your time. In High Valewyr, coin buys speech. It does not buy honesty.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_paid_truth",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Leave No Trail",
+        "desc": "Gather what you can, then cut away clean.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Veil"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Marked (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You keep your hands clean\u2014at least in public. You learn enough to avoid the worst snares and quietly adjust your own place in the city\u2019s web. Somewhere behind you, you feel the faint pressure of attention, but it never closes.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_kept_clean",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You cut away too late. A messenger bumps your shoulder in a crowd and smiles without warmth. You can\u2019t prove you\u2019re being watched, but your skin believes it. You have stepped close enough to be noticed.",
+          "conditions": [
+            {
+              "id": "Marked",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_kept_clean",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "wc",
+      "name": "The Wolf Court",
+      "rarity": "uncommon",
+      "step": 3,
+      "role": "step",
+      "total": 5
+    }
+  },
+  {
+    "id": "sl_wc_03b_the_smiling_rival",
+    "name": "The Smiling Rival",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "High Valewyr",
+      "Stag Court",
+      "Storyline: Wolf Court",
+      "Story:WC"
+    ],
+    "minAge": 18,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "HasFlag",
+        "id": "sl_wc_step3"
+      },
+      {
+        "type": "HasFlag",
+        "id": "wc_path_rumor"
+      }
+    ],
+    "prompt": "At the next gathering, someone approaches as if you\u2019ve always been friends. Their smile is perfect. Their eyes are not. They offer you a compliment that doubles as a challenge and a story that sounds like a gift until you realize it has a hook buried in it. If you refuse, you will be rude. If you accept, you will be owned.",
+    "outcomes": [
+      {
+        "title": "Trade Compliments Like Blades",
+        "desc": "Meet them in kind. Make the room laugh at your timing.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You answer with honeyed steel. The room laughs in the right places, and the rival\u2019s smile tightens for the first time. You don\u2019t win the court\u2019s love\u2014no one wins that\u2014but you win a moment, and moments are currency here.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_rival_checked",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You speak, and the words almost land\u2014almost. The rival pivots, turns your line back on you, and the laughter goes the wrong direction. You leave with your pride bruised and your name slightly less secure.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_rival_checked",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Smile and Steal",
+        "desc": "Let them talk. Take what matters from the edges of their story.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You let them perform. While they do, you listen for the seams\u2014the names they avoid, the insult tucked into a compliment. Later, you repeat one harmless detail to the right person and watch it cause quiet panic. You keep the real prize for yourself.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 2
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_rival_leverage",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You reach for the hook and it catches you instead. The rival\u2019s story spreads with you at its center, and by the time you realize what they\u2019ve done, the damage is already dressed as 'concern.' If someone wants you questioned, the court will oblige.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_rival_leverage",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Walk Away Before It Bites",
+        "desc": "Refuse the game by not playing it.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Oathbound (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You bow, apologize with impeccable restraint, and withdraw. The rival watches you go as though tasting your absence. Later, someone quietly offers you a safer seat at the next gathering\u2014proof that your restraint has been noticed and rewarded.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_withdrew",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You try to leave cleanly, but courtesy becomes a chain. A hand stops you, a request is made, and suddenly you are bound to a small promise you cannot refuse without insult. In this place, even exits can become obligations.",
+          "conditions": [
+            {
+              "id": "Oathbound",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_withdrew",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "wc",
+      "name": "The Wolf Court",
+      "rarity": "uncommon",
+      "step": 3,
+      "role": "step",
+      "total": 5
+    }
+  },
+  {
+    "id": "sl_wc_03c_the_locked_sidehall",
+    "name": "The Locked Side-Hall",
+    "context": "Strife",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "High Valewyr",
+      "Side-Hall",
+      "Storyline: Wolf Court",
+      "Story:WC"
+    ],
+    "minAge": 18,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "HasFlag",
+        "id": "sl_wc_step3"
+      },
+      {
+        "type": "HasFlag",
+        "id": "wc_path_blade"
+      }
+    ],
+    "prompt": "You follow the whispered directions to a side-hall where the doors lock from the outside. Inside, a handful of courtiers drink as if they\u2019re afraid of sobriety. A guard you recognize watches the door. Someone toasts you without standing. On the wall hangs a tapestry of wolves running down a stag\u2014stitched so carefully it looks like a prophecy.",
+    "outcomes": [
+      {
+        "title": "Hold Your Ground",
+        "desc": "Let them test you and find you unyielding.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Severe)"
+          ]
+        },
+        "success": {
+          "text": "The first shove becomes a scuffle; the scuffle becomes a lesson. You don\u2019t draw steel, but your body speaks clearly enough. When it\u2019s over, you are breathing hard and standing where you began. Someone laughs\u2014genuinely this time. You are not safe, but you are respected.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 2
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_sidehall_won",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "They come at you in a knot of elbows and contempt. You land hits, but not enough. When you stumble, a boot finds your ribs. You leave the side-hall with blood in your mouth and the certainty that the wolves will try again.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_sidehall_won",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Turn Their Test Into a Joke",
+        "desc": "Make them laugh so they forget to bite.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You answer their cruelty with charm, turning the tension into theater. The guard\u2019s mouth twitches as if they\u2019re trying not to smile. By the end of the night, you\u2019ve turned an ambush into an audience. It isn\u2019t friendship, but it\u2019s not blood either.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_sidehall_softened",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your joke lands wrong. The room goes quiet in the way a blade goes quiet before it strikes. Someone calls you out, and the laughter that follows is the kind that breaks things. You leave with your reputation nicked open.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_sidehall_softened",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Slip Away With a Trophy",
+        "desc": "If they want a game, leave them poorer for playing it.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Steel"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "While eyes are on the insult and not the room, your fingers find what matters: a signet, a letter, a token that should not be here. You vanish before anyone can decide what you are. Outside, the night air tastes clean. In your palm, the trophy is warm with danger.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            },
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_trophy_taken",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You reach for the trophy and a hand closes around your wrist. The guard\u2019s eyes are flat. A word is spoken, and suddenly the night is full of footsteps. If you get out, it will be as someone the palace wants to find.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_trophy_taken",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "wc",
+      "name": "The Wolf Court",
+      "rarity": "uncommon",
+      "step": 3,
+      "role": "step",
+      "total": 5
+    }
+  },
+  {
+    "id": "sl_wc_04_the_public_accusation",
+    "name": "The Public Accusation",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "High Valewyr",
+      "Contract Court",
+      "Storyline: Wolf Court",
+      "Story:WC"
+    ],
+    "minAge": 18,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "HasFlag",
+        "id": "sl_wc_step4"
+      }
+    ],
+    "prompt": "A notice appears in the contract court\u2014dry ink, sharp wording. Your name is included in a dispute you do not recognize, tied to obligations you never signed. The hall fills with spectators who pretend they\u2019re only here for justice. Across the aisle, your smiling rival watches as though this is a play they\u2019ve already seen.",
+    "outcomes": [
+      {
+        "title": "Produce a Counter-Record",
+        "desc": "Fight ink with ink. Force the court to acknowledge the lie.",
+        "stat": "Wit",
+        "diff": 4,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You present the right record in the right order. The clerk\u2019s quill slows. A murmur ripples through the benches as the lie reveals its seams. The magistrate\u2019s face tightens; they don\u2019t like being played. Someone important meets your gaze for the first time, not amused\u2014interested.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 2
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step5",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_cleared",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your evidence is good, but not good enough. A signature that looks like yours is produced. A witness swears they saw you. The court does what courts do: it chooses the simplest story. Your name leaves the hall with a bruise that will show through every introduction.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step5",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_accused",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Turn the Crowd",
+        "desc": "If the court is theater, win the audience first.",
+        "stat": "Gravitas",
+        "diff": 4,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You speak as if the court belongs to you. The spectators nod, then murmur, then lean forward, hungry for the story you\u2019re giving them. The magistrate is forced to slow the proceedings. Someone who came to watch you fall now watches you rise\u2014and that shift is its own kind of protection.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 2
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step5",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_cleared",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your words inflame instead of persuade. The hall turns against you, not with anger but with certainty\u2014the certainty of a crowd that wants a villain. The magistrate lifts a hand, and guards move as if they\u2019ve been waiting for this moment all day.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step5",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_accused",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Cut a Private Bargain",
+        "desc": "Find the right door, the right person, and trade something you can afford to lose.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "In Debt (Minor)"
+          ]
+        },
+        "success": {
+          "text": "The bargain is made in a corridor that smells of wax and old paper. You give up a small secret and receive a larger favor. The dispute dissolves into procedural fog. You walk out 'cleared,' but you can feel the price waiting in the future, patient as a wolf.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step5",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_shadowed",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You reach for a bargain and find only locked doors. The people who might have helped you are suddenly 'unavailable.' Someone has already paid for your isolation. The court proceeds without your consent, and you are left watching your own story be written by strangers.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step5",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "wc_shadowed",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "wc",
+      "name": "The Wolf Court",
+      "rarity": "uncommon",
+      "step": 4,
+      "role": "step",
+      "total": 5
+    }
+  },
+  {
+    "id": "sl_wc_05_the_wolf_crowned_smile",
+    "name": "The Wolf-Crowned Smile",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "High Valewyr",
+      "Stag Court",
+      "Storyline: Wolf Court",
+      "Story:WC"
+    ],
+    "minAge": 18,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "HasFlag",
+        "id": "sl_wc_step5"
+      }
+    ],
+    "prompt": "Another supper. Another side-hall. This time, you are placed carefully\u2014close enough to be seen, far enough to be contained. A cup is raised. A toast is offered to 'new understanding.' Across the table, your rival smiles as though the whole court is a jaw and you are a morsel it has decided to savor.",
+    "outcomes": [
+      {
+        "title": "Accept the Court\u2019s Favor",
+        "desc": "Take the seat they offer and make it yours.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence",
+            "Renown"
+          ],
+          "risks": []
+        },
+        "success": {
+          "text": "You drink. You smile. You return a toast so precise it sounds inevitable. The room relaxes\u2014not because it trusts you, but because it understands you. You leave with a thread of favor wrapped around your wrist like a bracelet. It will tighten if you pull too hard.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 2
+            },
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_done",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_active",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step5",
+              "mode": "Remove"
+            },
+            {
+              "id": "wc_ending_favored",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You try to take the favor without giving anything back, and the room feels it. Smiles sharpen. The toast ends too quickly. You leave with polite nods and no warmth, having failed to become what they wanted. In this place, that is noticed.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_done",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_active",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step5",
+              "mode": "Remove"
+            },
+            {
+              "id": "wc_ending_favored",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Leave With Your Name Intact",
+        "desc": "Refuse to be owned. Exit while you still can.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Veil"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Marked (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You stand, offer a graceful excuse, and walk out before anyone can stop you without making a scene. You do not win the court. You survive it. Outside, the night air feels like a blessing. Behind you, the wolves will talk. Let them.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 2
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_done",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_active",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step5",
+              "mode": "Remove"
+            },
+            {
+              "id": "wc_ending_escaped",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You move to leave and a question hooks you in place. A promise is demanded. You refuse, and the refusal becomes a story told in the wrong tone. You get out, but you can feel a new kind of attention following your steps\u2014curious, patient, hungry.",
+          "conditions": [
+            {
+              "id": "Marked",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_done",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_active",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step5",
+              "mode": "Remove"
+            },
+            {
+              "id": "wc_ending_escaped",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Turn the Wolves on Each Other",
+        "desc": "If you can\u2019t leave cleanly, leave chaos behind.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You whisper the right name into the right ear and watch the table tilt. A toast becomes an argument, an argument becomes a feud. You slip out in the noise, carrying a handful of secrets like stolen rings. The court will survive. It always does. But it will remember you as trouble.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 2
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_done",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_active",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step5",
+              "mode": "Remove"
+            },
+            {
+              "id": "wc_ending_shadowed",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You try to ignite a feud and it catches you first. Someone stands; guards move; your rival\u2019s smile finally becomes honest. You escape by speed or luck, but you leave behind a name that now fits neatly into a warrant.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_wc_done",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_wc_active",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_wc_step5",
+              "mode": "Remove"
+            },
+            {
+              "id": "wc_ending_shadowed",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "wc",
+      "name": "The Wolf Court",
+      "rarity": "uncommon",
+      "step": 5,
+      "role": "ending",
+      "total": 5
+    }
+  },
+  {
+    "id": "sl_pa_01_ash_pilgrims_road",
+    "name": "The Ash-Pilgrim\u2019s Road",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Ash Road",
+      "Waystones",
+      "Storyline: Pilgrimage of Ash",
+      "Story:PA"
+    ],
+    "minAge": 16,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "NotFlag",
+        "id": "sl_pa_active"
+      },
+      {
+        "type": "NotFlag",
+        "id": "sl_pa_done"
+      }
+    ],
+    "prompt": "On the Ash Road, travelers leave little piles of grey powder at the base of waystones\u2014offerings for the dead, or wards against them. A small band of pilgrims walks ahead of you, their voices hoarse from singing. One of them coughs into their sleeve and the sound is wet. They look back as if asking you to decide what kind of person you are, here on a road that leads toward smoke and bells.",
+    "outcomes": [
+      {
+        "title": "Walk With Them",
+        "desc": "Share water and pace, and take their burden for a while.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Ill (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You match their pace and offer what comfort you can. The singing steadies. A pilgrim tells you a story of a hospice beyond the next ridge, where candles are kept burning for anyone who arrives. When you part ways, they press ash into your palm like a blessing.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_pa_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_compassion",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You stay with them, but the cough worsens. The night is cold and shared breaths are close. By morning your throat aches and your limbs feel heavy. The pilgrims thank you anyway, because kindness doesn\u2019t stop sickness\u2014only proves you were willing to try.",
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_pa_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_compassion",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Keep Your Distance",
+        "desc": "Offer coin or supplies, but don\u2019t share the air.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You keep a respectful distance and still help\u2014water left where they can take it, coin pressed into the hand of their leader. They nod with tired gratitude. You avoid the worst risk and still earn a quiet kind of respect: the kind reserved for those who help without needing to be seen doing it.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_pa_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_cautious",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your caution reads like cruelty. One pilgrim spits in the dust and calls you a coward. The word sticks to you longer than it should. Even if you were right, the road remembers the shape of your choices.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_pa_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_cautious",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Take Their Map",
+        "desc": "If they\u2019re headed for trouble, at least leave with something useful.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Supplies",
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "A satchel strap slips, a folded map changes hands, and no one notices until you\u2019re already walking away. The map is marked with hospice signs, guarded gates, and a shortcut that avoids the worst marshes. It\u2019s practical knowledge\u2014and practical knowledge often looks like theft.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 2
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_pa_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_stole_map",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your fingers are quick, but not quick enough. A pilgrim\u2019s shout draws eyes. The road is wide, but blame travels fast. You escape, yet you can feel the future narrowing: gates, questions, hands on hilts when you approach.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_active",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_pa_step2",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_stole_map",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "pa",
+      "name": "Pilgrimage of Ash",
+      "rarity": "common",
+      "step": 1,
+      "role": "hook",
+      "total": 4
+    }
+  },
+  {
+    "id": "sl_pa_02_quarantine_gate",
+    "name": "The Quarantine Gate",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Ash Road",
+      "Gatehouse",
+      "Storyline: Pilgrimage of Ash",
+      "Story:PA"
+    ],
+    "minAge": 16,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "HasFlag",
+        "id": "sl_pa_step2"
+      }
+    ],
+    "prompt": "A gatehouse blocks the road, its timbers stained with smoke. A bell rope hangs within reach, and someone has tied grey ribbons to it\u2014warnings, prayers, or both. A tired watch captain calls out: beyond the gate, a sickness has taken hold. Travelers may pass only if they submit to inspection and a night in the wardhouse. You can see the wardhouse windows: candlelight, shadows, coughing.",
+    "outcomes": [
+      {
+        "title": "Submit to the Wardhouse",
+        "desc": "Take the night. Take the risk. Keep your name clean.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Ill (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You endure the wardhouse: damp straw, harsh vinegar, and the steady sound of breathing that might not last. You help where you can and keep your fear in your chest. By morning, the captain nods and lets you through. Your patience has bought you passage\u2014and a few quiet allies among the weary.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step2",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step3",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_path_ward",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You spend the night behind shuttered windows. The wardhouse air is thick with sickness and old smoke. By dawn, your joints ache and your skin is hot. The captain still lets you through\u2014rules are rules\u2014but you cross the threshold carrying more than your pack.",
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step2",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step3",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_path_ward",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Bribe for a Pass-Slip",
+        "desc": "Coin speaks well at tired gates.",
+        "stat": "Coin",
+        "diff": 0,
+        "allowed": [
+          "Seal",
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "In Debt (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You press coin into the captain\u2019s palm, and the captain pretends it fell there by accident. A pass-slip is written with a flourish that says 'official' to anyone who doesn\u2019t look too closely. You pass without the wardhouse\u2019s air in your lungs, but the captain\u2019s eyes linger as if measuring future leverage.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step2",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step3",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_path_bribe",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You offer coin and receive contempt. The captain\u2019s voice rises; the gatehouse turns to look. Bribes are only bribes if the other party wants them. You\u2019re turned back for the night and made an example of. Tomorrow, you\u2019ll be remembered.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step2",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step3",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_path_bribe",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Slip Past After Dark",
+        "desc": "Wait for the bell to go quiet and the watch to doze.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You find the loose board and the blind angle and move like a rumor. The gatehouse bell never rings. On the far side, the road feels narrower, as if the land itself resents your trespass. Still\u2014you are through, and you\u2019ve learned something about how rules can be stepped around.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step2",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step3",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_path_sneak",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "A lantern swings. A shout follows. You run, but the sound of boots on planks is close. When you finally lose them, you are on the wrong side of the law and the wrong side of the gate. The road ahead will be worse for you now.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step2",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step3",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_path_sneak",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "pa",
+      "name": "Pilgrimage of Ash",
+      "rarity": "common",
+      "step": 2,
+      "role": "step",
+      "total": 4
+    }
+  },
+  {
+    "id": "sl_pa_03a_night_in_the_ward",
+    "name": "Night in the Ward",
+    "context": "Lore",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Wardhouse",
+      "Ash Road",
+      "Storyline: Pilgrimage of Ash",
+      "Story:PA"
+    ],
+    "minAge": 16,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "HasFlag",
+        "id": "sl_pa_step3"
+      },
+      {
+        "type": "HasFlag",
+        "id": "pa_path_ward"
+      }
+    ],
+    "prompt": "The wardhouse is a low building that smells of smoke, vinegar, and fear. A keeper with ash-grey hands shows you where to sit and what not to touch. The sick lie under thin blankets; the healthy pretend not to watch. Somewhere in the dark, a child calls for water. The keeper meets your gaze and says, softly: 'If you\u2019re here, you\u2019re part of it.'",
+    "outcomes": [
+      {
+        "title": "Keep Vigil",
+        "desc": "Stay awake. Help the keeper. Learn what the ward teaches.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You keep vigil until your eyes burn. You carry water, wash cloths, and speak gently when the night becomes too loud. In the small hours, the keeper shows you a ritual of ash and breath that calms panic even when it cannot cure. When dawn comes, you feel older in a way that matters.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_mercy",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You try to help, but your hands shake and your patience frays. You snap at someone who didn\u2019t deserve it. The keeper doesn\u2019t scold you\u2014just watches, disappointed, as if they\u2019ve seen this collapse a hundred times. You leave the wardhouse with a weight you can\u2019t name.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_mercy",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Study the Signs",
+        "desc": "Look for causes, patterns, and what the keepers won\u2019t say aloud.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Ill (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You notice the timing of the coughs, the smell of the water, the way certain blankets are set aside. It isn\u2019t proof, but it\u2019s enough to form a theory\u2014enough to warn someone later, or to save yourself. Knowledge doesn\u2019t cure, but it changes how you move through danger.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_knowledge",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You lean too close and breathe the wrong air. Your questions go unanswered, and by morning your throat is raw. Whatever the wardhouse holds, it has taken something from you now.",
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_knowledge",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "pa",
+      "name": "Pilgrimage of Ash",
+      "rarity": "common",
+      "step": 3,
+      "role": "step",
+      "total": 4
+    }
+  },
+  {
+    "id": "sl_pa_03b_the_brass_stamp",
+    "name": "The Brass Stamp",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Roadside Tavern",
+      "Gatehouse",
+      "Storyline: Pilgrimage of Ash",
+      "Story:PA"
+    ],
+    "minAge": 16,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "HasFlag",
+        "id": "sl_pa_step3"
+      },
+      {
+        "type": "HasFlag",
+        "id": "pa_path_bribe"
+      }
+    ],
+    "prompt": "The pass-slip gets you through the gate, but it also paints a target. In a roadside tavern, a petty official with a brass stamp and too-clean hands asks to see your papers. Their smile is practiced; their questions are not. You can feel the moment turning, like a wheel about to slip its rut.",
+    "outcomes": [
+      {
+        "title": "Talk Them Into Looking Away",
+        "desc": "Make it sound like compliance was always the plan.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You speak with calm certainty and give them something small to hold onto: a plausible story, a respectable name, a sense that their authority has been honored. The brass stamp remains unused. You leave before they can reconsider.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_clean_exit",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your story stumbles. The official\u2019s smile widens. They stamp your papers anyway\u2014hard enough to tear the edge. When you leave, you feel marked by more than ink: by scrutiny.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_clean_exit",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Pay Again",
+        "desc": "Make the problem disappear with the oldest solution.",
+        "stat": "Coin",
+        "diff": 0,
+        "allowed": [
+          "Seal",
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "In Debt (Minor)"
+          ]
+        },
+        "success": {
+          "text": "Coin changes the official\u2019s priorities. The brass stamp becomes a toy they no longer care to use. You leave poorer but unchallenged, and your pack feels lighter in more ways than one.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_paid_twice",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You offer coin and they call for the watch. Some people want power more than money, and you\u2019ve just admitted you have something to hide. The room turns cold around you.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_paid_twice",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "pa",
+      "name": "Pilgrimage of Ash",
+      "rarity": "common",
+      "step": 3,
+      "role": "step",
+      "total": 4
+    }
+  },
+  {
+    "id": "sl_pa_03c_smoke_in_the_reeds",
+    "name": "Smoke in the Reeds",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Wetlands",
+      "Ash Road",
+      "Storyline: Pilgrimage of Ash",
+      "Story:PA"
+    ],
+    "minAge": 16,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "HasFlag",
+        "id": "sl_pa_step3"
+      },
+      {
+        "type": "HasFlag",
+        "id": "pa_path_sneak"
+      }
+    ],
+    "prompt": "You slip past the gate in darkness, but the road ahead is not empty. In the wetlands beyond, smoke drifts low over the reeds\u2014cooking fires, or something burned to keep it from spreading. You hear coughing in the distance and the soft clang of a bell. The shortcut you took has put you where no one is supposed to be.",
+    "outcomes": [
+      {
+        "title": "Find the Hidden Camp",
+        "desc": "Move toward the smoke and learn what was kept outside the gate.",
+        "stat": "Wit",
+        "diff": 4,
+        "allowed": [
+          "Quill",
+          "Veil"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Ill (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You find a hidden camp: travelers turned away, sick and frightened, surviving on scraps. They tell you what the gatehouse didn\u2019t\u2014how long the sickness has been here, and what the officials are afraid to admit. You leave with hard truths and ash on your boots.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 2
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_truth",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "The reeds swallow you. The smoke stings your eyes and your lungs. You stumble into a patch of stagnant air and cough until you taste iron. When you finally find your way out, you\u2019ve learned nothing but the shape of your own vulnerability.",
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_truth",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Turn Back to the Main Road",
+        "desc": "Enough. Survive first, understand later.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You swallow your curiosity and retreat before the night can claim you. By dawn you\u2019re back on the main road, dusty and alive. Turning back isn\u2019t glory, but it is wisdom. You keep your breath and your blood, and that counts for more than stories.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_survived",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You turn back too late. A patrol catches your tracks and follows them like hounds. You get away, but not cleanly. The gatehouse bell may not have rung, yet the law has found you anyway.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_step3",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "pa_survived",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "pa",
+      "name": "Pilgrimage of Ash",
+      "rarity": "common",
+      "step": 3,
+      "role": "step",
+      "total": 4
+    }
+  },
+  {
+    "id": "sl_pa_04_the_candle_rite",
+    "name": "The Candle Rite",
+    "context": "Lore",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Hospice Chapel",
+      "Ash Road",
+      "Storyline: Pilgrimage of Ash",
+      "Story:PA"
+    ],
+    "minAge": 16,
+    "maxAge": 60,
+    "requirements": [
+      {
+        "type": "HasFlag",
+        "id": "sl_pa_step4"
+      }
+    ],
+    "prompt": "At last you reach the hospice chapel: a small stone hall where candles burn even in daylight. The keepers ask travelers to leave a pinch of ash at the threshold and speak a name for the dead. Some cry. Some stare. The smoke carries every word upward. A keeper offers you a candle and says: 'One light for what you\u2019ve lost. One for what you fear to lose.'",
+    "outcomes": [
+      {
+        "title": "Light Both Candles",
+        "desc": "Let the ritual touch you. Let it change you.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": []
+        },
+        "success": {
+          "text": "You speak names you didn\u2019t know you were carrying. The smoke takes them without judgment. When you leave, the road feels quieter\u2014not safer, just quieter. You have done what the keepers asked: you have made room for grief without letting it own you.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 2
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_done",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_pa_active",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "pa_ending_merciful",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You try, but the words catch. Your candle sputters, stubborn as a secret. Still, you stand in the smoke and hold the flame until it steadies. It isn\u2019t peace, but it\u2019s a start. You leave with ash under your nails and a little more honesty in your chest.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_done",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_pa_active",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "pa_ending_merciful",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Offer Coin to the Keepers",
+        "desc": "Support the work. Let charity be your ritual.",
+        "stat": "Coin",
+        "diff": 0,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "In Debt (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You place coin in the keeper\u2019s bowl and feel the weight of it leave you. The keepers don\u2019t thank you with fanfare\u2014only with a nod that says you have contributed to something that will outlast you. A small favor is offered in return: guidance, shelter, a quiet word at the next gate.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_done",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_pa_active",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "pa_ending_supported",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You give what you can, but it isn\u2019t enough to change much. The bowl stays heavy in the keeper\u2019s hands. Still, coin given in hard times is rarely wasted. You leave with no new favors\u2014only the knowledge that you tried.",
+          "flags": [
+            {
+              "id": "sl_pa_done",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_pa_active",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "pa_ending_supported",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      },
+      {
+        "title": "Keep Your Candle Unlit",
+        "desc": "Refuse the ritual. Don\u2019t let smoke tell you what to feel.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Veil"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Marked (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You hold the unlit candle and say nothing. The keepers do not force you. Outside, the wind is cold and honest. You leave with your feelings intact\u2014untouched, untransformed. That has its own cost, but it is one you choose.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_done",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_pa_active",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "pa_ending_hardened",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "You refuse, and someone notices. A keeper watches you with a quiet sadness that feels like judgment. Later, on the road, a traveler whispers about those who won\u2019t speak names to the smoke. Superstition clings like soot, even if you don\u2019t believe it.",
+          "conditions": [
+            {
+              "id": "Marked",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "flags": [
+            {
+              "id": "sl_pa_done",
+              "mode": "Add",
+              "durationEvents": 0
+            },
+            {
+              "id": "sl_pa_active",
+              "mode": "Remove"
+            },
+            {
+              "id": "sl_pa_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "pa_ending_hardened",
+              "mode": "Add",
+              "durationEvents": 0
+            }
+          ]
+        }
+      }
+    ],
+    "storyline": {
+      "id": "pa",
+      "name": "Pilgrimage of Ash",
+      "rarity": "common",
+      "step": 4,
+      "role": "ending",
+      "total": 4
+    }
   }
 ]
