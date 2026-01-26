@@ -13507,7 +13507,8 @@
     "tags": [
       "Frostbarrow Pass",
       "Oathstone",
-      "Storyline: Broken Oath"
+      "Storyline: Broken Oath",
+      "Story:BO"
     ],
     "minAge": 18,
     "maxAge": 55,
@@ -13829,7 +13830,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "bo",
+      "name": "The Broken Oath",
+      "rarity": "common",
+      "step": 1,
+      "role": "hook",
+      "total": 5
+    }
   },
   {
     "id": "sl_bo_02_the_broken_vow",
@@ -13840,7 +13849,8 @@
     "tags": [
       "Briarwatch",
       "Bloodprice",
-      "Storyline: Broken Oath"
+      "Storyline: Broken Oath",
+      "Story:BO"
     ],
     "minAge": 18,
     "maxAge": 60,
@@ -14170,7 +14180,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "bo",
+      "name": "The Broken Oath",
+      "rarity": "common",
+      "step": 2,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_bo_03_tracks_in_scree",
@@ -14181,7 +14199,8 @@
     "tags": [
       "Ironspine",
       "Scree",
-      "Storyline: Broken Oath"
+      "Storyline: Broken Oath",
+      "Story:BO"
     ],
     "minAge": 18,
     "maxAge": 65,
@@ -14514,7 +14533,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "bo",
+      "name": "The Broken Oath",
+      "rarity": "common",
+      "step": 3,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_bo_03_bloodprice_table",
@@ -14525,7 +14552,8 @@
     "tags": [
       "Skarnhold",
       "Oathhall",
-      "Storyline: Broken Oath"
+      "Storyline: Broken Oath",
+      "Story:BO"
     ],
     "minAge": 18,
     "maxAge": 70,
@@ -14862,7 +14890,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "bo",
+      "name": "The Broken Oath",
+      "rarity": "common",
+      "step": 3,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_bo_03_burned_testimony",
@@ -14873,7 +14909,8 @@
     "tags": [
       "Briarwatch",
       "Records",
-      "Storyline: Broken Oath"
+      "Storyline: Broken Oath",
+      "Story:BO"
     ],
     "minAge": 18,
     "maxAge": 70,
@@ -15212,7 +15249,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "bo",
+      "name": "The Broken Oath",
+      "rarity": "common",
+      "step": 3,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_bo_04_ringlaw_duel",
@@ -15223,7 +15268,8 @@
     "tags": [
       "Skarnhold",
       "Duel",
-      "Storyline: Broken Oath"
+      "Storyline: Broken Oath",
+      "Story:BO"
     ],
     "minAge": 18,
     "maxAge": 70,
@@ -15566,7 +15612,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "bo",
+      "name": "The Broken Oath",
+      "rarity": "common",
+      "step": 4,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_bo_05_the_unbroken_word",
@@ -15577,7 +15631,8 @@
     "tags": [
       "Oathstone",
       "Aftermath",
-      "Storyline: Broken Oath"
+      "Storyline: Broken Oath",
+      "Story:BO"
     ],
     "minAge": 18,
     "maxAge": 80,
@@ -15939,7 +15994,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "bo",
+      "name": "The Broken Oath",
+      "rarity": "common",
+      "step": 5,
+      "role": "ending",
+      "total": 5
+    }
   },
   {
     "id": "sl_mg_01_letter_of_credit",
@@ -15950,7 +16013,8 @@
     "tags": [
       "Kestrelbank",
       "Ledger",
-      "Storyline: Merchant's Gambit"
+      "Storyline: Merchant's Gambit",
+      "Story:MG"
     ],
     "minAge": 16,
     "maxAge": 60,
@@ -16271,7 +16335,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "mg",
+      "name": "Merchant's Gambit",
+      "rarity": "uncommon",
+      "step": 1,
+      "role": "hook",
+      "total": 5
+    }
   },
   {
     "id": "sl_mg_02_audit_summons",
@@ -16282,7 +16354,8 @@
     "tags": [
       "Kestrelbank",
       "Countinghouse",
-      "Storyline: Merchant's Gambit"
+      "Storyline: Merchant's Gambit",
+      "Story:MG"
     ],
     "minAge": 16,
     "maxAge": 70,
@@ -16607,7 +16680,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "mg",
+      "name": "Merchant's Gambit",
+      "rarity": "uncommon",
+      "step": 2,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_mg_03_terms_at_marrowgate",
@@ -16618,7 +16699,8 @@
     "tags": [
       "Marrowgate",
       "Contract Court",
-      "Storyline: Merchant's Gambit"
+      "Storyline: Merchant's Gambit",
+      "Story:MG"
     ],
     "minAge": 16,
     "maxAge": 80,
@@ -16932,7 +17014,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "mg",
+      "name": "Merchant's Gambit",
+      "rarity": "uncommon",
+      "step": 3,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_mg_03_night_quay_exchange",
@@ -16943,7 +17033,8 @@
     "tags": [
       "Gilderhaven",
       "Quay",
-      "Storyline: Merchant's Gambit"
+      "Storyline: Merchant's Gambit",
+      "Story:MG"
     ],
     "minAge": 16,
     "maxAge": 80,
@@ -17279,7 +17370,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "mg",
+      "name": "Merchant's Gambit",
+      "rarity": "uncommon",
+      "step": 3,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_mg_04_contract_court",
@@ -17290,7 +17389,8 @@
     "tags": [
       "Marrowgate",
       "Court",
-      "Storyline: Merchant's Gambit"
+      "Storyline: Merchant's Gambit",
+      "Story:MG"
     ],
     "minAge": 16,
     "maxAge": 90,
@@ -17646,7 +17746,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "mg",
+      "name": "Merchant's Gambit",
+      "rarity": "uncommon",
+      "step": 4,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_mg_05_balance_due",
@@ -17657,7 +17765,8 @@
     "tags": [
       "Kestrelbank",
       "Aftermath",
-      "Storyline: Merchant's Gambit"
+      "Storyline: Merchant's Gambit",
+      "Story:MG"
     ],
     "minAge": 16,
     "maxAge": 90,
@@ -18020,7 +18129,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "mg",
+      "name": "Merchant's Gambit",
+      "rarity": "uncommon",
+      "step": 5,
+      "role": "ending",
+      "total": 5
+    }
   },
   {
     "id": "sl_da_01_storm_lanterns",
@@ -18031,7 +18148,8 @@
     "tags": [
       "Sable Coast",
       "Storm",
-      "Storyline: Drowned Abbey"
+      "Storyline: Drowned Abbey",
+      "Story:DA"
     ],
     "minAge": 20,
     "maxAge": 70,
@@ -18323,7 +18441,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "da",
+      "name": "Drowned Abbey",
+      "rarity": "rare",
+      "step": 1,
+      "role": "hook",
+      "total": 5
+    }
   },
   {
     "id": "sl_da_02_salt_soaked_ledger",
@@ -18334,7 +18460,8 @@
     "tags": [
       "Sable Coast",
       "Ruins",
-      "Storyline: Drowned Abbey"
+      "Storyline: Drowned Abbey",
+      "Story:DA"
     ],
     "minAge": 20,
     "maxAge": 80,
@@ -18697,7 +18824,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "da",
+      "name": "Drowned Abbey",
+      "rarity": "rare",
+      "step": 2,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_da_03_the_bell_below",
@@ -18708,7 +18843,8 @@
     "tags": [
       "Sable Coast",
       "Crypt",
-      "Storyline: Drowned Abbey"
+      "Storyline: Drowned Abbey",
+      "Story:DA"
     ],
     "minAge": 20,
     "maxAge": 90,
@@ -19056,7 +19192,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "da",
+      "name": "Drowned Abbey",
+      "rarity": "rare",
+      "step": 3,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_da_04_ink_and_salt",
@@ -19067,7 +19211,8 @@
     "tags": [
       "Gloambridge",
       "Archive",
-      "Storyline: Drowned Abbey"
+      "Storyline: Drowned Abbey",
+      "Story:DA"
     ],
     "minAge": 20,
     "maxAge": 90,
@@ -19415,7 +19560,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "da",
+      "name": "Drowned Abbey",
+      "rarity": "rare",
+      "step": 4,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_da_04_salt_dreams",
@@ -19426,7 +19579,8 @@
     "tags": [
       "Sable Coast",
       "Night",
-      "Storyline: Drowned Abbey"
+      "Storyline: Drowned Abbey",
+      "Story:DA"
     ],
     "minAge": 20,
     "maxAge": 90,
@@ -19772,7 +19926,15 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "da",
+      "name": "Drowned Abbey",
+      "rarity": "rare",
+      "step": 4,
+      "role": "step",
+      "total": 5
+    }
   },
   {
     "id": "sl_da_05_the_abbey_remembers",
@@ -19783,7 +19945,8 @@
     "tags": [
       "Sable Coast",
       "Dawn",
-      "Storyline: Drowned Abbey"
+      "Storyline: Drowned Abbey",
+      "Story:DA"
     ],
     "minAge": 20,
     "maxAge": 100,
@@ -20187,6 +20350,14 @@
           ]
         }
       }
-    ]
+    ],
+    "storyline": {
+      "id": "da",
+      "name": "Drowned Abbey",
+      "rarity": "rare",
+      "step": 5,
+      "role": "ending",
+      "total": 5
+    }
   }
 ]
