@@ -1172,12 +1172,32 @@ function poolBias(ev) {
   return m;
 }
 
+
+function ageBias(ev) {
+  // Soft preference toward events that "fit" the current age inside their allowed range.
+  // - If the event defines idealAge / ageSpan, we use that as the peak.
+  // - Otherwise we treat the midpoint of [minAge,maxAge] as the peak.
+  const age = state?.age ?? 0;
+  const min = (ev.minAge ?? 16);
+  const max = (ev.maxAge ?? 70);
+  if (!Number.isFinite(age) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) return 1;
+
+  const ideal = Number.isFinite(ev.idealAge) ? ev.idealAge : (min + max) / 2;
+  const span = Number.isFinite(ev.ageSpan) ? Math.max(1, ev.ageSpan) : Math.max(1, (max - min) / 2);
+
+  const closeness = clamp(1 - Math.abs(age - ideal) / span, 0, 1);
+  // edges still possible; center is favored
+  return 0.55 + 0.45 * closeness;
+}
+
 function eventDirectorWeight(ev) {
   // Base (data) weight:
   let w = eventWeight(ev);
   if (w <= 0) return 0;
 
   // Dynamic multipliers:
+  w *= ageBias(ev);
+
   w *= contextBias(ev);
   w *= contextSmoothingBias(ev);
   w *= noveltyBias(ev);
@@ -1206,8 +1226,8 @@ function eligibleEvents(opts = {}) {
   const kind = opts.kind ?? null;
 
   return DATA.events.filter(e => {
-    if (state.age < (e.minAge ?? 18)) return false;
-    if (state.age > (e.maxAge ?? 50)) return false;
+    if (state.age < (e.minAge ?? 16)) return false;
+    if (state.age > (e.maxAge ?? 70)) return false;
 
     const k = e.kind ?? "general";
     if (kind && k !== kind) return false;
