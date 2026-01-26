@@ -1453,7 +1453,3 @@ async function boot() {
     showStart();
   }
 }
-
-window.addEventListener("DOMContentLoaded", () => {
-  boot();
-});
