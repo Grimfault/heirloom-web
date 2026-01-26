@@ -1455,8 +1455,4 @@ async function boot() {
   }
 }
 
-async function boot() {
-  // ...
-}
-
 boot();
