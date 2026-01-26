@@ -1654,7 +1654,7 @@
         "tags": ["Public"],
         "preview": { "gains": ["Influence"], "risks": [] },
         "success": {
-          "text": "You speak to them like their grief deserves dignity, not dismissal. You help repair the shrine, light a candle, say the right small words—more comfort than ceremony. It doesn’t replace the relic, but it gives the village something else: resolve. And in return, they offer you what they can—support, shelter, a good word in nearby places."
+          "text": "You speak to them like their grief deserves dignity, not dismissal. You help repair the shrine, light a candle, say the right small words—more comfort than ceremony. It doesn’t replace the relic, but it gives the village something else: resolve. And in return, they offer you what they can—support, shelter, a good word in nearby places.",
           "resources": [{ "resource": "Influence", "amount": 1 }]
         },
         "fail": {
