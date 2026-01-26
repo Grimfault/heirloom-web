@@ -1453,3 +1453,9 @@ async function boot() {
     showStart();
   }
 }
+
+async function boot() {
+  // ...
+}
+
+boot();
