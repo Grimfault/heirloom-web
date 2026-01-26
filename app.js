@@ -365,6 +365,7 @@ async function loadAllData() {
   DATA.events = events;
   DATA.backgrounds = backgrounds;
   indexData();
+  annotateEventSignals();
 
   // Minimal validation (helps catch typos early)
   for (const bg of DATA.backgrounds) {
@@ -626,6 +627,7 @@ function cardLabel(cardId) {
 function ensureStateMaps() {
   state.flags ??= {};      // { flagId: remainingEvents }
   state.standings ??= {};  // { factionId: tier }
+  state.history ??= { recentEvents: [], recentContexts: [], seen: {} };
 }
 
 function applyResourceDelta(d) {
@@ -1021,6 +1023,171 @@ function eventWeight(ev) {
   return (Number.isFinite(w) && w > 0) ? w : 0;
 }
 
+
+// ---------- Event Director (weights + anti-repetition + simple state bias) ----------
+
+// Optional precompute so weighting can look at what an event tends to do (gain/loss, perilous)
+function annotateEventSignals() {
+  const RES_KEYS = ["Coin","Supplies","Renown","Influence","Secrets"];
+  for (const ev of (DATA.events ?? [])) {
+    const sig = {
+      maxGain: Object.fromEntries(RES_KEYS.map(k => [k, 0])),
+      maxLoss: Object.fromEntries(RES_KEYS.map(k => [k, 0])),
+      hasPerilous: false
+    };
+
+    for (const o of (ev.outcomes ?? [])) {
+      if ((o.tags ?? []).includes("Perilous")) sig.hasPerilous = true;
+
+      for (const bundle of [o.success, o.fail]) {
+        for (const d of (bundle?.resources ?? [])) {
+          const k = d.resource;
+          const amt = d.amount ?? 0;
+          if (!(k in sig.maxGain)) continue;
+          if (amt > 0) sig.maxGain[k] = Math.max(sig.maxGain[k], amt);
+          if (amt < 0) sig.maxLoss[k] = Math.min(sig.maxLoss[k], amt); // negative
+        }
+      }
+    }
+    ev._sig = sig;
+  }
+}
+
+function recordEventHistory(ev) {
+  if (!ev || !state) return;
+  ensureStateMaps();
+  const h = state.history;
+
+  const id = ev.id;
+  h.seen[id] = (h.seen[id] ?? 0) + 1;
+
+  h.recentEvents.unshift(id);
+  if (h.recentEvents.length > 30) h.recentEvents.length = 30;
+
+  h.recentContexts.unshift(ev.context);
+  if (h.recentContexts.length > 10) h.recentContexts.length = 10;
+}
+
+const BG_CONTEXT_BIAS = {
+  // tuned for "feel" not realism; tweak freely
+  "squire":           { Strife: 1.30, Journey: 1.10, Court: 1.00, Scheme: 0.85, Lore: 0.85 },
+  "ledger_clerk":     { Court: 1.25, Lore: 1.20, Scheme: 1.00, Journey: 0.85, Strife: 0.75 },
+  "street_urchin":    { Scheme: 1.35, Journey: 1.05, Strife: 1.00, Court: 0.80, Lore: 0.80 },
+  "minor_noble":      { Court: 1.45, Scheme: 1.05, Lore: 0.90, Journey: 0.80, Strife: 0.75 },
+  "pilgrim_wanderer": { Journey: 1.35, Lore: 1.25, Court: 0.90, Scheme: 0.80, Strife: 0.75 }
+};
+
+function contextBias(ev) {
+  const bgId = state?.backgroundId ?? null;
+  if (!bgId) return 1;
+  const map = BG_CONTEXT_BIAS[bgId];
+  if (!map) return 1;
+  return map[ev.context] ?? 1;
+}
+
+function noveltyBias(ev) {
+  const h = state?.history;
+  if (!h) return 1;
+
+  // Hard no-repeat window
+  const noRepeatWindow = 8;
+  if (h.recentEvents?.slice(0, noRepeatWindow).includes(ev.id)) return 0;
+
+  // Soft penalty for overall repeats
+  const seen = h.seen?.[ev.id] ?? 0;
+  // 0:1.00, 1:0.69, 2:0.53, 3:0.43...
+  return 1 / (1 + (0.45 * seen));
+}
+
+function contextSmoothingBias(ev) {
+  const h = state?.history;
+  if (!h) return 1;
+
+  const ctx = ev.context;
+  const recent = h.recentContexts ?? [];
+  let m = 1;
+
+  // discourage streaks
+  if (recent[0] === ctx) m *= 0.55;
+  if (recent.slice(0, 3).includes(ctx)) m *= 0.80;
+
+  return m;
+}
+
+function scarcityBias(ev) {
+  const sig = ev?._sig;
+  if (!sig) return 1;
+
+  let m = 1;
+
+  const coin = state.res?.Coin ?? 0;
+  const sup  = state.res?.Supplies ?? 0;
+
+  // If you're broke, pull events that can plausibly raise coin (or at least avoid burning more).
+  if (coin <= 2) {
+    if ((sig.maxGain.Coin ?? 0) > 0) m *= 1.45;
+    if ((sig.maxLoss.Coin ?? 0) < 0) m *= 0.80;
+  }
+
+  // If you're low on supplies, pull events that can replenish, avoid ones that drain.
+  if (sup <= 1) {
+    if ((sig.maxGain.Supplies ?? 0) > 0) m *= 1.60;
+    if ((sig.maxLoss.Supplies ?? 0) < 0) m *= 0.75;
+  }
+
+  return m;
+}
+
+function riskBias(ev) {
+  const sig = ev?._sig;
+  if (!sig) return 1;
+
+  const severe = state.conditions?.filter(c => c.severity === "Severe").length ?? 0;
+
+  // When you're already in a bad spot, reduce the chance of repeatedly serving perilous events.
+  if (severe >= 2 && sig.hasPerilous) return 0.65;
+
+  return 1;
+}
+
+// Optional: allow you to define "pools" on events later, without breaking anything now.
+// Example pools: ["bg:squire", "cond:Ill", "faction:Crown", "story:broken_oath"]
+function poolBias(ev) {
+  const pools = ev.pools;
+  if (!Array.isArray(pools) || pools.length === 0) return 1;
+
+  let m = 1;
+  for (const p of pools) {
+    if (p.startsWith("bg:")) {
+      const bg = p.slice(3);
+      m *= (state.backgroundId === bg) ? 2.0 : 0.35;
+    } else if (p.startsWith("cond:")) {
+      const cid = p.slice(5);
+      m *= hasCondition(cid, "Any") ? 2.2 : 0.6;
+    } else if (p.startsWith("flag:")) {
+      const fid = p.slice(5);
+      m *= state.flags?.[fid] ? 2.0 : 0.7;
+    }
+  }
+  return m;
+}
+
+function eventDirectorWeight(ev) {
+  // Base (data) weight:
+  let w = eventWeight(ev);
+  if (w <= 0) return 0;
+
+  // Dynamic multipliers:
+  w *= contextBias(ev);
+  w *= contextSmoothingBias(ev);
+  w *= noveltyBias(ev);
+  w *= scarcityBias(ev);
+  w *= riskBias(ev);
+  w *= poolBias(ev);
+
+  // Keep it sane
+  return Math.max(0, w);
+}
 function weightedPick(items, weightFn) {
   if (!items || items.length === 0) return null;
   let total = 0;
@@ -1062,7 +1229,7 @@ function loadRandomEvent() {
   if (!pool.length) pool = eligibleEvents({ kind: "general" });
   if (!pool.length) pool = eligibleEvents(); // last resort
 
-  const ev = weightedPick(pool, eventWeight);
+  const ev = weightedPick(pool, eventDirectorWeight);
   if (!ev) {
     console.warn("No eligible events found for current age/filters.");
     return;
@@ -1134,6 +1301,7 @@ function resolveSelectedOutcome() {
       if (done) return;
       done = true;
 
+      recordEventHistory(currentEvent);
       advanceTime();
       saveState();
       renderAll();
@@ -1459,6 +1627,8 @@ function startRunFromBuilder(bg, givenName, familyName) {
   state = {
     charName: givenName,
     familyName,
+    backgroundId: bg.id,
+    backgroundName: bg.name,
     age: 18,
     seasonIndex: 0,
     heirCount: 0,
