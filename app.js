@@ -93,9 +93,11 @@ const HEIR_NAMES = [
   "Hugh","Isolde","Corin","Maera","Alina","Cedric","Ronan","Eloen","Soren","Willa"
 ];
 
-function difficultyProfileForEvent(ev) {
+function difficultyProfileForEvent(ev, opts = {}) {
   // defaults: "general"
-  const kind = ev.kind ?? "general"; // later: "major", "faction"
+  // NOTE: "majorBeat" lets you make the 5-year milestones feel tougher even if the event JSON is still kind:"general"
+  const majorBeat = Boolean(opts.majorBeat);
+  const kind = majorBeat ? "major" : (ev.kind ?? "general"); // later: "major", "faction"
   if (kind === "general") return { base: 60, statMult: 9, diffMult: 8 };
   if (kind === "faction")  return { base: 55, statMult: 9, diffMult: 10 };
   if (kind === "major")    return { base: 50, statMult: 8, diffMult: 11 };
@@ -284,6 +286,8 @@ let hand = [];        // [{ iid, cid }]
 let committed = [];   // [iid, iid]
 let nextHandIid = 1;
 
+let resolvingOutcome = false; // prevents double-advances / modal-close weirdness
+
 function getHandEntry(iid) {
   return hand.find(h => h.iid === iid) || null;
 }
@@ -311,11 +315,13 @@ function loadState() {
 
 // ---------- Mortality ----------
 function baseMortalityByAge(age) {
+  // Design doc alignment:
+  // 16–29: 1%, 30–39: 3%, 40–49: 6%, 50–59: 12%, 60+: 20%
   if (age <= 29) return 1;
   if (age <= 39) return 3;
-  if (age <= 44) return 6;
-  if (age <= 49) return 10;
-  return 18;
+  if (age <= 49) return 6;
+  if (age <= 59) return 12;
+  return 20;
 }
 
 function conditionMortalityBonus(cond) {
@@ -991,7 +997,7 @@ function renderChance() {
     return sum + (getCardLevelData(c).bonus ?? 0);
   }, 0);
 
-const prof = difficultyProfileForEvent(currentEvent);
+const prof = difficultyProfileForEvent(currentEvent, { majorBeat: isMajorEventNow() });
 let chance = prof.base + (statVal * prof.statMult) + cardBonus - (diff * prof.diffMult);
 chance = clamp(chance, 5, 95);
 
@@ -1010,14 +1016,59 @@ function renderAll() {
 }
 
 // ---------- Event selection ----------
-function eligibleEvents() {
-  return DATA.events.filter(e => state.age >= (e.minAge ?? 18) && state.age <= (e.maxAge ?? 50));
+function eventWeight(ev) {
+  const w = ev.weight ?? 1;
+  return (Number.isFinite(w) && w > 0) ? w : 0;
+}
+
+function weightedPick(items, weightFn) {
+  if (!items || items.length === 0) return null;
+  let total = 0;
+  for (const it of items) total += (weightFn(it) ?? 0);
+  if (total <= 0) return null;
+
+  let roll = Math.random() * total;
+  for (const it of items) {
+    roll -= (weightFn(it) ?? 0);
+    if (roll <= 0) return it;
+  }
+  return items[items.length - 1] ?? null;
+}
+
+function eligibleEvents(opts = {}) {
+  const kind = opts.kind ?? null;
+
+  return DATA.events.filter(e => {
+    if (state.age < (e.minAge ?? 18)) return false;
+    if (state.age > (e.maxAge ?? 50)) return false;
+
+    const k = e.kind ?? "general";
+    if (kind && k !== kind) return false;
+
+    // Optional future-proofing: support event-level requirements (not just outcome requirements)
+    if (Array.isArray(e.requirements) && unmetReasons(e.requirements).length) return false;
+
+    return true;
+  });
 }
 
 function loadRandomEvent() {
-  const eligible = eligibleEvents();
-  currentEvent = pick(eligible);
-  beginEvent(currentEvent);
+  const majorBeat = isMajorEventNow();
+
+  // Prefer explicit major events if/when you add them to events.json
+  let pool = majorBeat ? eligibleEvents({ kind: "major" }) : [];
+
+  // Fall back to normal pool
+  if (!pool.length) pool = eligibleEvents({ kind: "general" });
+  if (!pool.length) pool = eligibleEvents(); // last resort
+
+  const ev = weightedPick(pool, eventWeight);
+  if (!ev) {
+    console.warn("No eligible events found for current age/filters.");
+    return;
+  }
+
+  beginEvent(ev);
 }
 
 function beginEvent(ev) {
@@ -1060,16 +1111,43 @@ function advanceTime() {
 
 // ---------- Resolve ----------
 function resolveSelectedOutcome() {
+  if (resolvingOutcome) return;
   if (selectedOutcomeIndex == null) return;
 
   const o = currentEvent.outcomes[selectedOutcomeIndex];
-  const wasMajor = isMajorEventNow();
   const reasons = unmetReasons(o.requirements);
   if (reasons.length) return;
 
+  // Hard lock to prevent double-advances from double-clicks / modal-close edge cases.
+  resolvingOutcome = true;
+  btnResolve.disabled = true;
+  btnNewEvent.disabled = true;
+  btnDebugPickEvent.disabled = true;
+
+  const wasMajor = isMajorEventNow();
+  let draftOpened = false;
+
+  // Single source of truth for "end of event" -> time advance -> next event.
+  const finishEvent = (() => {
+    let done = false;
+    return () => {
+      if (done) return;
+      done = true;
+
+      advanceTime();
+      saveState();
+      renderAll();
+
+      resolvingOutcome = false;
+      btnNewEvent.disabled = false;
+      btnDebugPickEvent.disabled = false;
+
+      loadRandomEvent();
+    };
+  })();
+
   const statVal = state.stats[o.stat] ?? 0;
   const diff = o.diff ?? 3;
-
   const committedCids = committedCardIds();
 
   const cardBonus = committedCids.reduce((sum, cid) => {
@@ -1078,27 +1156,26 @@ function resolveSelectedOutcome() {
     return sum + (getCardLevelData(c).bonus ?? 0);
   }, 0);
 
-  const prof = difficultyProfileForEvent(currentEvent);
-let chance = prof.base + (statVal * prof.statMult) + cardBonus - (diff * prof.diffMult);
-chance = clamp(chance, 5, 95);
+  const prof = difficultyProfileForEvent(currentEvent, { majorBeat: wasMajor });
+  let chance = prof.base + (statVal * prof.statMult) + cardBonus - (diff * prof.diffMult);
+  chance = clamp(chance, 5, 95);
 
   const roll = rInt(1, 100);
   const success = roll <= chance;
 
-   let continueAfterModal = null;
-
-  // Discard: push underlying cardIds (NOT instance ids)
-  const committedSet = new Set(committed);
-  for (const entry of hand) {
-    state.discardPile.push(entry.cid);
-  }
+  // Discard: in this prototype, all drawn cards go to discard after the event.
+  for (const entry of hand) state.discardPile.push(entry.cid);
   hand = [];
 
   // Mortality tracking
   const severeBefore = state.conditions.filter(c => c.severity === "Severe").length;
 
+  // Apply outcome effects
+  let bundleForSummary = null;
+
   if (success) {
     applyBundle(o.success);
+    bundleForSummary = o.success;
     log(`SUCCESS (${roll} ≤ ${chance}) → ${o.title}`);
   } else {
     const partial = committedCids.some(cid => {
@@ -1109,30 +1186,41 @@ chance = clamp(chance, 5, 95);
     if (partial) {
       log(`FAIL (${roll} > ${chance}) but PARTIAL triggers → ${o.title}`);
 
+      const halfResources = [];
       for (const d of (o.success?.resources ?? [])) {
+        halfResources.push({ resource: d.resource, amount: Math.trunc((d.amount ?? 0) / 2) });
         applyResourceDelta({ resource: d.resource, amount: Math.trunc((d.amount ?? 0) / 2) });
       }
+
+      const softenedConds = [];
       for (const c of (o.fail?.conditions ?? [])) {
         const sev = (c.severity === "Severe") ? "Minor" : (c.severity ?? "Minor");
+        softenedConds.push({ ...c, severity: sev });
         applyConditionChange({ ...c, severity: sev });
       }
+
+      // Build a best-effort summary so the result modal matches what actually happened.
+      bundleForSummary = { resources: halfResources, conditions: softenedConds };
     } else {
       applyBundle(o.fail);
+      bundleForSummary = o.fail;
       log(`FAIL (${roll} > ${chance}) → ${o.title}`);
     }
   }
 
-  // Mortality triggers
+  // Mortality triggers (design doc alignment)
+  // - Every Major Beat (every 5 years)
+  // - Immediately after Perilous outcomes (regardless of success/failure)
+  // - When you gain a Severe condition while already having another Severe condition
   const severeAfter = state.conditions.filter(c => c.severity === "Severe").length;
   const gainedSevere = severeAfter > severeBefore;
   const hadSevereAlready = severeBefore > 0;
 
   const perilous = (o.tags ?? []).includes("Perilous");
-  const majorNow = isMajorEventNow();
 
   let mortalityTriggered = false;
-  if (majorNow) mortalityTriggered = true;
-  if (!success && perilous && gainedSevere) mortalityTriggered = true;
+  if (wasMajor) mortalityTriggered = true;
+  if (perilous) mortalityTriggered = true;
   if (gainedSevere && hadSevereAlready) mortalityTriggered = true;
 
   if (mortalityTriggered) {
@@ -1141,75 +1229,47 @@ chance = clamp(chance, 5, 95);
     log(`Mortality Check: ${mChance}% (roll ${mRoll})`);
     if (mRoll <= mChance) {
       log(`💀 Death claims you at age ${state.age}.`);
+
+      // Release the lock (succession is modal-driven).
+      resolvingOutcome = false;
+      btnNewEvent.disabled = false;
+      btnDebugPickEvent.disabled = false;
+
       handleDeath();
       return;
     }
   }
 
-// Cleanup
-tickFlags();
-committed = [];
-selectedOutcomeIndex = null;
+  // Cleanup (exactly once per resolved event)
+  tickFlags();
+  committed = [];
+  selectedOutcomeIndex = null;
 
-// Build result summary
-const bundleUsed = success ? o.success : o.fail;
-const lines = summarizeBundle(bundleUsed);
+  // Result modal -> (Major? draft modal) -> finishEvent()
+  const subtitle = success
+    ? `Success! You pursued: ${o.title}`
+    : `Failure. You pursued: ${o.title}`;
 
-const subtitle = success
-  ? `Success! You pursued: ${o.title}`
-  : `Failure. You pursued: ${o.title}`;
+  const lines = summarizeBundle(bundleForSummary);
 
-continueAfterModal = () => {
-  if (wasMajor) {
-    // majors: draft reward then time
-    openDraftModal(() => {
-      advanceTime();
-      saveState();
-      renderAll();
-      loadRandomEvent();
-    });
-    return;
-  }
-
-  advanceTime();
   saveState();
   renderAll();
-  loadRandomEvent();
-};
 
-// Show popup before continuing
-saveState();
-renderAll();
-openResultModal({
-  title: success ? "Outcome: Success" : "Outcome: Failure",
-  subtitle,
-  lines,
-  locked: false,
-  onClose: continueAfterModal
-});
-return;
-
-
-  // Draft reward on majors
-  if (wasMajor) {
-    saveState();
-    renderAll();
-
-    openDraftModal(() => {
-      advanceTime();
-      saveState();
-      renderAll();
-      loadRandomEvent();
-    });
-
-    return;
-  }
-
-  // Normal flow
-  advanceTime();
-  saveState();
-  renderAll();
-  loadRandomEvent();
+  openResultModal({
+    title: success ? "Outcome: Success" : "Outcome: Failure",
+    subtitle,
+    lines,
+    locked: false,
+    onClose: () => {
+      if (wasMajor) {
+        if (draftOpened) return;
+        draftOpened = true;
+        openDraftModal(() => finishEvent());
+      } else {
+        finishEvent();
+      }
+    }
+  });
 }
 
 // ---------- Succession ----------
