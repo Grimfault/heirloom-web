@@ -1658,7 +1658,7 @@
           "resources": [{ "resource": "Influence", "amount": 1 }]
         },
         "fail": {
-          "text": "Your attempt lands wrong—too formal, too hollow, too much like a traveler pretending to care. They nod politely and you leave, but the village keeps its hurt. Some problems can’t be smoothed over with a speech.",
+          "text": "Your attempt lands wrong—too formal, too hollow, too much like a traveler pretending to care. They nod politely and you leave, but the village keeps its hurt. Some problems can’t be smoothed over with a speech."
         }
       }
     ]
@@ -1917,7 +1917,7 @@
       }
     }
   ]
-}
+},
   {
     "id": "gev_023_hunt_gone_wrong",
     "name": "Hunt Gone Wrong",
@@ -2146,7 +2146,7 @@
       "fail": { "text": "Someone notices the smoke and asks what you’re hiding.", "conditions": [{ "id": "Marked", "mode": "Add", "severity": "Minor" }] }
     }
   ]
-}
+},
   {
     "id": "gev_026_rumor_mill",
     "name": "Rumor Mill",
@@ -2289,7 +2289,7 @@
       "fail": { "text": "You spend the night walking and listening and never truly resting.", "conditions": [{ "id": "Exhausted", "mode": "Add", "severity": "Minor" }] }
     }
   ]
-}
+},
   {
   "id": "gev_028_smugglers_choice",
   "name": "Smuggler’s Choice",
@@ -2342,7 +2342,7 @@
       "fail": { "text": "The smugglers smell betrayal before the guards arrive. The docks become less safe for a while.", "flags": [{ "id": "dock_heat", "mode": "Add", "durationEvents": 4 }] }
     }
   ]
-}
+},
  {
   "id": "gev_029_disputed_inheritance",
   "name": "Disputed Inheritance",
@@ -2395,8 +2395,7 @@
       "fail": { "text": "Someone compares notes. Suddenly you’re not clever—you’re criminal.", "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Minor" }, { "id": "Wanted", "mode": "Add", "severity": "Minor" }] }
     }
   ]
-}
-
+},
   {
     "id": "gev_030_trial_of_a_friend",
     "name": "Trial of a Friend",
@@ -2543,8 +2542,7 @@
       "fail": { "text": "You misstep, and the refusal becomes humiliation—yours.", "conditions": [{ "id": "Disgraced", "mode": "Add", "severity": "Severe" }] }
     }
   ]
-}
-
+},
  {
   "id": "gev_032_marriage_proposal",
   "name": "Matchmaker’s Whisper",
@@ -2635,7 +2633,7 @@
       }
     }
   ]
-}
+},
   {
     "id": "gev_033_broken_wheel",
     "name": "Broken Wheel",
@@ -3064,7 +3062,6 @@
         },
         "fail": {
           "text": "You leave it behind. The world does not reward you for it—at least not today.",
-          "fail": {}
         }
       }
     ]
@@ -3121,7 +3118,7 @@
       "fail": { "text": "He sees through it and decides you’re the kind of person who’d sell a friend’s name.", "flags": [{ "id": "veteran_dislike", "mode": "Add", "durationEvents": 3 }] }
     }
   ]
-}
+},
  {
   "id": "gev_039_sealed_coffer",
   "name": "Sealed Coffer",
@@ -3174,8 +3171,7 @@
       "fail": { "text": "You pick the wrong place, or someone picks you. The coffer becomes a spotlight.", "conditions": [{ "id": "Marked", "mode": "Add", "severity": "Minor" }] }
     }
   ]
-}
-
+},
   {
     "id": "gev_040_scribes_error",
     "name": "Scribe’s Error",
