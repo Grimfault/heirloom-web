@@ -1902,14 +1902,15 @@ function noveltyBias(ev) {
   const h = state?.history;
   if (!h) return 1;
 
-  // Hard no-repeat window
-  const noRepeatWindow = 8;
+  // Hard no-repeat window (measured in events, not years).
+  // 2 events/year → 16 events ≈ 8 years.
+  const noRepeatWindow = (ev?.kind === "major") ? 10 : 16;
   if (h.recentEvents?.slice(0, noRepeatWindow).includes(ev.id)) return 0;
 
   // Soft penalty for overall repeats
   const seen = h.seen?.[ev.id] ?? 0;
-  // 0:1.00, 1:0.69, 2:0.53, 3:0.43...
-  return 1 / (1 + (0.45 * seen));
+  // 0:1.00, 1:0.53, 2:0.36, 3:0.28...
+  return 1 / (1 + (0.9 * seen));
 }
 
 function contextSmoothingBias(ev) {
@@ -2037,6 +2038,20 @@ function weightedPick(items, weightFn) {
   }
   return items[items.length - 1] ?? null;
 }
+function pickLeastRecentlySeen(items) {
+  const recent = state?.history?.recentEvents ?? [];
+  let best = null;
+  let bestScore = -1;
+
+  for (const ev of (items ?? [])) {
+    // recentEvents is kept to ~30 entries, so indexOf is cheap here.
+    const idx = recent.indexOf(ev.id);
+    const score = (idx === -1) ? 9999 : idx; // unseen beats anything; otherwise farther back = longer ago
+    if (score > bestScore) { best = ev; bestScore = score; }
+  }
+
+  return best;
+}
 
 
 function pickEventFromPool(pool, avoidIds = [], weightFn = eventDirectorWeight, strictAvoid = false) {
@@ -2046,14 +2061,15 @@ function pickEventFromPool(pool, avoidIds = [], weightFn = eventDirectorWeight, 
   const preferred = avoid.length ? pool.filter(e => !avoid.includes(e.id)) : pool;
   if (strictAvoid && avoid.length && preferred.length === 0) return null;
 
-  const picked = weightedPick(preferred, weightFn);
-  if (picked) return picked;
+const picked = weightedPick(preferred, weightFn);
+if (picked) return picked;
 
-  // If all weights were 0, fall back to uniform random among the preferred set.
-  if (preferred.length) return pick(preferred);
+// If all weights were 0 (often because noveltyBias hard-blocked everything),
+// pick the least-recently-seen option to maximize variety.
+if (preferred.length) return pickLeastRecentlySeen(preferred) ?? pick(preferred);
 
-  // If strictAvoid is false, we can fall back to a repeat.
-  return pick(pool);
+// If strictAvoid is false, we can fall back to a repeat — again, prefer least-recent.
+return pickLeastRecentlySeen(pool) ?? pick(pool);
 }
 
 
