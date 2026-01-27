@@ -617,8 +617,9 @@ async function loadAllData() {
     }
   }
   for (const ev of DATA.events) {
-    if (!ev.outcomes || ev.outcomes.length !== 4) {
-      console.warn(`Event ${ev.id} should have exactly 4 outcomes (has ${ev.outcomes?.length ?? 0}).`);
+    const n = ev.outcomes?.length ?? 0;
+    if (n < 2 || n > 5) {
+      console.warn(`Event ${ev.id} should have 2–5 outcomes (has ${n}).`);
     }
   }
 }
