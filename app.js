@@ -511,6 +511,7 @@ let committed = [];   // [iid, iid]
 let nextHandIid = 1;
 
 let resolvingOutcome = false; // prevents double-advances / modal-close weirdness
+let draftOpened = false; // guards major draft double-open
 
 function getHandEntry(iid) {
   return hand.find(h => h.iid === iid) || null;
@@ -798,7 +799,7 @@ function expandDeck(deckField) {
     const out = [];
     for (const entry of deckField) {
       const count = Math.max(1, entry.count ?? 1);
-      for (let i = 0; i < count; i++) out.push(entry.cardId);
+      for (let i = 0; i < count; i++) out.push(entry.cardId ?? entry.id);
     }
     return out;
   }
@@ -2354,6 +2355,21 @@ function advanceTime() {
     log(`— A year passes. Age is now ${state.age}.`);
   }
 }
+function finishEvent() {
+  // Advance time & start the next event.
+  advanceTime();
+
+  // Release resolve lock + re-enable top buttons.
+  resolvingOutcome = false;
+  btnNewEvent.disabled = false;
+  btnDebugPickEvent.disabled = false;
+
+  saveState();
+  renderAll();
+  loadRandomEvent();
+}
+
+
 
 
 // ---------- Resolve ----------
@@ -2740,6 +2756,20 @@ function showLoadingUI(isLoading) {
 function startRunFromBuilder(bg, givenName, familyName) {
   const deckIds = expandDeck(bg.deck);
   const validDeck = deckIds.filter(cid => DATA.cardsById[cid]);
+
+  if (!validDeck.length) {
+    const wrap = document.createElement("div");
+    wrap.innerHTML = `
+      <p>This background's starting deck contains no valid cards.</p>
+      <p class="muted">Fix backgrounds.json (deck entries must reference existing card ids). Then press Reset and start again.</p>
+    `;
+    openModal("Deck Error", wrap, { locked: false });
+    resolvingOutcome = false;
+    btnNewEvent.disabled = false;
+    btnDebugPickEvent.disabled = false;
+    return;
+  }
+
 
   const finalStats = computeFinalStats(bg);
   const finalRes = computeFinalResources(bg);
