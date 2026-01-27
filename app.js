@@ -88,23 +88,46 @@ const setBootMsg = (msg) => { if (bootMsg) bootMsg.textContent = msg || ""; };
 const START_ALLOC_POINTS = 4;
 const STAT_CAP = 5;
 
+const STARTING_AGE = 16;
+const MAX_MARRIAGE_AGE = 45;
+
 const TRAITS = [
+  // Stat-edge
   { id: "brawny", name: "Brawny", desc: "+1 Might (cap 5).", statMods: { Might: 1 } },
   { id: "bookish", name: "Bookish", desc: "+1 Wit (cap 5).", statMods: { Wit: 1 } },
   { id: "silver_tongue", name: "Silver Tongue", desc: "+1 Gravitas (cap 5).", statMods: { Gravitas: 1 } },
   { id: "shadow_eyed", name: "Shadow-Eyed", desc: "+1 Guile (cap 5).", statMods: { Guile: 1 } },
   { id: "stubborn", name: "Stubborn", desc: "+1 Resolve (cap 5).", statMods: { Resolve: 1 } },
 
+  // Starts-with resources
   { id: "well_connected", name: "Well-Connected", desc: "Start with +1 Influence.", resMods: { Influence: 1 } },
   { id: "thrifty", name: "Thrifty", desc: "Start with +2 Coin.", resMods: { Coin: 2 } },
   { id: "packer", name: "Packer", desc: "Start with +2 Supplies.", resMods: { Supplies: 2 } },
+  { id: "known_face", name: "Known Face", desc: "Start with +1 Renown.", resMods: { Renown: 1 } },
+  { id: "quiet_sins", name: "Quiet Sins", desc: "Start with +1 Secrets.", resMods: { Secrets: 1 } },
 
+  // Risky starts
   { id: "notorious", name: "Notorious", desc: "Start +1 Renown, +1 Secrets, but gain Marked (Minor).",
     resMods: { Renown: 1, Secrets: 1 },
     addConditions: [{ id: "Marked", severity: "Minor" }]
   },
+  { id: "debt_ridden", name: "Debt-Ridden", desc: "Start with +4 Coin, but gain In Debt (Minor).",
+    resMods: { Coin: 4 },
+    addConditions: [{ id: "In Debt", severity: "Minor" }]
+  },
 
-  { id: "hardy", name: "Hardy", desc: "Start with Exhausted downgraded (if any later). (Placeholder trait)."}
+  // Flavorful, tangible nudges (still simple in this prototype)
+  { id: "hardy", name: "Hardy", desc: "Start with +1 Resolve and +1 Supplies.", statMods: { Resolve: 1 }, resMods: { Supplies: 1 } },
+  { id: "meticulous", name: "Meticulous", desc: "Start with +1 Wit and +1 Influence.", statMods: { Wit: 1 }, resMods: { Influence: 1 } },
+  { id: "ruthless", name: "Ruthless", desc: "Start with +1 Guile and +1 Secrets.", statMods: { Guile: 1 }, resMods: { Secrets: 1 } },
+  { id: "charming", name: "Charming", desc: "Start with +1 Gravitas and +1 Renown.", statMods: { Gravitas: 1 }, resMods: { Renown: 1 } },
+  { id: "oathbound", name: "Oathbound", desc: "Start with Oathbound (Minor) and +1 Influence.", resMods: { Influence: 1 }, addConditions: [{ id: "Oathbound", severity: "Minor" }] },
+  { id: "streetwise", name: "Streetwise", desc: "Start with +1 Guile and +1 Coin.", statMods: { Guile: 1 }, resMods: { Coin: 1 } },
+  { id: "steadfast", name: "Steadfast", desc: "Start with +2 Resolve.", statMods: { Resolve: 2 } },
+
+  // Courtship-relevant starts
+  { id: "fine_clothes", name: "Fine Clothes", desc: "Start with +2 Coin and +1 Gravitas.", resMods: { Coin: 2 }, statMods: { Gravitas: 1 } },
+  { id: "devout", name: "Devout", desc: "Start with +1 Resolve and +1 Influence.", statMods: { Resolve: 1 }, resMods: { Influence: 1 } }
 ];
 
 const HEIR_NAMES = [
@@ -112,6 +135,106 @@ const HEIR_NAMES = [
   "Hugh","Isolde","Corin","Maera","Alina","Cedric","Ronan","Eloen","Soren","Willa"
 ];
 
+// ---------- Names & Cultures (World Bible bias) ----------
+const CULTURES = [
+  { id: "valewyr", name: "Valewyran", weight: 4,
+    female: ["Mira","Isolde","Sabine","Linette","Willa","Alina","Maera","Tamsin","Eloen","Anwen","Cerys","Elowen"],
+    male:   ["Alden","Rowan","Elric","Bran","Edric","Garrick","Hugh","Cedric","Ronan","Corin","Soren","Leof"],
+    surnames: ["Thorne","Ashford","Cairn","Hawke","Bracken","Rook","Fenwick","Darrow","Mallory","Varr"]
+  },
+  { id: "marcher", name: "Marcher", weight: 3,
+    female: ["Sabina","Marin","Etta","Vesper","Lysa","Coralie","Nella","Viola","Seren","Kara"],
+    male:   ["Bastian","Orren","Jory","Perrin","Silas","Dario","Nico","Talon","Rafe","Cass"],
+    surnames: ["Vell","Kest","Mercer","Pryde","Locke","Dane","Sable","Grove","Farrow","Wex"]
+  },
+  { id: "covenant", name: "Covenant", weight: 2,
+    female: ["Brynja","Sigrid","Halla","Yrsa","Runa","Freydis","Tove","Inga"],
+    male:   ["Sten","Ulf","Eirik","Hakon","Torsten","Bjorn","Kjell","Rurik"],
+    surnames: ["Stonehand","Bearcloak","Ironbeard","Frostborn","Wolfmark","Ashenhelm","Ravenhook"]
+  },
+  { id: "ashen", name: "Ashen", weight: 2,
+    female: ["Nadira","Samira","Yasmin","Zahra","Farah","Amira","Layla","Ranya"],
+    male:   ["Khalid","Omar","Rafiq","Tariq","Zahir","Naseem","Azim","Hadi"],
+    surnames: ["al-Sahir","ibn Vashir","Qadir","Nassar","Zaydan","Rahim","Sadiq"]
+  },
+  { id: "verdant", name: "Verdant", weight: 1,
+    female: ["Elspeth","Agnes","Beatrix","Sera","Liora","Maribel"],
+    male:   ["Gideon","Lucan","Piers","Ansel","Mathis","Bram"],
+    surnames: ["Green","Vigil","Candle","Vow","Moss","Lark"]
+  }
+];
+
+function pickWeighted(items, weightFn) {
+  const total = items.reduce((s, it) => s + (weightFn(it) || 0), 0);
+  if (total <= 0) return items[0] ?? null;
+  let roll = Math.random() * total;
+  for (const it of items) {
+    roll -= (weightFn(it) || 0);
+    if (roll <= 0) return it;
+  }
+  return items[items.length - 1] ?? null;
+}
+
+function randomCulture(bias = {}) {
+  // bias: {cultureId: multiplier}
+  return pickWeighted(CULTURES, c => (c.weight ?? 1) * (bias[c.id] ?? 1)) || CULTURES[0];
+}
+
+function randomGivenName(culture, gender = "any") {
+  const c = culture || randomCulture();
+  const pool = (gender === "female") ? c.female
+    : (gender === "male") ? c.male
+    : ((Math.random() < 0.5) ? c.female : c.male);
+  return pool[rInt(0, pool.length - 1)];
+}
+
+function generateProspect() {
+  // Prospect is biased young; your age makes things harder later via event weighting + requirements.
+  // Background nudges who you tend to meet.
+  const bg = state?.backgroundId;
+  const bias = {};
+  if (bg === "guild_factor") bias.marcher = 1.8;
+  if (bg === "caravan_scout") bias.ashen = 1.7;
+  if (bg === "novice") bias.verdant = 2.0;
+  if (bg === "outlaw") bias.marcher = 1.3;
+  if (bg === "hedge_knight") bias.covenant = 1.2;
+
+  const culture = randomCulture(bias);
+  const gender = "female"; // prototype: meet "a woman" as requested; easy to broaden later
+  const given = randomGivenName(culture, gender);
+
+  // Medieval-ish: prospects trend 16–26, but can skew up a bit when you are older.
+  const baseMin = 16;
+  const baseMax = 26;
+  const skew = Math.max(0, Math.floor((state?.age ?? 16) - 26) / 5);
+  const age = clamp(rInt(baseMin, baseMax + skew), 16, 32);
+
+  const surname = (culture.surnames ?? [state?.familyName ?? ""]).length
+    ? culture.surnames[rInt(0, culture.surnames.length - 1)]
+    : (state?.familyName ?? "");
+
+  const temper = pick(["quick-witted","reserved","warm","proud","pious","pragmatic","sharp-eyed"]);
+  const station = pick(["minor household","merchant kin","temple ward","soldier's family","scribe's line"]);
+  const dowry = rInt(1, 4);
+
+  return {
+    given,
+    family: surname,
+    cultureId: culture.id,
+    cultureName: culture.name,
+    age,
+    temper,
+    station,
+    dowry
+  };
+}
+
+function hasSpouse() {
+  return Boolean(state?.family?.spouse);
+}
+function hasHeir() {
+  return (state?.family?.heirs?.length ?? 0) > 0;
+}
 function difficultyProfileForEvent(ev, opts = {}) {
   // defaults: "general"
   // NOTE: "majorBeat" lets you make the 5-year milestones feel tougher even if the event JSON is still kind:"general"
@@ -907,11 +1030,22 @@ function applyStandingDelta(s) {
 }
 
 function applyBundle(bundle) {
-  if (!bundle) return;
+  if (!bundle) return [];
+  const post = [];
+
   for (const d of (bundle.resources ?? [])) applyResourceDelta(d);
   for (const c of (bundle.conditions ?? [])) applyConditionChange(c);
   for (const f of (bundle.flags ?? [])) applyFlagChange(f);
   for (const s of (bundle.standings ?? [])) applyStandingDelta(s);
+
+  // "special" actions are game-state mutations that aren't simple res/cond/flag deltas.
+  // Some specials defer UI (modals) until after the result screen closes.
+  for (const sp of (bundle.special ?? [])) {
+    const maybePost = applySpecial(sp);
+    if (typeof maybePost === "function") post.push(maybePost);
+  }
+
+  return post;
 }
 
 
@@ -926,9 +1060,210 @@ function mergeBundles(a, b) {
     resources: [...(a.resources ?? []), ...(b.resources ?? [])],
     conditions: [...(a.conditions ?? []), ...(b.conditions ?? [])],
     flags: [...(a.flags ?? []), ...(b.flags ?? [])],
-    standings: [...(a.standings ?? []), ...(b.standings ?? [])]
+    standings: [...(a.standings ?? []), ...(b.standings ?? [])],
+    special: [...(a.special ?? []), ...(b.special ?? [])]
   };
   return out;
+}
+
+// ---------- Family / Heirs (prototype) ----------
+function ensureFamilyState() {
+  state.family ??= { spouse: null, prospect: null, heirs: [] };
+  state.family.heirs ??= [];
+}
+
+function openProspectModal(prospect, onDecision) {
+  const wrap = document.createElement("div");
+  wrap.innerHTML = `
+    <p class="muted">You are offered an introduction. This may set your life on a different course.</p>
+    <div class="cardbtn committed" style="cursor:default">
+      <div class="cardname">${prospect.given} ${prospect.family}</div>
+      <div class="muted">${prospect.cultureName} • Age ${prospect.age} • ${prospect.station}</div>
+      <div style="margin-top:6px">Temper: <b>${prospect.temper}</b></div>
+      <div style="margin-top:6px">Dowry rumor: <b>+${prospect.dowry} Coin</b> if vows are made.</div>
+    </div>
+  `;
+
+  const row = document.createElement("div");
+  row.style.display = "flex";
+  row.style.gap = "8px";
+  row.style.marginTop = "12px";
+
+  const btnPursue = document.createElement("button");
+  btnPursue.className = "btn";
+  btnPursue.textContent = "Pursue the match";
+
+  const btnDecline = document.createElement("button");
+  btnDecline.className = "btn ghost";
+  btnDecline.textContent = "Decline";
+
+  btnPursue.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onDecision(true);
+  });
+  btnDecline.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onDecision(false);
+  });
+
+  row.appendChild(btnPursue);
+  row.appendChild(btnDecline);
+  wrap.appendChild(row);
+
+  openModal("A Prospect", wrap, { locked: true });
+}
+
+function openChildModal(onConfirm) {
+  const wrap = document.createElement("div");
+
+  const p = document.createElement("p");
+  p.className = "muted";
+  p.textContent = "A child is born. Choose their name and education focus.";
+  wrap.appendChild(p);
+
+  const names = generateHeirNameChoices(6);
+  const nameGrid = document.createElement("div");
+  nameGrid.className = "hand";
+  wrap.appendChild(nameGrid);
+
+  let chosenName = null;
+  let chosenFocus = null;
+
+  const focusWrap = document.createElement("div");
+  focusWrap.style.marginTop = "10px";
+  focusWrap.innerHTML = `<div class="muted">Education Focus (grants +1 when they take up the mantle):</div>`;
+  const sel = document.createElement("select");
+  sel.className = "inp";
+  for (const s of STATS) {
+    const opt = document.createElement("option");
+    opt.value = s;
+    opt.textContent = s;
+    sel.appendChild(opt);
+  }
+  sel.addEventListener("change", () => { chosenFocus = sel.value; updateConfirm(); });
+  chosenFocus = sel.value;
+  focusWrap.appendChild(sel);
+  wrap.appendChild(focusWrap);
+
+  const btnConfirm = document.createElement("button");
+  btnConfirm.className = "btn";
+  btnConfirm.textContent = "Name the child";
+  btnConfirm.style.marginTop = "12px";
+  btnConfirm.disabled = true;
+
+  function updateConfirm() {
+    btnConfirm.disabled = !(chosenName && chosenFocus);
+  }
+
+  for (const nm of names) {
+    const b = document.createElement("div");
+    b.className = "cardbtn";
+    b.tabIndex = 0;
+    b.innerHTML = `<div class="cardname">${nm} ${state.familyName}</div><div class="muted">Choose name</div>`;
+    const pickName = () => {
+      chosenName = nm;
+      [...nameGrid.children].forEach(x => x.classList.remove("committed"));
+      b.classList.add("committed");
+      updateConfirm();
+    };
+    b.addEventListener("click", pickName);
+    b.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") pickName(); });
+    nameGrid.appendChild(b);
+  }
+
+  btnConfirm.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onConfirm(chosenName, chosenFocus);
+  });
+
+  wrap.appendChild(btnConfirm);
+  openModal("A Newborn", wrap, { locked: true });
+}
+
+function runPostActionsSequentially(actions, done) {
+  const list = (actions ?? []).filter(fn => typeof fn === "function");
+  let i = 0;
+  const step = () => {
+    if (i >= list.length) return done?.();
+    const fn = list[i++];
+    fn(step);
+  };
+  step();
+}
+
+function applySpecial(sp) {
+  // Return a post-action function (takes next()) if it needs a modal / choice.
+  if (!sp || !sp.type) return null;
+  ensureFamilyState();
+
+  switch (sp.type) {
+    case "OfferProspect": {
+      // Defer the choice until after the result modal closes.
+      return (next) => {
+        const prospect = generateProspect();
+        state.family.prospect = prospect;
+
+        openProspectModal(prospect, (accepted) => {
+          if (!accepted) {
+            // Player declined: cancel this courtship chain + short cooldown.
+            state.family.prospect = null;
+            applyFlagChange({ id: "ct_declined", mode: "Add", durationEvents: 6 });
+
+            // Clear storyline activation/scheduling for the courtship chain, if it was set.
+            applyFlagChange({ id: "sl_ct_active", mode: "Remove" });
+            applyFlagChange({ id: "sl_ct_step2", mode: "Remove" });
+            applyFlagChange({ id: "sl_ct_step3", mode: "Remove" });
+            applyFlagChange({ id: "sl_ct_step4", mode: "Remove" });
+            if (state.story?.due) delete state.story.due["ct"];
+            log("You decline the match. The matter cools (for now).");
+          } else {
+            log(`You pursue a match with ${prospect.given} ${prospect.family}.`);
+          }
+          saveState();
+          renderAll();
+          next?.();
+        });
+      };
+    }
+
+    case "FinalizeMarriage": {
+      const p = state.family.prospect;
+      if (p) {
+        state.family.spouse = {
+          given: p.given,
+          family: p.family,
+          cultureId: p.cultureId,
+          cultureName: p.cultureName,
+          age: p.age
+        };
+        state.family.prospect = null;
+        applyFlagChange({ id: "has_spouse", mode: "Add", durationEvents: 0 });
+        log(`Vows are made. You are wed to ${state.family.spouse.given} ${state.family.spouse.family}.`);
+      }
+      return null;
+    }
+
+    case "CreateHeir": {
+      // Defer naming/focus to a modal.
+      return (next) => {
+        openChildModal((childName, focus) => {
+          const child = { given: childName, family: state.familyName, age: 0, focus };
+          state.family.heirs.push(child);
+          applyFlagChange({ id: "has_heir", mode: "Add", durationEvents: 0 });
+          log(`An heir is recorded: ${child.given} ${child.family} (Education: ${focus}).`);
+          saveState();
+          renderAll();
+          next?.();
+        });
+      };
+    }
+
+    default:
+      return null;
+  }
 }
 
 function bundleNetResourceDeltas(bundle) {
@@ -1285,7 +1620,11 @@ function renderStatus() {
   const season = SEASONS[state.seasonIndex];
 
   const who = `${state.charName ?? "Unknown"} ${state.familyName ?? ""}`.trim();
-  statusLine.textContent = `${who} • Age ${state.age} • ${season} • Heirs ${state.heirCount ?? 0}`;
+    ensureFamilyState();
+  const spouseStr = state.family.spouse ? ` • Spouse: ${state.family.spouse.given}` : "";
+  const kids = state.family.heirs?.length ?? 0;
+  const kidsStr = kids ? ` • Children: ${kids}` : "";
+  statusLine.textContent = `${who} • Age ${state.age} • ${season} • Heirs Ruled ${state.heirCount ?? 0}${spouseStr}${kidsStr}`;
 
   const hf = state.heirFocus ? ` (Heir Focus: ${state.heirFocus})` : "";
   statsLine.textContent =
@@ -1304,7 +1643,12 @@ function renderStatus() {
 
 function renderEvent() {
   eventName.textContent = currentEvent.name;
-  eventMeta.textContent = `Context: ${currentEvent.context}`;
+    ensureFamilyState();
+  let meta = `Context: ${currentEvent.context}`;
+  if (currentEvent?.storyline?.id === "ct" && state.family.prospect) {
+    meta += ` • Prospect: ${state.family.prospect.given} (${state.family.prospect.cultureName})`;
+  }
+  eventMeta.textContent = meta;
   eventPrompt.textContent = currentEvent.prompt;
 }
 
@@ -1787,8 +2131,20 @@ function tryPickStoryHookEvent() {
   return weightedPick(pool, (ev) => {
     const sid = ev.storyline.id;
     const rarityW = storylineRarityWeight(sid);
-    // Use the normal director weights too, so background/context/scarcity still matter.
-    return rarityW * eventDirectorWeight(ev);
+
+    let w = rarityW * eventDirectorWeight(ev);
+
+    // Family safety-net: if you have no spouse/heir, heavily bias toward the courtship hook
+    // so players see lineage play in a reasonable window.
+    ensureFamilyState();
+    if (sid === "ct" && !hasSpouse() && !hasHeir()) {
+      if (state.age >= 18 && state.age <= 34) w *= 3.2;
+      else if (state.age <= 40) w *= 2.0;
+      else w *= 1.1;
+      if (state.flags?.ct_declined) w *= 0.35; // cooldown after declining a prospect
+    }
+
+    return w;
   });
 }
 
@@ -1991,6 +2347,10 @@ function advanceTime() {
   state.seasonIndex = 1 - state.seasonIndex;
   if (state.seasonIndex === 0) {
     state.age += 1;
+    ensureFamilyState();
+    // Age spouse + children annually.
+    if (state.family.spouse) state.family.spouse.age = (state.family.spouse.age ?? 16) + 1;
+    for (const h of (state.family.heirs ?? [])) h.age = (h.age ?? 0) + 1;
     log(`— A year passes. Age is now ${state.age}.`);
   }
 }
@@ -2017,7 +2377,7 @@ function resolveSelectedOutcome() {
   const condRule = outcomeConditionRules(currentEvent, o);
   const attemptCosts = (condRule.costs ?? []).map(c => ({ resource: c.resource, amount: c.amount }));
   const attemptBundle = attemptCosts.length ? { resources: attemptCosts } : null;
-  if (attemptBundle) applyBundle(attemptBundle);
+  if (attemptBundle) postActions.push(...applyBundle(attemptBundle));
 
   // Exhaust the hand: all drawn cards go to discard after the event.
   for (const entry of hand) state.discardPile.push(entry.cid);
@@ -2029,9 +2389,10 @@ function resolveSelectedOutcome() {
   // Apply outcome effects
   let bundleForSummary = null;
   let isPartial = false;
+  let postActions = [];
 
   if (success) {
-    applyBundle(o.success);
+    postActions.push(...applyBundle(o.success));
     bundleForSummary = o.success;
     log(`SUCCESS (${roll} ≤ ${chance}) → ${o.title}`);
   } else {
@@ -2065,7 +2426,7 @@ function resolveSelectedOutcome() {
         : "You don’t quite get what you wanted, but you salvage something.";
       bundleForSummary = { text: partialTxt, resources: halfResources, conditions: softenedConds };
     } else {
-      applyBundle(o.fail);
+      postActions.push(...applyBundle(o.fail));
       bundleForSummary = o.fail;
       log(`FAIL (${roll} > ${chance}) → ${o.title}`);
     }
@@ -2075,7 +2436,7 @@ function resolveSelectedOutcome() {
   const combinedForNet = mergeBundles(attemptBundle, bundleForSummary);
   const netDeltas = bundleNetResourceDeltas(combinedForNet);
   const postPressure = applyPostEventConditionPressure(currentEvent, o, success, isPartial, netDeltas);
-  if (postPressure) applyBundle(postPressure);
+  if (postPressure) postActions.push(...applyBundle(postPressure));
 
   const bundleForResult = mergeBundles(mergeBundles(attemptBundle, bundleForSummary), postPressure);
 
@@ -2134,21 +2495,26 @@ function resolveSelectedOutcome() {
     conditions,
     locked: false,
     onClose: () => {
-      if (wasMajor) {
-        if (draftOpened) return;
-        draftOpened = true;
-        openDraftModal(() => finishEvent());
-      } else {
-        finishEvent();
-      }
+      runPostActionsSequentially(postActions, () => {
+        if (wasMajor) {
+          if (draftOpened) return;
+          draftOpened = true;
+          openDraftModal(() => finishEvent());
+        } else {
+          finishEvent();
+        }
+      });
     }
   });
 }
 
 // ---------- Succession ----------
 function handleDeath() {
+  ensureFamilyState();
+
   state.heirCount = (state.heirCount ?? 0) + 1;
 
+  // Inheritance attrition (resources carry, but not cleanly)
   state.res.Coin = Math.floor((state.res.Coin ?? 0) * 0.7);
   state.res.Supplies = Math.floor((state.res.Supplies ?? 0) * 0.7);
   state.res.Renown = Math.floor((state.res.Renown ?? 0) * 0.8);
@@ -2160,28 +2526,71 @@ function handleDeath() {
     .filter(c => c.severity === "Severe")
     .map(c => ({ id: c.id, severity: "Minor" }));
 
-  state.age = 18;
+  // If no eligible heir exists, the bloodline ends.
+  const heirs = (state.family.heirs ?? []).slice().sort((a, b) => (b.age ?? 0) - (a.age ?? 0));
+  const primary = heirs[0] ?? null;
+
+  if (!primary) {
+    const wrap = document.createElement("div");
+    wrap.innerHTML = `
+      <p>Your line has no named heir. The household scatters. The record ends here.</p>
+      <p class="muted">Tip: pursue a match earlier, or survive long enough to see the first child come of age.</p>
+    `;
+    openModal("Bloodline Failure", wrap, {
+      locked: false,
+      onClose: () => {
+        localStorage.removeItem(SAVE_KEY);
+        state = null;
+        logEl.textContent = "";
+        showStart();
+      }
+    });
+    return;
+  }
+
+  // Regency shortcut (prototype): if the heir is too young, time passes off-screen.
+  if ((primary.age ?? 0) < STARTING_AGE) {
+    const years = STARTING_AGE - (primary.age ?? 0);
+    state.res.Coin = Math.floor((state.res.Coin ?? 0) * 0.85);
+    state.res.Influence = Math.floor((state.res.Influence ?? 0) * 0.85);
+    addCondition("Disgraced", "Minor", { durationEvents: 8 });
+    log(`A regency holds for ${years} year(s). The estate frays under distant hands.`);
+  }
+
+  // New ruler takes over.
+  state.charName = primary.given;
+  state.heirFocus = primary.focus ?? null;
+
+  if (state.heirFocus) {
+    state.stats[state.heirFocus] = clamp((state.stats[state.heirFocus] ?? 0) + 1, 0, 5);
+  }
+
+  // Reset per-life pacing.
+  state.age = STARTING_AGE;
   state.seasonIndex = 0;
   state.runEventIndex = 0;
   state.story = { due: {}, noStoryEvents: 0 };
 
-  // Storylines are per-life in this prototype: clear any storyline flags to prevent cross-heir weirdness.
+  // Clear per-life flags (including storylines) so each ruler feels fresh.
   for (const k of Object.keys(state.flags ?? {})) {
     if (k.startsWith("sl_")) delete state.flags[k];
   }
+  // Clear spouse + children (new ruler must build their own line).
+  // Also clear per-life family flags.
+  delete state.flags.has_spouse;
+  delete state.flags.has_heir;
+  delete state.flags.ct_declined;
+  delete state.flags.ct_awkward;
+  delete state.flags.ct_secret_bond;
+  delete state.flags.ct_terms_soured;
 
- openSuccessionModal((heirName, focus) => {
-  state.charName = heirName;
-  state.heirFocus = focus;
+  // Clear spouse + children (new ruler must build their own line).
+  state.family = { spouse: null, prospect: null, heirs: [] };
 
-  state.stats[focus] = clamp((state.stats[focus] ?? 0) + 1, 0, 5);
-
-  log(`Heir takes over: ${state.charName} ${state.familyName}. Focus bonus: +1 ${focus}. Heirs so far: ${state.heirCount}.`);
+  log(`Heir takes over: ${state.charName} ${state.familyName}. Focus bonus: ${state.heirFocus ? `+1 ${state.heirFocus}` : "None"}. Heirs ruled so far: ${state.heirCount}.`);
   saveState();
   renderAll();
   loadRandomEvent();
-});
-
 }
 
 // ---------- UI wiring ----------
@@ -2341,7 +2750,7 @@ function startRunFromBuilder(bg, givenName, familyName) {
     familyName,
     backgroundId: bg.id,
     backgroundName: bg.name,
-    age: 18,
+    age: STARTING_AGE,
     seasonIndex: 0,
     heirCount: 0,
     runEventIndex: 0,
@@ -2350,6 +2759,8 @@ function startRunFromBuilder(bg, givenName, familyName) {
 
     // IMPORTANT: no heir focus until you actually have an heir
     heirFocus: null,
+
+    family: { spouse: null, prospect: null, heirs: [] },
 
     traits: Array.from(creation.traits),
 
@@ -2397,6 +2808,10 @@ async function boot() {
     state.story ??= { due: {}, noStoryEvents: 0 };
     state.story.due ??= {};
     if (!Number.isFinite(state.story.noStoryEvents)) state.story.noStoryEvents = 0;
+    // Newer saves track spouse/children.
+    state.family ??= { spouse: null, prospect: null, heirs: [] };
+    state.family.heirs ??= [];
+
     showGame();
     logEl.textContent = "";
     log("Loaded saved run state.");
