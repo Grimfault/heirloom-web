@@ -35,6 +35,62 @@ const STORYLINE_RARITY_WEIGHTS = { common: 6, uncommon: 3, rare: 1 };
 const STATS = ["Might","Wit","Guile","Gravitas","Resolve"];
 const RES = ["Coin","Supplies","Renown","Influence","Secrets"];
 const TIERS = ["Hostile","Wary","Neutral","Favored","Exalted"];
+// ---------- Conditions: meaningful impacts + timers ----------
+/*
+  Conditions are not just +/- a few %:
+  - They can drain resources automatically (Debt interest, Disgrace social bleed).
+  - They can change play rules (Bruised limits commits in Strife).
+  - Some expire on a timer (expiresAt uses runEventIndex).
+*/
+const CONDITION_RULES = {
+  "In Debt": {
+    vernalInterest: { Minor: 2, Severe: 4 },      // paid after Vernal events
+    coinSiphonOnGain: { Minor: 1, Severe: 2 },    // creditors take a cut of Coin gains
+    missedToSevere: 2                             // missed interests to escalate Minor -> Severe
+  },
+  "Disgraced": {
+    courtRenownDrain: { Minor: 1, Severe: 2 },    // paid after Court events
+    eventsToSevere: 4                              // lingering disgrace escalates
+  },
+  "Bruised": {
+    strifeCommitCap: 1,                            // max committed cards during Strife
+    perilousFailToWounded: true                    // fail a Perilous Strife while Bruised -> Wounded (Severe)
+  }
+};
+
+function currentRunIndex() {
+  return (state?.runEventIndex ?? 0);
+}
+
+function ensureCondMeta() {
+  if (!state) return;
+  state.condMeta ??= {};
+  state.condMeta.debtMissed ??= 0;        // count missed interest collections
+  state.condMeta.disgraceEvents ??= 0;    // how long Disgraced has lingered
+}
+
+function getCondition(id) {
+  return state?.conditions?.find(c => c.id === id) || null;
+}
+
+function conditionSeverity(id) {
+  return getCondition(id)?.severity ?? null;
+}
+
+function maxCommitsForCurrentEvent() {
+  // Default max commits per event is 2; conditions can tighten it.
+  let cap = 2;
+  if (!currentEvent) return cap;
+
+  if (currentEvent.context === "Strife" && getCondition("Bruised")) {
+    cap = Math.min(cap, CONDITION_RULES["Bruised"].strifeCommitCap);
+  }
+
+  // Optional extension point later:
+  // if (hasCondition("Exhausted","Severe")) cap = Math.min(cap, 1);
+
+  return cap;
+}
 
 // ---------- Data (loaded) ----------
 let DATA = {
@@ -207,6 +263,164 @@ function summarizeBundleForPlayer(bundle) {
 
   return { resources, conditions };
 }
+
+function cloneSummaryBundle(bundle) {
+  const b = bundle ? deepCopy(bundle) : { text: "", resources: [], conditions: [] };
+  b.text ??= "";
+  b.resources ??= [];
+  b.conditions ??= [];
+  return b;
+}
+
+function mergeSummaryBundles(base, extra) {
+  if (!extra) return base;
+  base.text = (base.text ?? "").toString();
+  if (extra.text) {
+    const t = extra.text.toString().trim();
+    if (t) base.text = base.text ? (base.text.trimEnd() + "\n\n" + t) : t;
+  }
+  if (Array.isArray(extra.resources) && extra.resources.length) base.resources.push(...extra.resources);
+  if (Array.isArray(extra.conditions) && extra.conditions.length) base.conditions.push(...extra.conditions);
+  return base;
+}
+
+function sumPositiveResource(bundle, key) {
+  let s = 0;
+  for (const d of (bundle?.resources ?? [])) {
+    if (d?.resource === key) {
+      const a = Number(d.amount ?? 0);
+      if (a > 0) s += a;
+    }
+  }
+  return s;
+}
+
+function applyZeroResourceConsequences(resBefore) {
+  // Design doc rule: hitting 0 doesn’t kill you; it adds pressure conditions.
+  const extra = { text: "", resources: [], conditions: [] };
+
+  const beforeCoin = resBefore?.Coin ?? 0;
+  const beforeSup = resBefore?.Supplies ?? 0;
+  const beforeRenown = resBefore?.Renown ?? 0;
+
+  if (beforeCoin > 0 && (state.res.Coin ?? 0) === 0 && !hasCondition("In Debt", "Any")) {
+    addCondition("In Debt", "Minor");
+    extra.conditions.push({ id: "In Debt", mode: "Add", severity: "Minor" });
+    extra.text = "With your coin spent to the last, creditors begin to circle.";
+  }
+
+  if (beforeSup > 0 && (state.res.Supplies ?? 0) === 0 && !hasCondition("Starving", "Any")) {
+    addCondition("Starving", "Severe");
+    extra.conditions.push({ id: "Starving", mode: "Add", severity: "Severe" });
+    extra.text = extra.text ? (extra.text + " You’ve run out of provisions.") : "You’ve run out of provisions.";
+  }
+
+  if (beforeRenown > 0 && (state.res.Renown ?? 0) === 0 && !hasCondition("Disgraced", "Any")) {
+    addCondition("Disgraced", "Minor");
+    extra.conditions.push({ id: "Disgraced", mode: "Add", severity: "Minor" });
+    extra.text = extra.text ? (extra.text + " Your name loses its shine—fast.") : "Your name loses its shine—fast.";
+  }
+
+  return extra;
+}
+
+function applyConditionConsequencesAfterOutcome(ev, outcome, success, isPartial, bundleForSummary, resBefore) {
+  ensureCondMeta();
+  const extra = { text: "", resources: [], conditions: [] };
+
+  // --- Debt: creditors siphon Coin gains ---
+  const debt = getCondition("In Debt");
+  if (debt) {
+    const gain = sumPositiveResource(bundleForSummary, "Coin");
+    const siphon = CONDITION_RULES["In Debt"].coinSiphonOnGain[debt.severity] ?? 0;
+    if (gain > 0 && siphon > 0) {
+      const pay = Math.min(gain, siphon, state.res.Coin ?? 0);
+      if (pay > 0) {
+        applyResourceDelta({ resource: "Coin", amount: -pay });
+        extra.resources.push({ resource: "Coin", amount: -pay });
+        extra.text = extra.text ? (extra.text + " Creditors take their cut.") : "Creditors take their cut.";
+      }
+    }
+
+    // Vernal interest (once per year, visible and predictable)
+    if ((state.seasonIndex ?? 0) === 0) {
+      const interest = CONDITION_RULES["In Debt"].vernalInterest[debt.severity] ?? 0;
+      if (interest > 0) {
+        const paid = Math.min(interest, state.res.Coin ?? 0);
+        if (paid > 0) {
+          applyResourceDelta({ resource: "Coin", amount: -paid });
+          extra.resources.push({ resource: "Coin", amount: -paid });
+        }
+
+        if (paid < interest) {
+          // Missed interest: social consequences and escalation pressure
+          state.condMeta.debtMissed = (state.condMeta.debtMissed ?? 0) + 1;
+          if (!hasCondition("Disgraced", "Any")) {
+            addCondition("Disgraced", "Minor");
+            extra.conditions.push({ id: "Disgraced", mode: "Add", severity: "Minor" });
+          }
+          extra.text = extra.text
+            ? (extra.text + " You can’t cover the interest; the humiliation spreads.")
+            : "You can’t cover the interest; the humiliation spreads.";
+
+          if (debt.severity === "Minor" && state.condMeta.debtMissed >= CONDITION_RULES["In Debt"].missedToSevere) {
+            addCondition("In Debt", "Severe");
+            extra.conditions.push({ id: "In Debt", mode: "Upgrade", severity: "Severe" });
+            state.condMeta.debtMissed = 0;
+            extra.text += " The terms harden.";
+          }
+        }
+      }
+    }
+  }
+
+  // --- Disgrace: Court drains Renown while the stain lingers ---
+  const dis = getCondition("Disgraced");
+  if (dis && ev?.context === "Court") {
+    const drain = CONDITION_RULES["Disgraced"].courtRenownDrain[dis.severity] ?? 0;
+    if (drain > 0) {
+      applyResourceDelta({ resource: "Renown", amount: -drain });
+      extra.resources.push({ resource: "Renown", amount: -drain });
+      extra.text = extra.text ? (extra.text + " Your disgrace costs you in the eyes of others.") : "Your disgrace costs you in the eyes of others.";
+    }
+  }
+
+  // --- Bruised: Strife becomes riskier ---
+  const bru = getCondition("Bruised");
+  const perilous = (outcome?.tags ?? []).includes("Perilous");
+  if (bru && ev?.context === "Strife" && perilous && !success && !isPartial && CONDITION_RULES["Bruised"].perilousFailToWounded) {
+    if (!hasCondition("Wounded", "Any")) {
+      addCondition("Wounded", "Severe");
+      extra.conditions.push({ id: "Wounded", mode: "Add", severity: "Severe" });
+      extra.text = extra.text ? (extra.text + " The bruise tears into a true wound.") : "The bruise tears into a true wound.";
+    }
+  }
+
+  // --- Zero-resource pressure conditions ---
+  const zeroExtra = applyZeroResourceConsequences(resBefore);
+  mergeSummaryBundles(extra, zeroExtra);
+
+  return extra;
+}
+
+function updateConditionPacingAfterResolvedEvent() {
+  // Escalate lingering disgrace (without being instant punishment).
+  ensureCondMeta();
+  if (hasCondition("Disgraced", "Any")) {
+    state.condMeta.disgraceEvents = (state.condMeta.disgraceEvents ?? 0) + 1;
+    if (hasCondition("Disgraced", "Minor") && state.condMeta.disgraceEvents >= CONDITION_RULES["Disgraced"].eventsToSevere) {
+      addCondition("Disgraced", "Severe");
+      state.condMeta.disgraceEvents = 0;
+    }
+  } else {
+    state.condMeta.disgraceEvents = 0;
+  }
+
+  // If you’re no longer in debt, clear missed-payment pressure.
+  if (!hasCondition("In Debt", "Any")) state.condMeta.debtMissed = 0;
+}
+
+
 
 function defaultResultNarrative(ev, outcome, success, partial) {
   const ctx = (ev?.context ?? "").toLowerCase();
@@ -730,6 +944,7 @@ function ensureStateMaps() {
   state.flags ??= {};      // { flagId: remainingEvents }
   state.standings ??= {};  // { factionId: tier }
   state.history ??= { recentEvents: [], recentContexts: [], seen: {} };
+  state.condMeta ??= {};   // hidden counters for condition systems
 }
 
 function applyResourceDelta(d) {
@@ -743,24 +958,58 @@ function findConditionIndex(id) {
   return state.conditions.findIndex(c => c.id === id);
 }
 
-function addCondition(id, severity) {
+function addCondition(id, severity, durationEvents = null) {
+  ensureCondMeta();
   const idx = findConditionIndex(id);
-  if (idx === -1) state.conditions.push({ id, severity });
-  else {
+  const now = currentRunIndex();
+  const expiresAt = (durationEvents && durationEvents > 0) ? (now + durationEvents) : null;
+
+  if (idx === -1) {
+    const cond = { id, severity };
+    if (expiresAt) cond.expiresAt = expiresAt;
+    state.conditions.push(cond);
+  } else {
     const cur = state.conditions[idx].severity;
     if (cur === "Minor" && severity === "Severe") state.conditions[idx].severity = "Severe";
+
+    // If a timed version is applied, refresh/extend the timer.
+    if (expiresAt) {
+      const curExp = state.conditions[idx].expiresAt ?? null;
+      state.conditions[idx].expiresAt = curExp ? Math.max(curExp, expiresAt) : expiresAt;
+    }
   }
 }
 
 function removeCondition(id) {
+  ensureCondMeta();
   state.conditions = state.conditions.filter(c => c.id !== id);
+  if (id === "In Debt") state.condMeta.debtMissed = 0;
+  if (id === "Disgraced") state.condMeta.disgraceEvents = 0;
 }
 
 function downgradeCondition(id) {
   const idx = findConditionIndex(id);
   if (idx === -1) return;
-  if (state.conditions[idx].severity === "Severe") state.conditions[idx].severity = "Minor";
-  else removeCondition(id);
+
+  if (state.conditions[idx].severity === "Severe") {
+    state.conditions[idx].severity = "Minor";
+  } else {
+    removeCondition(id);
+  }
+}
+
+function tickConditions() {
+  // Expire timed conditions once enough events have elapsed.
+  ensureCondMeta();
+  const now = currentRunIndex();
+  const expired = state.conditions.filter(c => (c.expiresAt && now >= c.expiresAt));
+  if (!expired.length) return;
+
+  for (const c of expired) {
+    if (c.id === "In Debt") state.condMeta.debtMissed = 0;
+    if (c.id === "Disgraced") state.condMeta.disgraceEvents = 0;
+  }
+  state.conditions = state.conditions.filter(c => !(c.expiresAt && now >= c.expiresAt));
 }
 
 function applyConditionChange(ch) {
@@ -768,10 +1017,12 @@ function applyConditionChange(ch) {
   const id = ch.id;
   const mode = ch.mode;
   const sev = ch.severity ?? "Minor";
-  if (mode === "Add") addCondition(id, sev);
+  const dur = ch.durationEvents ?? null;
+
+  if (mode === "Add") addCondition(id, sev, dur);
   else if (mode === "Remove") removeCondition(id);
   else if (mode === "Downgrade") downgradeCondition(id);
-  else if (mode === "Upgrade") addCondition(id, "Severe");
+  else if (mode === "Upgrade") addCondition(id, "Severe", dur);
 }
 
 function applyFlagChange(f) {
@@ -1034,7 +1285,7 @@ function renderHand() {
   if (selectedOutcomeIndex == null) {
     handHint.textContent = "Pick an outcome to see which cards are playable.";
   } else {
-    handHint.textContent = "Tap a playable card to commit/uncommit (max 2).";
+    handHint.textContent = `Tap a playable card to commit/uncommit (max ${maxCommitsForCurrentEvent()}).`;
   }
 
   handEl.innerHTML = "";
@@ -1072,7 +1323,7 @@ function renderHand() {
       if (isCommitted) {
         committed = committed.filter(x => x !== entry.iid);
       } else {
-        if (committed.length >= 2) return;
+        if (committed.length >= maxCommitsForCurrentEvent()) return;
         committed.push(entry.iid);
       }
       renderAll();
@@ -1274,6 +1525,19 @@ function poolBias(ev) {
   return m;
 }
 
+function conditionContextBias(ev) {
+  // Light steering so conditions influence what you *see* without hard-locking runs.
+  let m = 1;
+
+  // While bruised, you naturally avoid Strife-heavy situations.
+  if (getCondition("Bruised") && ev.context === "Strife") m *= 0.75;
+
+  // Severe disgrace makes Court invitations scarcer; you’ll see more “redemption”/road events instead.
+  if (hasCondition("Disgraced", "Severe") && ev.context === "Court") m *= 0.8;
+
+  return m;
+}
+
 
 function ageBias(ev) {
   // Soft preference toward events that "fit" the current age inside their allowed range.
@@ -1306,6 +1570,7 @@ function eventDirectorWeight(ev) {
   w *= scarcityBias(ev);
   w *= riskBias(ev);
   w *= poolBias(ev);
+  w *= conditionContextBias(ev);
 
   // Keep it sane
   return Math.max(0, w);
@@ -1680,7 +1945,9 @@ function resolveSelectedOutcome() {
 
       recordEventHistory(currentEvent);
       updateStoryCountersAfterResolvedEvent(currentEvent);
+      updateConditionPacingAfterResolvedEvent();
       advanceTime();
+      tickConditions();
       updateStoryPacingAfterResolvedEvent(currentEvent);
       saveState();
       renderAll();
@@ -1715,6 +1982,7 @@ function resolveSelectedOutcome() {
   hand = [];
 
   // Mortality tracking
+  const resBefore = deepCopy(state.res);
   const severeBefore = state.conditions.filter(c => c.severity === "Severe").length;
 
   // Apply outcome effects
@@ -1758,6 +2026,12 @@ function resolveSelectedOutcome() {
       log(`FAIL (${roll} > ${chance}) → ${o.title}`);
     }
   }
+
+
+  // Condition-driven consequences (Debt interest, Disgrace bleed, Bruised risk) + zero-resource pressure
+  bundleForSummary = cloneSummaryBundle(bundleForSummary);
+  const condExtra = applyConditionConsequencesAfterOutcome(currentEvent, o, success, isPartial, bundleForSummary, resBefore);
+  mergeSummaryBundles(bundleForSummary, condExtra);
 
   // Mortality triggers (design doc alignment)
   // - Every Major Beat (every 5 years)
@@ -1846,6 +2120,7 @@ function handleDeath() {
   state.seasonIndex = 0;
   state.runEventIndex = 0;
   state.story = { due: {}, noStoryEvents: 0 };
+  state.condMeta = { debtMissed: 0, disgraceEvents: 0 };
 
   // Storylines are per-life in this prototype: clear any storyline flags to prevent cross-heir weirdness.
   for (const k of Object.keys(state.flags ?? {})) {
