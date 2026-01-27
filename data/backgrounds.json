@@ -299,43 +299,43 @@
     },
     "deck": [
       {
-        "id": "read_the_room",
-        "count": 2
+        "count": 2,
+        "cardId": "read_the_room"
       },
       {
-        "id": "field_notes",
-        "count": 2
+        "count": 2,
+        "cardId": "field_notes"
       },
       {
-        "id": "pilgrims_patience",
-        "count": 2
+        "count": 2,
+        "cardId": "pilgrims_patience"
       },
       {
-        "id": "hold_fast",
-        "count": 2
+        "count": 2,
+        "cardId": "hold_fast"
       },
       {
-        "id": "steady_breath",
-        "count": 1
+        "count": 1,
+        "cardId": "steady_breath"
       },
       {
-        "id": "scribe_a_petition",
-        "count": 1
+        "count": 1,
+        "cardId": "scribe_a_petition"
       },
       {
-        "id": "map_the_way",
-        "count": 1
+        "count": 1,
+        "cardId": "map_the_way"
       },
       {
-        "id": "shared_fire",
-        "count": 1
+        "count": 1,
+        "cardId": "shared_fire"
       }
     ]
   },
   {
     "id": "guild_factor",
     "name": "Guild Factor",
-    "desc": "Ledger, leverage, and long memories\u2014coin moves faster than steel.",
+    "desc": "Ledger, leverage, and long memories—coin moves faster than steel.",
     "stats": {
       "Might": 1,
       "Wit": 2,
@@ -352,44 +352,44 @@
     },
     "deck": [
       {
-        "id": "studied_ledger",
-        "count": 2
+        "count": 2,
+        "cardId": "studied_ledger"
       },
       {
-        "id": "invoke_patronage",
-        "count": 2
+        "count": 2,
+        "cardId": "invoke_patronage"
       },
       {
-        "id": "formal_audience",
-        "count": 1
+        "count": 1,
+        "cardId": "formal_audience"
       },
       {
-        "id": "seal_of_authority",
-        "count": 1
+        "count": 1,
+        "cardId": "seal_of_authority"
       },
       {
-        "id": "treaty_language",
-        "count": 1
+        "count": 1,
+        "cardId": "treaty_language"
       },
       {
-        "id": "read_the_room",
-        "count": 1
+        "count": 1,
+        "cardId": "read_the_room"
       },
       {
-        "id": "counterplan",
-        "count": 1
+        "count": 1,
+        "cardId": "counterplan"
       },
       {
-        "id": "turn_the_blame",
-        "count": 1
+        "count": 1,
+        "cardId": "turn_the_blame"
       },
       {
-        "id": "dignified_refusal",
-        "count": 1
+        "count": 1,
+        "cardId": "dignified_refusal"
       },
       {
-        "id": "hold_fast",
-        "count": 1
+        "count": 1,
+        "cardId": "hold_fast"
       }
     ]
   },
@@ -413,40 +413,40 @@
     },
     "deck": [
       {
-        "id": "cutpurse",
-        "count": 2
+        "count": 2,
+        "cardId": "cutpurse"
       },
       {
-        "id": "false_papers",
-        "count": 2
+        "count": 2,
+        "cardId": "false_papers"
       },
       {
-        "id": "silent_entry",
-        "count": 2
+        "count": 2,
+        "cardId": "silent_entry"
       },
       {
-        "id": "misdirection",
-        "count": 1
+        "count": 1,
+        "cardId": "misdirection"
       },
       {
-        "id": "vanish_into_crowd",
-        "count": 1
+        "count": 1,
+        "cardId": "vanish_into_crowd"
       },
       {
-        "id": "shadow_contact",
-        "count": 1
+        "count": 1,
+        "cardId": "shadow_contact"
       },
       {
-        "id": "forward_strike",
-        "count": 1
+        "count": 1,
+        "cardId": "forward_strike"
       },
       {
-        "id": "hard_march",
-        "count": 1
+        "count": 1,
+        "cardId": "hard_march"
       },
       {
-        "id": "hold_fast",
-        "count": 1
+        "count": 1,
+        "cardId": "hold_fast"
       }
     ]
   },
@@ -470,51 +470,51 @@
     },
     "deck": [
       {
-        "id": "forward_strike",
-        "count": 2
+        "count": 2,
+        "cardId": "forward_strike"
       },
       {
-        "id": "shieldwall",
-        "count": 2
+        "count": 2,
+        "cardId": "shieldwall"
       },
       {
-        "id": "iron_discipline",
-        "count": 1
+        "count": 1,
+        "cardId": "iron_discipline"
       },
       {
-        "id": "weapon_mastery",
-        "count": 1
+        "count": 1,
+        "cardId": "weapon_mastery"
       },
       {
-        "id": "oath_of_service",
-        "count": 1
+        "count": 1,
+        "cardId": "oath_of_service"
       },
       {
-        "id": "seal_of_authority",
-        "count": 1
+        "count": 1,
+        "cardId": "seal_of_authority"
       },
       {
-        "id": "public_speech",
-        "count": 1
+        "count": 1,
+        "cardId": "public_speech"
       },
       {
-        "id": "hard_march",
-        "count": 1
+        "count": 1,
+        "cardId": "hard_march"
       },
       {
-        "id": "hold_fast",
-        "count": 1
+        "count": 1,
+        "cardId": "hold_fast"
       },
       {
-        "id": "steady_breath",
-        "count": 1
+        "count": 1,
+        "cardId": "steady_breath"
       }
     ]
   },
   {
     "id": "caravan_scout",
     "name": "Caravan Scout",
-    "desc": "Roads, weather, and strangers: you can read them all\u2014mostly.",
+    "desc": "Roads, weather, and strangers: you can read them all—mostly.",
     "stats": {
       "Might": 2,
       "Wit": 2,
@@ -531,44 +531,44 @@
     },
     "deck": [
       {
-        "id": "hard_march",
-        "count": 2
+        "count": 2,
+        "cardId": "hard_march"
       },
       {
-        "id": "map_the_way",
-        "count": 2
+        "count": 2,
+        "cardId": "map_the_way"
       },
       {
-        "id": "keen_observation",
-        "count": 1
+        "count": 1,
+        "cardId": "keen_observation"
       },
       {
-        "id": "false_papers",
-        "count": 1
+        "count": 1,
+        "cardId": "false_papers"
       },
       {
-        "id": "vanish_into_crowd",
-        "count": 1
+        "count": 1,
+        "cardId": "vanish_into_crowd"
       },
       {
-        "id": "steady_breath",
-        "count": 1
+        "count": 1,
+        "cardId": "steady_breath"
       },
       {
-        "id": "night_watch",
-        "count": 1
+        "count": 1,
+        "cardId": "night_watch"
       },
       {
-        "id": "shared_fire",
-        "count": 1
+        "count": 1,
+        "cardId": "shared_fire"
       },
       {
-        "id": "forward_strike",
-        "count": 1
+        "count": 1,
+        "cardId": "forward_strike"
       },
       {
-        "id": "hold_fast",
-        "count": 1
+        "count": 1,
+        "cardId": "hold_fast"
       }
     ]
   }
