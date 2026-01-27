@@ -655,8 +655,8 @@ function checkRequirement(req) {
   }
   if (t === "HasCondition") return hasCondition(req.id, req.severity ?? "Any");
   if (t === "NotCondition") return !hasCondition(req.id, req.severity ?? "Any");
-  if (t === "HasFlag") return Boolean(state.flags?.[req.id]);
-  if (t === "NotFlag") return !Boolean(state.flags?.[req.id]);
+  if (t === "HasFlag") return hasFlag(req.id);
+  if (t === "NotFlag") return !hasFlag(req.id);
   if (t === "AgeRange") return state.age >= (req.min ?? 0) && state.age <= (req.max ?? 999);
   if (t === "MinStanding") {
     const cur = state.standings?.[req.factionId] ?? "Neutral";
@@ -882,9 +882,20 @@ function cardLabel(cardId) {
 
 // ---------- Effects ----------
 function ensureStateMaps() {
-  state.flags ??= {};      // { flagId: remainingEvents }
+  state.flags ??= {};      // { flagId: remainingEvents }  (0 = permanent)
   state.standings ??= {};  // { factionId: tier }
   state.history ??= { recentEvents: [], recentContexts: [], seen: {} };
+}
+
+function hasFlag(id) {
+  ensureStateMaps();
+  return Object.prototype.hasOwnProperty.call(state.flags, id);
+}
+
+function flagRemaining(id) {
+  // Returns 0 for permanent flags, a positive number for expiring flags, or null if absent.
+  if (!hasFlag(id)) return null;
+  return state.flags[id];
 }
 
 function applyResourceDelta(d) {
@@ -1980,7 +1991,7 @@ function poolBias(ev) {
       m *= hasCondition(cid, "Any") ? 2.2 : 0.6;
     } else if (p.startsWith("flag:")) {
       const fid = p.slice(5);
-      m *= state.flags?.[fid] ? 2.0 : 0.7;
+      m *= hasFlag(fid) ? 2.0 : 0.7;
     }
   }
   return m;
@@ -2099,13 +2110,13 @@ function storylineRarityWeight(id) {
 }
 function activeStorylineIds() {
   ensureStorylineMeta();
-  return Object.keys(DATA.storylineMetaById ?? {}).filter(id => Boolean(state?.flags?.[storyFlag(id, "active")]));
+  return Object.keys(DATA.storylineMetaById ?? {}).filter(id => hasFlag(storyFlag(id, "active")));
 }
 function isStoryActive(id) {
-  return Boolean(state?.flags?.[storyFlag(id, "active")]);
+  return hasFlag(storyFlag(id, "active"));
 }
 function isStoryDone(id) {
-  return Boolean(state?.flags?.[storyFlag(id, "done")]);
+  return hasFlag(storyFlag(id, "done"));
 }
 function storyDueIndex(id) {
   const due = state?.story?.due?.[id];
@@ -2207,7 +2218,7 @@ function tryPickStoryHookEvent() {
       if (state.age >= 18 && state.age <= 34) w *= 3.2;
       else if (state.age <= 40) w *= 2.0;
       else w *= 1.1;
-      if (state.flags?.ct_declined) w *= 0.35; // cooldown after declining a prospect
+      if (hasFlag('ct_declined')) w *= 0.35; // cooldown after declining a prospect
     }
 
     return w;
@@ -2357,9 +2368,9 @@ function loadRandomEvent({ avoidIds = [] } = {}) {
     // Prefer Fate Knots when they are due; otherwise pull a regular major.
     let desiredStage = "major";
 
-    if (state.age === 20 && !state.flags?.knot1_done) desiredStage = "knot1";
-    if (state.age === 35 && !state.flags?.knot2_done) desiredStage = "knot2";
-    if (state.age === 50 && !state.flags?.knot3_done) desiredStage = "knot3";
+    if (state.age === 20 && !hasFlag('knot1_done')) desiredStage = "knot1";
+    if (state.age === 35 && !hasFlag('knot2_done')) desiredStage = "knot2";
+    if (state.age === 50 && !hasFlag('knot3_done')) desiredStage = "knot3";
 
     let pool = eligibleEvents({ kind: "major", story: "exclude", majorStage: desiredStage });
 
