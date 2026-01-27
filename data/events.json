@@ -2048,7 +2048,7 @@
           ],
           "conditions": [
             {
-              "id": "InDebt",
+              "id": "In Debt",
               "mode": "Add",
               "severity": "Minor"
             }
@@ -2155,7 +2155,7 @@
           ],
           "conditions": [
             {
-              "id": "InDebt",
+              "id": "In Debt",
               "mode": "Add",
               "severity": "Minor"
             }
@@ -2197,7 +2197,7 @@
           "text": "They let you speak, then dismantle your argument with the patience of someone paid by the hour. By the end, the demand feels heavier, not lighter. The clerk leaves pleased, and you\u2019re left with an obligation you can\u2019t wriggle out of with words.",
           "conditions": [
             {
-              "id": "InDebt",
+              "id": "In Debt",
               "mode": "Add",
               "severity": "Minor"
             }
@@ -7130,7 +7130,7 @@
           "text": "You gather proof, chase stamps, and corner the right clerk at the right hour. The correction is slow, but it lands. A line is scratched out. A new line replaces it. The world becomes marginally safer because the paper agrees with you again.",
           "conditions": [
             {
-              "id": "InDebt",
+              "id": "In Debt",
               "mode": "Downgrade"
             }
           ],
@@ -7198,7 +7198,7 @@
           ],
           "conditions": [
             {
-              "id": "InDebt",
+              "id": "In Debt",
               "mode": "Add",
               "severity": "Minor"
             }
@@ -7236,7 +7236,7 @@
           ],
           "conditions": [
             {
-              "id": "InDebt",
+              "id": "In Debt",
               "mode": "Downgrade"
             }
           ]
@@ -7291,7 +7291,7 @@
           "text": "The consequences compound faster than your patience. A missed payment becomes a penalty; a penalty becomes a demand; a demand becomes a threat. By the time you realize you can\u2019t simply \u2018endure,\u2019 the mistake has grown teeth\u2014and you are drowning in it.",
           "conditions": [
             {
-              "id": "InDebt",
+              "id": "In Debt",
               "mode": "Add",
               "severity": "Severe"
             }
@@ -33050,5 +33050,2695 @@
       "role": "ending",
       "total": 4
     }
+  },
+  {
+    "id": "cond_debt_01_collectors_knock",
+    "name": "Collector\u2019s Knock",
+    "context": "Court",
+    "kind": "general",
+    "weight": 3,
+    "tags": [
+      "Condition",
+      "Debt",
+      "Marrowgate"
+    ],
+    "minAge": 18,
+    "maxAge": 70,
+    "pools": [
+      "cond:In Debt"
+    ],
+    "requirements": [
+      {
+        "type": "HasCondition",
+        "id": "In Debt",
+        "severity": "Any"
+      }
+    ],
+    "prompt": "In Marrowgate\u2019s shadowed arcade, a man with a neat ledger finds you. Two quiet companions stand close enough to make their meaning plain.\n\n\u201cAccounts,\u201d he says. \u201cWe settle them today.\u201d",
+    "outcomes": [
+      {
+        "title": "Pay in Coin",
+        "desc": "You swallow pride and pay what you can, now, before the crowd notices.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Quill"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You count the coins into his palm. He nods once\u2014no warmth, no malice\u2014and vanishes into the market\u2019s churn.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -3
+            }
+          ]
+        },
+        "fail": {
+          "text": "You fumble, argue, and draw eyes. The collector takes what you offer and leaves you with the taste of ridicule.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Renegotiate Terms",
+        "desc": "You argue the ledger, the dates, the witnesses\u2014make it sound like they\u2019ve erred.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You find a crack in the ink and press until it widens. The collector\u2019s jaw tightens, then he scratches a new line: lesser terms\u2026 for now.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "He smiles as you speak. When you finish, he taps the page where your name sits, unchanging, and the smile becomes pity.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Offer a Service",
+        "desc": "You trade labor and discretion for time\u2014an ugly bargain dressed as courtesy.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You leave with a task, not a bruised purse. The collector\u2019s people stop following\u2014for the moment.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You offer too much, too eagerly. The collector smells desperation and raises the terms with a shrug.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Drive Them Off",
+        "desc": "You make it clear you won\u2019t be tallied like a crate of saltfish.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "The collector backs away first. He does not run\u2014but his eyes promise you\u2019ll be written into a different ledger.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You lunge. They\u2019re quicker than they look. Pain blooms, and the market learns your name for the wrong reason.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor",
+              "durationEvents": 2
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "cond_debt_02_seizure_notice",
+    "name": "Seizure Notice",
+    "context": "Court",
+    "kind": "general",
+    "weight": 3,
+    "tags": [
+      "Condition",
+      "Debt",
+      "Kestrelbank"
+    ],
+    "minAge": 18,
+    "maxAge": 70,
+    "pools": [
+      "cond:In Debt"
+    ],
+    "requirements": [
+      {
+        "type": "HasCondition",
+        "id": "In Debt",
+        "severity": "Any"
+      }
+    ],
+    "prompt": "A wax-sealed notice is pressed into your hand at Kestrelbank: goods and wages, present and future, are named as collateral.\n\nIt is written politely. That makes it worse.",
+    "outcomes": [
+      {
+        "title": "Sell Something Dear",
+        "desc": "You part with an heirloom, a weapon, a ring\u2014something you told yourself you\u2019d keep.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You make the sale and feel lighter in the purse and heavier in the chest. The notice is satisfied\u2014on paper, at least.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 5
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You find no buyer worth trusting. The best offers smell of theft and laughter.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Hide Your Assets",
+        "desc": "You move coin and goods where ledgers cannot reach.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "Your wealth becomes smoke\u2014present, but hard to grasp. The seizure comes up short.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "A watcher sees too much. By nightfall, your hiding place is already known.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Appeal to a Patron",
+        "desc": "You ask someone important to vouch for you\u2014publicly, painfully.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Quill"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "A signature joins your name. The notice is amended, softened, delayed. You owe a new debt now\u2014one without numbers.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": -1
+            },
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "No one answers. Or they answer with silence. The notice remains, and so does the stinging knowledge of where you stand.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Refuse the Seizure",
+        "desc": "You tear the notice and dare them to enforce it.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "The paper shreds. So does your place in polite order. You keep what\u2019s yours\u2014for now.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            },
+            {
+              "id": "In Debt",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Hands seize you first. The notice is read aloud. Your cheeks burn hotter than your wrists.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Renown",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "cond_debt_03_desperate_commission",
+    "name": "A Desperate Commission",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Condition",
+      "Debt",
+      "Briarwatch"
+    ],
+    "minAge": 18,
+    "maxAge": 70,
+    "pools": [
+      "cond:In Debt"
+    ],
+    "requirements": [
+      {
+        "type": "HasCondition",
+        "id": "In Debt",
+        "severity": "Any"
+      }
+    ],
+    "prompt": "In Briarwatch, a messenger offers quick coin for a quick errand\u2014no questions, no witnesses, no delays.\n\nThe sort of work that makes honest folk look away.",
+    "outcomes": [
+      {
+        "title": "Do the Work Clean",
+        "desc": "You keep your hands as clean as the job allows.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Quill"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You deliver the parcel and keep your eyes forward. The coin is real. The relief is, too.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 6
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You hesitate at the wrong moment. The parcel is taken from you, and you are left with only suspicion.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Cut Corners",
+        "desc": "You take the faster road and trust luck to cover the rest.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Veil"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You arrive early and unseen. The pay is smaller than promised\u2014but enough to breathe.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 4
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You arrive early\u2014straight into a patrol. The parcel becomes evidence in someone else\u2019s story.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Take a Second Cut",
+        "desc": "If the job is dirty, you may as well profit twice.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "You skim what you can and leave no obvious sign. The coin weight in your pocket is almost comforting.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 8
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Someone notices the missing weight. The messenger\u2019s smile turns thin. This will not be forgiven.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Refuse and Beg Time",
+        "desc": "You try to talk your way into mercy instead of money.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You leave with no coin\u2014but with a promised delay. It is not kindness. It is calculation.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "No one buys your sob story. Your refusal is noted, and the note will travel.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "cond_debt_04_contract_court",
+    "name": "Contract Court",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Condition",
+      "Debt",
+      "Marrowgate"
+    ],
+    "minAge": 18,
+    "maxAge": 70,
+    "pools": [
+      "cond:In Debt"
+    ],
+    "requirements": [
+      {
+        "type": "HasCondition",
+        "id": "In Debt",
+        "severity": "Any"
+      }
+    ],
+    "prompt": "You are summoned to a low hall where ink rules more cruelly than steel. A clerk reads your debt as if it were a prayer.\n\nThe room waits to see whether you kneel or bite.",
+    "outcomes": [
+      {
+        "title": "Speak Plainly",
+        "desc": "You admit what you must and ask for terms you can survive.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You leave with a schedule instead of a sentence. It will still hurt\u2014but it is bearable.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Plain speech becomes plain weakness. The clerk writes harsher terms without looking you in the eye.",
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Find a Flaw",
+        "desc": "You hunt for a technicality\u2014some missing seal, some wrong date.",
+        "stat": "Wit",
+        "diff": 4,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "A missing witness mark saves you. The clerk hisses through his teeth as he alters the record.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You argue like a lawyer and lose like a peasant. The room laughs softly.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Bribe the Clerk",
+        "desc": "You grease the ink and hope the ink remembers you kindly.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "The clerk pockets your offering and stamps a new copy. Your debt shrinks\u2026 and your shame grows.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "He takes your coin and calls for the bailiff. You learn how quickly a quiet hall can become a cage.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Make a Scene",
+        "desc": "You turn the hall\u2019s attention into a weapon.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "Your voice carries. The hall shifts. For once, the clerk looks uncertain. You win time with sheer force of presence.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Hands seize you. Inksplattered shame follows. The record grows darker, not lighter.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            },
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "cond_debt_05_flee_the_ledger",
+    "name": "Flee the Ledger",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Condition",
+      "Debt",
+      "Gloambridge"
+    ],
+    "minAge": 18,
+    "maxAge": 70,
+    "pools": [
+      "cond:In Debt"
+    ],
+    "requirements": [
+      {
+        "type": "HasCondition",
+        "id": "In Debt",
+        "severity": "Any"
+      }
+    ],
+    "prompt": "At Gloambridge, fog hangs like a curtain and the road beyond feels like forgetting. You could leave your debt behind.\n\nIt will not stay forgotten. But it might take time to catch you.",
+    "outcomes": [
+      {
+        "title": "Slip Away Quietly",
+        "desc": "You leave before dawn, taking only what you can carry.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You are a rumor by midday. The ledger cannot chase what it cannot name\u2014yet.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": -1
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Remove"
+            },
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You are stopped on the road and asked questions you cannot answer cleanly.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Buy a New Name",
+        "desc": "You pay for false papers and the mercy of strangers.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Veil"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "Ink becomes armor. Your old name remains on the ledger; your new one walks free.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -4
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "The papers are flawed. The first person who reads them reads you, too.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Face It Instead",
+        "desc": "You stay. You endure the shame. You try to build back from within the rules.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You swallow the bitter thing and do not choke. The road remains open\u2014if narrower than before.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You stay, and the city stays hungry. It takes what it can from you and calls it order.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Burn the Record",
+        "desc": "You aim to destroy the ledger itself.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": [
+          "Steel",
+          "Veil"
+        ],
+        "tags": [
+          "Perilous",
+          "Violent"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "Fire eats ink. For a heartbeat, you feel clean. Then you realize what else fire might have woken.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Remove"
+            },
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You reach for the ledger and find a knife instead. Pain is immediate. Consequences are worse.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "cond_disgrace_01_rumor_mill",
+    "name": "The Rumor Mill",
+    "context": "Court",
+    "kind": "general",
+    "weight": 3,
+    "tags": [
+      "Condition",
+      "Disgrace",
+      "Marrowgate"
+    ],
+    "minAge": 18,
+    "maxAge": 70,
+    "pools": [
+      "cond:Disgraced"
+    ],
+    "requirements": [
+      {
+        "type": "HasCondition",
+        "id": "Disgraced",
+        "severity": "Any"
+      }
+    ],
+    "prompt": "You hear your own name spoken with a laugh that stops when you look over. Rumors run ahead of you in Marrowgate like rats.\n\nIf you do nothing, they will breed.",
+    "outcomes": [
+      {
+        "title": "Apologize in Public",
+        "desc": "You make a show of humility before the right eyes.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You bow, you speak, you swallow pride. The crowd finds it hard to hate someone who bleeds so openly.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your apology sounds rehearsed. People do not forgive performances; they forgive wounds.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Plant a Better Story",
+        "desc": "You feed the gossips something tastier than the truth.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "By dusk, the tale has changed. Not cleaner\u2014just pointed elsewhere.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Someone catches the seam in your lie and tugs until it unravels.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Endure in Silence",
+        "desc": "You keep your chin up and let time do its slow work.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You do not flinch. Some admire that. Most simply tire of watching you suffer.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Silence is mistaken for guilt. The whispers grow bolder.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Pick a Fight",
+        "desc": "You choose one loudmouth and make an example.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous",
+          "Violent"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "The room goes quiet. Fear can look like respect from the right angle.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You swing and miss. Someone else lands the real blow\u2014on your reputation.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor",
+              "durationEvents": 2
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "cond_disgrace_02_notice_of_hearing",
+    "name": "Notice of Hearing",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Condition",
+      "Disgrace",
+      "Kestrelbank"
+    ],
+    "minAge": 18,
+    "maxAge": 70,
+    "pools": [
+      "cond:Disgraced"
+    ],
+    "requirements": [
+      {
+        "type": "HasCondition",
+        "id": "Disgraced",
+        "severity": "Any"
+      }
+    ],
+    "prompt": "A formal notice arrives: you are invited\u2014no, required\u2014to appear and answer for yourself.\n\nThe ink is crisp. The judgment behind it is already half-written.",
+    "outcomes": [
+      {
+        "title": "Show Contrition",
+        "desc": "You give them a penitent face and a careful story.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You speak of regret without begging for love. The hall, grudgingly, accepts the shape of your remorse.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your contrition sounds like self-pity. The hall grows cold.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Bring Evidence",
+        "desc": "You come armed with dates, witnesses, and inconvenient facts.",
+        "stat": "Wit",
+        "diff": 4,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "Ink fights ink. For once, yours holds. The clerk\u2019s eyebrows rise, and the whispers lose their certainty.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your evidence is dismissed as cleverness. Cleverness is not the same as innocence\u2014at least not here.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Buy a Witness",
+        "desc": "You pay for someone to remember things differently.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "The witness speaks with trembling conviction. The hall nods along, pleased to be told what it wants to hear.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "The witness cracks. Under questions, the paid words spill into a confession that drags you with it.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Refuse the Hearing",
+        "desc": "You do not appear. Let them judge an empty chair.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You walk away before they can cage you in ceremony. The city will call it guilt. You call it survival.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            },
+            {
+              "resource": "Supplies",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "They find you anyway. Refusal becomes an additional charge, and the charge becomes a chain.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "cond_disgrace_03_service_in_shadows",
+    "name": "Service in Shadows",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Condition",
+      "Disgrace",
+      "VerdantRoad"
+    ],
+    "minAge": 18,
+    "maxAge": 70,
+    "pools": [
+      "cond:Disgraced"
+    ],
+    "requirements": [
+      {
+        "type": "HasCondition",
+        "id": "Disgraced",
+        "severity": "Any"
+      }
+    ],
+    "prompt": "A small hospice on the Verdant Road takes in the unwanted. No one asks your name\u2014only what your hands can do.\n\nWork won\u2019t cleanse you, but it can change what people remember.",
+    "outcomes": [
+      {
+        "title": "Do the Hard Work",
+        "desc": "You scrub floors, carry water, and accept every unglamorous task.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Quill"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "Day by day, the stain dulls. A few travelers leave speaking of your steadiness instead of your shame.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You try, but pride keeps finding your hands. Someone notices and shakes their head.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Tend the Sick",
+        "desc": "You learn what hurts others, and hope it teaches you what hurt you caused.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You speak softly, work carefully, and earn quiet gratitude. No one calls you saint\u2014but they stop calling you villain.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You make a mistake. It isn\u2019t cruel\u2014only careless\u2014but careless ruins lives too.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Make a Quiet Donation",
+        "desc": "You buy goodwill the way the powerful do: without asking permission.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "Coin changes hands; so does narrative. The hospice speaks well of you, and the road carries that kindness outward.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -3
+            },
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your gift is taken as hush money. The worst interpretations bloom like mold.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Steal a Little Peace",
+        "desc": "If the world won\u2019t give you grace, you\u2019ll take something else.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "You skim what you can without harming the sick. The hospice never notices. Your conscience does.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Caught. The word spreads faster than your shame ever did\u2014because people love to be proven right.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "cond_disgrace_04_duel_of_repute",
+    "name": "Duel of Repute",
+    "context": "Strife",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Condition",
+      "Disgrace",
+      "Duel"
+    ],
+    "minAge": 18,
+    "maxAge": 70,
+    "pools": [
+      "cond:Disgraced"
+    ],
+    "requirements": [
+      {
+        "type": "HasCondition",
+        "id": "Disgraced",
+        "severity": "Any"
+      }
+    ],
+    "prompt": "A rival offers you a choice: accept a formal duel\u2014of steel or of words\u2014or be remembered forever as the one who declined.\n\nSometimes redemption is just risk with better clothing.",
+    "outcomes": [
+      {
+        "title": "Duel with Steel",
+        "desc": "You meet them blade-to-blade where everyone can see.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous",
+          "Violent"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "You win cleanly and stop short of cruelty. The crowd exhales; the story changes in its telling.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You lose, and the world treats it like proof. Pain is temporary. The laughter lingers.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Duel with Words",
+        "desc": "You let wit and composure do what your blade cannot.",
+        "stat": "Wit",
+        "diff": 4,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You turn their accusations into their own embarrassment. Some applause is genuine. That matters.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You stumble on a phrase and they pounce. The hall laughs again, and you feel the stain deepen.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Fight Dirty",
+        "desc": "You win by any means that ends the conversation.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Steel"
+        ],
+        "tags": [
+          "Scandalous",
+          "Perilous"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "A whispered truth, a hidden blade, a sudden shove\u2014whatever it was, it worked. The duel ends. So does your last excuse.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            },
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your trick fails. Now you\u2019re not only shamed\u2014you\u2019re caught.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Decline and Leave",
+        "desc": "You refuse the stage and take your chances elsewhere.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Veil"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You walk away from the crowd\u2019s hunger. The stain doesn\u2019t vanish\u2014but it stops growing.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "They spit after you. The story hardens. You can feel doors closing.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "cond_disgrace_05_atonement_rite",
+    "name": "Rite of Atonement",
+    "context": "Lore",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Condition",
+      "Disgrace",
+      "Pilgrims"
+    ],
+    "minAge": 18,
+    "maxAge": 70,
+    "pools": [
+      "cond:Disgraced"
+    ],
+    "requirements": [
+      {
+        "type": "HasCondition",
+        "id": "Disgraced",
+        "severity": "Any"
+      }
+    ],
+    "prompt": "In a small roadside chapel, an elder offers a ritual meant for the shamed: a public confession, a private penance, or a gift to those you wronged.\n\nIt will not erase the past. But it might soften its teeth.",
+    "outcomes": [
+      {
+        "title": "Confess Publicly",
+        "desc": "You speak your faults aloud where gossip can\u2019t twist them further.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You confess without theater. The room grows quiet, then oddly gentle. The stain doesn\u2019t vanish\u2014but it fades.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your confession turns into justification. The elder\u2019s face hardens. You leave feeling worse than when you arrived.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Take Private Penance",
+        "desc": "You do the work without the spectacle: fasting, labor, and silence.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Quill"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "A week passes with sore hands and calmer thoughts. When you return to the road, you stand straighter.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You try to endure, but you break early. You learn that quitting hurts twice: once in body, once in story.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Buy Reparations",
+        "desc": "You pay what you can to those harmed by your name.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "Coin cannot mend everything. But it can mend enough that some people stop wishing you ill.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -4
+            },
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your reparations are taken as mockery\u2014too little, too late, too convenient. The road carries the insult onward.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Upgrade",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Forge a Cleansing Story",
+        "desc": "You invent a narrative so pious it becomes hard to question.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "The tale spreads: tragedy, misunderstanding, cruel rivals. People love a simple story. You give them one.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Someone from your past is in the chapel and hears every word. Their laughter is quiet\u2014and devastating.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_bruise_01_misstep_on_stones",
+    "name": "Misstep on Wet Stones",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "General",
+      "Injury",
+      "Road"
+    ],
+    "minAge": 16,
+    "maxAge": 70,
+    "prompt": "Rain slicks the old stones. One careless step sends you down hard.\n\nYou can walk\u2014but every movement reminds you of the lesson.",
+    "outcomes": [
+      {
+        "title": "Laugh It Off",
+        "desc": "You rise quickly and keep moving, pretending it didn\u2019t hurt.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You grit your teeth and carry on. Pride holds you upright.",
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor",
+              "durationEvents": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "You push too hard and feel something wrench. The ache deepens into something worse.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Bind It Properly",
+        "desc": "You take the time to wrap and brace before you travel.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "A careful binding keeps the worst of the pain at bay. You move slower, but safer.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor",
+              "durationEvents": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your wrapping slips, and you spend the day fighting it. Fatigue settles into your bones.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Find a Handhold",
+        "desc": "You look for a safer route and a steadier footing.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You take the long way and avoid a worse fall. Still, you don\u2019t escape entirely unmarked.",
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor",
+              "durationEvents": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "You misjudge the detour and lose time and supplies to the mud.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor",
+              "durationEvents": 2
+            }
+          ]
+        }
+      },
+      {
+        "title": "Leap the Gap",
+        "desc": "You choose speed over sense.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "You clear it with a jolt of pain and a grin you don\u2019t quite mean.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor",
+              "durationEvents": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your foot slips at the edge. You hit the stone like a bell struck too hard.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_bruise_02_sparring_mishap",
+    "name": "Sparring Mishap",
+    "context": "Strife",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "General",
+      "Injury",
+      "Training"
+    ],
+    "minAge": 16,
+    "maxAge": 55,
+    "prompt": "A friendly spar turns sharp. A wooden blade catches you in the wrong place, and the room goes quiet for a heartbeat.\n\nIt\u2019s not deadly\u2014just\u2026 memorable.",
+    "outcomes": [
+      {
+        "title": "Shake It Out",
+        "desc": "You insist you\u2019re fine and demand they continue.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You force your body to obey. The lesson is learned in pain.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor",
+              "durationEvents": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "You overextend and something tears. Pride turns into regret.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Take the Lesson",
+        "desc": "You step back, breathe, and let the spar end with dignity.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You swallow embarrassment and keep your body intact.",
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor",
+              "durationEvents": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your restraint is taken as weakness. The jeers sting worse than the bruise.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Study the Footwork",
+        "desc": "You watch instead of swing\u2014learn what you can without risking more pain.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You learn a thing or two while your body recovers.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor",
+              "durationEvents": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "You miss the rhythm of the bout. The lesson slips away.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Cheat a Little",
+        "desc": "A hidden shove, a tripped foot\u2014nothing a crowd can swear to.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Steel"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "You \u2018win\u2019 and keep face. The bruise still blooms beneath your sleeve.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor",
+              "durationEvents": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "Caught. The spar ends in real anger.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            },
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor",
+              "durationEvents": 2
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "cond_bruised_01_herbal_poultice",
+    "name": "Herbal Poultice",
+    "context": "Lore",
+    "kind": "general",
+    "weight": 3,
+    "tags": [
+      "Condition",
+      "Injury",
+      "Remedy"
+    ],
+    "minAge": 16,
+    "maxAge": 70,
+    "pools": [
+      "cond:Bruised"
+    ],
+    "requirements": [
+      {
+        "type": "HasCondition",
+        "id": "Bruised",
+        "severity": "Any"
+      }
+    ],
+    "prompt": "A hedge-healer offers a poultice that smells like crushed leaves and bitter sap.\n\n\u201cIt won\u2019t make you young,\u201d she says. \u201cBut it might make you steady.\u201d",
+    "outcomes": [
+      {
+        "title": "Pay for the Poultice",
+        "desc": "Coin is easier to spend than patience.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "The poultice burns, then cools. By morning, the ache has backed away.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You pay and still fumble the care. The poultice helps\u2014but not enough.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Brew It Yourself",
+        "desc": "You trust your own hands more than hers.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You mix the herbs with careful intent. The pain loosens its grip.",
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You misjudge the mixture. The skin reddens and your temper follows.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Endure Without Help",
+        "desc": "You let the bruise run its course.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You rest when you can and push only when you must. The bruise fades on its own time.",
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You push when you should rest. The ache sharpens into a true injury.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Hide the Pain",
+        "desc": "You mask it with posture, charm, and a careful sleeve.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "No one notices, and that is a kind of victory. The bruise remains, but it stops ruling you.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Someone notices anyway. The pity in their eyes is worse than the pain.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "cond_bruised_02_sheltered_rest",
+    "name": "Sheltered Rest",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Condition",
+      "Injury",
+      "Rest"
+    ],
+    "minAge": 16,
+    "maxAge": 70,
+    "pools": [
+      "cond:Bruised"
+    ],
+    "requirements": [
+      {
+        "type": "HasCondition",
+        "id": "Bruised",
+        "severity": "Any"
+      }
+    ],
+    "prompt": "A warm inn and a clean pallet are offered\u2014at a price. Rest is its own resource, and you are running low.",
+    "outcomes": [
+      {
+        "title": "Pay for a Night\u2019s Rest",
+        "desc": "You buy comfort and a little time.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "A night of sleep does what heroics cannot. You wake steadier.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Remove"
+            },
+            {
+              "id": "Exhausted",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You pay, but the room is noisy and the mattress lumpy. Rest comes in scraps.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Barter Work for Bed",
+        "desc": "You sweep, chop, or scrub in exchange for shelter.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Quill"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "You earn your rest honestly. The pain fades with the dawn.",
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You work until you shake, and the bruise remains stubborn as a curse.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Sleep Outside",
+        "desc": "You save coin and pay in discomfort.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Veil"
+        ],
+        "tags": [],
+        "requirements": [],
+        "success": {
+          "text": "It isn\u2019t pleasant, but it\u2019s enough. The bruise loosens.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Cold seeps into your bones. You wake worse than you lay down.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Pick a Fight for Pride",
+        "desc": "You refuse to look weak\u2014especially to strangers.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "requirements": [],
+        "success": {
+          "text": "You win a brief scuffle and keep face. The bruise remains, but fear gives you a little room to breathe.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The fight turns uglier than you meant. You limp away with something worse than a bruise.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
   }
 ]
