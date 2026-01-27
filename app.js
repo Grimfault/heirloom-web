@@ -246,6 +246,22 @@ function difficultyProfileForEvent(ev, opts = {}) {
   return { base: 55, statMult: 8, diffMult: 10 };
 }
 
+function computeChance(outcome, committedCids) {
+  const statVal = state.stats[outcome.stat] ?? 0;
+  const diff = outcome.diff ?? 3;
+
+  const cardBonus = (committedCids ?? []).reduce((sum, cid) => {
+    const c = DATA.cardsById[cid];
+    if (!c) return sum;
+    return sum + (getCardLevelData(c).bonus ?? 0);
+  }, 0);
+
+  const prof = difficultyProfileForEvent(currentEvent);
+  let chance = prof.base + (statVal * prof.statMult) + cardBonus - (diff * prof.diffMult);
+  chance = clamp(chance, 5, 95);
+  return Math.round(chance);
+}
+
 function chanceBand(pct) {
   // 20% bands
   if (pct <= 20) return "Desperate";
