@@ -92,21 +92,21 @@ const STARTING_AGE = 16;
 const MAX_MARRIAGE_AGE = 45;
 
 const TRAITS = [
-  // Stat-edge
-  { id: "brawny", name: "Brawny", desc: "+1 Might (cap 5).", statMods: { Might: 1 } },
-  { id: "bookish", name: "Bookish", desc: "+1 Wit (cap 5).", statMods: { Wit: 1 } },
-  { id: "silver_tongue", name: "Silver Tongue", desc: "+1 Gravitas (cap 5).", statMods: { Gravitas: 1 } },
-  { id: "shadow_eyed", name: "Shadow-Eyed", desc: "+1 Guile (cap 5).", statMods: { Guile: 1 } },
-  { id: "stubborn", name: "Stubborn", desc: "+1 Resolve (cap 5).", statMods: { Resolve: 1 } },
+  // Stat edges (each: +1 stat, +1 themed resource)
+  { id: "brawny", name: "Brawny", desc: "+1 Might (cap 5) and +1 Supplies.", statMods: { Might: 1 }, resMods: { Supplies: 1 } },
+  { id: "bookish", name: "Bookish", desc: "+1 Wit (cap 5) and +1 Influence.", statMods: { Wit: 1 }, resMods: { Influence: 1 } },
+  { id: "silver_tongue", name: "Silver Tongue", desc: "+1 Gravitas (cap 5) and +1 Renown.", statMods: { Gravitas: 1 }, resMods: { Renown: 1 } },
+  { id: "shadow_eyed", name: "Shadow-Eyed", desc: "+1 Guile (cap 5) and +1 Secrets.", statMods: { Guile: 1 }, resMods: { Secrets: 1 } },
+  { id: "stubborn", name: "Stubborn", desc: "+1 Resolve (cap 5) and +1 Renown.", statMods: { Resolve: 1 }, resMods: { Renown: 1 } },
 
-  // Starts-with resources
-  { id: "well_connected", name: "Well-Connected", desc: "Start with +1 Influence.", resMods: { Influence: 1 } },
-  { id: "thrifty", name: "Thrifty", desc: "Start with +2 Coin.", resMods: { Coin: 2 } },
-  { id: "packer", name: "Packer", desc: "Start with +2 Supplies.", resMods: { Supplies: 2 } },
-  { id: "known_face", name: "Known Face", desc: "Start with +1 Renown.", resMods: { Renown: 1 } },
-  { id: "quiet_sins", name: "Quiet Sins", desc: "Start with +1 Secrets.", resMods: { Secrets: 1 } },
+  // Resource edges (each: +2–3 in one resource)
+  { id: "well_connected", name: "Well-Connected", desc: "Start with +2 Influence.", resMods: { Influence: 2 } },
+  { id: "thrifty", name: "Thrifty", desc: "Start with +3 Coin.", resMods: { Coin: 3 } },
+  { id: "packer", name: "Packer", desc: "Start with +3 Supplies.", resMods: { Supplies: 3 } },
+  { id: "known_face", name: "Known Face", desc: "Start with +2 Renown.", resMods: { Renown: 2 } },
+  { id: "quiet_sins", name: "Quiet Sins", desc: "Start with +2 Secrets.", resMods: { Secrets: 2 } },
 
-  // Risky starts
+  // Risky starts (bigger upside with immediate downside)
   { id: "notorious", name: "Notorious", desc: "Start +1 Renown, +1 Secrets, but gain Marked (Minor).",
     resMods: { Renown: 1, Secrets: 1 },
     addConditions: [{ id: "Marked", severity: "Minor" }]
@@ -121,14 +121,18 @@ const TRAITS = [
   { id: "meticulous", name: "Meticulous", desc: "Start with +1 Wit and +1 Influence.", statMods: { Wit: 1 }, resMods: { Influence: 1 } },
   { id: "ruthless", name: "Ruthless", desc: "Start with +1 Guile and +1 Secrets.", statMods: { Guile: 1 }, resMods: { Secrets: 1 } },
   { id: "charming", name: "Charming", desc: "Start with +1 Gravitas and +1 Renown.", statMods: { Gravitas: 1 }, resMods: { Renown: 1 } },
-  { id: "oathbound", name: "Oathbound", desc: "Start with Oathbound (Minor) and +1 Influence.", resMods: { Influence: 1 }, addConditions: [{ id: "Oathbound", severity: "Minor" }] },
-  { id: "streetwise", name: "Streetwise", desc: "Start with +1 Guile and +1 Coin.", statMods: { Guile: 1 }, resMods: { Coin: 1 } },
-  { id: "steadfast", name: "Steadfast", desc: "Start with +2 Resolve.", statMods: { Resolve: 2 } },
 
-  // Courtship-relevant starts
-  { id: "fine_clothes", name: "Fine Clothes", desc: "Start with +2 Coin and +1 Gravitas.", resMods: { Coin: 2 }, statMods: { Gravitas: 1 } },
+  // Oathbound is a "mixed blessing" (locks some options later, but gives you leverage now)
+  { id: "oathbound", name: "Oathbound", desc: "Start with Oathbound (Minor) and +1 Influence.", resMods: { Influence: 1 }, addConditions: [{ id: "Oathbound", severity: "Minor" }] },
+
+  { id: "streetwise", name: "Streetwise", desc: "Start with +1 Guile and +1 Coin.", statMods: { Guile: 1 }, resMods: { Coin: 1 } },
+  { id: "steadfast", name: "Steadfast", desc: "Start with +1 Resolve and +1 Supplies.", statMods: { Resolve: 1 }, resMods: { Supplies: 1 } },
+
+  // Court-friendly starts
+  { id: "fine_clothes", name: "Fine Clothes", desc: "Start with +1 Coin and +1 Gravitas.", resMods: { Coin: 1 }, statMods: { Gravitas: 1 } },
   { id: "devout", name: "Devout", desc: "Start with +1 Resolve and +1 Influence.", statMods: { Resolve: 1 }, resMods: { Influence: 1 } }
 ];
+
 
 const HEIR_NAMES = [
   "Alden","Rowan","Elric","Tamsin","Bran","Edric","Mira","Sabine","Garrick","Linette",
@@ -527,7 +531,6 @@ let committed = [];   // [iid, iid]
 let nextHandIid = 1;
 
 let resolvingOutcome = false; // prevents double-advances / modal-close weirdness
-let draftOpened = false; // guards major draft double-open
 
 function getHandEntry(iid) {
   return hand.find(h => h.iid === iid) || null;
@@ -1798,6 +1801,8 @@ function renderChance() {
   }
 
   const o = currentEvent.outcomes[selectedOutcomeIndex];
+
+  const evJustResolved = currentEvent;
   const statVal = state.stats[o.stat] ?? 0;
   const diff = o.diff ?? 3;
 
@@ -2437,9 +2442,14 @@ function advanceTime() {
     log(`— A year passes. Age is now ${state.age}.`);
   }
 }
-function finishEvent() {
+function finishEvent(evJustResolved) {
   // Advance time & start the next event.
   advanceTime();
+
+  // Record history for anti-repeat + pacing
+  if (evJustResolved) recordEventHistory(evJustResolved);
+  updateStoryCountersAfterResolvedEvent(evJustResolved);
+  updateStoryPacingAfterResolvedEvent(evJustResolved);
 
   // Release resolve lock + re-enable top buttons.
   resolvingOutcome = false;
@@ -2447,11 +2457,11 @@ function finishEvent() {
   btnDebugPickEvent.disabled = false;
 
   saveState();
-  renderAll();
-  loadRandomEvent();
+
+  // Start the next event (avoid immediate repeat of what you just played when possible).
+  const avoid = evJustResolved?.id ? [evJustResolved.id] : [];
+  loadRandomEvent({ avoidIds: avoid });
 }
-
-
 
 
 // ---------- Resolve ----------
@@ -2465,6 +2475,8 @@ function resolveSelectedOutcome() {
   btnDebugPickEvent.disabled = true;
 
   const o = currentEvent.outcomes[selectedOutcomeIndex];
+
+  const evJustResolved = currentEvent;
 
   // Compute success chance
   const chance = computeChance(o, committedCardIds());
@@ -2597,11 +2609,9 @@ function resolveSelectedOutcome() {
     onClose: () => {
       runPostActionsSequentially(postActions, () => {
         if (wasMajor) {
-          if (draftOpened) return;
-          draftOpened = true;
-          openDraftModal(() => finishEvent());
+          openDraftModal(() => finishEvent(evJustResolved));
         } else {
-          finishEvent();
+          finishEvent(evJustResolved);
         }
       });
     }
@@ -2931,6 +2941,20 @@ async function boot() {
     // Newer saves track spouse/children.
     state.family ??= { spouse: null, prospect: null, heirs: [] };
     state.family.heirs ??= [];
+
+    // --- Save migration safety ---
+    // Ensure deck piles exist and cannot become empty due to older saves.
+    state.drawPile = Array.isArray(state.drawPile) ? state.drawPile : [];
+    state.discardPile = Array.isArray(state.discardPile) ? state.discardPile : [];
+
+    if (!Array.isArray(state.masterDeck) || state.masterDeck.length === 0) {
+      const combined = [...state.drawPile, ...state.discardPile];
+      state.masterDeck = combined.length ? [...combined] : [];
+    }
+    if (state.drawPile.length === 0 && Array.isArray(state.masterDeck) && state.masterDeck.length) {
+      state.drawPile = shuffle([...state.masterDeck]);
+      state.discardPile = [];
+    }
 
     showGame();
     logEl.textContent = "";
