@@ -2389,6 +2389,11 @@ function resolveSelectedOutcome() {
   const roll = rInt(1, 100);
   const success = roll <= chance;
 
+  // Tracking for result + any post-event modals
+  let bundleForSummary = null;
+  let isPartial = false;
+  let postActions = [];
+
   // Attempt costs driven by conditions (paid whether you succeed or fail).
   const condRule = outcomeConditionRules(currentEvent, o);
   const attemptCosts = (condRule.costs ?? []).map(c => ({ resource: c.resource, amount: c.amount }));
@@ -2403,9 +2408,6 @@ function resolveSelectedOutcome() {
   const severeBefore = state.conditions.filter(c => c.severity === "Severe").length;
 
   // Apply outcome effects
-  let bundleForSummary = null;
-  let isPartial = false;
-  let postActions = [];
 
   if (success) {
     postActions.push(...applyBundle(o.success));
