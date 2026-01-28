@@ -2168,7 +2168,7 @@ function updateStoryPacingAfterResolvedEvent(evJustResolved) {
   const gap = pickGapAvoidingMajorFromNow();
   state.story.due[sid] = (state.runEventIndex ?? 0) + gap;
 }
-function pickDueStoryEvent() {
+function pickDueStoryEvent(avoidIds = []) {
   // Forced pick when a storyline step is due.
   const idx = state?.runEventIndex ?? 0;
   const dueMap = state?.story?.due ?? {};
@@ -2190,6 +2190,7 @@ function pickDueStoryEvent() {
 
   // Pick the next eligible event for that storyline.
   const pool = eligibleEvents({ kind: "general", story: "only", storyId: chosenId });
+  const avoid = Array.isArray(avoidIds) ? avoidIds : [];
   const ev = pickEventFromPool(pool, avoid, eventDirectorWeight, false);
   if (!ev) {
     // If something went wrong (requirements mismatch), nudge due forward to avoid deadlock.
@@ -2421,7 +2422,7 @@ function loadRandomEvent({ avoidIds = [] } = {}) {
 
   // ---------- Non-major beats ----------
   // 1) Forced storyline step if one is due (4–8 events after last step; never on majors).
-  const due = pickDueStoryEvent();
+  const due = pickDueStoryEvent(avoid);
   if (due) {
     beginEvent(due);
     return;
@@ -2520,7 +2521,13 @@ function finishEvent(evJustResolved) {
 
   // Start the next event (avoid immediate repeat of what you just played when possible).
   const avoid = evJustResolved?.id ? [evJustResolved.id] : [];
-  loadRandomEvent({ avoidIds: avoid });
+  try {
+    loadRandomEvent({ avoidIds: avoid });
+  } catch (e) {
+    console.error("Error while starting next event:", e);
+    // Safety: never softlock; fall back to a quiet event.
+    beginEvent(makeFallbackEvent("next-event error"));
+  }
 }
 
 
