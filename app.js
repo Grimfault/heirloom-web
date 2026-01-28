@@ -5,6 +5,57 @@
 */
 console.log("✅ app.js loaded");
 
+/* Heirloom UI Enhancements (non-invasive)
+   - Improves Run Creation UX without touching game logic.
+   - Works with any app.js that renders #traitsList as:
+       <label class="traitRow"><input type="checkbox" ...> ...</label>
+*/
+
+(() => {
+  const traitsList = document.getElementById("traitsList");
+  const traitsPickedEl = document.getElementById("traitsPicked");
+  const btnStart = document.getElementById("btnStart");
+
+  // Only needed on the start screen.
+  if (!traitsList || !btnStart) return;
+
+  const refresh = () => {
+    const boxes = Array.from(traitsList.querySelectorAll("input[type='checkbox']"));
+    if (!boxes.length) return;
+
+    const selected = boxes.filter(b => b.checked).length;
+    if (traitsPickedEl) traitsPickedEl.textContent = String(selected);
+
+    // Make the "pick 2" rule visible:
+    // - once you have 2, other boxes become disabled (still un-disable if you uncheck)
+    const lock = selected >= 2;
+    for (const box of boxes) {
+      const shouldDisable = lock && !box.checked;
+      box.disabled = shouldDisable;
+
+      const label = box.closest("label");
+      if (label) {
+        label.classList.toggle("disabled", shouldDisable);
+      }
+    }
+
+    // Encourage completing the step (still allows app.js to handle validation if it wants).
+    btnStart.disabled = selected !== 2;
+    btnStart.textContent = (selected !== 2) ? "Pick 2 traits to begin" : "Begin Run";
+  };
+
+  // Observe re-renders from app.js.
+  const obs = new MutationObserver(() => refresh());
+  obs.observe(traitsList, { childList: true, subtree: true });
+
+  // Also update on user changes.
+  traitsList.addEventListener("change", refresh);
+
+  // Initial.
+  refresh();
+})();
+
+
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const rInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
