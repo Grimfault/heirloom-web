@@ -760,6 +760,12 @@ function generateDraftChoices(n = 3) {
 
 function openDraftModal(onPicked) {
   const choices = generateDraftChoices(3);
+  if (!choices.length) {
+    console.warn("Draft had no card choices. Skipping draft to avoid softlock.");
+    if (typeof onPicked === "function") onPicked(null);
+    return;
+  }
+
 
   const wrap = document.createElement("div");
   const p = document.createElement("p");
@@ -882,20 +888,16 @@ function cardLabel(cardId) {
 
 // ---------- Effects ----------
 function ensureStateMaps() {
-  state.flags ??= {};      // { flagId: remainingEvents }  (0 = permanent)
+  state.flags ??= {};      // { flagId: remainingEvents }
   state.standings ??= {};  // { factionId: tier }
   state.history ??= { recentEvents: [], recentContexts: [], seen: {} };
 }
 
+
 function hasFlag(id) {
+  if (!state) return false;
   ensureStateMaps();
   return Object.prototype.hasOwnProperty.call(state.flags, id);
-}
-
-function flagRemaining(id) {
-  // Returns 0 for permanent flags, a positive number for expiring flags, or null if absent.
-  if (!hasFlag(id)) return null;
-  return state.flags[id];
 }
 
 function applyResourceDelta(d) {
@@ -2049,6 +2051,8 @@ function weightedPick(items, weightFn) {
   }
   return items[items.length - 1] ?? null;
 }
+
+
 function pickLeastRecentlySeen(items) {
   const recent = state?.history?.recentEvents ?? [];
   let best = null;
@@ -2063,7 +2067,6 @@ function pickLeastRecentlySeen(items) {
 
   return best;
 }
-
 
 function pickEventFromPool(pool, avoidIds = [], weightFn = eventDirectorWeight, strictAvoid = false) {
   if (!pool || pool.length === 0) return null;
@@ -2218,7 +2221,7 @@ function tryPickStoryHookEvent() {
       if (state.age >= 18 && state.age <= 34) w *= 3.2;
       else if (state.age <= 40) w *= 2.0;
       else w *= 1.1;
-      if (hasFlag('ct_declined')) w *= 0.35; // cooldown after declining a prospect
+      if (hasFlag("ct_declined")) w *= 0.35; // cooldown after declining a prospect
     }
 
     return w;
@@ -2355,6 +2358,32 @@ function abandonCurrentEvent({ recordForNoRepeat = true } = {}) {
 
 
 
+
+function makeFallbackEvent(reason = "") {
+  const r = reason ? ` (${reason})` : "";
+  return {
+    id: "__fallback__",
+    name: `A Quiet Season${r}`,
+    prompt: "For once, nothing demands your blood or coin. You take stock, mend what you can, and prepare for whatever comes next.",
+    context: "Hearth",
+    kind: "general",
+    minAge: 0,
+    maxAge: 999,
+    outcomes: [
+      {
+        title: "Keep the Household Steady",
+        desc: "You focus on small preparations and steady work.",
+        stat: "Resolve",
+        diff: 1,
+        allowed: ["Hearth","Quill","Seal","Veil","Steel"],
+        tags: [],
+        success: { text: "The season passes without incident. Small mercies matter.", effects: { resources: [{ resource: "Supplies", amount: 1 }] } },
+        fail: { text: "You do what you can. Even so, trouble always finds its way back.", effects: {} }
+      }
+    ]
+  };
+}
+
 function loadRandomEvent({ avoidIds = [] } = {}) {
   const majorBeat = isMajorEventNow();
   ensureStoryState();
@@ -2378,10 +2407,12 @@ function loadRandomEvent({ avoidIds = [] } = {}) {
     if (!pool.length && desiredStage !== "major") pool = eligibleEvents({ kind: "major", story: "exclude" });
     if (!pool.length) pool = eligibleEvents({ kind: "general", story: "exclude" });
     if (!pool.length) pool = eligibleEvents({ story: "exclude" });
+    if (!pool.length) pool = eligibleEvents({ story: "any" }); // absolute last resort
 
     const ev = pickEventFromPool(pool, avoid, eventDirectorWeight, false);
     if (!ev) {
-      console.warn("No eligible events found for current age/filters.");
+      console.warn("No eligible events found for current age/filters. Using fallback event.");
+      beginEvent(makeFallbackEvent("no eligible events"));
       return;
     }
     beginEvent(ev);
@@ -2410,11 +2441,13 @@ function loadRandomEvent({ avoidIds = [] } = {}) {
 
   // 3) Otherwise, pick a normal general event (excluding storyline events).
   let pool = eligibleEvents({ kind: "general", story: "exclude" });
-  if (!pool.length) pool = eligibleEvents({ story: "exclude" }); // last resort
+  if (!pool.length) pool = eligibleEvents({ story: "exclude" });
+    if (!pool.length) pool = eligibleEvents({ story: "any" }); // absolute last resort // last resort
 
   const ev = pickEventFromPool(pool, avoid, eventDirectorWeight, false);
   if (!ev) {
-    console.warn("No eligible events found for current age/filters.");
+    console.warn("No eligible events found for current age/filters. Using fallback event.");
+    beginEvent(makeFallbackEvent("no eligible events"));
     return;
   }
 
