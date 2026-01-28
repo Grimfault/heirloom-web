@@ -92,45 +92,39 @@ const STARTING_AGE = 16;
 const MAX_MARRIAGE_AGE = 45;
 
 const TRAITS = [
-  // Stat edges (each: +1 stat, +1 themed resource)
-  { id: "brawny", name: "Brawny", desc: "+1 Might (cap 5) and +1 Supplies.", statMods: { Might: 1 }, resMods: { Supplies: 1 } },
-  { id: "bookish", name: "Bookish", desc: "+1 Wit (cap 5) and +1 Influence.", statMods: { Wit: 1 }, resMods: { Influence: 1 } },
-  { id: "silver_tongue", name: "Silver Tongue", desc: "+1 Gravitas (cap 5) and +1 Renown.", statMods: { Gravitas: 1 }, resMods: { Renown: 1 } },
-  { id: "shadow_eyed", name: "Shadow-Eyed", desc: "+1 Guile (cap 5) and +1 Secrets.", statMods: { Guile: 1 }, resMods: { Secrets: 1 } },
-  { id: "stubborn", name: "Stubborn", desc: "+1 Resolve (cap 5) and +1 Renown.", statMods: { Resolve: 1 }, resMods: { Renown: 1 } },
+  // Stat + resource starters (simple, always useful)
+  { id: "brawny",        name: "Hard-Marched",        desc: "You know how to carry weight and keep moving. Start with +1 Might and +1 Supplies.",     statMods: { Might: 1 },     resMods: { Supplies: 1 } },
+  { id: "bookish",       name: "Ink-Stained",       desc: "Letters open doors before you ever arrive. Start with +1 Wit and +1 Influence.",     statMods: { Wit: 1 },       resMods: { Influence: 1 } },
+  { id: "silver_tongue", name: "Court-Polished", desc: "You speak like someone meant to be heard. Start with +1 Gravitas and +1 Renown.",   statMods: { Gravitas: 1 },  resMods: { Renown: 1 } },
+  { id: "shadow_eyed",   name: "Night-Soft",   desc: "You notice the exits—and who watches them. Start with +1 Guile and +1 Secrets.",     statMods: { Guile: 1 },     resMods: { Secrets: 1 } },
+  { id: "stubborn",      name: "Stone-Set",      desc: "When you refuse to bend, people remember. Start with +1 Resolve and +1 Renown.",   statMods: { Resolve: 1 },   resMods: { Renown: 1 } },
 
-  // Resource edges (each: +2–3 in one resource)
-  { id: "well_connected", name: "Well-Connected", desc: "Start with +2 Influence.", resMods: { Influence: 2 } },
-  { id: "thrifty", name: "Thrifty", desc: "Start with +3 Coin.", resMods: { Coin: 3 } },
-  { id: "packer", name: "Packer", desc: "Start with +3 Supplies.", resMods: { Supplies: 3 } },
-  { id: "known_face", name: "Known Face", desc: "Start with +2 Renown.", resMods: { Renown: 2 } },
-  { id: "quiet_sins", name: "Quiet Sins", desc: "Start with +2 Secrets.", resMods: { Secrets: 2 } },
+  // Resource starters (bigger pile in one lane)
+  { id: "thrifty",       name: "Ledgerwise",       desc: "You keep your accounts tight and your purse tighter. Start with +3 Coin.",                      resMods: { Coin: 3 } },
+  { id: "packer",        name: "Road-Provisioned",        desc: "You travel as if winter is always one hill away. Start with +3 Supplies.",                  resMods: { Supplies: 3 } },
+  { id: "well_connected",name: "Patron's Thread",desc: "Someone important still answers your messages. Start with +2 Influence.",                 resMods: { Influence: 2 } },
+  { id: "known_face",    name: "Known at Market",    desc: "Your name has been repeated often enough to stick. Start with +2 Renown.",                    resMods: { Renown: 2 } },
+  { id: "quiet_sins",    name: "Sealed Correspondence",    desc: "You know which truths are worth keeping. Start with +2 Secrets.",                   resMods: { Secrets: 2 } },
 
-  // Risky starts (bigger upside with immediate downside)
-  { id: "notorious", name: "Notorious", desc: "Start +1 Renown, +1 Secrets, but gain Marked (Minor).",
-    resMods: { Renown: 1, Secrets: 1 },
-    addConditions: [{ id: "Marked", severity: "Minor" }]
-  },
-  { id: "debt_ridden", name: "Debt-Ridden", desc: "Start with +4 Coin, but gain In Debt (Minor).",
+  // Mixed, flavorful starters
+  { id: "streetwise",    name: "Marrowgate Sharp",    desc: "You can read a street like a ledger. Start with +1 Guile and +1 Coin.",         statMods: { Guile: 1 },     resMods: { Coin: 1 } },
+  { id: "devout",        name: "Green Candle Oath",        desc: "The Synod favors those who keep vigil. Start with +1 Resolve and +1 Influence.",  statMods: { Resolve: 1 },   resMods: { Influence: 1 } },
+
+  // Mixed blessings (strong upside, immediate complication)
+  { id: "debt_ridden",   name: "Signed in Red Ink",   desc: "A friendly loan is still a leash. Start with +4 Coin, but gain In Debt (Minor).",
     resMods: { Coin: 4 },
     addConditions: [{ id: "In Debt", severity: "Minor" }]
   },
+  { id: "notorious",     name: "Marked by Rumor",     desc: "People whisper your name—and not always kindly. Start with +1 Renown and +1 Secrets, but gain Marked (Minor).",
+    resMods: { Renown: 1, Secrets: 1 },
+    addConditions: [{ id: "Marked", severity: "Minor" }]
+  },
 
-  // Flavorful, tangible nudges (still simple in this prototype)
-  { id: "hardy", name: "Hardy", desc: "Start with +1 Resolve and +1 Supplies.", statMods: { Resolve: 1 }, resMods: { Supplies: 1 } },
-  { id: "meticulous", name: "Meticulous", desc: "Start with +1 Wit and +1 Influence.", statMods: { Wit: 1 }, resMods: { Influence: 1 } },
-  { id: "ruthless", name: "Ruthless", desc: "Start with +1 Guile and +1 Secrets.", statMods: { Guile: 1 }, resMods: { Secrets: 1 } },
-  { id: "charming", name: "Charming", desc: "Start with +1 Gravitas and +1 Renown.", statMods: { Gravitas: 1 }, resMods: { Renown: 1 } },
-
-  // Oathbound is a "mixed blessing" (locks some options later, but gives you leverage now)
-  { id: "oathbound", name: "Oathbound", desc: "Start with Oathbound (Minor) and +1 Influence.", resMods: { Influence: 1 }, addConditions: [{ id: "Oathbound", severity: "Minor" }] },
-
-  { id: "streetwise", name: "Streetwise", desc: "Start with +1 Guile and +1 Coin.", statMods: { Guile: 1 }, resMods: { Coin: 1 } },
-  { id: "steadfast", name: "Steadfast", desc: "Start with +1 Resolve and +1 Supplies.", statMods: { Resolve: 1 }, resMods: { Supplies: 1 } },
-
-  // Court-friendly starts
-  { id: "fine_clothes", name: "Fine Clothes", desc: "Start with +1 Coin and +1 Gravitas.", resMods: { Coin: 1 }, statMods: { Gravitas: 1 } },
-  { id: "devout", name: "Devout", desc: "Start with +1 Resolve and +1 Influence.", statMods: { Resolve: 1 }, resMods: { Influence: 1 } }
+  // Oathbound is a mixed blessing (locks some options later, but gives leverage now)
+  { id: "oathbound",     name: "Ring-Law Sworn",     desc: "Your word carries weight, and it will cost you. Start with +1 Influence and gain Oathbound (Minor).",
+    resMods: { Influence: 1 },
+    addConditions: [{ id: "Oathbound", severity: "Minor" }]
+  }
 ];
 
 
