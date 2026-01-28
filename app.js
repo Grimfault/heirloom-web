@@ -5,57 +5,6 @@
 */
 console.log("✅ app.js loaded");
 
-/* Heirloom UI Enhancements (non-invasive)
-   - Improves Run Creation UX without touching game logic.
-   - Works with any app.js that renders #traitsList as:
-       <label class="traitRow"><input type="checkbox" ...> ...</label>
-*/
-
-(() => {
-  const traitsList = document.getElementById("traitsList");
-  const traitsPickedEl = document.getElementById("traitsPicked");
-  const btnStart = document.getElementById("btnStart");
-
-  // Only needed on the start screen.
-  if (!traitsList || !btnStart) return;
-
-  const refresh = () => {
-    const boxes = Array.from(traitsList.querySelectorAll("input[type='checkbox']"));
-    if (!boxes.length) return;
-
-    const selected = boxes.filter(b => b.checked).length;
-    if (traitsPickedEl) traitsPickedEl.textContent = String(selected);
-
-    // Make the "pick 2" rule visible:
-    // - once you have 2, other boxes become disabled (still un-disable if you uncheck)
-    const lock = selected >= 2;
-    for (const box of boxes) {
-      const shouldDisable = lock && !box.checked;
-      box.disabled = shouldDisable;
-
-      const label = box.closest("label");
-      if (label) {
-        label.classList.toggle("disabled", shouldDisable);
-      }
-    }
-
-    // Encourage completing the step (still allows app.js to handle validation if it wants).
-    btnStart.disabled = selected !== 2;
-    btnStart.textContent = (selected !== 2) ? "Pick 2 traits to begin" : "Begin Run";
-  };
-
-  // Observe re-renders from app.js.
-  const obs = new MutationObserver(() => refresh());
-  obs.observe(traitsList, { childList: true, subtree: true });
-
-  // Also update on user changes.
-  traitsList.addEventListener("change", refresh);
-
-  // Initial.
-  refresh();
-})();
-
-
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const rInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -143,39 +92,45 @@ const STARTING_AGE = 16;
 const MAX_MARRIAGE_AGE = 45;
 
 const TRAITS = [
-  // Stat + resource starters (simple, always useful)
-  { id: "brawny",        name: "Hard-Marched",        desc: "You know how to carry weight and keep moving. Start with +1 Might and +1 Supplies.",     statMods: { Might: 1 },     resMods: { Supplies: 1 } },
-  { id: "bookish",       name: "Ink-Stained",       desc: "Letters open doors before you ever arrive. Start with +1 Wit and +1 Influence.",     statMods: { Wit: 1 },       resMods: { Influence: 1 } },
-  { id: "silver_tongue", name: "Court-Polished", desc: "You speak like someone meant to be heard. Start with +1 Gravitas and +1 Renown.",   statMods: { Gravitas: 1 },  resMods: { Renown: 1 } },
-  { id: "shadow_eyed",   name: "Night-Soft",   desc: "You notice the exits—and who watches them. Start with +1 Guile and +1 Secrets.",     statMods: { Guile: 1 },     resMods: { Secrets: 1 } },
-  { id: "stubborn",      name: "Stone-Set",      desc: "When you refuse to bend, people remember. Start with +1 Resolve and +1 Renown.",   statMods: { Resolve: 1 },   resMods: { Renown: 1 } },
+  // Stat edges (each: +1 stat, +1 themed resource)
+  { id: "brawny", name: "Brawny", desc: "+1 Might (cap 5) and +1 Supplies.", statMods: { Might: 1 }, resMods: { Supplies: 1 } },
+  { id: "bookish", name: "Bookish", desc: "+1 Wit (cap 5) and +1 Influence.", statMods: { Wit: 1 }, resMods: { Influence: 1 } },
+  { id: "silver_tongue", name: "Silver Tongue", desc: "+1 Gravitas (cap 5) and +1 Renown.", statMods: { Gravitas: 1 }, resMods: { Renown: 1 } },
+  { id: "shadow_eyed", name: "Shadow-Eyed", desc: "+1 Guile (cap 5) and +1 Secrets.", statMods: { Guile: 1 }, resMods: { Secrets: 1 } },
+  { id: "stubborn", name: "Stubborn", desc: "+1 Resolve (cap 5) and +1 Renown.", statMods: { Resolve: 1 }, resMods: { Renown: 1 } },
 
-  // Resource starters (bigger pile in one lane)
-  { id: "thrifty",       name: "Ledgerwise",       desc: "You keep your accounts tight and your purse tighter. Start with +3 Coin.",                      resMods: { Coin: 3 } },
-  { id: "packer",        name: "Road-Provisioned",        desc: "You travel as if winter is always one hill away. Start with +3 Supplies.",                  resMods: { Supplies: 3 } },
-  { id: "well_connected",name: "Patron's Thread",desc: "Someone important still answers your messages. Start with +2 Influence.",                 resMods: { Influence: 2 } },
-  { id: "known_face",    name: "Known at Market",    desc: "Your name has been repeated often enough to stick. Start with +2 Renown.",                    resMods: { Renown: 2 } },
-  { id: "quiet_sins",    name: "Sealed Correspondence",    desc: "You know which truths are worth keeping. Start with +2 Secrets.",                   resMods: { Secrets: 2 } },
+  // Resource edges (each: +2–3 in one resource)
+  { id: "well_connected", name: "Well-Connected", desc: "Start with +2 Influence.", resMods: { Influence: 2 } },
+  { id: "thrifty", name: "Thrifty", desc: "Start with +3 Coin.", resMods: { Coin: 3 } },
+  { id: "packer", name: "Packer", desc: "Start with +3 Supplies.", resMods: { Supplies: 3 } },
+  { id: "known_face", name: "Known Face", desc: "Start with +2 Renown.", resMods: { Renown: 2 } },
+  { id: "quiet_sins", name: "Quiet Sins", desc: "Start with +2 Secrets.", resMods: { Secrets: 2 } },
 
-  // Mixed, flavorful starters
-  { id: "streetwise",    name: "Marrowgate Sharp",    desc: "You can read a street like a ledger. Start with +1 Guile and +1 Coin.",         statMods: { Guile: 1 },     resMods: { Coin: 1 } },
-  { id: "devout",        name: "Green Candle Oath",        desc: "The Synod favors those who keep vigil. Start with +1 Resolve and +1 Influence.",  statMods: { Resolve: 1 },   resMods: { Influence: 1 } },
-
-  // Mixed blessings (strong upside, immediate complication)
-  { id: "debt_ridden",   name: "Signed in Red Ink",   desc: "A friendly loan is still a leash. Start with +4 Coin, but gain In Debt (Minor).",
-    resMods: { Coin: 4 },
-    addConditions: [{ id: "In Debt", severity: "Minor" }]
-  },
-  { id: "notorious",     name: "Marked by Rumor",     desc: "People whisper your name—and not always kindly. Start with +1 Renown and +1 Secrets, but gain Marked (Minor).",
+  // Risky starts (bigger upside with immediate downside)
+  { id: "notorious", name: "Notorious", desc: "Start +1 Renown, +1 Secrets, but gain Marked (Minor).",
     resMods: { Renown: 1, Secrets: 1 },
     addConditions: [{ id: "Marked", severity: "Minor" }]
   },
+  { id: "debt_ridden", name: "Debt-Ridden", desc: "Start with +4 Coin, but gain In Debt (Minor).",
+    resMods: { Coin: 4 },
+    addConditions: [{ id: "In Debt", severity: "Minor" }]
+  },
 
-  // Oathbound is a mixed blessing (locks some options later, but gives leverage now)
-  { id: "oathbound",     name: "Ring-Law Sworn",     desc: "Your word carries weight, and it will cost you. Start with +1 Influence and gain Oathbound (Minor).",
-    resMods: { Influence: 1 },
-    addConditions: [{ id: "Oathbound", severity: "Minor" }]
-  }
+  // Flavorful, tangible nudges (still simple in this prototype)
+  { id: "hardy", name: "Hardy", desc: "Start with +1 Resolve and +1 Supplies.", statMods: { Resolve: 1 }, resMods: { Supplies: 1 } },
+  { id: "meticulous", name: "Meticulous", desc: "Start with +1 Wit and +1 Influence.", statMods: { Wit: 1 }, resMods: { Influence: 1 } },
+  { id: "ruthless", name: "Ruthless", desc: "Start with +1 Guile and +1 Secrets.", statMods: { Guile: 1 }, resMods: { Secrets: 1 } },
+  { id: "charming", name: "Charming", desc: "Start with +1 Gravitas and +1 Renown.", statMods: { Gravitas: 1 }, resMods: { Renown: 1 } },
+
+  // Oathbound is a "mixed blessing" (locks some options later, but gives you leverage now)
+  { id: "oathbound", name: "Oathbound", desc: "Start with Oathbound (Minor) and +1 Influence.", resMods: { Influence: 1 }, addConditions: [{ id: "Oathbound", severity: "Minor" }] },
+
+  { id: "streetwise", name: "Streetwise", desc: "Start with +1 Guile and +1 Coin.", statMods: { Guile: 1 }, resMods: { Coin: 1 } },
+  { id: "steadfast", name: "Steadfast", desc: "Start with +1 Resolve and +1 Supplies.", statMods: { Resolve: 1 }, resMods: { Supplies: 1 } },
+
+  // Court-friendly starts
+  { id: "fine_clothes", name: "Fine Clothes", desc: "Start with +1 Coin and +1 Gravitas.", resMods: { Coin: 1 }, statMods: { Gravitas: 1 } },
+  { id: "devout", name: "Devout", desc: "Start with +1 Resolve and +1 Influence.", statMods: { Resolve: 1 }, resMods: { Influence: 1 } }
 ];
 
 
@@ -285,17 +240,30 @@ function hasHeir() {
   return (state?.family?.heirs?.length ?? 0) > 0;
 }
 function difficultyProfileForEvent(ev, opts = {}) {
-  // defaults: "general"
-  // NOTE: "majorBeat" lets you make the 5-year milestones feel tougher even if the event JSON is still kind:"general"
+  // Tuned so "general" events don't become trivial once stats climb.
+  // "majorBeat" lets 5-year milestones feel tougher even if the event JSON is still kind:"general".
   const majorBeat = Boolean(opts.majorBeat);
   const kind = majorBeat ? "major" : (ev.kind ?? "general"); // later: "major", "faction"
-  if (kind === "general") return { base: 60, statMult: 9, diffMult: 8 };
-  if (kind === "faction")  return { base: 55, statMult: 9, diffMult: 10 };
-  if (kind === "major")    return { base: 50, statMult: 8, diffMult: 11 };
-  return { base: 55, statMult: 8, diffMult: 10 };
+
+  // Baselines (before age ramp).
+  let prof;
+  if (kind === "general") prof = { base: 56, statMult: 8, diffMult: 11 };
+  else if (kind === "faction") prof = { base: 54, statMult: 8, diffMult: 12 };
+  else if (kind === "major") prof = { base: 50, statMult: 8, diffMult: 13 };
+  else prof = { base: 54, statMult: 8, diffMult: 12 };
+
+  // Gentle late-game ramp: every ~10 years after 25, tighten odds a bit.
+  const age = state?.age ?? 16;
+  const ageRamp = Math.max(0, Math.floor((age - 25) / 10)); // 0 at 25–34, 1 at 35–44, etc.
+  prof = { ...prof, base: prof.base - (ageRamp * 2), diffMult: prof.diffMult + ageRamp };
+
+  return prof;
 }
 
-function computeChance(outcome, committedCids) {
+function computeChanceParts(outcome, committedCids, opts = {}) {
+  const ev = opts.ev ?? currentEvent;
+  const majorBeat = Boolean(opts.majorBeat ?? (typeof isMajorEventNow === "function" ? isMajorEventNow() : false));
+
   const statVal = state.stats[outcome.stat] ?? 0;
   const diff = outcome.diff ?? 3;
 
@@ -305,10 +273,103 @@ function computeChance(outcome, committedCids) {
     return sum + (getCardLevelData(c).bonus ?? 0);
   }, 0);
 
-  const prof = difficultyProfileForEvent(currentEvent);
-  let chance = prof.base + (statVal * prof.statMult) + cardBonus - (diff * prof.diffMult);
-  chance = clamp(chance, 5, 95);
-  return Math.round(chance);
+  const prof = difficultyProfileForEvent(ev, { majorBeat });
+
+  // Extra "gap pressure" so difficulty above your stat is meaningfully scary,
+  // even if the base math is generous.
+  const gap = Math.max(0, diff - statVal);
+  const gapPenalty = gap * 3;
+
+  const condMod = conditionChanceModifier(ev, outcome, committedCids);
+
+  const raw = prof.base + (statVal * prof.statMult) + cardBonus - (diff * prof.diffMult) - gapPenalty + condMod;
+  const chance = clamp(raw, 5, 95);
+
+  return {
+    chance,
+    raw,
+    prof,
+    statVal,
+    diff,
+    cardBonus,
+    gapPenalty,
+    condMod,
+    majorBeat
+  };
+}
+
+function computeChance(outcome, committedCids, opts = {}) {
+  const parts = computeChanceParts(outcome, committedCids, opts);
+  return Math.round(parts.chance);
+}
+
+function conditionChanceModifier(ev, outcome, committedCids) {
+  // Conditions should matter in a way the player can feel:
+  // - Light "friction" always
+  // - Bigger penalties in matching contexts
+  // - A small upside for Oathbound in legitimate play, downside for Veil
+  let mod = 0;
+  const ctx = ev?.context;
+  const stat = outcome?.stat;
+
+  // General friction: death isn't the only cost of conditions.
+  for (const c of (state.conditions ?? [])) {
+    if (c.severity === "Minor") mod -= 1;
+    else if (c.severity === "Severe") mod -= 3;
+  }
+
+  // Focused penalties
+  const ill = conditionSeverity("Ill");
+  if (ill) {
+    const p = (ill === "Severe") ? -10 : -6;
+    if (ctx === "Journey" || ctx === "Lore" || stat === "Wit" || stat === "Resolve") mod += p;
+    else mod += (ill === "Severe") ? -6 : -3;
+  }
+
+  const wounded = conditionSeverity("Wounded");
+  if (wounded) {
+    const p = (wounded === "Severe") ? -12 : -6;
+    if (ctx === "Strife" || stat === "Might") mod += p;
+    else mod += (wounded === "Severe") ? -6 : -3;
+  }
+
+  const starving = conditionSeverity("Starving");
+  if (starving) {
+    const p = (starving === "Severe") ? -12 : -6;
+    if (ctx === "Journey" || ctx === "Strife" || stat === "Might" || stat === "Resolve") mod += p;
+    else mod += (starving === "Severe") ? -6 : -3;
+  }
+
+  const disgraced = conditionSeverity("Disgraced");
+  if (disgraced) {
+    const p = (disgraced === "Severe") ? -10 : -6;
+    if (ctx === "Court" || stat === "Gravitas") mod += p;
+    else mod += (disgraced === "Severe") ? -5 : -2;
+  }
+
+  const wanted = conditionSeverity("Wanted");
+  if (wanted) {
+    const p = (wanted === "Severe") ? -14 : -9;
+    if (ctx === "Court") mod += p;
+    else mod += (wanted === "Severe") ? -8 : -4;
+  }
+
+  if (hasCondition("In Debt")) {
+    // Debt is a constant drag; bigger when you're trying to do public / expensive things.
+    if (ctx === "Court" || ctx === "Journey") mod -= 2;
+  }
+
+  if (hasCondition("Oathbound")) {
+    const allowed = outcome?.allowed ?? [];
+    if (allowed.includes("Seal") || stat === "Gravitas") mod += 3;
+    if (allowed.includes("Veil") || stat === "Guile") mod -= 3;
+  }
+
+  // Tiny relief: committing a Hearth card helps you keep it together.
+  const hasHearth = (committedCids ?? []).some(cid => DATA.cardsById[cid]?.discipline === "Hearth");
+  if (hasHearth) mod += 2;
+
+  return mod;
 }
 
 function chanceBand(pct) {
@@ -899,6 +960,18 @@ function drawHand(n) {
   }
 }
 
+function handSizeForEvent(ev) {
+  let n = 4;
+
+  // Conditions should squeeze your options a bit, but not hard-lock you.
+  if (ev?.context === "Strife" && (hasCondition("Wounded") || hasCondition("Bruised"))) n = Math.min(n, 3);
+  if ((ev?.context === "Journey" || ev?.context === "Strife") && hasCondition("Starving")) n = Math.min(n, 3);
+  if ((ev?.context === "Journey" || ev?.context === "Lore") && hasCondition("Ill")) n = Math.min(n, 3);
+  if (ev?.context === "Court" && hasCondition("Wanted")) n = Math.min(n, 3);
+
+  return n;
+}
+
 // ---------- Cards ----------
 function getCardLevel(cardId) {
   // v0.1: always level 1; later can read meta upgrade map
@@ -958,7 +1031,13 @@ function applyResourceDelta(d) {
   // These don't kill you directly; they add pressure conditions.
   if (before > 0 && after === 0 && amt < 0) {
     if (k === "Coin") addCondition("In Debt", "Minor", { source: "floor" });
-    if (k === "Supplies") addCondition("Starving", "Severe", { source: "floor" });
+    if (k === "Supplies") {
+      // Starving is dangerous, but we ease into it: first you're hungry (Minor),
+      // then it can worsen if you stay at 0.
+      ensureCondMeta();
+      state.condMeta.starveMisses = 0;
+      addCondition("Starving", "Minor", { source: "floor" });
+    }
     if (k === "Renown") addCondition("Disgraced", "Minor", { source: "floor" });
   }
 }
@@ -1523,6 +1602,41 @@ function applyPostEventConditionPressure(ev, outcome, success, isPartial, netDel
     post.conditions.push({ id: "Ill", mode: "Add", severity: "Minor", durationEvents: 4 });
   }
 
+
+  // Starving escalation: if Supplies stay at 0 for a full year, it worsens.
+  if (hasCondition("Starving", "Minor") && (state.res?.Supplies ?? 0) === 0 && (state.condMeta.starveMisses ?? 0) >= 2) {
+    post.conditions.push({ id: "Starving", mode: "Upgrade" });
+  }
+
+  // In Debt: seasonal interest + a clear condition once you're solvent again.
+  if (hasCondition("In Debt")) {
+    const netCoin = netDeltas?.Coin ?? 0;
+
+    if (wasVernalEvent) {
+      if ((state.res?.Coin ?? 0) >= 1) post.resources.push({ resource: "Coin", amount: -1 });
+      else if ((state.res?.Influence ?? 0) >= 1) post.resources.push({ resource: "Influence", amount: -1 });
+      else post.conditions.push({ id: "Disgraced", mode: "Add", severity: "Minor", durationEvents: 2 });
+    }
+
+    if ((state.res?.Coin ?? 0) >= 4 && netCoin > 0) {
+      post.conditions.push({ id: "In Debt", mode: "Remove" });
+    }
+  }
+
+  // Disgraced: a clean, public win in Court can wash it away.
+  if (hasCondition("Disgraced")) {
+    const netRen = netDeltas?.Renown ?? 0;
+    if (ev?.context === "Court" && success && !oTags.includes("Scandalous")) post.conditions.push({ id: "Disgraced", mode: "Remove" });
+    else if (netRen >= 2) post.conditions.push({ id: "Disgraced", mode: "Remove" });
+  }
+
+  // Paying cover (Secrets/Influence) in Court helps cool Wanted heat a bit.
+  if (hasCondition("Wanted") && ev?.context === "Court") {
+    if ((netDeltas?.Secrets ?? 0) < 0 || (netDeltas?.Influence ?? 0) < 0) {
+      state.condMeta.wantedHeat = Math.max(0, (state.condMeta.wantedHeat ?? 0) - 1);
+    }
+  }
+
   // Wanted heat: public actions increase pressure; at higher heat, you draw more bounty events via weighting.
   if (hasCondition("Wanted")) {
     const publicish = (ev?.context === "Court") || (ev?.context === "Strife") || oTags.includes("Scandalous");
@@ -1859,25 +1973,19 @@ function renderChance() {
   }
 
   const o = currentEvent.outcomes[selectedOutcomeIndex];
-
-  const evJustResolved = currentEvent;
-  const statVal = state.stats[o.stat] ?? 0;
-  const diff = o.diff ?? 3;
-
-  const cardBonus = committedCardIds().reduce((sum, cid) => {
-    const c = DATA.cardsById[cid];
-    if (!c) return sum;
-    return sum + (getCardLevelData(c).bonus ?? 0);
-  }, 0);
-
-const prof = difficultyProfileForEvent(currentEvent, { majorBeat: isMajorEventNow() });
-let chance = prof.base + (statVal * prof.statMult) + cardBonus - (diff * prof.diffMult);
-chance = clamp(chance, 5, 95);
+  const parts = computeChanceParts(o, committedCardIds(), { ev: currentEvent, majorBeat: isMajorEventNow() });
+  const chance = Math.round(parts.chance);
 
   const cls = (chance >= 60) ? "good" : (chance <= 35) ? "bad" : "";
   const band = chanceBand(chance);
-chanceLine.innerHTML = `Chance: <span class="${cls}">${band}</span>`;
-chanceBreakdown.textContent = ""; // hide breakdown for now
+  chanceLine.innerHTML = `Chance: <span class="${cls}">${band}</span> <span class="muted">(${chance}%)</span>`;
+
+  // Show a lightweight breakdown only when something interesting is happening.
+  const bits = [];
+  if (parts.majorBeat) bits.push("Major beat");
+  if (parts.condMod) bits.push(`Conditions ${parts.condMod > 0 ? "+" : ""}${parts.condMod}%`);
+  if (parts.gapPenalty) bits.push(`Challenge gap -${parts.gapPenalty}%`);
+  chanceBreakdown.textContent = bits.join(" • ");
 }
 
 function renderAll() {
@@ -2505,7 +2613,7 @@ function beginEvent(ev) {
   committed = [];
   currentEvent = ev;
 
-  drawHand(4);
+  drawHand(handSizeForEvent(ev));
   renderAll();
   log(`\n=== ${ev.name} (${ev.context}) ===`);
 }
@@ -2577,6 +2685,51 @@ function finishEvent(evJustResolved) {
 
 
 // ---------- Resolve ----------
+function mitigateFailBundle(bundle, ev, outcome, committedCids, opts = {}) {
+  if (!bundle) return bundle;
+  if (!Array.isArray(bundle.conditions) || bundle.conditions.length === 0) return bundle;
+
+  // Only mitigate when this bundle represents a "bad" result (fail/partial).
+  // (We call this only from those branches.)
+  const next = { ...bundle };
+  next.conditions = (bundle.conditions ?? [])
+    .map(c => mitigateFailCondition(c, ev, outcome, committedCids, opts))
+    .filter(Boolean);
+
+  return next;
+}
+
+function mitigateFailCondition(change, ev, outcome, committedCids, opts = {}) {
+  if (!change) return change;
+
+  const mode = change.mode ?? "Add";
+  if (mode !== "Add") return change; // don't randomize removals/upgrades
+
+  const baseSev = change.severity ?? "Minor";
+  const resolve = state.stats.Resolve ?? 0;
+
+  const hasHearth = (committedCids ?? []).some(cid => DATA.cardsById[cid]?.discipline === "Hearth");
+  let guard = (resolve * 10) + (hasHearth ? 15 : 0);
+
+  // Perilous consequences are harder to fully avoid.
+  if ((outcome?.tags ?? []).includes("Perilous")) guard = Math.max(0, guard - 10);
+
+  // Severe: often downgrades to Minor (instead of always sticking).
+  if (baseSev === "Severe") {
+    const downgradeChance = clamp(guard + 5, 0, 70);
+    if (rInt(1, 100) <= downgradeChance) {
+      if (change.id === "Wounded") return { ...change, id: "Bruised", severity: "Minor" };
+      return { ...change, severity: "Minor" };
+    }
+    return change;
+  }
+
+  // Minor: small chance to shake it off entirely.
+  const avoidChance = clamp(guard - 25, 0, 35);
+  if (rInt(1, 100) <= avoidChance) return null;
+  return change;
+}
+
 function resolveSelectedOutcome() {
   if (resolvingOutcome) return;
   if (selectedOutcomeIndex == null) return;
@@ -2625,6 +2778,7 @@ function resolveSelectedOutcome() {
       return c ? Boolean(getCardLevelData(c).partialOnFail) : false;
     });
 
+    
     if (partial) {
       isPartial = true;
       log(`FAIL (${roll} > ${chance}) but PARTIAL triggers → ${o.title}`);
@@ -2633,14 +2787,12 @@ function resolveSelectedOutcome() {
       for (const d of (o.success?.resources ?? [])) {
         const half = Math.trunc((d.amount ?? 0) / 2);
         halfResources.push({ resource: d.resource, amount: half });
-        applyResourceDelta({ resource: d.resource, amount: half });
       }
 
       const softenedConds = [];
       for (const c of (o.fail?.conditions ?? [])) {
         const sev = (c.severity === "Severe") ? "Minor" : (c.severity ?? "Minor");
         softenedConds.push({ ...c, severity: sev });
-        applyConditionChange({ ...c, severity: sev });
       }
 
       // Build a best-effort summary so the result modal matches what actually happened.
@@ -2648,10 +2800,16 @@ function resolveSelectedOutcome() {
       const partialTxt = baseTxt
         ? (baseTxt + "\n\nStill, you salvage what you can.")
         : "You don’t quite get what you wanted, but you salvage something.";
-      bundleForSummary = { text: partialTxt, resources: halfResources, conditions: softenedConds };
+
+      let partialBundle = { text: partialTxt, resources: halfResources, conditions: softenedConds };
+      partialBundle = mitigateFailBundle(partialBundle, currentEvent, o, committedCardIds(), { isPartial: true });
+
+      postActions.push(...applyBundle(partialBundle));
+      bundleForSummary = partialBundle;
     } else {
-      postActions.push(...applyBundle(o.fail));
-      bundleForSummary = o.fail;
+      const failBundle = mitigateFailBundle(o.fail, currentEvent, o, committedCardIds());
+      postActions.push(...applyBundle(failBundle));
+      bundleForSummary = failBundle;
       log(`FAIL (${roll} > ${chance}) → ${o.title}`);
     }
   }
