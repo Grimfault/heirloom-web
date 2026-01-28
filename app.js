@@ -241,15 +241,15 @@ function difficultyProfileForEvent(ev, opts = {}) {
 
   // Baselines (before age ramp).
   let prof;
-  if (kind === "general") prof = { base: 56, statMult: 8, diffMult: 11 };
-  else if (kind === "faction") prof = { base: 54, statMult: 8, diffMult: 12 };
-  else if (kind === "major") prof = { base: 50, statMult: 8, diffMult: 13 };
-  else prof = { base: 54, statMult: 8, diffMult: 12 };
+  if (kind === "general") prof = { base: 58, statMult: 8, diffMult: 10 };
+  else if (kind === "faction") prof = { base: 56, statMult: 8, diffMult: 11 };
+  else if (kind === "major") prof = { base: 52, statMult: 8, diffMult: 12 };
+  else prof = { base: 56, statMult: 8, diffMult: 11 };
 
   // Gentle late-game ramp: every ~10 years after 25, tighten odds a bit.
   const age = state?.age ?? 16;
   const ageRamp = Math.max(0, Math.floor((age - 25) / 10)); // 0 at 25–34, 1 at 35–44, etc.
-  prof = { ...prof, base: prof.base - (ageRamp * 2), diffMult: prof.diffMult + ageRamp };
+  prof = { ...prof, base: prof.base - (ageRamp * 1), diffMult: prof.diffMult + ageRamp };
 
   return prof;
 }
@@ -272,7 +272,7 @@ function computeChanceParts(outcome, committedCids, opts = {}) {
   // Extra "gap pressure" so difficulty above your stat is meaningfully scary,
   // even if the base math is generous.
   const gap = Math.max(0, diff - statVal);
-  const gapPenalty = gap * 3;
+  const gapPenalty = gap * 2;
 
   const condMod = conditionChanceModifier(ev, outcome, committedCids);
 
