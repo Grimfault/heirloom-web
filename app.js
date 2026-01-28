@@ -388,6 +388,64 @@ function arrowsForBonus(bonusPct) {
 }
 
 
+function hash32(str) {
+  // small deterministic hash for stable flavor selection
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return (h >>> 0);
+}
+
+const CARD_FLAVOR = {
+  Steel: [
+    "Steel answers faster than doubt.",
+    "A hard lesson, repeated until it sticks.",
+    "One clean motion beats ten brave ideas.",
+    "You learned to hit first—and then breathe."
+  ],
+  Quill: [
+    "Ink makes order out of noise.",
+    "A small note now saves a costly mistake later.",
+    "You let the details do the fighting.",
+    "A line on paper can move a room."
+  ],
+  Veil: [
+    "A truth withheld is still a weapon.",
+    "You step where the light doesn't reach.",
+    "The best lie is the one that feels familiar.",
+    "Quiet hands, loud results."
+  ],
+  Seal: [
+    "Authority is a blade with a polished edge.",
+    "You speak in terms people can't ignore.",
+    "A favor remembered is stronger than a threat.",
+    "Rules bend for those who know where to press."
+  ],
+  Hearth: [
+    "You hold steady when the world shakes.",
+    "Warmth is a kind of armor.",
+    "You refuse to break—quietly, completely.",
+    "Endurance wins the days no one sings about."
+  ]
+};
+
+function cardFlavor(c) {
+  if (!c) return "";
+  if (typeof c.flavor === "string" && c.flavor.trim()) return c.flavor.trim();
+  const pool = CARD_FLAVOR[c.discipline] || ["A practiced habit, honed by necessity."];
+  const key = String(c.id || c.name || c.discipline || "");
+  const idx = hash32(key) % pool.length;
+  return pool[idx];
+}
+
+function cardSceneText(ctxs) {
+  const arr = (ctxs ?? []).filter(Boolean);
+  return arr.length ? `in ${arr.join(" / ")}` : "in any scene";
+}
+
+
 // ---------- Opportunity (Trading Encounter) ----------
 function ensureOpportunityState() {
   if (!state) return;
@@ -1023,6 +1081,11 @@ function openDraftModal(onPicked) {
   const p = document.createElement("p");
   p.className = "muted";
   p.textContent = "Major milestone! Choose 1 card to add to your deck (it goes into your discard pile).";
+
+  const p2 = document.createElement("p");
+  p2.className = "muted small";
+  p2.textContent = "Click a card to choose."; 
+  wrap.appendChild(p2);
   wrap.appendChild(p);
 
   const list = document.createElement("div");
@@ -1039,13 +1102,14 @@ function openDraftModal(onPicked) {
 
     div.innerHTML = `
       <div class="cardname">${c.name}</div>
-      <div class="cardmeta">
-        <span class="badge">${c.discipline}</span>
-        <span class="badge">Contexts: ${(c.contexts ?? []).join(", ")}</span>
-        <span class="badge">${arrowsForBonus(lvlData.bonus)}</span>
-        <span class="badge">${c.rarity}</span>
+      <div class="cardtype muted">${c.discipline}</div>
+
+      <div class="cardbig">
+        <span class="arrows ${arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted"}">${arrowsForBonus(lvlData.bonus) || "—"}</span>
+        <span class="cardbigtext">${cardSceneText(c.contexts)}${lvlData.partialOnFail ? " • partial on failure" : ""}</span>
       </div>
-      <div class="muted">Click to choose</div>
+
+      <div class="cardflavor"><em>${cardFlavor(c)}</em></div>
     `;
 
     const choose = () => {
@@ -2089,13 +2153,6 @@ function renderHand() {
     const arrows = arrowsForBonus(lvlData.bonus) || "—";
 
     const ctxs = (c.contexts ?? []);
-    const playsLine = (() => {
-      if (!ctxs.length) return "Plays in any scene.";
-      if (ctxs.length === 1) return `Plays in ${ctxs[0]}.`;
-      return `Plays in ${ctxs.slice(0, -1).join(", ")} or ${ctxs[ctxs.length - 1]}.`;
-    })();
-
-    const rider = lvlData.partialOnFail ? "On failure: partial." : "";
 
     const div = document.createElement("div");
     div.className = "cardbtn"
@@ -2104,21 +2161,14 @@ function renderHand() {
 
     div.innerHTML = `
       <div class="cardname">${c.name}</div>
+      <div class="cardtype muted">${c.discipline}</div>
 
       <div class="cardbig">
-        <span class="arrows ${lvlData.bonus >= 0 ? "good" : "bad"}">${arrows}</span>
-        <span class="cardbigtext">${ctxs.length ? `in ${ctxs.join(" / ")}` : "in any scene"}</span>
+        <span class="arrows ${arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted"}">${arrowsForBonus(lvlData.bonus) || "—"}</span>
+        <span class="cardbigtext">${cardSceneText(ctxs)}${lvlData.partialOnFail ? " • partial on failure" : ""}</span>
       </div>
 
-      <div class="cardsmall muted">${playsLine}${rider ? ` ${rider}` : ""}</div>
-
-      <div class="cardchips">
-        <span class="chip disc">${c.discipline}</span>
-        ${(ctxs).map(x => `<span class="chip">${x}</span>`).join("")}
-        ${lvlData.partialOnFail ? `<span class="chip warn">Partial</span>` : ``}
-      </div>
-
-      ${hasOutcome && !playable ? `<div class="muted small">Not playable for this choice.</div>` : ``}
+      <div class="cardflavor"><em>${cardFlavor(c)}</em></div>
     `;
 
     div.addEventListener("click", () => {
