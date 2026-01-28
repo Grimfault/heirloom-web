@@ -13860,7 +13860,7 @@
         "id": "sl_bo_step2"
       }
     ],
-    "prompt": "A week later, the iron ring returns—split clean, as if someone snapped it with their hands. The guide is dead in a ditch, the promised cargo gone. The survivors don’t blame the road; they blame the oath. And because you were there, because your name was spoken near the stone, they come to you with grief sharpened into demands.",
+    "prompt": "By the time the season turns, the iron ring returns—split clean, as if someone snapped it with their hands. The guide is dead in a ditch, the promised cargo gone. The survivors don’t blame the road; they blame the oath. And because you were there, because your name was spoken near the stone, they come to you with grief sharpened into demands.",
     "outcomes": [
       {
         "title": "Demand Bloodprice",
@@ -35786,7 +35786,7 @@
           ]
         },
         "fail": {
-          "text": "You force yourself to stay, to smile through the stink of smoke and sickness. The next day your throat burns and your joints ache. The hall remembers you as 'brave'—and you remember it as 'stupid'.",
+          "text": "You force yourself to stay, to smile through the stink of smoke and sickness. Not long after your throat burns and your joints ache. The hall remembers you as 'brave'—and you remember it as 'stupid'.",
           "conditions": [
             {
               "id": "Ill",
