@@ -387,6 +387,82 @@ function arrowsForBonus(bonusPct) {
   return (v >= 0 ? "↑" : "↓").repeat(n);
 }
 
+function isWildCard(card) {
+  return Boolean(card && card.discipline === "Wild");
+}
+
+function rarityPips(rarity) {
+  switch (rarity) {
+    case "Common": return "•";
+    case "Uncommon": return "••";
+    case "Rare": return "•••";
+    default: return "•";
+  }
+}
+
+function cardRarityMark(card) {
+  if (!card) return "•";
+  if (isWildCard(card)) return "✦";
+  return rarityPips(card.rarity);
+}
+
+function formatResDelta(resource, amount) {
+  const n = Math.abs(amount ?? 0);
+  const arrow = (amount ?? 0) >= 0 ? "↑" : "↓";
+  return `${arrow}${n} ${resource}`;
+}
+
+function formatCondDelta(ch) {
+  if (!ch) return "";
+  const id = prettyConditionId(ch.id);
+  const mode = ch.mode ?? "Add";
+  if (mode === "Remove") return `Remove ${id}`;
+  if (mode === "Downgrade") return `Ease ${id}`;
+  if (mode === "Upgrade") return `Worsen ${id}`;
+  return `${id}`;
+}
+
+function bundleInlineSummary(bundle) {
+  if (!bundle) return "";
+  const parts = [];
+  for (const d of (bundle.resources ?? [])) {
+    const amt = d.amount ?? 0;
+    if (!amt) continue;
+    parts.push(formatResDelta(d.resource, amt));
+  }
+  for (const c of (bundle.conditions ?? [])) {
+    const s = formatCondDelta(c);
+    if (s) parts.push(s);
+  }
+  return parts.join(" · ");
+}
+
+function cardRiderText(card) {
+  if (!card) return "";
+  const lvl = getCardLevelData(card);
+
+  // Wild cards: the effect happens immediately when played.
+  if (isWildCard(card)) {
+    const t = bundleInlineSummary(lvl.onPlay);
+    return t ? `Use anytime • ${t}` : "Use anytime";
+  }
+
+  // Discipline cards: riders trigger only on success/failure.
+  const onS = bundleInlineSummary(lvl.onSuccess);
+  const onF = bundleInlineSummary(lvl.onFailure);
+
+  const parts = [];
+  if (onS) parts.push(`✓ ${onS}`);
+  if (onF) parts.push(`✗ ${onF}`);
+  return parts.join(" / ");
+}
+
+function cardScenesText(card) {
+  if (!card) return "";
+  if (isWildCard(card)) return "Any scene";
+  return cardSceneText(card.contexts);
+}
+
 
 function hash32(str) {
   // small deterministic hash for stable flavor selection
@@ -1088,7 +1164,7 @@ function shuffle(arr) {
 
 function rarityWeight(rarity) {
   switch (rarity) {
-    case "Common": return 6;
+    case "Common": return 10;
     case "Uncommon": return 3;
     case "Rare": return 1;
     default: return 3;
@@ -1116,6 +1192,7 @@ function weightedPickCardId(excludeSet) {
   return weighted[weighted.length - 1]?.id ?? null;
 }
 
+
 function generateDraftChoices(n = 3) {
   const choices = [];
   const exclude = new Set();
@@ -1125,8 +1202,21 @@ function generateDraftChoices(n = 3) {
     choices.push(id);
     exclude.add(id);
   }
+
+  // Small "pity" rule: if the draft rolled all-Common, upgrade one slot if possible.
+  const hasNonCommon = choices.some(id => (DATA.cardsById[id]?.rarity ?? "Common") !== "Common");
+  if (choices.length && !hasNonCommon) {
+    const pool = (DATA.cards ?? [])
+      .filter(c => c && (c.rarity ?? "Common") !== "Common" && !exclude.has(c.id))
+      .map(c => c.id);
+    if (pool.length) {
+      choices[choices.length - 1] = pick(pool);
+    }
+  }
+
   return choices;
 }
+
 
 function openDraftModal(onPicked) {
   const choices = generateDraftChoices(3);
@@ -1155,18 +1245,27 @@ function openDraftModal(onPicked) {
   for (const cid of choices) {
     const c = DATA.cardsById[cid];
     const lvlData = getCardLevelData(c);
+    const isWild = isWildCard(c);
+    const arrowsText = isWild ? "✦" : (arrowsForBonus(lvlData.bonus) || "—");
+    const arrowsClass = isWild ? "muted" : (arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted");
+    const rarityMark = cardRarityMark(c);
+    const riderText = cardRiderText(c);
+    const scenesText = cardScenesText(c);
+    const line3 = isWild ? riderText : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""));
 
     const div = document.createElement("div");
     div.className = "cardbtn";
     div.tabIndex = 0;
+    div.dataset.rarity = (c.rarity || "");
+    div.dataset.discipline = (c.discipline || "");
 
     div.innerHTML = `
       <div class="cardname">${c.name}</div>
-      <div class="cardtype muted">${c.discipline}</div>
+      <div class="cardtype"><span>${c.discipline}</span><span class="rarityPips">${rarityMark}</span></div>
 
       <div class="cardbig">
-        <span class="arrows ${arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted"}">${arrowsForBonus(lvlData.bonus) || "—"}</span>
-        <span class="cardbigtext">${cardSceneText(c.contexts)}${lvlData.partialOnFail ? " • partial on failure" : ""}</span>
+        <span class="arrows ${arrowsClass}">${arrowsText}</span>
+        <span class="cardbigtext">${line3}</span>
       </div>
 
       <div class="cardflavor"><em>${cardFlavor(c)}</em></div>
@@ -1204,6 +1303,33 @@ function expandDeck(deckField) {
       const count = Math.max(1, entry.count ?? 1);
       for (let i = 0; i < count; i++) out.push(entry.cardId ?? entry.id);
     }
+
+
+function normalizeStarterDeck(deckIds) {
+  const commonsByDisc = {};
+  for (const c of (DATA.cards ?? [])) {
+    if (c?.rarity !== "Common") continue;
+    if (isWildCard(c)) continue;
+    const d = c.discipline ?? "Unknown";
+    (commonsByDisc[d] ||= []).push(c.id);
+  }
+
+  const out = [];
+  for (const cid of (deckIds ?? [])) {
+    const c = DATA.cardsById[cid];
+    if (!c) continue;
+    if (c.rarity === "Common" && !isWildCard(c)) {
+      out.push(cid);
+      continue;
+    }
+    const pool = commonsByDisc[c.discipline ?? "Unknown"] || [];
+    if (!pool.length) { out.push(cid); continue; }
+    const rep = pool[Math.abs(hash32(cid)) % pool.length];
+    out.push(rep);
+  }
+  return out;
+}
+
     return out;
   }
   return [];
@@ -1228,6 +1354,52 @@ function drawHand(n) {
     const cid = state.drawPile.pop();
     hand.push({ iid: nextHandIid++, cid });
   }
+}
+
+
+function drawOneCardIntoHand() {
+  if (!state) return null;
+  if (state.drawPile.length === 0) {
+    state.drawPile = shuffle(state.discardPile);
+    state.discardPile = [];
+    if (state.drawPile.length === 0 && Array.isArray(state.masterDeck) && state.masterDeck.length) {
+      state.drawPile = shuffle([...state.masterDeck]);
+      state.discardPile = [];
+    }
+    if (state.drawPile.length === 0) return null;
+  }
+  const cid = state.drawPile.pop();
+  const entry = { iid: nextHandIid++, cid };
+  hand.push(entry);
+  return entry;
+}
+
+function playWildCard(iid) {
+  if (resolvingOutcome) return;
+  const idx = hand.findIndex(x => x.iid === iid);
+  if (idx === -1) return;
+  const cid = hand[idx].cid;
+  const card = DATA.cardsById[cid];
+  if (!isWildCard(card)) return;
+
+  const lvl = getCardLevelData(card);
+  const bundle = lvl.onPlay;
+
+  // Consume the card.
+  state.discardPile.push(cid);
+  hand.splice(idx, 1);
+
+  // Apply its immediate effect.
+  if (bundle) applyBundle(bundle);
+
+  // Replace the slot immediately.
+  drawOneCardIntoHand();
+
+  log(`Used: ${card.name}`);
+
+  // Keep the same event; just refresh UI + highlights.
+  saveState();
+  renderAll();
 }
 
 function handSizeForEvent(ev) {
@@ -1255,10 +1427,31 @@ function getCardLevelData(card) {
   return found || { level: 1, bonus: 0, partialOnFail: false };
 }
 
+
+function bundleFromCommittedCards(committedCids, key) {
+  let out = null;
+  for (const cid of (committedCids ?? [])) {
+    const c = DATA.cardsById[cid];
+    if (!c) continue;
+    const lvl = getCardLevelData(c);
+    const b = lvl?.[key];
+    if (!b) continue;
+    // Treat empty objects as "no bundle"
+    const hasRes = Array.isArray(b.resources) && b.resources.length;
+    const hasCon = Array.isArray(b.conditions) && b.conditions.length;
+    if (!hasRes && !hasCon) continue;
+    out = mergeBundles(out, b);
+  }
+  return out;
+}
+
 function isCardUsable(cardId, outcomeIndex) {
   const card = DATA.cardsById[cardId];
   const o = currentEvent?.outcomes?.[outcomeIndex];
   if (!card || !o) return false;
+
+
+  if (isWildCard(card)) return true;
 
   const contextOk = (card.contexts ?? []).includes(currentEvent.context);
   const disciplineOk = (o.allowed ?? []).includes(card.discipline);
@@ -2245,7 +2438,7 @@ function renderHand() {
 
   const hasOutcome = (selectedOutcomeIndex != null);
   if (!hasOutcome) {
-    handHint.textContent = "Pick an outcome to highlight playable cards.";
+    handHint.textContent = "Pick an outcome to commit cards. (Wild cards can be used anytime.)";
   } else {
     handHint.textContent = `Tap a highlighted card to commit/uncommit (max ${cap}).`;
   }
@@ -2256,32 +2449,44 @@ function renderHand() {
     const c = DATA.cardsById[cid];
     if (!c) continue;
 
-    const playable = hasOutcome ? isCardUsable(cid, selectedOutcomeIndex) : false;
+    const isWild = isWildCard(c);
+    const playable = isWild ? true : (hasOutcome ? isCardUsable(cid, selectedOutcomeIndex) : false);
     const isCommitted = committed.includes(entry.iid);
 
     const lvlData = getCardLevelData(c);
-    const arrows = arrowsForBonus(lvlData.bonus) || "—";
-
-    const ctxs = (c.contexts ?? []);
+    const arrowsText = isWild ? "✦" : (arrowsForBonus(lvlData.bonus) || "—");
+    const arrowsClass = isWild ? "muted" : (arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted");
+    const rarityMark = cardRarityMark(c);
+    const riderText = cardRiderText(c);
+    const scenesText = cardScenesText(c);
+    const line3 = isWild ? riderText : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""));
 
     const div = document.createElement("div");
     div.className = "cardbtn"
       + (isCommitted ? " committed" : "")
-      + (hasOutcome ? (playable ? " playable" : " dim") : "");
+      + ((hasOutcome || isWild) ? (playable ? " playable" : " dim") : "");
+
+
+    div.dataset.rarity = (c.rarity || "");
+    div.dataset.discipline = (c.discipline || "");
 
     div.innerHTML = `
       <div class="cardname">${c.name}</div>
-      <div class="cardtype muted">${c.discipline}</div>
+      <div class="cardtype"><span>${c.discipline}</span><span class="rarityPips">${rarityMark}</span></div>
 
       <div class="cardbig">
-        <span class="arrows ${arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted"}">${arrowsForBonus(lvlData.bonus) || "—"}</span>
-        <span class="cardbigtext">${cardSceneText(ctxs)}${lvlData.partialOnFail ? " • partial on failure" : ""}</span>
+        <span class="arrows ${arrowsClass}">${arrowsText}</span>
+        <span class="cardbigtext">${line3}</span>
       </div>
 
       <div class="cardflavor"><em>${cardFlavor(c)}</em></div>
     `;
 
     div.addEventListener("click", () => {
+      if (isWild) {
+        playWildCard(entry.iid);
+        return;
+      }
       if (!hasOutcome) return;
       if (!playable) return;
 
@@ -3143,8 +3348,10 @@ function resolveSelectedOutcome() {
   // Apply outcome effects
 
   if (success) {
-    postActions.push(...applyBundle(o.success));
-    bundleForSummary = o.success;
+    const cardBundle = bundleFromCommittedCards(committedCardIds(), "onSuccess");
+    const merged = mergeBundles(o.success, cardBundle);
+    postActions.push(...applyBundle(merged));
+    bundleForSummary = merged;
     log(`SUCCESS (${roll} ≤ ${chance}) → ${o.title}`);
   } else {
     const partial = committedCardIds().some(cid => {
@@ -3178,12 +3385,17 @@ function resolveSelectedOutcome() {
       let partialBundle = { text: partialTxt, resources: halfResources, conditions: softenedConds };
       partialBundle = mitigateFailBundle(partialBundle, currentEvent, o, committedCardIds(), { isPartial: true });
 
-      postActions.push(...applyBundle(partialBundle));
-      bundleForSummary = partialBundle;
+      const cardBundle = bundleFromCommittedCards(committedCardIds(), "onFailure");
+
+      const merged = mergeBundles(partialBundle, cardBundle);
+      postActions.push(...applyBundle(merged));
+      bundleForSummary = merged;
     } else {
       const failBundle = mitigateFailBundle(o.fail, currentEvent, o, committedCardIds());
-      postActions.push(...applyBundle(failBundle));
-      bundleForSummary = failBundle;
+      const cardBundle = bundleFromCommittedCards(committedCardIds(), "onFailure");
+      const merged = mergeBundles(failBundle, cardBundle);
+      postActions.push(...applyBundle(merged));
+      bundleForSummary = merged;
       log(`FAIL (${roll} > ${chance}) → ${o.title}`);
     }
   }
@@ -3504,6 +3716,7 @@ function showLoadingUI(isLoading) {
 function startRunFromBuilder(bg, givenName, familyName) {
   const deckIds = expandDeck(bg.deck);
   const validDeck = deckIds.filter(cid => DATA.cardsById[cid]);
+  const starterDeck = normalizeStarterDeck(validDeck);
 
   if (!validDeck.length) {
     const wrap = document.createElement("div");
@@ -3549,8 +3762,8 @@ function startRunFromBuilder(bg, givenName, familyName) {
 
     flags: {},
     standings: {},
-    masterDeck: [...validDeck],
-    drawPile: shuffle([...validDeck]),
+    masterDeck: [...starterDeck],
+    drawPile: shuffle([...starterDeck]),
     discardPile: []
   };
 
