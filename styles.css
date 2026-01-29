@@ -483,3 +483,45 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   color: #0f1115; /* slightly lighter than pure black */
   text-shadow: 0 1px 0 rgba(255,255,255,0.15);
 }
+
+
+/* --- Rarity visibility (pips + subtle borders) --- */
+.cardtype{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.rarityPips{
+  font-size:12px;
+  letter-spacing:1px;
+  opacity:.9;
+  transform: translateY(-1px);
+}
+
+.cardbtn[data-rarity="Common"] .rarityPips { opacity: .45; }
+.cardbtn[data-rarity="Uncommon"] .rarityPips { opacity: .85; }
+.cardbtn[data-rarity="Rare"] .rarityPips { opacity: 1; }
+
+.cardbtn[data-rarity="Uncommon"]{
+  border-color: rgba(120,170,255,.55);
+  box-shadow: 0 0 0 1px rgba(120,170,255,.20), 0 12px 32px rgba(0,0,0,.18);
+}
+
+.cardbtn[data-rarity="Rare"]{
+  border-color: rgba(255,214,128,.65);
+  box-shadow: 0 0 0 1px rgba(255,214,128,.18), 0 14px 38px rgba(0,0,0,.20);
+}
+
+.cardbtn[data-rarity="Rare"] .rarityPips{
+  color: rgba(255,214,128,.95);
+}
+
+.cardbtn[data-discipline="Wild"]{
+  border-style: dashed;
+}
+
+.cardbtn[data-discipline="Wild"] .rarityPips{
+  color: rgba(175,155,255,.95);
+}
