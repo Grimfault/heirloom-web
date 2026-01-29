@@ -3,324 +3,1055 @@
     "id": "forward_strike",
     "name": "Forward Strike",
     "discipline": "Steel",
-    "contexts": ["Strife"],
+    "contexts": [
+      "Strife"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 12,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "A clean opening, delivered without hesitation."
   },
   {
     "id": "shieldwall",
     "name": "Shieldwall",
     "discipline": "Steel",
-    "contexts": ["Strife", "Court"],
+    "contexts": [
+      "Strife",
+      "Court"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 10,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Hold the line; let the world break first."
   },
   {
     "id": "iron_discipline",
     "name": "Iron Discipline",
     "discipline": "Steel",
-    "contexts": ["Strife", "Journey"],
+    "contexts": [
+      "Strife",
+      "Journey"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 9,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "You make a habit of pain before it finds you."
   },
   {
     "id": "hard_march",
     "name": "Hard March",
     "discipline": "Steel",
-    "contexts": ["Journey"],
+    "contexts": [
+      "Journey"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 10,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Feet blister; pride doesn’t."
   },
   {
     "id": "cornered_beast",
     "name": "Cornered Beast",
     "discipline": "Steel",
-    "contexts": ["Strife", "Scheme"],
+    "contexts": [
+      "Strife",
+      "Scheme"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 13, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 16,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "When there’s no room to flee, you bite back."
   },
   {
     "id": "crushing_blow",
     "name": "Crushing Blow",
     "discipline": "Steel",
-    "contexts": ["Strife"],
+    "contexts": [
+      "Strife"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 14, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 16,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "One decisive hit ends the argument."
   },
   {
     "id": "last_stand",
     "name": "Last Stand",
     "discipline": "Steel",
-    "contexts": ["Strife", "Journey"],
+    "contexts": [
+      "Strife",
+      "Journey"
+    ],
     "rarity": "Rare",
-    "levels": [{ "level": 1, "bonus": 8, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 20,
+        "partialOnFail": true,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "You spend what you have left to stay standing."
   },
   {
     "id": "weapon_mastery",
     "name": "Weapon Mastery",
     "discipline": "Steel",
-    "contexts": ["Strife", "Lore"],
+    "contexts": [
+      "Strife",
+      "Lore"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 11, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 14,
+        "partialOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Practice turns fear into form."
   },
-
   {
     "id": "read_the_room",
     "name": "Read the Room",
     "discipline": "Quill",
-    "contexts": ["Court"],
+    "contexts": [
+      "Court"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 10,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Listen first. People tell you where to cut."
   },
   {
     "id": "map_the_way",
     "name": "Map the Way",
     "discipline": "Quill",
-    "contexts": ["Journey", "Lore"],
+    "contexts": [
+      "Journey",
+      "Lore"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 10,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "A good route is a quiet victory."
   },
   {
     "id": "studied_ledger",
     "name": "Studied Ledger",
     "discipline": "Quill",
-    "contexts": ["Court", "Scheme"],
+    "contexts": [
+      "Court",
+      "Scheme"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 9,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Numbers don’t lie—people do."
   },
   {
     "id": "keen_observation",
     "name": "Keen Observation",
     "discipline": "Quill",
-    "contexts": ["Lore", "Court"],
+    "contexts": [
+      "Lore",
+      "Court"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 9,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Notice the detail everyone else skips."
   },
   {
     "id": "counterplan",
     "name": "Counterplan",
     "discipline": "Quill",
-    "contexts": ["Scheme", "Court"],
+    "contexts": [
+      "Scheme",
+      "Court"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 11, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 14,
+        "partialOnFail": true,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Let them spring the trap—on your terms."
   },
   {
     "id": "forensic_reading",
     "name": "Forensic Reading",
     "discipline": "Quill",
-    "contexts": ["Lore", "Scheme"],
+    "contexts": [
+      "Lore",
+      "Scheme"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "A smudge of ink can be a confession."
   },
   {
     "id": "scribe_a_petition",
     "name": "Scribe a Petition",
     "discipline": "Quill",
-    "contexts": ["Court"],
+    "contexts": [
+      "Court"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Give the crowd a sentence to repeat."
   },
   {
     "id": "field_notes",
     "name": "Field Notes",
     "discipline": "Quill",
-    "contexts": ["Journey", "Lore"],
+    "contexts": [
+      "Journey",
+      "Lore"
+    ],
     "rarity": "Rare",
-    "levels": [{ "level": 1, "bonus": 8, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 20,
+        "partialOnFail": true,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Write it down before memory edits the truth."
   },
-
   {
     "id": "false_papers",
     "name": "False Papers",
     "discipline": "Veil",
-    "contexts": ["Journey", "Court"],
+    "contexts": [
+      "Journey",
+      "Court"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 12,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "A seal, a signature, and a convincing smile."
   },
   {
     "id": "cutpurse",
     "name": "Cutpurse",
     "discipline": "Veil",
-    "contexts": ["Scheme", "Journey"],
+    "contexts": [
+      "Scheme",
+      "Journey"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 10,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "A purse is easiest to lift before it’s missed."
   },
   {
     "id": "silent_entry",
     "name": "Silent Entry",
     "discipline": "Veil",
-    "contexts": ["Scheme", "Court"],
+    "contexts": [
+      "Scheme",
+      "Court"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 9,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Locks aren’t promises. They’re suggestions."
   },
   {
     "id": "misdirection",
     "name": "Misdirection",
     "discipline": "Veil",
-    "contexts": ["Scheme", "Strife"],
+    "contexts": [
+      "Scheme",
+      "Strife"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 9,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Point their eyes elsewhere; take what you came for."
   },
   {
     "id": "blackmail_whisper",
     "name": "Blackmail Whisper",
     "discipline": "Veil",
-    "contexts": ["Scheme", "Court"],
+    "contexts": [
+      "Scheme",
+      "Court"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 13, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 16,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "A secret is leverage if you know where to press."
   },
   {
     "id": "vanish_into_crowd",
     "name": "Vanish into the Crowd",
     "discipline": "Veil",
-    "contexts": ["Court", "Journey"],
+    "contexts": [
+      "Court",
+      "Journey"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Become a shadow between shoulders."
   },
   {
     "id": "poisoned_ink",
     "name": "Poisoned Ink",
     "discipline": "Veil",
-    "contexts": ["Scheme", "Lore"],
+    "contexts": [
+      "Scheme",
+      "Lore"
+    ],
     "rarity": "Rare",
-    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 20,
+        "partialOnFail": true,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Words can wound when placed just right."
   },
   {
     "id": "shadow_contact",
     "name": "Shadow Contact",
     "discipline": "Veil",
-    "contexts": ["Scheme"],
+    "contexts": [
+      "Scheme"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 11, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 14,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Someone always owes someone."
   },
-
   {
     "id": "public_speech",
     "name": "Public Speech",
     "discipline": "Seal",
-    "contexts": ["Court"],
+    "contexts": [
+      "Court"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 10,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "You speak like you belong there."
   },
   {
     "id": "invoke_patronage",
     "name": "Invoke Patronage",
     "discipline": "Seal",
-    "contexts": ["Court"],
+    "contexts": [
+      "Court"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 10,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "You drop a name and watch the room adjust."
   },
   {
     "id": "formal_audience",
     "name": "Formal Audience",
     "discipline": "Seal",
-    "contexts": ["Court", "Lore"],
+    "contexts": [
+      "Court",
+      "Lore"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 9,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "You let protocol do the pushing."
   },
   {
     "id": "seal_of_authority",
     "name": "Seal of Authority",
     "discipline": "Seal",
-    "contexts": ["Court", "Scheme"],
+    "contexts": [
+      "Court",
+      "Scheme"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Act certain; they’ll do the rest for you."
   },
   {
     "id": "oath_of_service",
     "name": "Oath of Service",
     "discipline": "Seal",
-    "contexts": ["Court", "Journey"],
+    "contexts": [
+      "Court",
+      "Journey"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 9,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "You trade freedom for protection—carefully."
   },
   {
     "id": "turn_the_blame",
     "name": "Turn the Blame",
     "discipline": "Seal",
-    "contexts": ["Court", "Scheme"],
+    "contexts": [
+      "Court",
+      "Scheme"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 13, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 16,
+        "partialOnFail": true,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Redirect the lantern before it finds you."
   },
   {
     "id": "dignified_refusal",
     "name": "Dignified Refusal",
     "discipline": "Seal",
-    "contexts": ["Court"],
+    "contexts": [
+      "Court"
+    ],
     "rarity": "Rare",
-    "levels": [{ "level": 1, "bonus": 8, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 20,
+        "partialOnFail": true,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "You say no without giving them a handle."
   },
   {
     "id": "treaty_language",
     "name": "Treaty Language",
     "discipline": "Seal",
-    "contexts": ["Court", "Lore"],
+    "contexts": [
+      "Court",
+      "Lore"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 11, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 14,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "A contract is a blade with a polite edge."
   },
-
   {
     "id": "hold_fast",
     "name": "Hold Fast",
     "discipline": "Hearth",
-    "contexts": ["Strife", "Scheme", "Court", "Journey", "Lore"],
+    "contexts": [
+      "Strife",
+      "Scheme",
+      "Court",
+      "Journey",
+      "Lore"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 6, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 6,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Breathe. Endure. Choose again."
   },
   {
     "id": "night_watch",
     "name": "Night Watch",
     "discipline": "Hearth",
-    "contexts": ["Journey", "Scheme"],
+    "contexts": [
+      "Journey",
+      "Scheme"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 10,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "The dark doesn’t scare you. You’ve met it before."
   },
   {
     "id": "steady_breath",
     "name": "Steady Breath",
     "discipline": "Hearth",
-    "contexts": ["Strife", "Journey"],
+    "contexts": [
+      "Strife",
+      "Journey"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 9, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 9,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Slow the pulse. Clear the head."
   },
   {
     "id": "shared_fire",
     "name": "Shared Fire",
     "discipline": "Hearth",
-    "contexts": ["Journey", "Court"],
+    "contexts": [
+      "Journey",
+      "Court"
+    ],
     "rarity": "Common",
-    "levels": [{ "level": 1, "bonus": 8, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 8,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Warmth makes allies of strangers."
   },
   {
     "id": "stubborn_refusal",
     "name": "Stubborn Refusal",
     "discipline": "Hearth",
-    "contexts": ["Court", "Scheme"],
+    "contexts": [
+      "Court",
+      "Scheme"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 12, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "You do not bend because they ask."
   },
   {
     "id": "pilgrims_patience",
     "name": "Pilgrim's Patience",
     "discipline": "Hearth",
-    "contexts": ["Lore", "Journey"],
+    "contexts": [
+      "Lore",
+      "Journey"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 11, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 14,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Step by step, the road teaches restraint."
   },
   {
     "id": "cold_comfort",
     "name": "Cold Comfort",
     "discipline": "Hearth",
-    "contexts": ["Lore", "Strife"],
+    "contexts": [
+      "Lore",
+      "Strife"
+    ],
     "rarity": "Rare",
-    "levels": [{ "level": 1, "bonus": 8, "partialOnFail": true, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 20,
+        "partialOnFail": true,
+        "onSuccess": {},
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Some truths numb, some harden."
   },
   {
     "id": "unyielding_will",
     "name": "Unyielding Will",
     "discipline": "Hearth",
-    "contexts": ["Strife", "Court", "Journey"],
+    "contexts": [
+      "Strife",
+      "Court",
+      "Journey"
+    ],
     "rarity": "Uncommon",
-    "levels": [{ "level": 1, "bonus": 10, "partialOnFail": false, "onSuccess": {}, "onFailure": {} }]
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 14,
+        "partialOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Even shaken, you keep your footing."
+  },
+  {
+    "id": "spare_rations",
+    "name": "Spare Rations",
+    "discipline": "Wild",
+    "contexts": [
+      "Strife",
+      "Scheme",
+      "Court",
+      "Journey",
+      "Lore"
+    ],
+    "rarity": "Uncommon",
+    "flavor": "A little food, saved for the right moment.",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 0,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {},
+        "onPlay": {
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 2
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiet_prayer",
+    "name": "Quiet Prayer",
+    "discipline": "Wild",
+    "contexts": [
+      "Strife",
+      "Scheme",
+      "Court",
+      "Journey",
+      "Lore"
+    ],
+    "rarity": "Uncommon",
+    "flavor": "A breath, a vow, and a steadier hand.",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 0,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {},
+        "onPlay": {
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Remove"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "clean_bandage",
+    "name": "Clean Bandage",
+    "discipline": "Wild",
+    "contexts": [
+      "Strife",
+      "Scheme",
+      "Court",
+      "Journey",
+      "Lore"
+    ],
+    "rarity": "Uncommon",
+    "flavor": "If it’s cleaned now, it won’t fester later.",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 0,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {},
+        "onPlay": {
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Downgrade"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "bitter_tonic",
+    "name": "Bitter Tonic",
+    "discipline": "Wild",
+    "contexts": [
+      "Strife",
+      "Scheme",
+      "Court",
+      "Journey",
+      "Lore"
+    ],
+    "rarity": "Uncommon",
+    "flavor": "It tastes like punishment, but it works.",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 0,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {},
+        "onPlay": {
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "candle_witness",
+    "name": "Candle of Witness",
+    "discipline": "Wild",
+    "contexts": [
+      "Strife",
+      "Scheme",
+      "Court",
+      "Journey",
+      "Lore"
+    ],
+    "rarity": "Rare",
+    "flavor": "Light makes liars careful—and friends braver.",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 0,
+        "partialOnFail": false,
+        "onSuccess": {},
+        "onFailure": {},
+        "onPlay": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        }
+      }
+    ]
   }
 ]
