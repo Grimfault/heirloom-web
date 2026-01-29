@@ -560,7 +560,8 @@
     "name": "Invoke Patronage",
     "discipline": "Seal",
     "contexts": [
-      "Court"
+      "Court",
+      "Lore"
     ],
     "rarity": "Common",
     "levels": [
