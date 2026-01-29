@@ -12,7 +12,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Among Greenfold hamlets, the road narrows between thorn and stone. A snap of brush—then men with patched mail and bright, hungry eyes step out with blades drawn. They don’t ask for coin. They ask how much you’re willing to bleed.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, the road narrows between thorn and stone. A snap of brush—then men with patched mail and bright, hungry eyes step out with blades drawn. They don’t ask for coin. They ask how much you’re willing to bleed.",
     "outcomes": [
       {
         "title": "Break Their Line",
@@ -35,7 +35,7 @@
           ]
         },
         "success": {
-          "text": "You crash into them like a hammer into wet wood. The first bandit goes down with a sound that quiets the rest, and the survivors scatter into the brush.",
+          "text": "You crash into them like a hammer into wet wood. The first bandit goes down with a sound that quiets the rest, and the survivors scatter into the brush. By the next village, someone is already telling the story with your name in the middle of it.",
           "resources": [
             {
               "resource": "Renown",
@@ -77,7 +77,7 @@
           ]
         },
         "success": {
-          "text": "You throw sand, pull a cloak, break a knee—anything that ends it before it begins. When the last one runs, you take what they took from others: a purse, a ring, a folded scrap with names on it.",
+          "text": "You throw sand, pull a cloak, break a knee—anything that ends it before it begins. When the last one runs, you take what they took from others: a purse, a ring, a folded scrap with names on it. Profit tastes the same as guilt until someone recognizes you.",
           "resources": [
             {
               "resource": "Coin",
@@ -90,7 +90,7 @@
           ]
         },
         "fail": {
-          "text": "Your trick goes wrong at the worst moment. Someone sees the ugly part—the knife in the back, the panic in the eyes—and the tale reaches the wrong ears.",
+          "text": "Your trick goes wrong at the worst moment. Someone sees the ugly part—the knife in the back, the panic in the eyes—and the tale reaches the wrong ears. You leave the road alive, but with a shadow behind your name that can turn into chains.",
           "conditions": [
             {
               "id": "Wanted",
@@ -127,7 +127,7 @@
           ]
         },
         "fail": {
-          "text": "They laugh at your words and count your purse with their eyes. You pay more than you meant to, and the humiliation gnaws at you long after they’ve melted back into the brush.",
+          "text": "They laugh at your words and count your purse with their eyes. You pay more than you meant to, and the humiliation gnaws at you long after they’ve melted back into the brush. By the time you’re safe, you’re tired in a way sleep doesn’t quite fix.",
           "resources": [
             {
               "resource": "Coin",
@@ -207,7 +207,7 @@
     ],
     "minAge": 16,
     "maxAge": 40,
-    "prompt": "Between hedges in the Greenfold, a careless word becomes a careful threat. At first light, your rival waits in the dew-silver grass with witnesses who pretend they’re impartial. A duel is a story people tell forever—especially if you lose.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a careless word becomes a careful threat. At first light, your rival waits in the dew-silver grass with witnesses who pretend they’re impartial. A duel is a story people tell forever—especially if you lose.",
     "outcomes": [
       {
         "title": "Answer the Challenge",
@@ -272,7 +272,7 @@
           ]
         },
         "success": {
-          "text": "You sell a stumble, draw their lunge, and answer with a cut that ends the performance. The onlookers clap because they don’t understand what they saw—only that you’re standing.",
+          "text": "You sell a stumble, draw their lunge, and answer with a cut that ends the performance. The onlookers clap because they don’t understand what they saw—only that you’re standing. Someone later pulls you aside and whispers that a certain witness is in your debt now.",
           "resources": [
             {
               "resource": "Renown",
@@ -392,7 +392,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Under the Greenfold canopy, a town’s edge is on fire—roof-thatch and tar running like oil. Raiders move in the smoke, half seen and fully cruel. Someone has to impose order… or decide what’s worth saving.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a town’s edge is on fire—roof-thatch and tar running like oil. Raiders move in the smoke, half seen and fully cruel. Someone has to impose order… or decide what’s worth saving.",
     "outcomes": [
       {
         "title": "Lead a Sortie",
@@ -416,7 +416,7 @@
           ]
         },
         "success": {
-          "text": "You rally a handful of the brave and the scared and turn them into a blade. The raiders don’t expect resistance that moves toward them, and they break.",
+          "text": "You rally a handful of the brave and the scared and turn them into a blade. The raiders don’t expect resistance that moves toward them, and they break. When the fire is finally beaten back, the town’s elders look at you like you’ve already been written into their records.",
           "resources": [
             {
               "resource": "Renown",
@@ -506,7 +506,7 @@
           ]
         },
         "success": {
-          "text": "You vanish into smoke and return with small disasters in your wake: a dropped lantern among their own wagons, a commander’s pouch missing, a signal horn smashed. The town is saved by a thousand little failures—most of them yours.",
+          "text": "You vanish into smoke and return with small disasters in your wake: a dropped lantern among their own wagons, a commander’s pouch missing, a signal horn smashed. The town is saved by a thousand little failures—most of them yours. You keep a piece of what you took, and a piece of what you learned.",
           "resources": [
             {
               "resource": "Coin",
@@ -523,7 +523,7 @@
           ]
         },
         "fail": {
-          "text": "Your shadow-work is noticed at the worst moment. A raider’s hand clamps your wrist; a voice hisses your description to others. You escape, but you feel the pursuit becoming organized—like someone wrote your name into a ledger meant for hunters.",
+          "text": "Your shadow-work is noticed at the worst moment. A raider’s hand clamps your wrist; a voice hisses your description to others. You escape, but you can feel the pursuit becoming organized—like someone wrote your name into a ledger meant for hunters.",
           "conditions": [
             {
               "id": "Wanted",
@@ -554,7 +554,7 @@
           ]
         },
         "success": {
-          "text": "You speak into the smoke like a bell—clear, steady, impossible to ignore. Hands stop shaking long enough to do what needs doing, and the worst impulses stay caged.",
+          "text": "You speak into the smoke like a bell—clear, steady, impossible to ignore. Hands stop shaking long enough to do what needs doing, and the worst impulses stay caged. When the morning comes, the town’s leaders treat you like a person whose voice can steer crowds.",
           "resources": [
             {
               "resource": "Influence",
@@ -588,7 +588,7 @@
     ],
     "minAge": 16,
     "maxAge": 55,
-    "prompt": "In the tar-scented yards of Gilderhaven, a mercenary captain sits easy by their cookfire, armor oiled and boots muddy. They offer you a contract with the smile of someone who has sold loyalty a hundred times and never once believed in it.",
+    "prompt": "In Gilderhaven’s shipyards, where storms are politics and insurance is prayer, a mercenary captain sits easy by their cookfire, armor oiled and boots muddy. They offer you a contract with the smile of someone who has sold loyalty a hundred times and never once believed in it.",
     "outcomes": [
       {
         "title": "Hire Them",
@@ -627,7 +627,7 @@
           ]
         },
         "fail": {
-          "text": "You pay—and you realize too late what else you agreed to. A favor is mentioned like an afterthought, then repeated like a rule. The blades are yours for now, but you feel the hook set behind the contract’s fine words.",
+          "text": "You pay—and you realize too late what else you agreed to. A favor is mentioned like an afterthought, then repeated like a rule. The blades are yours for now, but you can feel the hook set behind the contract’s fine words.",
           "resources": [
             {
               "resource": "Coin",
@@ -645,7 +645,7 @@
       },
       {
         "title": "Train with Them",
-        "desc": "Put pride aside and learn the sort of skill that survives ugly fights.",
+        "desc": "Put pride aside and learn the kind of skill that survives ugly fights.",
         "stat": "Might",
         "diff": 3,
         "allowed": [
@@ -709,7 +709,7 @@
           ]
         },
         "success": {
-          "text": "You let them believe you’re richer than you are and more backed than you’re willing to admit. The captain signs, the company moves, and you pocket what would’ve been their share.",
+          "text": "You let them believe you’re richer than you are and more backed than you’re willing to admit. The captain signs, the company moves, and you pocket what would’ve been their share. You also learn exactly how to lie to people who make lies for a living.",
           "resources": [
             {
               "resource": "Coin",
@@ -722,7 +722,7 @@
           ]
         },
         "fail": {
-          "text": "The captain’s eyes don’t blink when you speak. They’ve heard your trick in three cities and two wars. You leave with your life because they allow it—but you feel the danger of being remembered by professionals.",
+          "text": "The captain’s eyes don’t blink when you speak. They’ve heard your trick in three cities and two wars. You leave with your life because they allow it—but you can feel the danger of being remembered by professionals.",
           "conditions": [
             {
               "id": "Wanted",
@@ -786,7 +786,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In Kestrelbank’s ledger halls, you reach for your coin and find only cloth. The crowd is thick, the air smells of spice and sweat, and someone nearby is suddenly walking very fast. In a city, theft is a language—do you answer it?",
+    "prompt": "In Kestrelbank, where bridges and ledgers decide who eats, you reach for your coin and find only cloth. The crowd is thick, the air smells of spice and sweat, and someone nearby is suddenly walking very fast. In a city, theft is a language—do you answer it?",
     "outcomes": [
       {
         "title": "Catch the Thief",
@@ -810,7 +810,7 @@
           ]
         },
         "success": {
-          "text": "You shove through the crowd, hook an arm, and slam the thief into a stall hard enough to rattle pots. Your purse hits the ground and a few extra coins spill out with it—someone else’s, maybe.",
+          "text": "You shove through the crowd, hook an arm, and slam the thief into a stall hard enough to rattle pots. Your purse hits the ground and a few extra coins spill out with it—someone else’s, maybe. The vendors cheer you like you’ve cleaned their street for a moment.",
           "resources": [
             {
               "resource": "Coin",
@@ -896,7 +896,7 @@
           ]
         },
         "success": {
-          "text": "You let the thief take it again, then close the circle with a nod to a stall-keeper and a foot in the right place.",
+          "text": "You let the thief take it again, then close the circle with a nod to a stall-keeper and a foot in the right place. When you retrieve your coin, there’s more in the purse than before—either a ‘fee’ for the trouble or a gift to keep you quiet. You don’t ask which.",
           "resources": [
             {
               "resource": "Coin",
@@ -937,7 +937,7 @@
           ]
         },
         "success": {
-          "text": "You raise your voice and make the theft everyone’s concern: honor, safety, the sort of city people want to live in. The crowd shifts, a few hands grab at the runner, and your purse returns with an awkward apology attached.",
+          "text": "You raise your voice and make the theft everyone’s concern: honor, safety, the kind of city people want to live in. The crowd shifts, a few hands grab at the runner, and your purse returns with an awkward apology attached. A local guard gives you a look that says you could be useful.",
           "resources": [
             {
               "resource": "Coin",
@@ -976,7 +976,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In the Greenfold’s muddy lanes, you hear it in the pauses between greetings: a rumor about you, polished and ready, spreading too quickly to be chance. Someone is feeding it—quietly, carefully—like a fire they want to look accidental.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, you hear it in the pauses between greetings: a rumor about you, polished and ready, spreading too quickly to be chance. Someone is feeding it—quietly, carefully—like a fire they want to look accidental.",
     "outcomes": [
       {
         "title": "Confront the Source",
@@ -1043,7 +1043,7 @@
           ]
         },
         "success": {
-          "text": "You listen more than you speak. Patterns emerge: the same phrasing, the same pauses, the same careful omissions.",
+          "text": "You listen more than you speak. Patterns emerge: the same phrasing, the same pauses, the same careful omissions. By the time you’re done, you don’t just know the rumor—you know the hand that steered it, and you’ve put their name somewhere safe in your mind.",
           "resources": [
             {
               "resource": "Secrets",
@@ -1084,7 +1084,7 @@
           ]
         },
         "success": {
-          "text": "You seed a sweeter lie in the right ears—one that flatters the listeners for believing it. The original rumor still exists, but now it has competition, and people love choosing which story makes them feel clever.",
+          "text": "You seed a sweeter lie in the right ears—one that flatters the listeners for believing it. The original rumor still exists, but now it has competition, and people love choosing which story makes them feel clever. In the noise, you pocket a useful morsel of leverage.",
           "resources": [
             {
               "resource": "Renown",
@@ -1162,7 +1162,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In Kestrelbank’s ledger halls, a packet of papers crosses your hands—clean vellum, expensive ink, and a seal that is almost perfect. Almost. Whoever made it understands authority well enough to imitate it, and that makes the forgery more dangerous than any clumsy lie. If you expose it, you’ll anger someone. If you use it, you’ll become someone worth hunting.",
+    "prompt": "In Kestrelbank, where bridges and ledgers decide who eats, a packet of papers crosses your hands—clean vellum, expensive ink, and a seal that is almost perfect. Almost. Whoever made it understands authority well enough to imitate it, and that makes the forgery more dangerous than any clumsy lie. If you expose it, you’ll anger someone. If you use it, you’ll become someone worth hunting. If you study it… you may find yourself thinking like its maker.",
     "outcomes": [
       {
         "title": "Report It to a Proper Clerk",
@@ -1197,7 +1197,7 @@
           ]
         },
         "fail": {
-          "text": "Your warning lands poorly. Someone in the office goes still, too still, and later you feel eyes on you in the street. The counterfeiters don’t know what you know—only that you know something.",
+          "text": "Your warning lands poorly. Someone in the office goes still, too still, and later you feel eyes on you in the street. The counterfeiters don’t know what you know—only that you know *something*.",
           "flags": [
             {
               "id": "counterfeit_heat",
@@ -1229,7 +1229,7 @@
           ]
         },
         "success": {
-          "text": "You choose a door that will not ask questions and a moment when no one wants to be the one who delays an ‘official’ matter. The seal does its work. People step aside.",
+          "text": "You choose a door that will not ask questions and a moment when no one wants to be the one who delays an ‘official’ matter. The seal does its work. People step aside. You leave with tangible advantage—and a fresh appreciation for how thin legitimacy can be.",
           "resources": [
             {
               "resource": "Influence",
@@ -1242,7 +1242,7 @@
           ]
         },
         "fail": {
-          "text": "The wrong person examines the wax. Their eyes narrow. Their smile becomes a blade. You’re not simply refused—you’re remembered, and remembered by the sort of people who keep chains ready.",
+          "text": "The wrong person examines the wax. Their eyes narrow. Their smile becomes a blade. You’re not simply refused—you’re *remembered*, and remembered by the kind of people who keep chains ready.",
           "conditions": [
             {
               "id": "Wanted",
@@ -1344,7 +1344,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In Marrowgate’s narrow quays, behind a shuttered door, a dozen quiet people pretend they’re strangers. Forbidden goods sit on a cloth like offerings: a reliquary shard, a sealed letter, a knife that looks too honest. Every bid is a confession in a different accent.",
+    "prompt": "In Marrowgate, where tolls are tradition and corruption is a local craft, behind a shuttered door, a dozen quiet people pretend they’re strangers. Forbidden goods sit on a cloth like offerings: a reliquary shard, a sealed letter, a knife that looks too honest. Every bid is a confession in a different accent.",
     "outcomes": [
       {
         "title": "Bid for the Prize",
@@ -1369,7 +1369,7 @@
           ]
         },
         "success": {
-          "text": "You bid like you belong there, and people believe you because you sound like you do. The prize comes wrapped in plain cloth, heavier than it should be, and a few eyes follow it all the way to your hands.",
+          "text": "You bid like you belong there, and people believe you because you sound like you do. The prize comes wrapped in plain cloth, heavier than it should be, and a few eyes follow it all the way to your hands. You leave poorer in coin, richer in leverage—and visible in the wrong circles.",
           "resources": [
             {
               "resource": "Coin",
@@ -1425,7 +1425,7 @@
           ]
         },
         "success": {
-          "text": "A candle gutters at the right moment, and you become a rumor instead of a person. The prize slips into your coat with the clean satisfaction of theft done well.",
+          "text": "A candle gutters at the right moment, and you become a rumor instead of a person. The prize slips into your coat with the clean satisfaction of theft done well. When you finally stop running, you realize you didn’t just steal an object—you stole someone’s plan.",
           "resources": [
             {
               "resource": "Secrets",
@@ -1467,7 +1467,7 @@
           ]
         },
         "success": {
-          "text": "You watch hands and rings, note who nods to whom, count which bids are signals rather than prices. The goods are less important than the network buying them.",
+          "text": "You watch hands and rings, note who nods to whom, count which bids are signals rather than prices. The goods are less important than the network buying them. You leave with a map in your head and two names you can spend when you need to.",
           "resources": [
             {
               "resource": "Secrets",
@@ -1532,7 +1532,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In High Valewyr’s great hall, the hall is packed with people who have practiced their suffering in front of mirrors. A farmer with cracked hands. A widow with a folded deed. A minor lord with a voice trained to sound inevitable. The steward calls names, the crowd mutters, and somewhere in it all—someone wants your favor.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, the hall is packed with people who have practiced their suffering in front of mirrors. A farmer with cracked hands. A widow with a folded deed. A minor lord with a voice trained to sound inevitable. The steward calls names, the crowd mutters, and somewhere in it all—someone wants your favor. Whatever you do, someone else will call it corruption.",
     "outcomes": [
       {
         "title": "Back the Commoners",
@@ -1556,7 +1556,7 @@
           ]
         },
         "success": {
-          "text": "You speak plainly, without flourish, and the room understands that you mean it. The commoners don’t cheer—this isn’t a play—but their posture changes, and so do a few guarded looks from the benches up front.",
+          "text": "You speak plainly, without flourish, and the room understands that you mean it. The commoners don’t cheer—this isn’t a play—but their posture changes, and so do a few guarded looks from the benches up front. You leave the hall with a better name and a little more weight behind your words.",
           "resources": [
             {
               "resource": "Renown",
@@ -1569,7 +1569,7 @@
           ]
         },
         "fail": {
-          "text": "Your support lands awkwardly—too loud, too naïve, too easy to caricature. A noble laughs at the wrong moment and the room follows their lead.",
+          "text": "Your support lands awkwardly—too loud, too naïve, too easy to caricature. A noble laughs at the wrong moment and the room follows their lead. By dusk the story isn’t that you tried to help, but that you didn’t understand how help is supposed to look.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -1700,7 +1700,7 @@
           ]
         },
         "fail": {
-          "text": "You try to skim from the chaos and someone catches the shape of your hands moving. A rumor begins in the same breath as your ‘deal,’ and it spreads faster than you can deny it.",
+          "text": "You try to skim from the chaos and someone catches the shape of your hands moving. A rumor begins in the same breath as your ‘deal,’ and it spreads faster than you can deny it. You keep some of the coin, but lose something more expensive: standing.",
           "resources": [
             {
               "resource": "Influence",
@@ -1732,7 +1732,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In High Valewyr’s great hall, the table groans with roasted meat and sugared fruit, but the real weight in the room is invisible. Every toast is a trade. Every laugh is an audition. Servants drift like ghosts, collecting scraps and secrets with the same practiced care.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, the table groans with roasted meat and sugared fruit, but the real weight in the room is invisible. Every toast is a trade. Every laugh is an audition. Servants drift like ghosts, collecting scraps and secrets with the same practiced care.",
     "outcomes": [
       {
         "title": "Toast the Host",
@@ -1913,7 +1913,7 @@
     ],
     "minAge": 16,
     "maxAge": 35,
-    "prompt": "In High Valewyr, where every glance is weighed, a herald’s voice rings out over the square: contests of arms, riddles, and wagers. People gather for spectacle, but the true audience is the one that counts reputations like coin. Win, and you rise. Lose, and you become a story someone else tells.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, a herald’s voice rings out over the square: contests of arms, riddles, and wagers. People gather for spectacle, but the true audience is the one that counts reputations like coin. Win, and you rise. Lose, and you become a story someone else tells.",
     "outcomes": [
       {
         "title": "Enter the Lists",
@@ -1938,7 +1938,7 @@
           ]
         },
         "success": {
-          "text": "You take a hit that would rattle lesser bones and answer with one that ends the bout cleanly. The crowd roars, the herald repeats your name, and a shower of small bets turns into real money in your hands.",
+          "text": "You take a hit that would rattle lesser bones and answer with one that ends the bout cleanly. The crowd roars, the herald repeats your name, and a shower of small bets turns into real money in your hands. For a moment, you are exactly the sort of person songs begin with.",
           "resources": [
             {
               "resource": "Renown",
@@ -1951,7 +1951,7 @@
           ]
         },
         "fail": {
-          "text": "You step into the lists and learn that glory is sharp on both sides. Something goes wrong—a footing, a timing, a breath—and pain explodes through you.",
+          "text": "You step into the lists and learn that glory is sharp on both sides. Something goes wrong—a footing, a timing, a breath—and pain explodes through you. The crowd’s cheer turns uncertain as you’re helped away, and the day’s lesson sinks in: spectacle doesn’t care if you limp afterward.",
           "conditions": [
             {
               "id": "Wounded",
@@ -1983,7 +1983,7 @@
           ]
         },
         "success": {
-          "text": "You listen, you pause, you let the crowd get impatient—and then you answer as if the solution was always obvious. The herald blinks, impressed despite themselves.",
+          "text": "You listen, you pause, you let the crowd get impatient—and then you answer as if the solution was always obvious. The herald blinks, impressed despite themselves. A bystander murmurs a private detail about the riddle’s sponsor, as if rewarding you for being clever enough to deserve it.",
           "resources": [
             {
               "resource": "Renown",
@@ -2026,7 +2026,7 @@
           ]
         },
         "success": {
-          "text": "You choose well, and you speak to the contender that makes them believe you’re the start of a better future. They win, and they point at you when the crowd asks who backed them.",
+          "text": "You choose well, and you speak to the contender in a way that makes them believe you’re the start of a better future. They win, and they point at you when the crowd asks who backed them. The coin is spent, but it returns as something rarer: gratitude with witnesses.",
           "resources": [
             {
               "resource": "Coin",
@@ -2077,7 +2077,7 @@
           ]
         },
         "success": {
-          "text": "You whisper to the right person and the ‘right person’ whispers to someone with a loose grip on integrity. The bout goes exactly as you needed it to.",
+          "text": "You whisper to the right person and the ‘right person’ whispers to someone with a loose grip on integrity. The bout goes exactly as you needed it to. Your winnings are heavy and satisfying—right up until you remember that heavy things are harder to hide.",
           "resources": [
             {
               "resource": "Coin",
@@ -2117,7 +2117,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "At Ashqar’s fountain steps, a clerk arrives with ledgers and a practiced frown, accompanied by a guard who looks bored in the way only armed men can. They lay stamped papers on your table as if setting down a verdict. The numbers are ‘what’s due.’ The real question is what else they think they can take.",
+    "prompt": "At Ashqar’s oasis court, where shade and law trade places by noon, a clerk arrives with ledgers and a practiced frown, accompanied by a guard who looks bored in the way only armed men can. They lay stamped papers on your table as if setting down a verdict. The numbers are ‘what’s due.’ The real question is what else they think they can take.",
     "outcomes": [
       {
         "title": "Pay What’s Due",
@@ -2146,7 +2146,7 @@
           ]
         },
         "fail": {
-          "text": "You try to pay and discover you’ve miscounted what you can afford—pride included. The clerk’s smile is small and satisfied as they add a ‘processing fee’ and a note that will follow you.",
+          "text": "You try to pay and discover you’ve miscounted what you can afford—pride included. The clerk’s smile is small and satisfied as they add a ‘processing fee’ and a note that will follow you. It’s not ruin, but it is the beginning of being chased by numbers.",
           "resources": [
             {
               "resource": "Coin",
@@ -2181,7 +2181,7 @@
           ]
         },
         "success": {
-          "text": "You cite the right charter, the right season, the right clause that makes their demand less absolute than they’d like. The clerk grudgingly adjusts the total and—more importantly—marks you as someone who reads.",
+          "text": "You cite the right charter, the right season, the right clause that makes their demand less absolute than they’d like. The clerk grudgingly adjusts the total and—more importantly—marks you as someone who reads. That alone buys you a sliver of respect in bureaucratic circles.",
           "resources": [
             {
               "resource": "Coin",
@@ -2225,7 +2225,7 @@
           ]
         },
         "success": {
-          "text": "You slide coin like it’s accidental, and the clerk’s hand covers it like it’s natural. Their pen scratches a kinder story into the ledger.",
+          "text": "You slide coin like it’s accidental, and the clerk’s hand covers it like it’s natural. Their pen scratches a kinder story into the ledger. As they leave, you realize you’ve bought more than relief—you’ve bought a person who can be reminded of what they took.",
           "resources": [
             {
               "resource": "Coin",
@@ -2238,7 +2238,7 @@
           ]
         },
         "fail": {
-          "text": "The clerk goes stiff. The guard’s boredom evaporates. Suddenly you’re not a citizen with a problem—you’re a criminal offering proof in broad daylight. You talk your way out of immediate chains, but you feel the law’s attention turn toward you.",
+          "text": "The clerk goes stiff. The guard’s boredom evaporates. Suddenly you’re not a citizen with a problem—you’re a criminal offering proof in broad daylight. You talk your way out of immediate chains, but you can feel the law’s attention turn toward you.",
           "conditions": [
             {
               "id": "Wanted",
@@ -2309,7 +2309,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In the shadow of Marrowgate’s bridges, the river runs high and fast, carrying branches like thrown spears. The far bank is close enough to want, far enough to punish impatience. There’s a ferryman watching from the reeds—if he’s real, and if he’s honest.",
+    "prompt": "In Marrowgate, where tolls are tradition and corruption is a local craft, the river runs high and fast, carrying branches like thrown spears. The far bank is close enough to want, far enough to punish impatience. There’s a ferryman watching from the reeds—if he’s real, and if he’s honest.",
     "outcomes": [
       {
         "title": "Force the Ford",
@@ -2341,7 +2341,7 @@
           ]
         },
         "fail": {
-          "text": "The river takes more than it gives. You fight it until your lungs burn and your muscles turn to rope. You reach the far bank by stubbornness alone, then collapse with the sort of fatigue that makes even simple choices feel heavy.",
+          "text": "The river takes more than it gives. You fight it until your lungs burn and your muscles turn to rope. You reach the far bank by stubbornness alone, then collapse with the kind of fatigue that makes even simple choices feel heavy.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -2423,7 +2423,7 @@
           ]
         },
         "fail": {
-          "text": "He takes your coin and then charges you again in ‘fees’ you can’t argue while sitting in his boat.",
+          "text": "He takes your coin and then charges you again in ‘fees’ you can’t argue while sitting in his boat. By the time you’re across, you’re poorer than you planned and missing a bit of your provisions as well—whether to theft or ‘accident,’ the river doesn’t say.",
           "resources": [
             {
               "resource": "Coin",
@@ -2457,7 +2457,7 @@
           ]
         },
         "success": {
-          "text": "You find a narrow place where the river listens more than it roars, and you move when the world is half asleep. On the far side you discover why the bridge is watched: the crossing is a seam in someone else’s quiet business.",
+          "text": "You find a narrow place where the river listens more than it roars, and you move when the world is half asleep. On the far side you discover why the bridge is watched: the crossing is a seam in someone else’s quiet business. You don’t disturb it—just learn from it.",
           "resources": [
             {
               "resource": "Secrets",
@@ -2492,7 +2492,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "On the wind-bitten road through Frostbarrow, the road sinks into swamp like a bad promise. Mosquitoes rise in clouds, and the ground argues with every step. Somewhere out there is firmer land—if you can find it before the mire taxes your will, your supplies, or your health.",
+    "prompt": "At Frostbarrow Pass, where winter bargains hard and mercy is expensive, the road sinks into swamp like a bad promise. Mosquitoes rise in clouds, and the ground argues with every step. Somewhere out there is firmer land—if you can find it before the mire taxes your will, your supplies, or your health.",
     "outcomes": [
       {
         "title": "Push Through",
@@ -2597,7 +2597,7 @@
           ]
         },
         "success": {
-          "text": "A local takes your coin and then takes you by a route you would never have dared alone—half hidden trails, half superstition, all effective. You arrive with more provisions than you expected, and a new appreciation for the sort of knowledge cities don’t teach.",
+          "text": "A local takes your coin and then takes you by a route you would never have dared alone—half hidden trails, half superstition, all effective. You arrive with more provisions than you expected, and a new appreciation for the kind of knowledge cities don’t teach.",
           "resources": [
             {
               "resource": "Coin",
@@ -2610,7 +2610,7 @@
           ]
         },
         "fail": {
-          "text": "The guide leads you through—yes—but makes sure you understand it wasn’t charity. The coin is taken, and afterward comes the ‘favor,’ spoken softly like a shared secret.",
+          "text": "The guide leads you through—yes—but makes sure you understand it wasn’t charity. The coin is taken, and afterward comes the ‘favor,’ spoken softly like a shared secret. You make it out, but you’re no longer traveling alone; you’re traveling with a hook in your future.",
           "resources": [
             {
               "resource": "Coin",
@@ -2687,7 +2687,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In the teeth of Frostbarrow winter, your compass needle spins like a frightened animal. North, south—meaningless. The sky is hazy, the paths fork too often, and the day is already leaning toward evening. Getting lost isn’t dramatic. It’s slow, quiet, and hungry.",
+    "prompt": "At Frostbarrow Pass, where winter bargains hard and mercy is expensive, your compass needle spins like a frightened animal. North, south—meaningless. The sky is hazy, the paths fork too often, and the day is already leaning toward evening. Getting lost isn’t dramatic. It’s slow, quiet, and hungry.",
     "outcomes": [
       {
         "title": "Read the Stars",
@@ -2708,7 +2708,7 @@
           ]
         },
         "success": {
-          "text": "You wait for the sky to clear enough to speak, then listen to it like a seasoned sailor. The patterns line up, and the world becomes legible again.",
+          "text": "You wait for the sky to clear enough to speak, then listen to it like a seasoned sailor. The patterns line up, and the world becomes legible again. On your way you notice something you wouldn’t have seen if you’d stayed certain—an odd track, a hidden sign, a small secret the land gave up to patience.",
           "resources": [
             {
               "resource": "Secrets",
@@ -2753,7 +2753,7 @@
           ]
         },
         "fail": {
-          "text": "The river bends, doubles back, disappears into reeds, then returns as if mocking you. You keep moving anyway until your body makes its opinion known. You find your way, but you do it tired and frayed, the sort of state that invites later mistakes.",
+          "text": "The river bends, doubles back, disappears into reeds, then returns as if mocking you. You keep moving anyway until your body makes its opinion known. You find your way, but you do it tired and frayed, the kind of state that invites later mistakes.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -3009,7 +3009,7 @@
           ]
         },
         "success": {
-          "text": "You haul sacks, mend fences, dig ditches—whatever the day demands. It’s not glorious, but it’s honest work in a dishonest season. You earn a meal, a little coin, and the sort of fatigue that at least comes with proof it mattered.",
+          "text": "You haul sacks, mend fences, dig ditches—whatever the day demands. It’s not glorious, but it’s honest work in a dishonest season. You earn a meal, a little coin, and the kind of fatigue that at least comes with proof it mattered.",
           "resources": [
             {
               "resource": "Supplies",
@@ -3055,7 +3055,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Along the Sable Coast, where the sea keeps what it takes and gives back strangers, the watchtower’s bones still stand, though the roof is long gone and rain has eaten the mortar into soft grit. Birds nest where sentries once paced. Inside, the air smells of wet stone and old ash.",
+    "prompt": "Along the Sable Coast, where the sea keeps what it takes and gives back strangers, the watchtower’s bones still stand, though the roof is long gone and rain has eaten the mortar into soft grit. Birds nest where sentries once paced. Inside, the air smells of wet stone and old ash. Something catches the light in the rubble—metal, glass, or the pale gleam of coin. A place like this doesn’t keep its treasures without keeping a price beside them.",
     "outcomes": [
       {
         "title": "Search Carefully",
@@ -3077,7 +3077,7 @@
           ]
         },
         "success": {
-          "text": "You test each beam before you trust it, shift stones with a stick instead of your hands, and pause when the tower creaks as if remembering how to fall.",
+          "text": "You test each beam before you trust it, shift stones with a stick instead of your hands, and pause when the tower creaks as if remembering how to fall. Under a loose flagstone you find a small cache: a few coins wrapped in oilcloth and a note—half-rotted, but legible enough to hint at who once used this place and why. You leave with money in your pouch and a detail that feels like it could open a door later.",
           "resources": [
             {
               "resource": "Coin",
@@ -3090,7 +3090,7 @@
           ]
         },
         "fail": {
-          "text": "You pick your way through damp rubble and stale droppings, breathing more dust than you should. The find is there—some coin, a trinket—but so is the consequence.",
+          "text": "You pick your way through damp rubble and stale droppings, breathing more dust than you should. The find is there—some coin, a trinket—but so is the consequence. By the time you step back into daylight, your throat burns and your chest feels tight, like the tower decided to keep part of you as payment.",
           "conditions": [
             {
               "id": "Ill",
@@ -3119,7 +3119,7 @@
           ]
         },
         "success": {
-          "text": "You shoulder the warped door until the rusted hinge gives with a scream of metal. Inside, you tear through debris like you’re chasing an enemy. Whatever glinted wasn’t imagination—coin, scattered and half-buried, perhaps dropped in panic years ago.",
+          "text": "You shoulder the warped door until the rusted hinge gives with a scream of metal. Inside, you tear through debris like you’re chasing an enemy. Whatever glinted wasn’t imagination—coin, scattered and half-buried, perhaps dropped in panic years ago. You scoop it up and leave before the tower can argue.",
           "resources": [
             {
               "resource": "Coin",
@@ -3128,7 +3128,7 @@
           ]
         },
         "fail": {
-          "text": "The door gives—but not cleanly. A splintered plank snaps back, or a hidden nail catches flesh, or the frame collapses just enough to bite.",
+          "text": "The door gives—but not cleanly. A splintered plank snaps back, or a hidden nail catches flesh, or the frame collapses just enough to bite. You get inside, you get something, but you come out bleeding and annoyed at how quickly a ‘simple’ approach turns costly.",
           "conditions": [
             {
               "id": "Wounded",
@@ -3157,7 +3157,7 @@
           ]
         },
         "success": {
-          "text": "You find the signs—scratched stone where a wire once ran, a footprint pattern too consistent to be chance, a broken jar of old pitch used to mark paths in the dark.",
+          "text": "You find the signs—scratched stone where a wire once ran, a footprint pattern too consistent to be chance, a broken jar of old pitch used to mark paths in the dark. The ‘treasure’ was bait, but the structure of the bait is the real reward. You leave without taking much, but with the knowledge of who set such snares and the sort of work they were doing.",
           "resources": [
             {
               "resource": "Secrets",
@@ -3166,7 +3166,7 @@
           ]
         },
         "fail": {
-          "text": "You’re careful—just not careful enough. Something clatters, something shifts, and a sound carries farther than it should in open country.",
+          "text": "You’re careful—just not careful enough. Something clatters, something shifts, and a sound carries farther than it should in open country. Later, on the road, you notice riders watching you a little too long, as if someone has already decided you’re the kind of person who rummages in places that aren’t theirs.",
           "conditions": [
             {
               "id": "Wanted",
@@ -3193,7 +3193,7 @@
           "risks": []
         },
         "success": {
-          "text": "You refuse—not because you’re uninterested, but because you can smell the trouble on the air. Down the road you help a traveler who’s stuck in the mud, or you share a word with a local who appreciates restraint.",
+          "text": "You turn away, not because you’re uninterested, but because you can smell the trouble on the air. Down the road you help a traveler who’s stuck in the mud, or you share a word with a local who appreciates restraint. It’s the kind of small, decent choice people remember when they decide who to trust.",
           "resources": [
             {
               "resource": "Influence",
@@ -3221,7 +3221,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In Gloambridge, where every tavern has a scholar and a spy, the folio is wrapped in oilcloth like contraband. The ink is old, the margins dense with a second hand arguing the first. Nothing glows. Nothing whispers. And yet you feel the danger in the way the author assumes they will not be forgiven. Here is knowledge that makes enemies merely by existing.",
+    "prompt": "In Gloambridge, where every tavern has a scholar and a spy, the folio is wrapped in oilcloth like contraband. The ink is old, the margins dense with a second hand arguing the first. Nothing glows. Nothing whispers. And yet you can feel the danger in the way the author assumes they will not be forgiven. Here is knowledge that makes enemies merely by existing.",
     "outcomes": [
       {
         "title": "Study in Secret",
@@ -3299,7 +3299,7 @@
       },
       {
         "title": "Hide It for a Time",
-        "desc": "Keep it close, but not too close.",
+        "desc": "Keep it close, but not *too* close.",
         "stat": "Resolve",
         "diff": 3,
         "allowed": [
@@ -3396,7 +3396,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "At Verdemont Abbey, where vines climb stone and confession is a kind of currency, a village meets you at the edge of the road as if they’ve been rehearsing the plea. Their relic is gone—wood and metal, worn smooth by hands that needed something to hold onto. ‘It’s not valuable,’ they insist, which is exactly why the loss hurts.",
+    "prompt": "At Verdemont Abbey, where vines climb stone and confession is a kind of currency, a village meets you at the edge of the road as if they’ve been rehearsing the plea. Their relic is gone—wood and metal, worn smooth by hands that needed something to hold onto. ‘It’s not valuable,’ they insist, which is exactly why the loss hurts. A thief took it anyway, and now the villagers look at the empty shrine like it’s a wound that won’t stop bleeding.",
     "outcomes": [
       {
         "title": "Recover It",
@@ -3420,7 +3420,7 @@
           ]
         },
         "success": {
-          "text": "You track the culprit by the simple signs desperate people miss—mud on a boot, a snapped twig, a hurried path that tries to pretend it’s not hurried. When you catch them, they don’t fold gracefully. It takes effort, bruises, and a little fear.",
+          "text": "You track the culprit by the simple signs desperate people miss—mud on a boot, a snapped twig, a hurried path that tries to pretend it’s not hurried. When you catch them, they don’t fold gracefully. It takes effort, bruises, and a little fear. But you return with the relic intact, and the village’s relief turns into a kind of reverence you didn’t ask for.",
           "resources": [
             {
               "resource": "Renown",
@@ -3463,7 +3463,7 @@
           ]
         },
         "success": {
-          "text": "You ask about old feuds, note who looks away when certain names are spoken, and read the village’s records with the patience of someone who expects lies. The relic isn’t ‘just’ a relic—its history points to a local power playing games.",
+          "text": "You ask about old feuds, note who looks away when certain names are spoken, and read the village’s records with the patience of someone who expects lies. The relic isn’t ‘just’ a relic—its history points to a local power playing games. When you share what you’ve learned, the villagers treat you differently: not as muscle, but as someone whose insight can protect them.",
           "resources": [
             {
               "resource": "Secrets",
@@ -3476,7 +3476,7 @@
           ]
         },
         "fail": {
-          "text": "You dig too deep in a place that survives by keeping things simple. People bristle at your questions; old resentments flare; your search becomes a day-long slog through half-truths.",
+          "text": "You dig too deep in a place that survives by keeping things simple. People bristle at your questions; old resentments flare; your search becomes a day-long slog through half-truths. You leave tired, with little to show for it but the sense you’ve stirred a pot that will keep boiling after you’re gone.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -3516,7 +3516,7 @@
           ]
         },
         "fail": {
-          "text": "Someone notices. A grandmother who’s touched the relic a thousand times, a child who remembers the nick on the edge, a priest who knows the weight in their palm.",
+          "text": "Someone notices. A grandmother who’s touched the relic a thousand times, a child who remembers the nick on the edge, a priest who knows the weight in their palm. The fake becomes an insult, and your cleverness turns into shame that travels faster than you do.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -3545,7 +3545,7 @@
           "risks": []
         },
         "success": {
-          "text": "You speak to them like their grief deserves dignity, not dismissal. You help repair the shrine, light a candle, say the right small words—more comfort than ceremony. It doesn’t replace the relic, but it gives the village something else: resolve.",
+          "text": "You speak to them like their grief deserves dignity, not dismissal. You help repair the shrine, light a candle, say the right small words—more comfort than ceremony. It doesn’t replace the relic, but it gives the village something else: resolve. And in return, they offer you what they can—support, shelter, a good word in nearby places.",
           "resources": [
             {
               "resource": "Influence",
@@ -3573,7 +3573,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In Gloambridge, where every tavern has a scholar and a spy, ancient stones stand in a ring like teeth around a silent mouth. Lichen maps their surfaces in pale greens, and shallow carvings run beneath the growth—lines that look like writing until you stare too long. The air inside the circle feels… attentive. Not magical, exactly. Just older than comfort.",
+    "prompt": "In Gloambridge, where every tavern has a scholar and a spy, ancient stones stand in a ring like teeth around a silent mouth. Lichen maps their surfaces in pale greens, and shallow carvings run beneath the growth—lines that look like writing until you stare too long. The air inside the circle feels… attentive. Not magical, exactly. Just older than comfort. People have left offerings at the bases of a few stones: coins, ribbons, a broken knife laid down with surprising care.",
     "outcomes": [
       {
         "title": "Camp Within the Ring",
@@ -3595,7 +3595,7 @@
           ]
         },
         "success": {
-          "text": "You set your bedroll inside the circle and keep the fire low. The night is quiet that feels deliberate. Your dreams come sharp and coherent—half memory, half warning—and when you wake, the fatigue that’s been clinging to you has loosened.",
+          "text": "You set your bedroll inside the circle and keep the fire low. The night is quiet in a way that feels deliberate. Your dreams come sharp and coherent—half memory, half warning—and when you wake, the fatigue that’s been clinging to you has loosened. In the ash near your fire you find something you didn’t place there: a small sign, a pattern, a detail that feels like a private message from the world’s older layers.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -3610,7 +3610,7 @@
           ]
         },
         "fail": {
-          "text": "Sleep doesn’t come gently. The wind moves even when the trees don’t. Shadows lean the wrong way. By morning you feel like you’ve been watched all night by something that doesn’t blink.",
+          "text": "Sleep doesn’t come gently. The wind moves even when the trees don’t. Shadows lean the wrong way. By morning you feel like you’ve been watched all night by something that doesn’t blink. You leave the circle with the cold certainty that you brought something out with you—something that will not be satisfied by distance alone.",
           "conditions": [
             {
               "id": "Cursed",
@@ -3639,7 +3639,7 @@
           ]
         },
         "success": {
-          "text": "You press charcoal to paper and let the carvings reveal themselves in negative space. The pattern isn’t random—it repeats, shifts, hides a structure.",
+          "text": "You press charcoal to paper and let the carvings reveal themselves in negative space. The pattern isn’t random—it repeats, shifts, hides a structure. It’s the kind of knowledge that doesn’t make you powerful by itself, but does make you dangerous when paired with the right moment.",
           "resources": [
             {
               "resource": "Secrets",
@@ -3648,7 +3648,7 @@
           ]
         },
         "fail": {
-          "text": "The damp air and the circle’s chill sink into you while you work. Your fingers go numb, your breath turns shallow, and you find yourself coughing as if you’ve inhaled the age of the stones.",
+          "text": "The damp air and the circle’s chill sink into you while you work. Your fingers go numb, your breath turns shallow, and you find yourself coughing as if you’ve inhaled the age of the stones. You take what notes you can, but you leave with a sickness that feels like the circle didn’t appreciate being ‘studied.’",
           "conditions": [
             {
               "id": "Ill",
@@ -3679,7 +3679,7 @@
           ]
         },
         "success": {
-          "text": "You choose a stone and cut your sign into it with deliberate strokes. It’s not vandalism in your mind—it’s a claim: I stood here, I endured the feeling, I left something of myself behind.",
+          "text": "You choose a stone and cut your sign into it with deliberate strokes. It’s not vandalism in your mind—it’s a claim: I stood here, I endured the feeling, I left something of myself behind. Later, when people speak of the ring, your mark becomes part of the tale.",
           "resources": [
             {
               "resource": "Renown",
@@ -3688,7 +3688,7 @@
           ]
         },
         "fail": {
-          "text": "The stone resists the blade, and your courage turns into awkward persistence. A slip, a crack, a sound like laughter carried on wind. You finish anyway, but the act feels wrong in your gut.",
+          "text": "The stone resists the blade, and your courage turns into awkward persistence. A slip, a crack, a sound like laughter carried on wind. You finish anyway, but the act feels wrong in your gut. You leave with the sensation of being tagged—noticed—like an animal that wandered too close to a snare.",
           "conditions": [
             {
               "id": "Marked",
@@ -3721,7 +3721,7 @@
           ]
         },
         "success": {
-          "text": "You pocket the offerings quickly—coins, a bit of dried food, a flask half-full. It feels easy, almost ridiculous that people would leave wealth to stones.",
+          "text": "You pocket the offerings quickly—coins, a bit of dried food, a flask half-full. It feels easy, almost ridiculous that people would leave wealth to stones. And then the easy part ends: you notice tracks nearby, someone else’s attention on the ring… or perhaps on you. You’ve gained materially, but you’ve also stepped into a story where you’re the villain.",
           "resources": [
             {
               "resource": "Coin",
@@ -3734,7 +3734,7 @@
           ]
         },
         "fail": {
-          "text": "Your hand closes on cold coin and the air inside the circle turns sharper, like the world inhaled. Whether it’s superstition or something real doesn’t matter—your nerves decide it’s real. Worse, someone sees you leaving with bulging pockets.",
+          "text": "Your hand closes on cold coin and the air inside the circle turns sharper, like the world inhaled. Whether it’s superstition or something real doesn’t matter—your nerves decide it’s real. Worse, someone sees you leaving with bulging pockets. You walk away richer, yes, but also dirtier in ways coin can’t wash.",
           "conditions": [
             {
               "id": "Cursed",
@@ -3765,7 +3765,7 @@
     ],
     "minAge": 16,
     "maxAge": 60,
-    "prompt": "On the Greenfold frontier, the tavern is loud in the way that makes mistakes feel like inevitability. Someone says something cheap. Someone else hears it like a knife. A chair scrapes back, a mug shatters, and suddenly the room is a storm of fists and splinters. In a brawl, nobody is innocent—only quicker or slower to choose a side.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, the tavern is loud in the way that makes mistakes feel like inevitability. Someone says something cheap. Someone else hears it like a knife. A chair scrapes back, a mug shatters, and suddenly the room is a storm of fists and splinters. In a brawl, nobody is innocent—only quicker or slower to choose a side.",
     "outcomes": [
       {
         "title": "Drop the Loudest One",
@@ -3789,7 +3789,7 @@
           ]
         },
         "success": {
-          "text": "You pick the one driving the chaos—the mouth that keeps provoking, the hands that keep swinging—and you put them down with a single decisive blow. The room hesitates. That hesitation is all it takes. The brawl breaks into smaller scuffles, then embarrassment.",
+          "text": "You pick the one driving the chaos—the mouth that keeps provoking, the hands that keep swinging—and you put them down with a single decisive blow. The room hesitates. That hesitation is all it takes. The brawl breaks into smaller scuffles, then embarrassment. Someone presses a coin into your palm for ‘restoring order,’ and you leave with a rough kind of respect.",
           "resources": [
             {
               "resource": "Renown",
@@ -3802,7 +3802,7 @@
           ]
         },
         "fail": {
-          "text": "You commit to ending it quickly and instead become the center of it. Someone cheap-shots you from the side, a bottle breaks, and pain floods bright and immediate.",
+          "text": "You commit to ending it quickly and instead become the center of it. Someone cheap-shots you from the side, a bottle breaks, and pain floods bright and immediate. You still fight your way clear, but you do it bleeding, and the tavern’s story about you will begin with the wound.",
           "conditions": [
             {
               "id": "Wounded",
@@ -3831,7 +3831,7 @@
           ]
         },
         "success": {
-          "text": "You keep your back to a wall, steer attackers into each other, and use the furniture like a chessboard. People fall where you intend them to.",
+          "text": "You keep your back to a wall, steer attackers into each other, and use the furniture like a chessboard. People fall where you intend them to. When the shouting dies down, you’re still standing, breathing hard, looking like someone who knows how to survive a messy room.",
           "resources": [
             {
               "resource": "Renown",
@@ -3840,7 +3840,7 @@
           ]
         },
         "fail": {
-          "text": "You try to be clever, but chaos doesn’t always respect clever. A misstep, a stumble, a moment too long calculating, and suddenly you’re burning through energy just to stay upright.",
+          "text": "You try to be clever, but chaos doesn’t always respect clever. A misstep, a stumble, a moment too long calculating, and suddenly you’re burning through energy just to stay upright. You live through it, but the exertion follows you out into the night like a weight on your shoulders.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -3872,7 +3872,7 @@
           ]
         },
         "success": {
-          "text": "You grab someone by the collar, bark a threat that sounds like authority, and ‘confiscate’ their purse in the name of ‘keeping them safe.’ Others see it and decide not to argue.",
+          "text": "You grab someone by the collar, bark a threat that sounds like authority, and ‘confiscate’ their purse in the name of ‘keeping them safe.’ Others see it and decide not to argue. In the scramble you learn a useful thing too—who in this tavern is connected, who is afraid, and who will pay to avoid attention.",
           "resources": [
             {
               "resource": "Coin",
@@ -3885,7 +3885,7 @@
           ]
         },
         "fail": {
-          "text": "You try to squeeze coin from panic and discover someone in the room has sharper instincts than you. A hand clamps your wrist, a voice calls you out, and suddenly the brawl has a new target: the ‘thief’ in plain sight.",
+          "text": "You try to squeeze coin from panic and discover someone in the room has sharper instincts than you. A hand clamps your wrist, a voice calls you out, and suddenly the brawl has a new target: the ‘thief’ in plain sight. You escape, but the wrong eyes remember your face.",
           "conditions": [
             {
               "id": "Wanted",
@@ -3917,7 +3917,7 @@
           ]
         },
         "success": {
-          "text": "You step between bodies and speak like someone who belongs there. Not louder—clearer. You name consequences, offer a way to save face, and give the anger somewhere to land that isn’t someone’s teeth. The room cools by degrees.",
+          "text": "You step between bodies and speak like someone who belongs there. Not louder—clearer. You name consequences, offer a way to save face, and give the anger somewhere to land that isn’t someone’s teeth. The room cools by degrees. A few people glance at you afterward as if you’ve earned a small claim on their respect.",
           "resources": [
             {
               "resource": "Influence",
@@ -4139,7 +4139,7 @@
           ]
         },
         "success": {
-          "text": "You commit—no hesitation, no bargaining with fear. The creature charges and you meet it, turning the encounter into a brutal argument your body is willing to win. When it finally falls, the forest goes quiet again.",
+          "text": "You commit—no hesitation, no bargaining with fear. The creature charges and you meet it, turning the encounter into a brutal argument your body is willing to win. When it finally falls, the forest goes quiet again. You butcher quickly, take what you can carry, and walk away with both food and the grim pride of surviving what tried to end you.",
           "resources": [
             {
               "resource": "Supplies",
@@ -4152,7 +4152,7 @@
           ]
         },
         "fail": {
-          "text": "You strike, you wrestle, you scramble—and the beast makes contact in the way beasts do: sudden, total, indifferent. Pain flares as it catches you, and you escape only by giving ground and blood.",
+          "text": "You strike, you wrestle, you scramble—and the beast makes contact in the way beasts do: sudden, total, indifferent. Pain flares as it catches you, and you escape only by giving ground and blood. The hunt ends with you limping and angry, carrying the memory of teeth more than meat.",
           "conditions": [
             {
               "id": "Wounded",
@@ -4190,7 +4190,7 @@
           ]
         },
         "fail": {
-          "text": "Your plan is good, but the wilderness doesn’t care about good plans. The beast moves you didn’t predict, and you spend the fight running, climbing, and praying your feet stay under you.",
+          "text": "Your plan is good, but the wilderness doesn’t care about good plans. The beast moves in a way you didn’t predict, and you spend the fight running, climbing, and praying your feet stay under you. You get away with some meat—scraps, really—but you pay for it with fatigue that bites as sharply as fear.",
           "resources": [
             {
               "resource": "Supplies",
@@ -4208,7 +4208,7 @@
       },
       {
         "title": "Lay a Dirty Trap",
-        "desc": "Win you won’t boast about: cruel, clever, and effective.",
+        "desc": "Win in a way you won’t boast about: cruel, clever, and effective.",
         "stat": "Guile",
         "diff": 3,
         "allowed": [
@@ -4228,7 +4228,7 @@
           ]
         },
         "success": {
-          "text": "You bait it with blood, set it where the ground gives, and use the sort of trick hunters don’t admit to in company. The beast dies ugly and fast.",
+          "text": "You bait it with blood, set it where the ground gives, and use the kind of trick hunters don’t admit to in company. The beast dies ugly and fast. While you work, you notice something off—a collar remnant, a strange cut on the hide, a sign it wasn’t as wild as it looked. That detail is worth keeping, along with the meat.",
           "resources": [
             {
               "resource": "Supplies",
@@ -4305,7 +4305,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Outside Briarwatch, where the frontier keeps its teeth, a guard captain steps into your path with the easy confidence of someone backed by steel and paperwork. Their hand rests near the hilt, not gripping—just reminding. “State your business.” Behind them, two guards watch your hands more than your face. This isn’t a fight yet.",
+    "prompt": "Outside Briarwatch, where the frontier keeps its teeth, a guard captain steps into your path with the easy confidence of someone backed by steel and paperwork. Their hand rests near the hilt, not gripping—just reminding. “State your business.” Behind them, two guards watch your hands more than your face. This isn’t a fight yet. It’s a decision about what kind of story you’re going to be today.",
     "outcomes": [
       {
         "title": "Stand Tall",
@@ -4329,7 +4329,7 @@
           ]
         },
         "success": {
-          "text": "You meet the captain’s eyes without flinching and speak like someone accustomed to being answered. You don’t over-explain; you don’t apologize. The captain reads your confidence, weighs the inconvenience of delaying you, and decides today isn’t worth the trouble.",
+          "text": "You meet the captain’s eyes without flinching and speak like someone accustomed to being answered. You don’t over-explain; you don’t apologize. The captain reads your confidence, weighs the inconvenience of delaying you, and decides today isn’t worth the trouble. As they step aside, you feel the law’s grip loosen—if only a little.",
           "resources": [
             {
               "resource": "Influence",
@@ -4344,7 +4344,7 @@
           ]
         },
         "fail": {
-          "text": "You try to project authority and it comes out as arrogance. The captain’s mouth tightens. The guards shift their stance. Your words become evidence of attitude rather than legitimacy, and you’re waved through with the sort of disdain that sticks to your name afterward.",
+          "text": "You try to project authority and it comes out as arrogance. The captain’s mouth tightens. The guards shift their stance. Your words become evidence of attitude rather than legitimacy, and you’re waved through with the kind of disdain that sticks to your name afterward.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -4373,7 +4373,7 @@
           ]
         },
         "success": {
-          "text": "You answer the captain’s questions before they fully ask them. The rhythm of your explanation sounds practiced, believable. They still don’t like you—but they can’t find the seam to tug.",
+          "text": "You answer the captain’s questions before they fully ask them. The rhythm of your explanation sounds practiced, believable. They still don’t like you—but they can’t find the seam to tug. As you leave, you catch a useful fragment: the name of a superior, a shift schedule, a detail about what they’re really watching for.",
           "resources": [
             {
               "resource": "Secrets",
@@ -4413,7 +4413,7 @@
           ]
         },
         "success": {
-          "text": "You vanish into the crowd’s blind spots, move when they blink, and pass the checkpoint as if you were never meant to stop there.",
+          "text": "You vanish into the crowd’s blind spots, move when they blink, and pass the checkpoint as if you were never meant to stop there. Behind you, the captain’s voice rises in irritation, but it’s too late—you’re already on the far side, carrying a small advantage: the knowledge that the law can be slipped if you respect its patterns.",
           "resources": [
             {
               "resource": "Secrets",
@@ -4453,7 +4453,7 @@
           ]
         },
         "success": {
-          "text": "You explode into motion, shoulder through a gap, and turn the checkpoint into a chase. For a few frantic moments, it’s you versus the city. You clear a fence, slam through an alley, and leave the guards cursing behind you.",
+          "text": "You explode into motion, shoulder through a gap, and turn the checkpoint into a chase. For a few frantic moments, it’s you versus the city. You clear a fence, slam through an alley, and leave the guards cursing behind you. People saw it—some with fear, some with admiration. Either way, your name grows sharper at the edges.",
           "resources": [
             {
               "resource": "Renown",
@@ -4462,7 +4462,7 @@
           ]
         },
         "fail": {
-          "text": "You run, and the captain runs too—along with men trained to catch runners. A baton catches ribs, a fall scrapes skin, a blade kisses you where it shouldn’t.",
+          "text": "You run, and the captain runs too—along with men trained to catch runners. A baton catches ribs, a fall scrapes skin, a blade kisses you where it shouldn’t. You get away or get dragged back, but either way the attempt leaves its mark in blood and pain.",
           "conditions": [
             {
               "id": "Wounded",
@@ -4488,7 +4488,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In Marrowgate, where every cart is counted, a bundle of letters falls into your hands—sealed, scented, and written with the reckless confidence of people who assume servants are deaf and walls are loyal. Names appear often enough to matter. So do promises.",
+    "prompt": "In Marrowgate, where tolls are tradition and corruption is a local craft, a bundle of letters falls into your hands—sealed, scented, and written with the reckless confidence of people who assume servants are deaf and walls are loyal. Names appear often enough to matter. So do promises. You could profit, you could threaten, you could decode what they’re really saying… or you could burn the weapon before you learn to love holding it.",
     "outcomes": [
       {
         "title": "Sell Them Quietly",
@@ -4641,7 +4641,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In the city, truth is only one ingredient. The rest is tone, timing, and who repeats the story first. You catch your name in a conversation that stops when you turn your head. Somewhere nearby, a rumor is being shaped like clay—into a crown, a noose, or a coin purse. You can steer the whispers, hunt their source, or pretend you’re above the game.",
+    "prompt": "In the city, truth is only one ingredient. The rest is tone, timing, and who repeats the story first. You catch your name in a conversation that stops when you turn your head. Somewhere nearby, a rumor is being shaped like clay—into a crown, a noose, or a coin purse. You can steer the whispers, hunt their source, or pretend you’re above the game. The city rarely rewards pride for long.",
     "outcomes": [
       {
         "title": "Plant a Favorable Tale",
@@ -4664,7 +4664,7 @@
           ]
         },
         "success": {
-          "text": "You choose the right mouths—barmaids, scribes, guards with loose lips—and you give them a story that sounds like they discovered it themselves. Within days, your name is spoken with a slightly different tilt: admiration, curiosity, a hint of inevitability.",
+          "text": "You choose the right mouths—barmaids, scribes, guards with loose lips—and you give them a story that sounds like they discovered it themselves. Within days, your name is spoken with a slightly different tilt: admiration, curiosity, a hint of inevitability. It isn’t love, but it’s momentum, and momentum is power.",
           "resources": [
             {
               "resource": "Renown",
@@ -4705,7 +4705,7 @@
           ]
         },
         "success": {
-          "text": "A message left half-visible. A conversation interrupted at the perfect moment. A familiar face seen where it shouldn’t be. You don’t threaten directly—you simply imply consequences. Your rivals tighten, stumble, and suddenly spend their energy protecting themselves instead of harming you.",
+          "text": "A message left half-visible. A conversation interrupted at the perfect moment. A familiar face seen where it shouldn’t be. You don’t threaten directly—you simply imply consequences. Your rivals tighten, stumble, and suddenly spend their energy protecting themselves instead of harming you. In the tension, you learn something useful about where they keep their fears.",
           "resources": [
             {
               "resource": "Secrets",
@@ -4750,7 +4750,7 @@
           ]
         },
         "success": {
-          "text": "You follow the rumor the way you’d follow a trail: backward, step by step, through the hands that passed it along. You find the break where truth becomes performance. Knowing that difference lets you respond precisely—and you correct the record in small, undeniable ways.",
+          "text": "You follow the rumor the way you’d follow a trail: backward, step by step, through the hands that passed it along. You find the break where truth becomes performance. Knowing that difference lets you respond precisely—and you correct the record in small, undeniable ways. If your reputation was bruised, it begins to mend.",
           "resources": [
             {
               "resource": "Secrets",
@@ -4830,7 +4830,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In Kestrelbank’s counting quarter, a hooded figure offers you a safehouse: a quiet room above a shop, a cellar with a second door, a place where questions don’t arrive with daylight. The offer smells of generosity—and hooks. Safehouses are never free.",
+    "prompt": "In Kestrelbank, where bridges and ledgers decide who eats, a hooded figure offers you a safehouse: a quiet room above a shop, a cellar with a second door, a place where questions don’t arrive with daylight. The offer smells of generosity—and hooks. Safehouses are never free. They are paid in coin, in favors, or in the slow realization that someone now knows where you sleep.",
     "outcomes": [
       {
         "title": "Accept Shelter",
@@ -4988,7 +4988,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Along Kestrelbank’s bridge-streets, a smuggler offers you work under moonlight. They don’t say ‘crime.’ They say ‘opportunity.’ A crate can be ‘goods.’ A hooded figure can be ‘cargo.’ The same boat carries both, and the same silence buys both. If you accept, you profit. If you refuse, you stay clean.",
+    "prompt": "In Kestrelbank, where bridges and ledgers decide who eats, a smuggler offers you work under moonlight. They don’t say ‘crime.’ They say ‘opportunity.’ A crate can be ‘goods.’ A hooded figure can be ‘cargo.’ The same boat carries both, and the same silence buys both. If you accept, you profit. If you refuse, you stay clean. If you betray them, you invite consequences that never knock politely.",
     "outcomes": [
       {
         "title": "Move Goods",
@@ -5136,7 +5136,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "At Ashqar, where poets argue law, two claimants corner you with smiles that don’t reach their eyes. One has paper. One has friends with swords. Both want your public support, because your support is a story they can tell the room.",
+    "prompt": "At Ashqar’s oasis court, where shade and law trade places by noon, two claimants corner you with smiles that don’t reach their eyes. One has paper. One has friends with swords. Both want your public support, because your support is a story they can tell the room. You can weigh the law, weigh the power, build a compromise, or profit from the uncertainty—knowing that people remember who they begged.",
     "outcomes": [
       {
         "title": "Back the Lawful Claim",
@@ -5299,7 +5299,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In the cool of Ashqar’s noon courts, the courtroom smells of ink, sweat, and old authority. Your friend stands where the accused stand: shoulders squared, eyes tired, trying not to look at you too much. Their charge is the kind that stains by proximity. Helping them is not merely kindness—it is alignment. The judge watches. The crowd watches.",
+    "prompt": "At Ashqar’s oasis court, where shade and law trade places by noon, the courtroom smells of ink, sweat, and old authority. Your friend stands where the accused stand: shoulders squared, eyes tired, trying not to look at you too much. Their charge is the kind that stains by proximity. Helping them is not merely kindness—it is alignment. The judge watches. The crowd watches. And somewhere in the back, someone who benefits from your friend’s fall watches most closely of all.",
     "outcomes": [
       {
         "title": "Speak for Them",
@@ -5323,7 +5323,7 @@
           ]
         },
         "success": {
-          "text": "You speak clearly, not begging but insisting—on context, on character, on the gap between accusation and proof. You make the court imagine itself as fair again.",
+          "text": "You speak clearly, not begging but insisting—on context, on character, on the gap between accusation and proof. You make the court imagine itself as fair again. It doesn’t save your friend by miracle; it saves them by shifting the room’s mood from hunger to hesitation. When it’s over, your friend lives to owe you, and your courage becomes something others must account for.",
           "resources": [
             {
               "resource": "Influence",
@@ -5336,7 +5336,7 @@
           ]
         },
         "fail": {
-          "text": "Your defense becomes the spectacle the court wanted—just not in the way you intended. A misstep is seized, a phrase is twisted, and suddenly you are not a defender of fairness but an accomplice in the crowd’s imagination.",
+          "text": "Your defense becomes the spectacle the court wanted—just not in the way you intended. A misstep is seized, a phrase is twisted, and suddenly you are not a defender of fairness but an accomplice in the crowd’s imagination. The verdict stains you along with your friend.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -5366,7 +5366,7 @@
           ]
         },
         "success": {
-          "text": "You scour the record, talk to the right clerk, follow a detail that doesn’t fit. Somewhere in the paperwork is a seam—an impossible timeline, a forged mark, a witness who wasn’t where they claimed.",
+          "text": "You scour the record, talk to the right clerk, follow a detail that doesn’t fit. Somewhere in the paperwork is a seam—an impossible timeline, a forged mark, a witness who wasn’t where they claimed. You bring it forward at the right moment and watch the prosecution falter. Your friend’s case steadies, and you walk away with both leverage and quiet gratitude.",
           "resources": [
             {
               "resource": "Secrets",
@@ -5379,7 +5379,7 @@
           ]
         },
         "fail": {
-          "text": "You chase leads through dust and bureaucracy until your eyes ache. Everything is ‘missing,’ ‘misfiled,’ or ‘pending.’ Whether by incompetence or design, the truth stays buried.",
+          "text": "You chase leads through dust and bureaucracy until your eyes ache. Everything is ‘missing,’ ‘misfiled,’ or ‘pending.’ Whether by incompetence or design, the truth stays buried. You return with nothing sharp enough to use, only the fatigue of fighting a system that doesn’t want to be fair.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -5414,7 +5414,7 @@
           ]
         },
         "success": {
-          "text": "You find the clerk who values coin more than conscience and speak in the universal language of payment. A page goes missing. A testimony is ‘misread.’ A seal lands where it shouldn’t. The outcome bends.",
+          "text": "You find the clerk who values coin more than conscience and speak in the universal language of payment. A page goes missing. A testimony is ‘misread.’ A seal lands where it shouldn’t. The outcome bends. Your friend breathes again—and you gain a kind of influence that doesn’t feel honorable but does feel real.",
           "resources": [
             {
               "resource": "Coin",
@@ -5427,7 +5427,7 @@
           ]
         },
         "fail": {
-          "text": "The clerk recoils, offended or frightened, and the attempt becomes evidence all its own. Word slips sideways through the court, and suddenly your ‘help’ looks like corruption.",
+          "text": "The clerk recoils, offended or frightened, and the attempt becomes evidence all its own. Word slips sideways through the court, and suddenly your ‘help’ looks like corruption. Even if your friend survives the verdict, your name takes a dirty mark that can be used against you later.",
           "conditions": [
             {
               "id": "Wanted",
@@ -5462,7 +5462,7 @@
           ]
         },
         "success": {
-          "text": "You keep your face steady and your voice absent. You watch who speaks, who flinches, and who looks relieved at certain testimony. It’s brutal, but instructive.",
+          "text": "You keep your face steady and your voice absent. You watch who speaks, who flinches, and who looks relieved at certain testimony. It’s brutal, but instructive. You leave with a clearer picture of the court’s true incentives—and a smaller, calmer fatigue, as if restraint has conserved something in you.",
           "resources": [
             {
               "resource": "Secrets",
@@ -5477,7 +5477,7 @@
           ]
         },
         "fail": {
-          "text": "Your silence is read as betrayal by the only person you meant to protect. And the crowd reads it too: as cowardice, as calculation, as proof you care only when it’s safe.",
+          "text": "Your silence is read as betrayal by the only person you meant to protect. And the crowd reads it too: as cowardice, as calculation, as proof you care only when it’s safe. You learn something, yes—but you pay with a small public bruise to your reputation.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -5503,7 +5503,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In the capital’s bright corridors, a patron smiles as if you belong to their success. They ask for a ‘small service’ in a tone that makes it clear the service is only small to them. This is how power reproduces: favors traded like coins, obligations tucked into velvet.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, a patron smiles as if you belong to their success. They ask for a ‘small service’ in a tone that makes it clear the service is only small to *them*. This is how power reproduces: favors traded like coins, obligations tucked into velvet. You can accept, negotiate, probe for the trap, or refuse where others can see—knowing refusal is its own kind of insult.",
     "outcomes": [
       {
         "title": "Accept Dutifully",
@@ -5658,7 +5658,7 @@
     ],
     "minAge": 16,
     "maxAge": 45,
-    "prompt": "In the galleries of the Stag Court, a matron with excellent memory and sharper etiquette draws you into a polite corner. She speaks of \"a most suitable match\"—names never quite said, intentions never quite confirmed. By the time you realize it, you’re already part of the evening’s entertainment: a possibility to be discussed, weighed, improved, or dismissed.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, a matron with excellent memory and sharper etiquette draws you into a polite corner. She speaks of \"a most suitable match\"—names never quite said, intentions never quite confirmed. By the time you realize it, you’re already part of the evening’s entertainment: a possibility to be discussed, weighed, improved, or dismissed. In a hall like this, even rumors have teeth. You can play along, cut it cleanly, find the hand behind it, or turn the conversation into a weapon.",
     "outcomes": [
       {
         "title": "Smile and Let It Spread",
@@ -5811,7 +5811,7 @@
           ]
         },
         "success": {
-          "text": "You laugh softly, offer a carefully chosen compliment about someone else, and let the matchmaker’s instincts do the rest. Within minutes the room is chewing on a new narrative—one that keeps your name out of the sharpest parts.",
+          "text": "You laugh softly, offer a carefully chosen compliment about someone *else*, and let the matchmaker’s instincts do the rest. Within minutes the room is chewing on a new narrative—one that keeps your name out of the sharpest parts. You leave richer in quiet leverage, and perhaps with a small gift pressed into your palm by someone grateful for your discretion.",
           "resources": [
             {
               "resource": "Coin",
@@ -5856,7 +5856,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Outside Briarwatch, where the frontier keeps its teeth, the failure is sudden and final: a crack like a snapped bone, then the sickening tilt of your cart—or the sag of a pack rig—dumping weight into the mud. The sun is already dropping, and the road ahead is the kind that grows teeth after dusk.",
+    "prompt": "Outside Briarwatch, where the frontier keeps its teeth, the failure is sudden and final: a crack like a snapped bone, then the sickening tilt of your cart—or the sag of a pack rig—dumping weight into the mud. The sun is already dropping, and the road ahead is the kind that grows teeth after dusk. You can hear distant life on the wind: a dog barking, a wagon far off, maybe nothing at all. Whatever you decide, it has to happen now. Night does not negotiate.",
     "outcomes": [
       {
         "title": "Fix It Yourself",
@@ -5878,7 +5878,7 @@
           ]
         },
         "success": {
-          "text": "You strip the rig down to its essentials and rebuild it into something uglier but functional. The repair won’t impress anyone, but it will carry you.",
+          "text": "You strip the rig down to its essentials and rebuild it into something uglier but functional. The repair won’t impress anyone, but it will carry you. You’re back on the road before the last light fully dies, and the small victory feels like saving your own life with your hands.",
           "resources": [
             {
               "resource": "Supplies",
@@ -5925,7 +5925,7 @@
           ]
         },
         "success": {
-          "text": "You lash what remains into a crude harness and haul it forward step by step. It’s brutal, but it works. Someone sees you—traveler, farmer, guard—and the sight of sheer refusal to stop becomes a story that follows you.",
+          "text": "You lash what remains into a crude harness and haul it forward step by step. It’s brutal, but it works. Someone sees you—traveler, farmer, guard—and the sight of sheer refusal to stop becomes a story that follows you. You arrive sore, poorer in provisions, richer in reputation.",
           "resources": [
             {
               "resource": "Supplies",
@@ -5938,7 +5938,7 @@
           ]
         },
         "fail": {
-          "text": "You try to brute-force the road into obedience and it answers with pain. A strap bites, a load shifts, and you take a hard twist or a crushing stumble.",
+          "text": "You try to brute-force the road into obedience and it answers with pain. A strap bites, a load shifts, and you take a hard twist or a crushing stumble. You make it out, but the injury lingers—an insult you’ll carry longer than the gear you saved.",
           "conditions": [
             {
               "id": "Wounded",
@@ -5968,7 +5968,7 @@
           ]
         },
         "success": {
-          "text": "You speak plainly, offer a promise that sounds like it will be kept, and make your need feel shared rather than begged. A wheelwright’s scrap, a spare peg, a length of cord—small mercies, but enough.",
+          "text": "You speak plainly, offer a promise that sounds like it will be kept, and make your need feel shared rather than begged. A wheelwright’s scrap, a spare peg, a length of cord—small mercies, but enough. You leave with a repaired rig and a thin thread of goodwill you can tug again later.",
           "resources": [
             {
               "resource": "Influence",
@@ -5981,7 +5981,7 @@
           ]
         },
         "fail": {
-          "text": "Your request lands wrong: too bold, too needy, too entitled. Doors close, faces tighten, and you feel the social temperature drop. Even if you find a workaround, you walk away with the sting of being refused others will remember.",
+          "text": "Your request lands wrong: too bold, too needy, too entitled. Doors close, faces tighten, and you feel the social temperature drop. Even if you find a workaround, you walk away with the sting of being refused in a way others will remember.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -6012,7 +6012,7 @@
           ]
         },
         "success": {
-          "text": "You find what you need behind a shed or beside a sleeping wagon: a spare wheel, a usable yoke, a bundle of cordage. You take it quickly and leave nothing but absence.",
+          "text": "You find what you need behind a shed or beside a sleeping wagon: a spare wheel, a usable yoke, a bundle of cordage. You take it quickly and leave nothing but absence. The repair is almost elegant in how neatly it solves your problem—and how neatly it creates a new one if you’re ever recognized.",
           "resources": [
             {
               "resource": "Supplies",
@@ -6048,7 +6048,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "On the wind-bitten road through Frostbarrow, the pass disappears under fresh snowfall as if the mountain has decided you don’t deserve to cross. Wind cuts the breath out of you. The world narrows to white, stone, and the cruel arithmetic of cold. Waiting means burning supplies and time.",
+    "prompt": "At Frostbarrow Pass, where winter bargains hard and mercy is expensive, the pass disappears under fresh snowfall as if the mountain has decided you don’t deserve to cross. Wind cuts the breath out of you. The world narrows to white, stone, and the cruel arithmetic of cold. Waiting means burning supplies and time. Pushing forward means risking the slope, the drop, the sudden silence of a buried path. Somewhere nearby, smoke might mean shelter—or strangers who won’t ask nicely before taking what you have.",
     "outcomes": [
       {
         "title": "Climb Through",
@@ -6071,7 +6071,7 @@
           ]
         },
         "success": {
-          "text": "You lead yourself like a stubborn animal: step, breath, step. You find footholds where none should exist and refuse to let the cold bargain with you. When you crest the worst of it, the world opens again.",
+          "text": "You lead yourself like a stubborn animal: step, breath, step. You find footholds where none should exist and refuse to let the cold bargain with you. When you crest the worst of it, the world opens again. Later, people talk about the one who crossed when the pass said no.",
           "resources": [
             {
               "resource": "Renown",
@@ -6109,7 +6109,7 @@
           ]
         },
         "success": {
-          "text": "You read the land the way you read a page—looking for the parts that repeat and the parts that lie. You find a longer route that stays lower and calmer.",
+          "text": "You read the land the way you read a page—looking for the parts that repeat and the parts that lie. You find a longer route that stays lower and calmer. It costs you time and provisions, but you keep your bones intact and your odds intact.",
           "resources": [
             {
               "resource": "Supplies",
@@ -6149,7 +6149,7 @@
           ]
         },
         "success": {
-          "text": "You find the lodge by smoke and silhouette. A window latch gives, a door yields, and you tuck yourself into borrowed heat. You eat something hot, dry your layers, and leave before anyone wakes.",
+          "text": "You find the lodge by smoke and silhouette. A window latch gives, a door yields, and you tuck yourself into borrowed heat. You eat something hot, dry your layers, and leave before anyone wakes. Whatever fatigue was chewing at you loosens its grip—at least for now.",
           "resources": [
             {
               "resource": "Supplies",
@@ -6197,7 +6197,7 @@
           ]
         },
         "success": {
-          "text": "You approach openly, offer coin without posturing, and speak like a person who understands that winter is everyone’s enemy. They take you in—not lovingly, but pragmatically.",
+          "text": "You approach openly, offer coin without posturing, and speak like a person who understands that winter is everyone’s enemy. They take you in—not lovingly, but pragmatically. You leave fed, resupplied, and with a small thread of goodwill in a place where goodwill is usually scarce.",
           "resources": [
             {
               "resource": "Coin",
@@ -6214,7 +6214,7 @@
           ]
         },
         "fail": {
-          "text": "Your offer is taken as insult or suspicion. Maybe you smell like trouble. Maybe you look too capable. Maybe they simply can’t afford another mouth.",
+          "text": "Your offer is taken as insult or suspicion. Maybe you smell like trouble. Maybe you look too capable. Maybe they simply can’t afford another mouth. You pay anyway—coin spent for nothing—and walk away with a small, public rejection that doesn’t feel good in a cold place.",
           "resources": [
             {
               "resource": "Coin",
@@ -6247,7 +6247,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Outside Briarwatch, where the frontier keeps its teeth, your fire is a beacon, and beacons draw ships—sometimes wrecks. Footsteps approach beyond the light’s edge. A few figures emerge with palms open and voices soft. They claim to be travelers. They might be. They might also be hungry, desperate, armed, or simply opportunistic. In the dark, intent is hard to read.",
+    "prompt": "Outside Briarwatch, where the frontier keeps its teeth, your fire is a beacon, and beacons draw ships—sometimes wrecks. Footsteps approach beyond the light’s edge. A few figures emerge with palms open and voices soft. They claim to be travelers. They might be. They might also be hungry, desperate, armed, or simply opportunistic. In the dark, intent is hard to read. The choice you make now decides whether this night becomes a story you tell… or one told about you.",
     "outcomes": [
       {
         "title": "Share the Fire",
@@ -6269,7 +6269,7 @@
           ]
         },
         "success": {
-          "text": "You make space and set clear boundaries—firm, but not cruel. The strangers relax, and the conversation becomes ordinary: roads, weather, warnings. One of them repays your generosity with a small favor, a useful connection, or a promise that feels sincere.",
+          "text": "You make space and set clear boundaries—firm, but not cruel. The strangers relax, and the conversation becomes ordinary: roads, weather, warnings. One of them repays your generosity with a small favor, a useful connection, or a promise that feels sincere. You sleep more deeply than expected, the tension easing out of your shoulders.",
           "resources": [
             {
               "resource": "Influence",
@@ -6284,7 +6284,7 @@
           ]
         },
         "fail": {
-          "text": "Hospitality invites appetite. While you look at one face, another hand drifts toward your pack. By the time you notice, something is gone—food, rope, a small necessity you only miss when it matters.",
+          "text": "Hospitality invites appetite. While you look at one face, another hand drifts toward your pack. By the time you notice, something is gone—food, rope, a small necessity you only miss when it matters. They vanish back into the dark, leaving you with embers and loss.",
           "resources": [
             {
               "resource": "Supplies",
@@ -6313,7 +6313,7 @@
           ]
         },
         "success": {
-          "text": "You ask about landmarks that don’t exist, villages that burned years ago, a bridge that was never built—and watch the answers. The lies come out uneven, and the truth shows through the cracks.",
+          "text": "You ask about landmarks that don’t exist, villages that burned years ago, a bridge that was never built—and watch the answers. The lies come out uneven, and the truth shows through the cracks. You learn who they are, what they want, and what road ahead is dangerous. When they leave, you’re still cautious, but you’re also better prepared—and you salvage a little extra from the encounter.",
           "resources": [
             {
               "resource": "Secrets",
@@ -6364,7 +6364,7 @@
           ]
         },
         "fail": {
-          "text": "Your refusal becomes the spark. One of them steps too close, and suddenly it’s hands and knives in firelight. You drive them off, but not cleanly.",
+          "text": "Your refusal becomes the spark. One of them steps too close, and suddenly it’s hands and knives in firelight. You drive them off, but not cleanly. When the dark goes quiet again, you’re left with a fresh hurt and the sour knowledge of how close that came to worse.",
           "conditions": [
             {
               "id": "Wounded",
@@ -6428,7 +6428,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In Marrowgate’s tariff courts, a rope across the road, a crude gate, and a man with a ledger that looks a little too clean for the mud around him. He claims official authority, names a lord you’ve heard of, and flashes papers that are plausible at a glance and suspicious on the second look.",
+    "prompt": "In Marrowgate, where tolls are tradition and corruption is a local craft, a rope across the road, a crude gate, and a man with a ledger that looks a little too clean for the mud around him. He claims official authority, names a lord you’ve heard of, and flashes papers that are plausible at a glance and suspicious on the second look. Behind him stand a few hard-eyed ‘assistants’ who don’t smile. Whether he’s legitimate or a thief in ink-stained clothing, he wants coin. The road is narrow. Turning back costs time. Going forward costs something else.",
     "outcomes": [
       {
         "title": "Pay and Pass",
@@ -6493,7 +6493,7 @@
           ]
         },
         "success": {
-          "text": "You ask the right questions: which office issued the writ, what seal should look like up close, what the toll is ‘supposed’ to fund. The tollkeeper stumbles, and the assistants shift that answers you more clearly than words.",
+          "text": "You ask the right questions: which office issued the writ, what seal should look like up close, what the toll is ‘supposed’ to fund. The tollkeeper stumbles, and the assistants shift in a way that answers you more clearly than words. You walk away not just past the gate, but with useful knowledge—names, methods, tells you can use again.",
           "resources": [
             {
               "resource": "Secrets",
@@ -6532,7 +6532,7 @@
           ]
         },
         "success": {
-          "text": "You step close enough that they have to measure you honestly. Your voice carries the promise of consequence, and your posture suggests you’ve delivered on worse promises before. They back down, not bravely, but pragmatically.",
+          "text": "You step close enough that they have to measure you honestly. Your voice carries the promise of consequence, and your posture suggests you’ve delivered on worse promises before. They back down, not bravely, but pragmatically. You take the road and a small gain from their scattered ‘toll’ stores—because they’re too eager to let you go to argue over it.",
           "resources": [
             {
               "resource": "Renown",
@@ -6576,7 +6576,7 @@
           ]
         },
         "success": {
-          "text": "You produce a document that looks official enough to intimidate a liar—names, dates, the right kind of confidence. For a heartbeat, the tollkeeper doubts themselves, and doubt is all you need.",
+          "text": "You produce a document that looks official enough to intimidate a liar—names, dates, the right kind of confidence. For a heartbeat, the tollkeeper doubts themselves, and doubt is all you need. The rope lifts, and you pass while they’re still deciding whether to challenge you. The trick teaches you something valuable about how authority is faked.",
           "resources": [
             {
               "resource": "Secrets",
@@ -6612,7 +6612,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "At Verdemont Abbey, where vines climb stone and confession is a kind of currency, a roadside shrine leans like an old man who refuses to sit. Weather has gnawed the carvings smooth. The offering bowl still holds a few coins, a ribbon, a small charm of wood and wire. Someone still cares enough to leave something—yet no one cares enough to repair it.",
+    "prompt": "At Verdemont Abbey, where vines climb stone and confession is a kind of currency, a roadside shrine leans like an old man who refuses to sit. Weather has gnawed the carvings smooth. The offering bowl still holds a few coins, a ribbon, a small charm of wood and wire. Someone still cares enough to leave something—yet no one cares enough to repair it. The air is quiet in that specific way that makes you feel watched, even if there’s nothing there. You can honor the place, study it, steal from it, or leave it to rot as the world does.",
     "outcomes": [
       {
         "title": "Restore It",
@@ -6634,7 +6634,7 @@
           ]
         },
         "success": {
-          "text": "You work with patient hands: stacking stones, sweeping debris, righting what can be righted. It isn’t grand, but it’s real. Later, someone passes and sees the shrine standing straighter, and they remember that someone cared.",
+          "text": "You work with patient hands: stacking stones, sweeping debris, righting what can be righted. It isn’t grand, but it’s real. Later, someone passes and sees the shrine standing straighter, and they remember that someone cared. If your name has been bruised, this quiet act smooths it—because sincerity is hard to argue with.",
           "resources": [
             {
               "resource": "Renown",
@@ -6679,7 +6679,7 @@
           ]
         },
         "success": {
-          "text": "You find meaning in the weathered lines: a regional mark, a half-erased name, a devotional phrase tied to a larger tradition. The shrine isn’t just a broken roadside trinket—it’s connected.",
+          "text": "You find meaning in the weathered lines: a regional mark, a half-erased name, a devotional phrase tied to a larger tradition. The shrine isn’t just a broken roadside trinket—it’s connected. The knowledge gives you a small foothold in the networks of belief and charity that keep the world stitched together.",
           "resources": [
             {
               "resource": "Secrets",
@@ -6724,7 +6724,7 @@
           ]
         },
         "success": {
-          "text": "You lift the coins and the small usable items with practiced speed, telling yourself it’s only metal and food and nobody will miss it. The gain is immediate and practical.",
+          "text": "You lift the coins and the small usable items with practiced speed, telling yourself it’s only metal and food and nobody will miss it. The gain is immediate and practical. The discomfort comes later, in the quiet moment when you remember someone left those offerings for a reason.",
           "resources": [
             {
               "resource": "Coin",
@@ -6792,7 +6792,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Among Greenfold hamlets, a scarred veteran speaks like someone who has stopped pretending the world is fair. They offer lessons—for coin, for respect, or for a favor you won’t understand until later.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a scarred veteran speaks like someone who has stopped pretending the world is fair. They offer lessons—for coin, for respect, or for a favor you won’t understand until later. Their stories are entertaining, but the useful parts are the ones they don’t dramatize: small decisions made under pressure, and the ways people lie to themselves to keep moving.",
     "outcomes": [
       {
         "title": "Pay for Lessons",
@@ -6805,7 +6805,7 @@
         ],
         "tags": [],
         "success": {
-          "text": "You come away with a handful of tricks and a quieter fear of the obvious.",
+          "text": "You leave with a handful of tricks and a quieter fear of the obvious.",
           "resources": [
             {
               "resource": "Coin",
@@ -6918,7 +6918,7 @@
           ]
         },
         "fail": {
-          "text": "He sees through it and decides you’re the sort of person who’d sell a friend’s name.",
+          "text": "He sees through it and decides you’re the kind of person who’d sell a friend’s name.",
           "flags": [
             {
               "id": "veteran_dislike",
@@ -6944,7 +6944,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In Gloambridge, where every tavern has a scholar and a spy, you find a sealed coffer with no crest and no explanation. It doesn’t hum with magic. It hums with importance—the kind that gets couriers killed and makes honest men lie. The lock is clean. The wood is old. Whoever owned it expected it to arrive somewhere, and it did not.",
+    "prompt": "In Gloambridge, where every tavern has a scholar and a spy, you find a sealed coffer with no crest and no explanation. It doesn’t hum with magic. It hums with *importance*—the kind that gets couriers killed and makes honest men lie. The lock is clean. The wood is old. Whoever owned it expected it to arrive somewhere, and it did not.",
     "outcomes": [
       {
         "title": "Pick the Lock",
@@ -7105,7 +7105,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In Kestrelbank’s river markets, a mistake in ink can ruin you as thoroughly as a blade. Somewhere in a ledger, your name has been placed where it doesn’t belong—taxes you don’t owe, a crime you didn’t commit, a debt that isn’t yours. The people who trust paper more than faces will treat the record as truth.",
+    "prompt": "In Kestrelbank, where bridges and ledgers decide who eats, a mistake in ink can ruin you as thoroughly as a blade. Somewhere in a ledger, your name has been placed where it doesn’t belong—taxes you don’t owe, a crime you didn’t commit, a debt that isn’t yours. The people who trust paper more than faces will treat the record as truth. Correcting it means time, politics, and patience. Ignoring it means consequences that compound. And the quietest solution—the one done with forged strokes—risks becoming a crime of your own.",
     "outcomes": [
       {
         "title": "Correct the Record",
@@ -7227,7 +7227,7 @@
           ]
         },
         "success": {
-          "text": "You pick a moment when the office is distracted and the right ledger is unattended. A careful smudge, a rewritten line, a number that becomes a different number.",
+          "text": "You pick a moment when the office is distracted and the right ledger is unattended. A careful smudge, a rewritten line, a number that becomes a different number. The record agrees with you again, and you walk away with the private knowledge that paper is only as honest as the hand holding the pen.",
           "resources": [
             {
               "resource": "Secrets",
@@ -7272,7 +7272,7 @@
           ]
         },
         "success": {
-          "text": "You absorb the indignity, keep your head down when needed, and refuse to let the mistake define you. People see you endure and keep functioning anyway, and that stubborn steadiness becomes its own kind of respect.",
+          "text": "You absorb the indignity, keep your head down when needed, and refuse to let the mistake define you. People see you endure and keep functioning anyway, and that stubborn steadiness becomes its own kind of respect. You mark a future moment to correct this properly—when you have the time, leverage, and strength to finish the fight.",
           "resources": [
             {
               "resource": "Renown",
@@ -7314,7 +7314,7 @@
     ],
     "minAge": 16,
     "maxAge": 60,
-    "prompt": "In the Greenfold’s low hills, a rope barrier and a bored sergeant stop the road. A ledger is opened, a hand is held out. The toll is small—until they decide you look like trouble.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a rope barrier and a bored sergeant stop the road. A ledger is opened, a hand is held out. The toll is small—until they decide you look like trouble.",
     "outcomes": [
       {
         "title": "Pay Without Fuss",
@@ -7482,7 +7482,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In the Greenfold’s low hills, rain turns the world into a gray sheet. Your tinder is damp, your fingers numb. Night arrives with a hungry kind of silence.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, rain turns the world into a gray sheet. Your tinder is damp, your fingers numb. Night arrives with a hungry kind of silence.",
     "outcomes": [
       {
         "title": "Spend Supplies",
@@ -7654,7 +7654,7 @@
     ],
     "minAge": 16,
     "maxAge": 60,
-    "prompt": "Along Gilderhaven’s cranes and slipways, a small cart lies cockeyed in the ditch, axle snapped. The driver looks at you like you’re either salvation or another spectator.",
+    "prompt": "In Gilderhaven’s shipyards, where storms are politics and insurance is prayer, a small cart lies cockeyed in the ditch, axle snapped. The driver looks at you like you’re either salvation or another spectator.",
     "outcomes": [
       {
         "title": "Lift and Haul",
@@ -8173,7 +8173,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In the capital’s bright corridors, a hall of waiting faces: farmers with caps in hands, merchants with ledgers, guards with bored eyes. Somewhere beyond a curtain, decisions are made.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, a hall of waiting faces: farmers with caps in hands, merchants with ledgers, guards with bored eyes. Somewhere beyond a curtain, decisions are made.",
     "outcomes": [
       {
         "title": "Speak for the Smallfolk",
@@ -8334,7 +8334,7 @@
     ],
     "minAge": 20,
     "maxAge": 70,
-    "prompt": "In High Valewyr, where every glance is weighed, a laugh behind a goblet. A name spoken softly. Someone offers you a rumor like a sweet—dangerous and irresistible.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, a laugh behind a goblet. A name spoken softly. Someone offers you a rumor like a sweet—dangerous and irresistible.",
     "outcomes": [
       {
         "title": "Deflect with Grace",
@@ -8496,7 +8496,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In Ashqar’s shaded galleries, a herald reads proclamations until words lose meaning—then your ears catch one: new restrictions, new taxes, new punishments.",
+    "prompt": "At Ashqar’s oasis court, where shade and law trade places by noon, a herald reads proclamations until words lose meaning—then your ears catch one: new restrictions, new taxes, new punishments.",
     "outcomes": [
       {
         "title": "Learn the Letter of It",
@@ -8640,7 +8640,7 @@
     ],
     "minAge": 28,
     "maxAge": 70,
-    "prompt": "At Ashqar’s fountain steps, a figure in a half-mask requests a private word. They offer assistance—coin, introductions, protection—in exchange for a future promise.",
+    "prompt": "At Ashqar’s oasis court, where shade and law trade places by noon, a figure in a half-mask requests a private word. They offer assistance—coin, introductions, protection—in exchange for a future promise.",
     "outcomes": [
       {
         "title": "Accept the Patronage",
@@ -8811,7 +8811,7 @@
     ],
     "minAge": 22,
     "maxAge": 70,
-    "prompt": "In the galleries of the Stag Court, an auditor’s clerk asks to see accounts, papers, receipts. Their quill pauses at your name like it has been waiting for it.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, an auditor’s clerk asks to see accounts, papers, receipts. Their quill pauses at your name like it has been waiting for it.",
     "outcomes": [
       {
         "title": "Produce Clean Records",
@@ -9158,7 +9158,7 @@
     ],
     "minAge": 16,
     "maxAge": 28,
-    "prompt": "In the Greenfold’s muddy lanes, a ring of onlookers cheers as dice clatter on a crate. The stakes climb faster than sense. A hustler’s grin invites you in.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a ring of onlookers cheers as dice clatter on a crate. The stakes climb faster than sense. A hustler’s grin invites you in.",
     "outcomes": [
       {
         "title": "Play Straight",
@@ -9333,7 +9333,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Along Kestrelbank’s bridge-streets, a folded note is slipped into your hand in the crowd. The symbols aren’t words—until you look at them sideways.",
+    "prompt": "In Kestrelbank, where bridges and ledgers decide who eats, a folded note is slipped into your hand in the crowd. The symbols aren’t words—until you look at them sideways.",
     "outcomes": [
       {
         "title": "Crack It Yourself",
@@ -9512,7 +9512,7 @@
     ],
     "minAge": 16,
     "maxAge": 55,
-    "prompt": "Under the Greenfold canopy, behind a loose stone in an inn wall, you find an alcove: a small pouch, a ring, a list of names. Someone meant to return.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, behind a loose stone in an inn wall, you find an alcove: a small pouch, a ring, a list of names. Someone meant to return.",
     "outcomes": [
       {
         "title": "Take Only Coin",
@@ -9682,7 +9682,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Along Gilderhaven’s cranes and slipways, a hard knock at an inconvenient hour. A collector with polite eyes and strong friends asks about money you may or may not owe.",
+    "prompt": "In Gilderhaven’s shipyards, where storms are politics and insurance is prayer, a hard knock at an inconvenient hour. A collector with polite eyes and strong friends asks about money you may or may not owe.",
     "outcomes": [
       {
         "title": "Pay Something",
@@ -10023,7 +10023,7 @@
     ],
     "minAge": 16,
     "maxAge": 60,
-    "prompt": "On the Greenfold frontier, a spilled drink becomes an insult, becomes a shove, becomes a room full of fists. Chairs scrape. Someone locks the door.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a spilled drink becomes an insult, becomes a shove, becomes a room full of fists. Chairs scrape. Someone locks the door.",
     "outcomes": [
       {
         "title": "End It Fast",
@@ -10193,7 +10193,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In the Greenfold backcountry, a captain calls for able hands. Bandits, wolves, raiders—something has townsfolk scared enough to pay for spears.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a captain calls for able hands. Bandits, wolves, raiders—something has townsfolk scared enough to pay for spears.",
     "outcomes": [
       {
         "title": "Volunteer",
@@ -10229,7 +10229,7 @@
           ]
         },
         "fail": {
-          "text": "The skirmish goes bad. You return alive, but hurt that lingers.",
+          "text": "The skirmish goes bad. You return alive, but hurt in a way that lingers.",
           "conditions": [
             {
               "id": "Wounded",
@@ -10300,7 +10300,7 @@
           ]
         },
         "success": {
-          "text": "You solve the problem the town can deny knowing about. Payment comes in a plain pouch.",
+          "text": "You solve the problem in a way the town can deny knowing about. Payment comes in a plain pouch.",
           "resources": [
             {
               "resource": "Coin",
@@ -10368,7 +10368,7 @@
     ],
     "minAge": 16,
     "maxAge": 60,
-    "prompt": "On Gilderhaven’s storm-whipped docks, a merchant caravan offers you temporary work: one road, one payout. They warn you the last caravan lost two guards and all its spice.",
+    "prompt": "In Gilderhaven’s shipyards, where storms are politics and insurance is prayer, a merchant caravan offers you temporary work: one road, one payout. They warn you the last caravan lost two guards and all its spice.",
     "outcomes": [
       {
         "title": "Take the Job",
@@ -10547,7 +10547,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Under the Greenfold canopy, a hunt meant for sport turns sharp. The boar doesn’t flee; it charges. Someone screams. The forest decides who gets to be noble today.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a hunt meant for sport turns sharp. The boar doesn’t flee; it charges. Someone screams. The forest decides who gets to be noble today.",
     "outcomes": [
       {
         "title": "Face the Beast",
@@ -11577,7 +11577,7 @@
     ],
     "minAge": 50,
     "maxAge": 70,
-    "prompt": "In High Valewyr, where every glance is weighed, letters arrive with wax seals and fine hands: offers, insinuations, and ‘helpful’ counsel on whom your heir ought to wed. Each comes with a price—spoken or not.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, letters arrive with wax seals and fine hands: offers, insinuations, and ‘helpful’ counsel on whom your heir ought to wed. Each comes with a price—spoken or not.",
     "outcomes": [
       {
         "title": "Choose the Strongest Alliance",
@@ -11964,7 +11964,7 @@
     ],
     "minAge": 50,
     "maxAge": 70,
-    "prompt": "In the shadow of Marrowgate’s bridges, a face you haven’t seen in years appears in a doorway—older, sharper, and smiling like they already know what you did to survive.",
+    "prompt": "In Marrowgate, where tolls are tradition and corruption is a local craft, a face you haven’t seen in years appears in a doorway—older, sharper, and smiling like they already know what you did to survive.",
     "outcomes": [
       {
         "title": "Pay Them Off",
@@ -12357,7 +12357,7 @@
     ],
     "minAge": 50,
     "maxAge": 70,
-    "prompt": "Between hedges in the Greenfold, a messenger arrives with a muster order. The realm calls bodies to a banner—and your name is on the list, as if time never touched you.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a messenger arrives with a muster order. The realm calls bodies to a banner—and your name is on the list, as if time never touched you.",
     "outcomes": [
       {
         "title": "Attend as a Captain",
@@ -12556,7 +12556,7 @@
     ],
     "minAge": 60,
     "maxAge": 70,
-    "prompt": "In High Valewyr’s great hall, a distant cousin produces a ‘true’ copy of a testament, and suddenly your house is a table where strangers sit and count your silver.",
+    "prompt": "In High Valewyr’s court, where etiquette is a blade with a velvet hilt, a distant cousin produces a ‘true’ copy of a testament, and suddenly your house is a table where strangers sit and count your silver.",
     "outcomes": [
       {
         "title": "Produce the Original",
@@ -12924,7 +12924,7 @@
     ],
     "minAge": 55,
     "maxAge": 70,
-    "prompt": "Under the Greenfold canopy, a note arrives without signature. It lists three facts only you would know, and ends with a request written as if it’s already agreed upon.",
+    "prompt": "In the Greenfold, where small villages hide big hungers, a note arrives without signature. It lists three facts only you would know, and ends with a request written as if it’s already agreed upon.",
     "outcomes": [
       {
         "title": "Pay in Secrets",
@@ -13329,7 +13329,7 @@
     ],
     "minAge": 50,
     "maxAge": 70,
-    "prompt": "In Marrowgate, where every cart is counted, you wake to the softest sound: cloth on stone, breath held too carefully. Someone is in the room with you, and they did not come to talk.",
+    "prompt": "In Marrowgate, where tolls are tradition and corruption is a local craft, you wake to the softest sound: cloth on stone, breath held too carefully. Someone is in the room with you, and they did not come to talk.",
     "outcomes": [
       {
         "title": "Fight From the Bed",
@@ -13522,7 +13522,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "Frostbarrow Pass is all wind and stone, the sort of place where a promise feels heavier than a blade. At the old oathstone, two parties face each other with pale breath and hard eyes. They need a witness—someone whose name can be dragged into the matter if the word fails. A ring of iron is offered. A bowl of water is set.",
+    "prompt": "Frostbarrow Pass is all wind and stone, the kind of place where a promise feels heavier than a blade. At the old oathstone, two parties face each other with pale breath and hard eyes. They need a witness—someone whose name can be dragged into the matter if the word fails. A ring of iron is offered. A bowl of water is set. Everyone looks at you as if you’ve already agreed.",
     "outcomes": [
       {
         "title": "Bear Witness",
@@ -13574,7 +13574,7 @@
           ]
         },
         "fail": {
-          "text": "You speak too softly or at the wrong beat, and one side later claims you ‘misheard.’ The vow stands, but your name becomes a loose plank in the bridge—easy to kick out.",
+          "text": "You speak at the wrong time, or too softly, or with the wrong emphasis—enough that one side later claims you ‘misheard.’ The vow is still made, but your name is now a loose plank in the bridge, ready to be kicked out from under you.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -13860,7 +13860,7 @@
         "id": "sl_bo_step2"
       }
     ],
-    "prompt": "By the time the season turns, the iron ring returns—split clean, as if someone snapped it with their hands. The guide is dead in a ditch, the promised cargo gone. The survivors don’t blame the road; they blame the oath. And because you were there, because your name was spoken near the stone, they come to you with grief sharpened into demands.",
+    "prompt": "A week later, the iron ring returns—split clean, as if someone snapped it with their hands. The guide is dead in a ditch, the promised cargo gone. The survivors don’t blame the road; they blame the oath. And because you were there, because your name was spoken near the stone, they come to you with grief sharpened into demands.",
     "outcomes": [
       {
         "title": "Demand Bloodprice",
@@ -13963,7 +13963,7 @@
           ]
         },
         "success": {
-          "text": "You take a handful of names, a direction, and the sort of certainty that makes people step out of your way.",
+          "text": "You take a handful of names, a direction, and the kind of certainty that makes people step out of your way. If the broken word has a body behind it, you’ll find it—or you’ll leave enough bruises in the world that it finds you first.",
           "resources": [
             {
               "resource": "Renown",
@@ -14119,7 +14119,7 @@
           ]
         },
         "success": {
-          "text": "You speak about widows, about children, about the sort of winter a feud brings. It doesn’t satisfy the angriest faces, but it steadies enough hands that knives stay sheathed for one more night.",
+          "text": "You speak about widows, about children, about the kind of winter a feud brings. It doesn’t satisfy the angriest faces, but it steadies enough hands that knives stay sheathed for one more night.",
           "resources": [
             {
               "resource": "Influence",
@@ -14834,7 +14834,7 @@
           ]
         },
         "success": {
-          "text": "You lean in with the sort of presence that makes people remember their children at home. The hall settles—not out of agreement, but out of fear of what you might do if they refuse.",
+          "text": "You lean in with the kind of presence that makes people remember their children at home. The hall settles—not out of agreement, but out of fear of what you might do if they refuse.",
           "resources": [
             {
               "resource": "Renown",
@@ -15137,7 +15137,7 @@
           ]
         },
         "fail": {
-          "text": "Your coin isn’t enough—or it’s offered to the wrong person. The price rises mid-negotiation, and you feel yourself sliding toward the sort of debt that grows teeth.",
+          "text": "Your coin isn’t enough—or it’s offered to the wrong person. The price rises mid-negotiation, and you feel yourself sliding toward the kind of debt that grows teeth.",
           "resources": [
             {
               "resource": "Coin",
@@ -16028,7 +16028,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "In Kestrelbank, bridges cross more than water—they cross obligations. A clerk with ink-stained fingers offers you a folded letter sealed in wax and confidence. “Simple,” they say. “A signature, a witness, a favor. the sort of thing that follows a family like a good name.” You can smell the trap only because it’s wearing perfume.",
+    "prompt": "In Kestrelbank, bridges cross more than water—they cross obligations. A clerk with ink-stained fingers offers you a folded letter sealed in wax and confidence. “Simple,” they say. “A signature, a witness, a favor. The kind of thing that follows a family like a good name.” You can smell the trap only because it’s wearing perfume.",
     "outcomes": [
       {
         "title": "Sign as Guarantor",
@@ -16236,7 +16236,7 @@
           ]
         },
         "fail": {
-          "text": "Your forgery is good, but not invisible. A blot, a wrong fiber, a seal that doesn’t quite match. the sort of mistake that turns a clever scheme into a hunt.",
+          "text": "Your forgery is good, but not invisible. A blot, a wrong fiber, a seal that doesn’t quite match. The kind of mistake that turns a clever scheme into a hunt.",
           "conditions": [
             {
               "id": "Wanted",
@@ -16551,7 +16551,7 @@
           ]
         },
         "success": {
-          "text": "You slide the truth into a shadow where it can’t be counted. The auditor finds what you want them to find—almost. As you leave, you feel the city’s paperwork turning, slowly, toward you.",
+          "text": "You slide the truth into a shadow where it can’t be counted. The auditor finds what you want them to find—almost. As you leave, you can feel the city’s paperwork turning, slowly, toward you.",
           "resources": [
             {
               "resource": "Secrets",
@@ -17068,7 +17068,7 @@
           ]
         },
         "success": {
-          "text": "A bundle changes hands—heavy with ink and consequence. You walk away with the sort of leverage that can buy silence, and the sort of guilt that can’t.",
+          "text": "A bundle changes hands—heavy with ink and consequence. You walk away with the kind of leverage that can buy silence, and the kind of guilt that can’t.",
           "resources": [
             {
               "resource": "Secrets",
@@ -19419,7 +19419,7 @@
           ]
         },
         "success": {
-          "text": "You move on with it wrapped tight and your head full of plans. If it’s valuable, it’s valuable to you first. The archivist watches you go with a look that might be pity.",
+          "text": "You leave with it wrapped tight and your head full of plans. If it’s valuable, it’s valuable to you first. The archivist watches you go with a look that might be pity.",
           "resources": [
             {
               "resource": "Secrets",
@@ -19956,7 +19956,7 @@
         "id": "sl_da_step5"
       }
     ],
-    "prompt": "Dawn at the Sable Coast is gray and honest. The ruins sit half-submerged, patient as a grave. Whatever you took—ledger, clapper, name—still matters. you feel it in the way your dreams cling, or in the way strangers look at you like you’ve brought the tide indoors. If the abbey remembers, you must decide what it will remember you as.",
+    "prompt": "Dawn at the Sable Coast is gray and honest. The ruins sit half-submerged, patient as a grave. Whatever you took—ledger, clapper, name—still matters. You can feel it in the way your dreams cling, or in the way strangers look at you like you’ve brought the tide indoors. If the abbey remembers, you must decide what it will remember you as.",
     "outcomes": [
       {
         "title": "Return It to the Sea",
@@ -20373,7 +20373,7 @@
     ],
     "minAge": 20,
     "maxAge": 20,
-    "prompt": "At Briarwatch, the road narrows between palisade and river. A quarrel has turned into a crush: a wounded carter, a shouting sergeant, and a crowd that wants to be anywhere else. Someone looks to you—not because you’re important, but because you’re present. This is the first moment you feel it: a life can tilt on a single choice.",
+    "prompt": "At **Briarwatch**, the road narrows between palisade and river. A quarrel has turned into a crush: a wounded carter, a shouting sergeant, and a crowd that wants to be anywhere else. Someone looks to you—not because you’re important, but because you’re *present*.\n\nThis is the first moment you feel it: a life can tilt on a single choice.",
     "outcomes": [
       {
         "title": "Take Up the Spear",
@@ -20481,7 +20481,7 @@
           ]
         },
         "success": {
-          "text": "You find the hinge of the dispute in three lines. The sergeant quiets when you read the figures aloud. A clerk presses a scrap of official paper into your palm—proof you can count. A margin note—your margin note—changes who pays.",
+          "text": "You find the hinge of the dispute in three lines. The sergeant quiets when you read the figures aloud. A clerk presses a scrap of official paper into your palm—proof you can *count*. A margin note—your margin note—changes who pays.",
           "resources": [
             {
               "resource": "Influence",
@@ -20800,7 +20800,7 @@
     ],
     "minAge": 20,
     "maxAge": 20,
-    "prompt": "At Larkhallow, the hospice gates never fully close. Tonight, a ward is short-handed—the sort of short-handed that turns a cough into a funeral. A sister with ink-stained fingers asks you a simple question: “What do you want your life to be for?”",
+    "prompt": "At **Larkhallow**, the hospice gates never fully close. Tonight, a ward is short-handed—the kind of short-handed that turns a cough into a funeral.\n\nA sister with ink-stained fingers asks you a simple question: *“What do you want your life to be for?”*",
     "outcomes": [
       {
         "title": "Stand Watch at the Door",
@@ -20977,7 +20977,7 @@
           ]
         },
         "success": {
-          "text": "You depart with your pockets heavier and your conscience quieted by practiced reasons.",
+          "text": "You leave with your pockets heavier and your conscience quieted by practiced reasons.",
           "resources": [
             {
               "resource": "Coin",
@@ -21213,7 +21213,7 @@
     ],
     "minAge": 20,
     "maxAge": 20,
-    "prompt": "In Kestrelbank, even arguments are conducted like contracts. A broker offers you a seat near the counting tables. Across the hall, an oath is being sworn over a basin of water. Ink on one side, vows on the other. You feel the world presenting you with two doors—and daring you to pick one.",
+    "prompt": "In **Kestrelbank**, even arguments are conducted like contracts. A broker offers you a seat near the counting tables.\n\nAcross the hall, an oath is being sworn over a basin of water. Ink on one side, vows on the other. You feel the world presenting you with two doors—and daring you to pick one.",
     "outcomes": [
       {
         "title": "Hire On as Sword-Hand",
@@ -21386,7 +21386,7 @@
           ]
         },
         "success": {
-          "text": "You leave carrying false papers and true leverage.",
+          "text": "You walk away with false papers and true leverage.",
           "resources": [
             {
               "resource": "Secrets",
@@ -21620,7 +21620,7 @@
     ],
     "minAge": 35,
     "maxAge": 35,
-    "prompt": "At High Valewyr, the muster grounds are muddy with practice and nerves. A captain you once impressed now offers you a place above the line. It’s the sort of offer that turns friends into rivals and rivals into knives.",
+    "prompt": "At **High Valewyr**, the muster grounds are muddy with practice and nerves. A captain you once impressed now offers you a place *above* the line.\n\nIt’s the kind of offer that turns friends into rivals and rivals into knives.",
     "outcomes": [
       {
         "title": "Take Command",
@@ -21918,7 +21918,7 @@
     ],
     "minAge": 35,
     "maxAge": 35,
-    "prompt": "In Thornmere, torches hiss over lake-fog. A sealed challenge arrives with no crest—just a time, a place, and a promise: win, and the doors open; lose, and the rumors do. you feel the trap—and also the opportunity.",
+    "prompt": "In **Thornmere**, torches hiss over lake-fog. A sealed challenge arrives with no crest—just a time, a place, and a promise: *win, and the doors open; lose, and the rumors do.*\n\nYou can feel the trap—and also the opportunity.",
     "outcomes": [
       {
         "title": "Meet Them Blade-to-Blade",
@@ -21972,7 +21972,7 @@
           ]
         },
         "fail": {
-          "text": "You’re outplayed. Not beaten—outplayed. The point was never the blade; it was the witness.",
+          "text": "You’re outplayed. Not beaten—*outplayed*. The point was never the blade; it was the witness.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -22228,7 +22228,7 @@
     ],
     "minAge": 35,
     "maxAge": 35,
-    "prompt": "In Gloambridge, a courier brings you a bundle wrapped in oilcloth: a charred page, ink still faintly legible. The words could ruin a house—or save one. Either way, someone will bleed for them.",
+    "prompt": "In **Gloambridge**, a courier brings you a bundle wrapped in oilcloth: a charred page, ink still faintly legible.\n\nThe words could ruin a house—or save one. Either way, someone will bleed for them.",
     "outcomes": [
       {
         "title": "Preserve It Quietly",
@@ -22529,7 +22529,7 @@
     ],
     "minAge": 35,
     "maxAge": 35,
-    "prompt": "At Marrowgate, a broker offers you a commission: a genealogy that proves what someone wants proven. The ink will be beautiful. The consequences will be ugly.",
+    "prompt": "At **Marrowgate**, a broker offers you a commission: a genealogy that proves what someone wants proven.\n\nThe ink will be beautiful. The consequences will be ugly.",
     "outcomes": [
       {
         "title": "Forge the Lineage",
@@ -22601,7 +22601,7 @@
       },
       {
         "title": "Blackmail the Broker",
-        "desc": "If they want dirt, you’ll make sure it sticks to them.",
+        "desc": "If they want dirt, you’ll make sure it sticks to *them*.",
         "stat": "Guile",
         "diff": 4,
         "allowed": [
@@ -22827,7 +22827,7 @@
     ],
     "minAge": 35,
     "maxAge": 35,
-    "prompt": "In Kestrelbank, a night courier leaves a chalk mark on your door: three strokes, one circle. It means an account has been ‘opened’ in your name—one that can be paid only with secrets.",
+    "prompt": "In **Kestrelbank**, a night courier leaves a chalk mark on your door: three strokes, one circle.\n\nIt means an account has been ‘opened’ in your name—one that can be paid only with secrets.",
     "outcomes": [
       {
         "title": "Steal the Ledger-Leaf",
@@ -22949,7 +22949,7 @@
           ]
         },
         "fail": {
-          "text": "Your names aren’t enough. They want more, and they know you can get it.",
+          "text": "Your names aren’t enough. They want *more*, and they know you can get it.",
           "conditions": [
             {
               "id": "Wanted",
@@ -23023,7 +23023,7 @@
           ]
         },
         "fail": {
-          "text": "They were ready. You wake up with bruises and a message carved into the wall: Next time, die.",
+          "text": "They were ready. You wake up with bruises and a message carved into the wall: *Next time, die.*",
           "conditions": [
             {
               "id": "Wounded",
@@ -23086,7 +23086,7 @@
           "conditions": []
         },
         "fail": {
-          "text": "You’re caught on the road. The collectors don’t shout; they simply act.",
+          "text": "You’re caught on the road. The collectors don’t shout; they simply *act*.",
           "conditions": [
             {
               "id": "Wanted",
@@ -23142,7 +23142,7 @@
     ],
     "minAge": 35,
     "maxAge": 35,
-    "prompt": "On the Sable Coast, a fisherman begs you to find his child—taken, he says, by ‘respectable’ men. You can treat it as coin work… or as something else.",
+    "prompt": "On the **Sable Coast**, a fisherman begs you to find his child—taken, he says, by ‘respectable’ men.\n\nYou can treat it as coin work… or as something else.",
     "outcomes": [
       {
         "title": "Find the Child",
@@ -23441,7 +23441,7 @@
     ],
     "minAge": 35,
     "maxAge": 35,
-    "prompt": "In High Valewyr, you’re finally allowed into the waiting chamber where decisions are made in whispers. A rival smiles at you like a knife. A clerk slides forward a petition with your name already written on it.",
+    "prompt": "In **High Valewyr**, you’re finally allowed into the waiting chamber where decisions are made in whispers.\n\nA rival smiles at you like a knife. A clerk slides forward a petition with your name already written on it.",
     "outcomes": [
       {
         "title": "Argue the Petition",
@@ -23732,7 +23732,7 @@
     ],
     "minAge": 35,
     "maxAge": 35,
-    "prompt": "In Kestrelbank, a contract court clerk ‘misplaces’ a file on your desk. Inside are signatures, debts, and the sort of small scandal that ruins people who can’t afford it. You can close the file… or you can use it.",
+    "prompt": "In **Kestrelbank**, a contract court clerk ‘misplaces’ a file on your desk.\n\nInside are signatures, debts, and the kind of small scandal that ruins people who can’t afford it.\n\nYou can close the file… or you can use it.",
     "outcomes": [
       {
         "title": "Leverage the Debts",
@@ -23843,7 +23843,7 @@
           "conditions": []
         },
         "fail": {
-          "text": "The buyer is a trap. The file returns to you with a new note: We know.",
+          "text": "The buyer is a trap. The file returns to you with a new note: *We know.*",
           "conditions": [
             {
               "id": "Marked",
@@ -24035,7 +24035,7 @@
     ],
     "minAge": 35,
     "maxAge": 35,
-    "prompt": "A quarantine cordon rises outside Larkhallow. The sick beg to pass. The healthy beg you to keep the gate shut. You are asked to decide, and no answer is clean.",
+    "prompt": "A quarantine cordon rises outside **Larkhallow**. The sick beg to pass. The healthy beg you to keep the gate shut.\n\nYou are asked to decide, and no answer is clean.",
     "outcomes": [
       {
         "title": "Hold the Line",
@@ -24339,7 +24339,7 @@
     ],
     "minAge": 35,
     "maxAge": 35,
-    "prompt": "In a back room off Gilderhaven’s docks, a man shows you a ‘miracle’—a candle that burns blue when brought near a fevered brow. He wants you to help sell it. People will pay anything to believe.",
+    "prompt": "In a back room off **Gilderhaven’s** docks, a man shows you a ‘miracle’—a candle that burns blue when brought near a fevered brow.\n\nHe wants you to help sell it. People will pay anything to believe.",
     "outcomes": [
       {
         "title": "Run the Scheme",
@@ -24637,7 +24637,7 @@
     ],
     "minAge": 50,
     "maxAge": 50,
-    "prompt": "At Frostbarrow Pass, snow bites the seams of your cloak. A battered banner is offered into your hands. The people waiting behind you don’t want a hero; they want someone who won’t flinch first.",
+    "prompt": "At **Frostbarrow Pass**, snow bites the seams of your cloak. A battered banner is offered into your hands.\n\nThe people waiting behind you don’t want a hero; they want someone who won’t flinch first.",
     "outcomes": [
       {
         "title": "Raise the Banner",
@@ -24949,7 +24949,7 @@
     ],
     "minAge": 50,
     "maxAge": 50,
-    "prompt": "Back at Briarwatch, you watch younger hands drill with spears you once lifted. Your body remembers every debt it paid. Your name still carries weight—or it could, if you choose to spend it.",
+    "prompt": "Back at **Briarwatch**, you watch younger hands drill with spears you once lifted.\n\nYour body remembers every debt it paid. Your name still carries weight—or it could, if you choose to spend it.",
     "outcomes": [
       {
         "title": "Teach the Next Line",
@@ -25238,7 +25238,7 @@
     ],
     "minAge": 50,
     "maxAge": 50,
-    "prompt": "In the stacks of Greyvault, you are offered a shelf with your name already inked on the wood. The question isn’t whether you can write history. The question is what you will do with it.",
+    "prompt": "In the stacks of **Greyvault**, you are offered a shelf with your name already inked on the wood.\n\nThe question isn’t whether you can write history. The question is what you will *do* with it.",
     "outcomes": [
       {
         "title": "Compile the Chronicle",
@@ -25543,7 +25543,7 @@
     ],
     "minAge": 50,
     "maxAge": 50,
-    "prompt": "In Marrowgate, your old drafts resurface in other hands. Sentences you wrote are being used as weapons. You can try to reclaim the story—or you can try to outlive it.",
+    "prompt": "In **Marrowgate**, your old drafts resurface in other hands. Sentences you wrote are being used as weapons.\n\nYou can try to reclaim the story—or you can try to outlive it.",
     "outcomes": [
       {
         "title": "Reclaim the Narrative",
@@ -25827,7 +25827,7 @@
     ],
     "minAge": 50,
     "maxAge": 50,
-    "prompt": "At the Night Market under Gloambridge, lanterns are covered so light doesn’t carry. A seat opens at the table where rumors are priced. They offer it to you like a confession.",
+    "prompt": "At the **Night Market** under **Gloambridge**, lanterns are covered so light doesn’t carry.\n\nA seat opens at the table where rumors are priced. They offer it to you like a confession.",
     "outcomes": [
       {
         "title": "Take the Seat",
@@ -25940,7 +25940,7 @@
           ]
         },
         "fail": {
-          "text": "Your buyer double-crosses you. The truth spreads anyway, and the heat lands on you.",
+          "text": "Your buyer double-crosses you. The truth spreads anyway, and the heat lands on *you*.",
           "conditions": [
             {
               "id": "Wanted",
@@ -25981,7 +25981,7 @@
           ]
         },
         "success": {
-          "text": "You leave carrying fewer enemies than you deserve. It feels like a miracle—and miracles always charge interest.",
+          "text": "You walk away with fewer enemies than you deserve. It feels like a miracle—and miracles always charge interest.",
           "resources": [
             {
               "resource": "Supplies",
@@ -26120,7 +26120,7 @@
     ],
     "minAge": 50,
     "maxAge": 50,
-    "prompt": "On the Sable Coast, you sleep in half-ruined boathouses and listen for footsteps. You are tired of running—but stopping might be death.",
+    "prompt": "On the **Sable Coast**, you sleep in half-ruined boathouses and listen for footsteps.\n\nYou are tired of running—but stopping might be death.",
     "outcomes": [
       {
         "title": "One Last Disappearance",
@@ -26418,7 +26418,7 @@
     ],
     "minAge": 50,
     "maxAge": 50,
-    "prompt": "In Marrowgate, a charter is laid before you—new roads, new taxes, new promises. If you sign, your name will be carved into stone. If you refuse, someone else will sign—and they will carve their name.",
+    "prompt": "In **Marrowgate**, a charter is laid before you—new roads, new taxes, new promises.\n\nIf you sign, your name will be carved into stone. If you refuse, someone else will sign—and they will carve *their* name.",
     "outcomes": [
       {
         "title": "Sign and Shape It",
@@ -26717,7 +26717,7 @@
     ],
     "minAge": 50,
     "maxAge": 50,
-    "prompt": "A writ finds you wherever you’ve been hiding: exile, confiscation, silence. At fifty, you thought the world would be done punishing you. It isn’t.",
+    "prompt": "A writ finds you wherever you’ve been hiding: exile, confiscation, silence.\n\nAt fifty, you thought the world would be done punishing you. It isn’t.",
     "outcomes": [
       {
         "title": "Appeal the Writ",
@@ -27022,7 +27022,7 @@
     ],
     "minAge": 50,
     "maxAge": 50,
-    "prompt": "In Larkhallow, beneath the hospice chapel, a stone niche is opened for you. Inside is a small reliquary-box, warm to the touch. They ask you to decide what becomes sacred.",
+    "prompt": "In **Larkhallow**, beneath the hospice chapel, a stone niche is opened for you.\n\nInside is a small reliquary-box, warm to the touch. They ask you to decide what becomes sacred.",
     "outcomes": [
       {
         "title": "Consecrate It",
@@ -27315,7 +27315,7 @@
     ],
     "minAge": 50,
     "maxAge": 50,
-    "prompt": "You return to the hospice road with fewer friends than you began with. An old rival is dying in a roadside shed. They ask for your mercy—and you don’t know if they deserve it.",
+    "prompt": "You return to the hospice road with fewer friends than you began with.\n\nAn old rival is dying in a roadside shed. They ask for your mercy—and you don’t know if they deserve it.",
     "outcomes": [
       {
         "title": "Grant Mercy",
@@ -27598,7 +27598,7 @@
     ],
     "minAge": 25,
     "maxAge": 25,
-    "prompt": "At twenty-five, you’re invited to a modest feast in High Valewyr—the kind thrown by people who desperately want to be seen as established. A toast is raised. A joke cuts too close. A glance lingers on you like a verdict.",
+    "prompt": "At twenty-five, you’re invited to a modest feast in **High Valewyr**—the kind thrown by people who desperately want to be seen as established.\n\nA toast is raised. A joke cuts too close. A glance lingers on you like a verdict.",
     "outcomes": [
       {
         "title": "Charm the Table",
@@ -27633,7 +27633,7 @@
           ]
         },
         "fail": {
-          "text": "Your joke lands wrong. The room goes quiet that feels personal.",
+          "text": "Your joke lands wrong. The room goes quiet in a way that feels personal.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -27663,7 +27663,7 @@
           ]
         },
         "success": {
-          "text": "You depart with three useful details and one dangerous one.",
+          "text": "You leave with three useful details and one dangerous one.",
           "resources": [
             {
               "resource": "Secrets",
@@ -27784,7 +27784,7 @@
     ],
     "minAge": 25,
     "maxAge": 25,
-    "prompt": "On a spring road outside Briarwatch, you find a wagon on its side and three bodies already cooling. The road has grown meaner since you were twenty. Or maybe you’ve just learned how to see it.",
+    "prompt": "On a spring road outside **Briarwatch**, you find a wagon on its side and three bodies already cooling.\n\nThe road has grown meaner since you were twenty. Or maybe you’ve just learned how to see it.",
     "outcomes": [
       {
         "title": "Track the Raiders",
@@ -27925,7 +27925,7 @@
       },
       {
         "title": "Set a Warning",
-        "desc": "You drag the wagon into view and carve a sign: Danger.",
+        "desc": "You drag the wagon into view and carve a sign: *Danger.*",
         "stat": "Might",
         "diff": 3,
         "allowed": [
@@ -27975,7 +27975,7 @@
     ],
     "minAge": 25,
     "maxAge": 25,
-    "prompt": "A letter arrives with a wax seal you don’t recognize. Inside: an offer of betrothal. It’s not romantic. It’s strategic. Someone thinks you’re worth binding.",
+    "prompt": "A letter arrives with a wax seal you don’t recognize. Inside: an offer of betrothal.\n\nIt’s not romantic. It’s strategic. Someone thinks you’re worth binding.",
     "outcomes": [
       {
         "title": "Accept the Offer",
@@ -28154,7 +28154,7 @@
     ],
     "minAge": 30,
     "maxAge": 30,
-    "prompt": "At thirty, you’re no longer ‘promising.’ You’re either something… or you’re still waiting. A messenger brings a summons to Marrowgate: your name has been entered into a trial ledger.",
+    "prompt": "At thirty, you’re no longer ‘promising.’ You’re either *something*… or you’re still waiting.\n\nA messenger brings a summons to **Marrowgate**: your name has been entered into a trial ledger.",
     "outcomes": [
       {
         "title": "Defend Yourself in Full",
@@ -28344,7 +28344,7 @@
     ],
     "minAge": 30,
     "maxAge": 30,
-    "prompt": "At thirty, the body begins to keep receipts. A lingering pain in your side, a cough that returns at night. A traveling physicker offers a diagnosis—and a price.",
+    "prompt": "At thirty, the body begins to keep receipts. A lingering pain in your side, a cough that returns at night.\n\nA traveling physicker offers a diagnosis—and a price.",
     "outcomes": [
       {
         "title": "Pay for Treatment",
@@ -28544,7 +28544,7 @@
     ],
     "minAge": 30,
     "maxAge": 30,
-    "prompt": "A minor fire breaks out in a dense neighborhood. Buckets are passed, screams are swallowed by smoke. You can help—and be seen helping—or you can take advantage of chaos.",
+    "prompt": "A minor fire breaks out in a dense neighborhood. Buckets are passed, screams are swallowed by smoke.\n\nYou can help—and be seen helping—or you can take advantage of chaos.",
     "outcomes": [
       {
         "title": "Organize the Line",
@@ -28653,7 +28653,7 @@
           ]
         },
         "success": {
-          "text": "You’re left with a bag of silver and a stain you won’t wash out.",
+          "text": "You leave with a bag of silver and a stain you won’t wash out.",
           "resources": [
             {
               "resource": "Coin",
@@ -28731,7 +28731,7 @@
     ],
     "minAge": 40,
     "maxAge": 40,
-    "prompt": "At forty, a debt you thought buried claws its way back up. A collector presents a note in your handwriting. You don’t remember writing it. That doesn’t matter.",
+    "prompt": "At forty, a debt you thought buried claws its way back up. A collector presents a note in your handwriting.\n\nYou don’t remember writing it. That doesn’t matter.",
     "outcomes": [
       {
         "title": "Pay the Debt",
@@ -28925,7 +28925,7 @@
     ],
     "minAge": 40,
     "maxAge": 40,
-    "prompt": "A harvest sickness spreads in the villages outside Thornmere. The granaries smell wrong. If you act, you might save people. If you act poorly, you might be blamed for the hunger.",
+    "prompt": "A harvest sickness spreads in the villages outside **Thornmere**. The granaries smell wrong.\n\nIf you act, you might save people. If you act poorly, you might be blamed for the hunger.",
     "outcomes": [
       {
         "title": "Quarantine the Grain",
@@ -29115,7 +29115,7 @@
     ],
     "minAge": 40,
     "maxAge": 40,
-    "prompt": "A hardened veteran offers to teach you (or your household) the ‘real’ lessons of survival: how to kill, how to endure, how to take. At forty, you choose what kind of example you are.",
+    "prompt": "A hardened veteran offers to teach you (or your household) the ‘real’ lessons of survival: how to kill, how to endure, how to take.\n\nAt forty, you choose what kind of example you are.",
     "outcomes": [
       {
         "title": "Train with Them",
@@ -29298,7 +29298,7 @@
     ],
     "minAge": 45,
     "maxAge": 45,
-    "prompt": "At forty-five, the people who once called you ‘friend’ now call you ‘competitor.’ A proposal arrives: combine households, merge accounts, share a future. It’s safer… and it’s a trap.",
+    "prompt": "At forty-five, the people who once called you ‘friend’ now call you ‘competitor.’\n\nA proposal arrives: combine households, merge accounts, share a future. It’s safer… and it’s a trap.",
     "outcomes": [
       {
         "title": "Agree to the Merger",
@@ -29486,7 +29486,7 @@
     ],
     "minAge": 45,
     "maxAge": 45,
-    "prompt": "An old enemy resurfaces—someone you wronged or someone who believes you did. They arrive with witnesses. They want satisfaction, apology, or blood. At forty-five, you don’t have the luxury of being careless.",
+    "prompt": "An old enemy resurfaces—someone you wronged or someone who believes you did. They arrive with witnesses.\n\nThey want satisfaction, apology, or blood. At forty-five, you don’t have the luxury of being careless.",
     "outcomes": [
       {
         "title": "Offer a Public Apology",
@@ -29680,7 +29680,7 @@
     ],
     "minAge": 45,
     "maxAge": 45,
-    "prompt": "A midwinter storm traps you and a small company in an inn on the road. Everyone is hungry. Everyone is armed. A bag of coin goes missing.",
+    "prompt": "A midwinter storm traps you and a small company in an inn on the road. Everyone is hungry. Everyone is armed.\n\nA bag of coin goes missing.",
     "outcomes": [
       {
         "title": "Investigate Quietly",
@@ -29882,7 +29882,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In High Valewyr, invitations are weapons dressed as parchment. A sealed note finds your hand at dusk: a small supper in a side-hall of the palace, where the laughter is softer and the knives are sharper.",
+    "prompt": "In High Valewyr, invitations are weapons dressed as parchment. A sealed note finds your hand at dusk: a small supper in a side-hall of the palace, where the laughter is softer and the knives are sharper. The messenger doesn’t say your host’s name—only that you’ve been 'noticed.' In the margin, a wolf’s head is drawn in ink so fine it could be a threat or a joke.",
     "outcomes": [
       {
         "title": "Attend With Care",
@@ -29903,7 +29903,7 @@
           ]
         },
         "success": {
-          "text": "You arrive early enough to see who arrives late on purpose. You trade pleasantries like small coins and spend them only when it buys you silence. When the supper ends, a hand lingers on your shoulder a heartbeat too long—approval, or possession.",
+          "text": "You arrive early enough to see who arrives late on purpose. You trade pleasantries like small coins and spend them only when it buys you silence. When the supper ends, a hand lingers on your shoulder a heartbeat too long—approval, or possession. Either way, you are now inside the room where reputations are made.",
           "resources": [
             {
               "resource": "Influence",
@@ -29929,7 +29929,7 @@
           ]
         },
         "fail": {
-          "text": "You keep your face composed, but your timing betrays you—one laugh too late, one glance too long. A few eyes mark you for later use.",
+          "text": "You keep your face composed, but your timing betrays you—one laugh too late, one glance too long. A few eyes mark you for later use. You leave the hall with the sense that you’ve stepped into a game whose rules you do not yet know.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -29978,7 +29978,7 @@
           ]
         },
         "success": {
-          "text": "You make an entrance that forces the room to account for you. Conversation turns, then returns, but it returns differently—adjusted. Someone who matters laughs at your smallest joke. Someone who hates you decides you’re dangerous.",
+          "text": "You make an entrance that forces the room to account for you. Conversation turns, then returns, but it returns differently—adjusted. Someone who matters laughs at your smallest joke. Someone who hates you decides you’re dangerous. The wolf’s head in the margin feels less like a doodle now, and more like a mark of prey and hunter both.",
           "resources": [
             {
               "resource": "Renown",
@@ -30008,7 +30008,7 @@
           ]
         },
         "fail": {
-          "text": "Your finery draws attention, but attention is not always respect. A small comment—perfectly placed—turns your display into a story about vanity. You smile through it, yet you feel the room’s teeth. The invitation has worked: you are a topic now.",
+          "text": "Your finery draws attention, but attention is not always respect. A small comment—perfectly placed—turns your display into a story about vanity. You smile through it, yet you can feel the room’s teeth. The invitation has worked: you are a topic now.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -30054,7 +30054,7 @@
           ]
         },
         "success": {
-          "text": "Your proxy returns with a careful recounting of names, mannerisms, and who avoided whose gaze. It isn’t as good as being there, but it is safer, and you still come away with a thread you can pull later.",
+          "text": "Your proxy returns with a careful recounting of names, mannerisms, and who avoided whose gaze. It isn’t as good as being there, but it is safer, and you still come away with a thread you can pull later. In the court, absence is suspicious—yet sometimes suspicion keeps you alive.",
           "resources": [
             {
               "resource": "Secrets",
@@ -30152,7 +30152,7 @@
           ]
         },
         "fail": {
-          "text": "Your refusal becomes entanglement. Someone counters with a 'request' framed as a courtesy you cannot decline. By the end of the day, your name has been tied to a promise you did not mean to make.",
+          "text": "Your refusal becomes entanglement. Someone counters with a 'request' framed as a courtesy you cannot decline. By the end of the day, your name has been tied to a promise you did not mean to make. In High Valewyr, a refusal can be rewritten into an obligation.",
           "conditions": [
             {
               "id": "Oathbound",
@@ -30232,7 +30232,7 @@
           ]
         },
         "success": {
-          "text": "You pay without haggling and tuck the ledger where no honest eye will see it. The clerk’s relief is practiced—like they’ve sold the same danger before. Later, alone, you read the seating like a battlefield map. It doesn’t tell you who the wolves are.",
+          "text": "You pay without haggling and tuck the ledger where no honest eye will see it. The clerk’s relief is practiced—like they’ve sold the same danger before. Later, alone, you read the seating like a battlefield map. It doesn’t tell you who the wolves are. It tells you who they’ve already chosen to circle.",
           "resources": [
             {
               "resource": "Secrets",
@@ -30315,7 +30315,7 @@
           ]
         },
         "success": {
-          "text": "You read quickly and commit the patterns to memory—who is rising, who is being iced out, who pretends not to notice. You hand the ledger back as though it were boring.",
+          "text": "You read quickly and commit the patterns to memory—who is rising, who is being iced out, who pretends not to notice. You hand the ledger back as though it were boring. That night, you repeat names in the dark until they feel carved into your skull. No one can steal what you never carried.",
           "resources": [
             {
               "resource": "Secrets",
@@ -30344,7 +30344,7 @@
           ]
         },
         "fail": {
-          "text": "You try to swallow the ledger in a single glance, but the details slip through you like water. You give it back too quickly and the clerk looks disappointed—or relieved.",
+          "text": "You try to swallow the ledger in a single glance, but the details slip through you like water. You give it back too quickly and the clerk looks disappointed—or relieved. You leave with only fragments: enough to make you suspicious, not enough to make you safe.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -30389,7 +30389,7 @@
           ]
         },
         "success": {
-          "text": "Your grip on their sleeve is firm enough to make the ledger tremble. The clerk hisses a name—not a person, but a place: a side-hall where laughter stays low and doors lock from the outside.",
+          "text": "Your grip on their sleeve is firm enough to make the ledger tremble. The clerk hisses a name—not a person, but a place: a side-hall where laughter stays low and doors lock from the outside. You release them before you cross a line you can’t uncross, but you feel the court react, as if it has scented blood.",
           "resources": [
             {
               "resource": "Renown",
@@ -30999,7 +30999,7 @@
           ]
         },
         "success": {
-          "text": "The first shove becomes a scuffle; the scuffle becomes a lesson. You don’t draw steel, but your body speaks clearly enough. When it’s over, you are breathing hard and standing where you began. Someone laughs—genuinely this time.",
+          "text": "The first shove becomes a scuffle; the scuffle becomes a lesson. You don’t draw steel, but your body speaks clearly enough. When it’s over, you are breathing hard and standing where you began. Someone laughs—genuinely this time. You are not safe, but you are respected.",
           "resources": [
             {
               "resource": "Renown",
@@ -31142,7 +31142,7 @@
           ]
         },
         "success": {
-          "text": "While eyes are on the insult and not the room, your fingers find what matters: a signet, a letter, a token that should not be here. You vanish before anyone can decide what you are. Outside, the night air tastes clean.",
+          "text": "While eyes are on the insult and not the room, your fingers find what matters: a signet, a letter, a token that should not be here. You vanish before anyone can decide what you are. Outside, the night air tastes clean. In your palm, the trophy is warm with danger.",
           "resources": [
             {
               "resource": "Secrets",
@@ -31248,7 +31248,7 @@
           ]
         },
         "success": {
-          "text": "You present the right record in the right order. The clerk’s quill slows. A murmur ripples through the benches as the lie reveals its seams. The magistrate’s face tightens; they don’t like being played.",
+          "text": "You present the right record in the right order. The clerk’s quill slows. A murmur ripples through the benches as the lie reveals its seams. The magistrate’s face tightens; they don’t like being played. Someone important meets your gaze for the first time, not amused—interested.",
           "resources": [
             {
               "resource": "Influence",
@@ -31273,7 +31273,7 @@
           ]
         },
         "fail": {
-          "text": "Your evidence is good, but not good enough. A signature that looks like yours is produced. A witness swears they saw you. The court does what courts do: it chooses the simplest story.",
+          "text": "Your evidence is good, but not good enough. A signature that looks like yours is produced. A witness swears they saw you. The court does what courts do: it chooses the simplest story. Your name leaves the hall with a bruise that will show through every introduction.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -31320,7 +31320,7 @@
           ]
         },
         "success": {
-          "text": "You speak as if the court belongs to you. The spectators nod, then murmur, then lean forward, hungry for the story you’re giving them. The magistrate is forced to slow the proceedings.",
+          "text": "You speak as if the court belongs to you. The spectators nod, then murmur, then lean forward, hungry for the story you’re giving them. The magistrate is forced to slow the proceedings. Someone who came to watch you fall now watches you rise—and that shift is its own kind of protection.",
           "resources": [
             {
               "resource": "Renown",
@@ -31392,7 +31392,7 @@
           ]
         },
         "success": {
-          "text": "The bargain is made in a corridor that smells of wax and old paper. You give up a small secret and receive a larger favor. The dispute dissolves into procedural fog.",
+          "text": "The bargain is made in a corridor that smells of wax and old paper. You give up a small secret and receive a larger favor. The dispute dissolves into procedural fog. You walk out 'cleared,' but you can feel the price waiting in the future, patient as a wolf.",
           "resources": [
             {
               "resource": "Secrets",
@@ -31500,7 +31500,7 @@
           "risks": []
         },
         "success": {
-          "text": "You drink. You smile. You return a toast so precise it sounds inevitable. The room relaxes—not because it trusts you, but because it understands you. You leave with a thread of favor wrapped around your wrist like a bracelet.",
+          "text": "You drink. You smile. You return a toast so precise it sounds inevitable. The room relaxes—not because it trusts you, but because it understands you. You leave with a thread of favor wrapped around your wrist like a bracelet. It will tighten if you pull too hard.",
           "resources": [
             {
               "resource": "Influence",
@@ -31610,7 +31610,7 @@
           ]
         },
         "fail": {
-          "text": "You move to leave and a question hooks you in place. A promise is demanded. You refuse, and the refusal becomes a story told in the wrong tone.",
+          "text": "You move to leave and a question hooks you in place. A promise is demanded. You refuse, and the refusal becomes a story told in the wrong tone. You get out, but you can feel a new kind of attention following your steps—curious, patient, hungry.",
           "conditions": [
             {
               "id": "Marked",
@@ -31661,7 +31661,7 @@
           ]
         },
         "success": {
-          "text": "You whisper the right name into the right ear and watch the table tilt. A toast becomes an argument, an argument becomes a feud. You slip out in the noise, carrying a handful of secrets like stolen rings. The court will survive. It always does.",
+          "text": "You whisper the right name into the right ear and watch the table tilt. A toast becomes an argument, an argument becomes a feud. You slip out in the noise, carrying a handful of secrets like stolen rings. The court will survive. It always does. But it will remember you as trouble.",
           "resources": [
             {
               "resource": "Secrets",
@@ -31754,7 +31754,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "On the Ash Road, travelers leave little piles of grey powder at the base of waystones—offerings for the dead, or wards against them. A small band of pilgrims walks ahead of you, their voices hoarse from singing. One of them coughs into their sleeve and the sound is wet.",
+    "prompt": "On the Ash Road, travelers leave little piles of grey powder at the base of waystones—offerings for the dead, or wards against them. A small band of pilgrims walks ahead of you, their voices hoarse from singing. One of them coughs into their sleeve and the sound is wet. They look back as if asking you to decide what kind of person you are, here on a road that leads toward smoke and bells.",
     "outcomes": [
       {
         "title": "Walk With Them",
@@ -31775,7 +31775,7 @@
           ]
         },
         "success": {
-          "text": "You match their pace and offer what comfort you can. The singing steadies. A pilgrim tells you a story of a hospice beyond the next ridge, where candles are kept burning for anyone who arrives.",
+          "text": "You match their pace and offer what comfort you can. The singing steadies. A pilgrim tells you a story of a hospice beyond the next ridge, where candles are kept burning for anyone who arrives. When you part ways, they press ash into your palm like a blessing.",
           "resources": [
             {
               "resource": "Renown",
@@ -31847,7 +31847,7 @@
           ]
         },
         "success": {
-          "text": "You keep a respectful distance and still help—water left where they can take it, coin pressed into the hand of their leader. They nod with tired gratitude.",
+          "text": "You keep a respectful distance and still help—water left where they can take it, coin pressed into the hand of their leader. They nod with tired gratitude. You avoid the worst risk and still earn a quiet kind of respect: the kind reserved for those who help without needing to be seen doing it.",
           "resources": [
             {
               "resource": "Influence",
@@ -31952,7 +31952,7 @@
           ]
         },
         "fail": {
-          "text": "Your fingers are quick, but not quick enough. A pilgrim’s shout draws eyes. The road is wide, but blame travels fast. You escape, yet you feel the future narrowing: gates, questions, hands on hilts when you approach.",
+          "text": "Your fingers are quick, but not quick enough. A pilgrim’s shout draws eyes. The road is wide, but blame travels fast. You escape, yet you can feel the future narrowing: gates, questions, hands on hilts when you approach.",
           "conditions": [
             {
               "id": "Wanted",
@@ -32009,7 +32009,7 @@
         "id": "sl_pa_step2"
       }
     ],
-    "prompt": "A gatehouse blocks the road, its timbers stained with smoke. A bell rope hangs within reach, and someone has tied grey ribbons to it—warnings, prayers, or both. A tired watch captain calls out: beyond the gate, a sickness has taken hold. Travelers may pass only if they submit to inspection and a night in the wardhouse.",
+    "prompt": "A gatehouse blocks the road, its timbers stained with smoke. A bell rope hangs within reach, and someone has tied grey ribbons to it—warnings, prayers, or both. A tired watch captain calls out: beyond the gate, a sickness has taken hold. Travelers may pass only if they submit to inspection and a night in the wardhouse. You can see the wardhouse windows: candlelight, shadows, coughing.",
     "outcomes": [
       {
         "title": "Submit to the Wardhouse",
@@ -32030,7 +32030,7 @@
           ]
         },
         "success": {
-          "text": "You endure the wardhouse: damp straw, harsh vinegar, and the steady sound of breathing that might not last. You help where you can and keep your fear in your chest. By morning, the captain nods and lets you through.",
+          "text": "You endure the wardhouse: damp straw, harsh vinegar, and the steady sound of breathing that might not last. You help where you can and keep your fear in your chest. By morning, the captain nods and lets you through. Your patience has bought you passage—and a few quiet allies among the weary.",
           "resources": [
             {
               "resource": "Influence",
@@ -32055,7 +32055,7 @@
           ]
         },
         "fail": {
-          "text": "You spend the night behind shuttered windows. The wardhouse air is thick with sickness and old smoke. By dawn, your joints ache and your skin is hot.",
+          "text": "You spend the night behind shuttered windows. The wardhouse air is thick with sickness and old smoke. By dawn, your joints ache and your skin is hot. The captain still lets you through—rules are rules—but you cross the threshold carrying more than your pack.",
           "conditions": [
             {
               "id": "Ill",
@@ -32102,7 +32102,7 @@
           ]
         },
         "success": {
-          "text": "You press coin into the captain’s palm, and the captain pretends it fell there by accident. A pass-slip is written with a flourish that says 'official' to anyone who doesn’t look too closely.",
+          "text": "You press coin into the captain’s palm, and the captain pretends it fell there by accident. A pass-slip is written with a flourish that says 'official' to anyone who doesn’t look too closely. You pass without the wardhouse’s air in your lungs, but the captain’s eyes linger as if measuring future leverage.",
           "resources": [
             {
               "resource": "Supplies",
@@ -32181,7 +32181,7 @@
           ]
         },
         "success": {
-          "text": "You find the loose board and the blind angle and move like a rumor. The gatehouse bell never rings. On the far side, the road feels narrower, as if the land itself resents your trespass.",
+          "text": "You find the loose board and the blind angle and move like a rumor. The gatehouse bell never rings. On the far side, the road feels narrower, as if the land itself resents your trespass. Still—you are through, and you’ve learned something about how rules can be stepped around.",
           "resources": [
             {
               "resource": "Secrets",
@@ -32206,7 +32206,7 @@
           ]
         },
         "fail": {
-          "text": "A lantern swings. A shout follows. You run, but the sound of boots on planks is close. When you finally lose them, you are on the wrong side of the law and the wrong side of the gate.",
+          "text": "A lantern swings. A shout follows. You run, but the sound of boots on planks is close. When you finally lose them, you are on the wrong side of the law and the wrong side of the gate. The road ahead will be worse for you now.",
           "conditions": [
             {
               "id": "Wanted",
@@ -32287,7 +32287,7 @@
           ]
         },
         "success": {
-          "text": "You keep vigil until your eyes burn. You carry water, wash cloths, and speak gently when the night becomes too loud. In the small hours, the keeper shows you a ritual of ash and breath that calms panic even when it cannot cure.",
+          "text": "You keep vigil until your eyes burn. You carry water, wash cloths, and speak gently when the night becomes too loud. In the small hours, the keeper shows you a ritual of ash and breath that calms panic even when it cannot cure. When dawn comes, you feel older in a way that matters.",
           "resources": [
             {
               "resource": "Renown",
@@ -32319,7 +32319,7 @@
           ]
         },
         "fail": {
-          "text": "You try to help, but your hands shake and your patience frays. You snap at someone who didn’t deserve it. The keeper doesn’t scold you—just watches, disappointed, as if they’ve seen this collapse a hundred times.",
+          "text": "You try to help, but your hands shake and your patience frays. You snap at someone who didn’t deserve it. The keeper doesn’t scold you—just watches, disappointed, as if they’ve seen this collapse a hundred times. You leave the wardhouse with a weight you can’t name.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -32364,7 +32364,7 @@
           ]
         },
         "success": {
-          "text": "You notice the timing of the coughs, the smell of the water, the way certain blankets are set aside. It isn’t proof, but it’s enough to form a theory—enough to warn someone later, or to save yourself.",
+          "text": "You notice the timing of the coughs, the smell of the water, the way certain blankets are set aside. It isn’t proof, but it’s enough to form a theory—enough to warn someone later, or to save yourself. Knowledge doesn’t cure, but it changes how you move through danger.",
           "resources": [
             {
               "resource": "Secrets",
@@ -32449,7 +32449,7 @@
         "id": "pa_path_bribe"
       }
     ],
-    "prompt": "The pass-slip gets you through the gate, but it also paints a target. In a roadside tavern, a petty official with a brass stamp and too-clean hands asks to see your papers. Their smile is practiced; their questions are not. you feel the moment turning, like a wheel about to slip its rut.",
+    "prompt": "The pass-slip gets you through the gate, but it also paints a target. In a roadside tavern, a petty official with a brass stamp and too-clean hands asks to see your papers. Their smile is practiced; their questions are not. You can feel the moment turning, like a wheel about to slip its rut.",
     "outcomes": [
       {
         "title": "Talk Them Into Looking Away",
@@ -32657,7 +32657,7 @@
           ]
         },
         "success": {
-          "text": "You find a hidden camp: travelers turned away, sick and frightened, surviving on scraps. They tell you what the gatehouse didn’t—how long the sickness has been here, and what the officials are afraid to admit.",
+          "text": "You find a hidden camp: travelers turned away, sick and frightened, surviving on scraps. They tell you what the gatehouse didn’t—how long the sickness has been here, and what the officials are afraid to admit. You leave with hard truths and ash on your boots.",
           "resources": [
             {
               "resource": "Secrets",
@@ -32808,7 +32808,7 @@
         "id": "sl_pa_step4"
       }
     ],
-    "prompt": "At last you reach the hospice chapel: a small stone hall where candles burn even in daylight. The keepers ask travelers to leave a pinch of ash at the threshold and speak a name for the dead. Some cry. Some stare. The smoke carries every word upward. A keeper offers you a candle and says: 'One light for what you’ve lost.",
+    "prompt": "At last you reach the hospice chapel: a small stone hall where candles burn even in daylight. The keepers ask travelers to leave a pinch of ash at the threshold and speak a name for the dead. Some cry. Some stare. The smoke carries every word upward. A keeper offers you a candle and says: 'One light for what you’ve lost. One for what you fear to lose.'",
     "outcomes": [
       {
         "title": "Light Both Candles",
@@ -32856,7 +32856,7 @@
           ]
         },
         "fail": {
-          "text": "You try, but the words catch. Your candle sputters, stubborn as a secret. Still, you stand in the smoke and hold the flame until it steadies. It isn’t peace, but it’s a start.",
+          "text": "You try, but the words catch. Your candle sputters, stubborn as a secret. Still, you stand in the smoke and hold the flame until it steadies. It isn’t peace, but it’s a start. You leave with ash under your nails and a little more honesty in your chest.",
           "resources": [
             {
               "resource": "Renown",
@@ -32904,7 +32904,7 @@
           ]
         },
         "success": {
-          "text": "You place coin in the keeper’s bowl and feel the weight of it leave you. The keepers don’t thank you with fanfare—only with a nod that says you have contributed to something that will outlast you.",
+          "text": "You place coin in the keeper’s bowl and feel the weight of it leave you. The keepers don’t thank you with fanfare—only with a nod that says you have contributed to something that will outlast you. A small favor is offered in return: guidance, shelter, a quiet word at the next gate.",
           "resources": [
             {
               "resource": "Influence",
@@ -33074,7 +33074,7 @@
         "severity": "Any"
       }
     ],
-    "prompt": "In Marrowgate’s shadowed arcade, a man with a neat ledger finds you. Two quiet companions stand close enough to make their meaning plain. “Accounts,” he says. “We settle them today.”",
+    "prompt": "In Marrowgate’s shadowed arcade, a man with a neat ledger finds you. Two quiet companions stand close enough to make their meaning plain.\n\n“Accounts,” he says. “We settle them today.”",
     "outcomes": [
       {
         "title": "Pay in Coin",
@@ -33165,7 +33165,7 @@
         "tags": [],
         "requirements": [],
         "success": {
-          "text": "You move on with a task, not a bruised purse. The collector’s people stop following—for the moment.",
+          "text": "You leave with a task, not a bruised purse. The collector’s people stop following—for the moment.",
           "resources": [
             {
               "resource": "Secrets",
@@ -33268,7 +33268,7 @@
         "severity": "Any"
       }
     ],
-    "prompt": "A wax-sealed notice is pressed into your hand at Kestrelbank: goods and wages, present and future, are named as collateral. It is written politely. That makes it worse.",
+    "prompt": "A wax-sealed notice is pressed into your hand at Kestrelbank: goods and wages, present and future, are named as collateral.\n\nIt is written politely. That makes it worse.",
     "outcomes": [
       {
         "title": "Sell Something Dear",
@@ -33469,7 +33469,7 @@
         "severity": "Any"
       }
     ],
-    "prompt": "In Briarwatch, a messenger offers quick coin for a quick errand—no questions, no witnesses, no delays. The sort of work that makes honest folk look away.",
+    "prompt": "In Briarwatch, a messenger offers quick coin for a quick errand—no questions, no witnesses, no delays.\n\nThe sort of work that makes honest folk look away.",
     "outcomes": [
       {
         "title": "Do the Work Clean",
@@ -33619,7 +33619,7 @@
         "tags": [],
         "requirements": [],
         "success": {
-          "text": "You move on with no coin—but with a promised delay. It is not kindness. It is calculation.",
+          "text": "You leave with no coin—but with a promised delay. It is not kindness. It is calculation.",
           "resources": [
             {
               "resource": "Influence",
@@ -33675,7 +33675,7 @@
         "severity": "Any"
       }
     ],
-    "prompt": "You are summoned to a low hall where ink rules more cruelly than steel. A clerk reads your debt as if it were a prayer. The room waits to see whether you kneel or bite.",
+    "prompt": "You are summoned to a low hall where ink rules more cruelly than steel. A clerk reads your debt as if it were a prayer.\n\nThe room waits to see whether you kneel or bite.",
     "outcomes": [
       {
         "title": "Speak Plainly",
@@ -33689,7 +33689,7 @@
         "tags": [],
         "requirements": [],
         "success": {
-          "text": "You depart with a schedule instead of a sentence. It will still hurt—but it is bearable.",
+          "text": "You leave with a schedule instead of a sentence. It will still hurt—but it is bearable.",
           "resources": [
             {
               "resource": "Coin",
@@ -33881,7 +33881,7 @@
         "severity": "Any"
       }
     ],
-    "prompt": "At Gloambridge, fog hangs like a curtain and the road beyond feels like forgetting. You could leave your debt behind. It will not stay forgotten. But it might take time to catch you.",
+    "prompt": "At Gloambridge, fog hangs like a curtain and the road beyond feels like forgetting. You could leave your debt behind.\n\nIt will not stay forgotten. But it might take time to catch you.",
     "outcomes": [
       {
         "title": "Slip Away Quietly",
@@ -34099,7 +34099,7 @@
         "severity": "Any"
       }
     ],
-    "prompt": "You hear your own name spoken with a laugh that stops when you look over. Rumors run ahead of you in Marrowgate like rats. If you do nothing, they will breed.",
+    "prompt": "You hear your own name spoken with a laugh that stops when you look over. Rumors run ahead of you in Marrowgate like rats.\n\nIf you do nothing, they will breed.",
     "outcomes": [
       {
         "title": "Apologize in Public",
@@ -34290,7 +34290,7 @@
         "severity": "Any"
       }
     ],
-    "prompt": "A formal notice arrives: you are invited—no, required—to appear and answer for yourself. The ink is crisp. The judgment behind it is already half-written.",
+    "prompt": "A formal notice arrives: you are invited—no, required—to appear and answer for yourself.\n\nThe ink is crisp. The judgment behind it is already half-written.",
     "outcomes": [
       {
         "title": "Show Contrition",
@@ -34500,7 +34500,7 @@
         "severity": "Any"
       }
     ],
-    "prompt": "A small hospice on the Verdant Road takes in the unwanted. No one asks your name—only what your hands can do. Work won’t cleanse you, but it can change what people remember.",
+    "prompt": "A small hospice on the Verdant Road takes in the unwanted. No one asks your name—only what your hands can do.\n\nWork won’t cleanse you, but it can change what people remember.",
     "outcomes": [
       {
         "title": "Do the Hard Work",
@@ -34684,7 +34684,7 @@
         "severity": "Any"
       }
     ],
-    "prompt": "A rival offers you a choice: accept a formal duel—of steel or of words—or be remembered forever as the one who declined. Sometimes redemption is just risk with better clothing.",
+    "prompt": "A rival offers you a choice: accept a formal duel—of steel or of words—or be remembered forever as the one who declined.\n\nSometimes redemption is just risk with better clothing.",
     "outcomes": [
       {
         "title": "Duel with Steel",
@@ -34841,7 +34841,7 @@
           ]
         },
         "fail": {
-          "text": "They spit after you. The story hardens. you feel doors closing.",
+          "text": "They spit after you. The story hardens. You can feel doors closing.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -34876,7 +34876,7 @@
         "severity": "Any"
       }
     ],
-    "prompt": "In a small roadside chapel, an elder offers a ritual meant for the shamed: a public confession, a private penance, or a gift to those you wronged. It will not erase the past. But it might soften its teeth.",
+    "prompt": "In a small roadside chapel, an elder offers a ritual meant for the shamed: a public confession, a private penance, or a gift to those you wronged.\n\nIt will not erase the past. But it might soften its teeth.",
     "outcomes": [
       {
         "title": "Confess Publicly",
@@ -35058,7 +35058,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Rain slicks the old stones. One careless step sends you down hard. You can walk—but every movement reminds you of the lesson.",
+    "prompt": "Rain slicks the old stones. One careless step sends you down hard.\n\nYou can walk—but every movement reminds you of the lesson.",
     "outcomes": [
       {
         "title": "Laugh It Off",
@@ -35228,7 +35228,7 @@
     ],
     "minAge": 16,
     "maxAge": 55,
-    "prompt": "A friendly spar turns sharp. A wooden blade catches you in the wrong place, and the room goes quiet for a heartbeat. It’s not deadly—just… memorable.",
+    "prompt": "A friendly spar turns sharp. A wooden blade catches you in the wrong place, and the room goes quiet for a heartbeat.\n\nIt’s not deadly—just… memorable.",
     "outcomes": [
       {
         "title": "Shake It Out",
@@ -35429,7 +35429,7 @@
         "severity": "Any"
       }
     ],
-    "prompt": "A hedge-healer offers a poultice that smells like crushed leaves and bitter sap. “It won’t make you young,” she says. “But it might make you steady.”",
+    "prompt": "A hedge-healer offers a poultice that smells like crushed leaves and bitter sap.\n\n“It won’t make you young,” she says. “But it might make you steady.”",
     "outcomes": [
       {
         "title": "Pay for the Poultice",
@@ -35786,7 +35786,7 @@
           ]
         },
         "fail": {
-          "text": "You force yourself to stay, to smile through the stink of smoke and sickness. Not long after your throat burns and your joints ache. The hall remembers you as 'brave'—and you remember it as 'stupid'.",
+          "text": "You force yourself to stay, to smile through the stink of smoke and sickness. The next day your throat burns and your joints ache. The hall remembers you as 'brave'—and you remember it as 'stupid'.",
           "conditions": [
             {
               "id": "Ill",
