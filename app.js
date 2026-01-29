@@ -1,3 +1,13 @@
+/* 
+ Heirloom Web Prototype - Single JS Bundle
+ Includes:
+  - app.deploy.v6.1.traitfix.js  (core app + start gating fixed)
+  - ui.enhancements.v1.traitfix.js (helper UI interactions; no Start-button override)
+ Order: app first, then UI helpers.
+*/
+
+
+// === BEGIN core app (traitfix) ===
 /* Heirloom Web Prototype v0.1 (Data-driven)
    - Loads: ./data/cards.json, ./data/events.json, ./data/backgrounds.json
    - Supports: requirements → disabled outcomes with reasons
@@ -2287,6 +2297,22 @@ function renderCreationUI() {
 
     traitsListEl.appendChild(wrap);
   }
+
+  // --- Start screen helpers (robust even if ui.enhancements.v1.js is missing) ---
+  const traitsPickedEl = document.getElementById("traitsPicked");
+  if (traitsPickedEl) traitsPickedEl.textContent = String(creation.traits.size);
+
+  // Lock trait selection at 2 while still allowing unchecking
+  const lock = creation.traits.size >= 2;
+  for (const box of traitsListEl.querySelectorAll("input[type='checkbox']")) {
+    const shouldDisable = lock && !box.checked;
+    box.disabled = shouldDisable;
+    const label = box.closest("label");
+    if (label) label.classList.toggle("disabled", shouldDisable);
+  }
+
+  // Keep the Begin button state in sync with the builder requirements
+  updateStartButtonState();
 }
 
 
@@ -3606,6 +3632,10 @@ btnStart.addEventListener("click", () => {
   startRunFromBuilder(bg, given, family);
 });
 
+// Update the Begin button label/state as the user types.
+charNameInput.addEventListener("input", () => updateStartButtonState());
+familyNameInput.addEventListener("input", () => updateStartButtonState());
+
 
 btnResolve.addEventListener("click", () => resolveSelectedOutcome());
 chanceLine.addEventListener("click", () => {
@@ -3631,6 +3661,31 @@ function pointsSpent() {
 
 function pointsRemaining() {
   return START_ALLOC_POINTS - pointsSpent();
+}
+
+// Keep the start button state (and its label) aligned with current builder choices.
+// This reduces confusing "why can't I start?" situations, especially on mobile.
+function updateStartButtonState() {
+  if (!btnStart) return;
+
+  const given = (charNameInput?.value ?? "").trim();
+  const family = (familyNameInput?.value ?? "").trim();
+  const rem = pointsRemaining();
+  const picked = creation?.traits?.size ?? 0;
+
+  const ready = Boolean(given && family && rem === 0 && picked === 2);
+  btnStart.disabled = !ready;
+
+  // Friendly, single-step prompts.
+  if (!given || !family) {
+    btnStart.textContent = "Enter your name";
+  } else if (rem !== 0) {
+    btnStart.textContent = `Spend ${rem} point${rem === 1 ? "" : "s"}`;
+  } else if (picked !== 2) {
+    btnStart.textContent = "Pick 2 traits";
+  } else {
+    btnStart.textContent = "Begin Run";
+  }
 }
 
 function traitById(id) {
@@ -3725,6 +3780,8 @@ function showLoadingUI(isLoading) {
   if (isLoading) {
     logEl.textContent = "Loading data...\n";
   }
+  // When loading finishes, align the Start button with the builder state.
+  if (!isLoading) updateStartButtonState();
 }
 
 function startRunFromBuilder(bg, givenName, familyName) {
@@ -3845,3 +3902,65 @@ async function boot() {
 }
 
 boot();
+
+// === END core app ===
+
+// === BEGIN ui enhancements (wrapped) ===
+
+;(function(){
+  function __run_ui_helpers__(){
+/* Heirloom UI Enhancements (non-invasive)
+   - Improves Run Creation UX without touching game logic.
+   - Works with any app.js that renders #traitsList as:
+       <label class="traitRow"><input type="checkbox" ...> ...</label>
+*/
+
+(() => {
+  const traitsList = document.getElementById("traitsList");
+  const traitsPickedEl = document.getElementById("traitsPicked");
+  const btnStart = document.getElementById("btnStart");
+
+  // Only needed on the start screen.
+  if (!traitsList || !btnStart) return;
+
+  const refresh = () => {
+    const boxes = Array.from(traitsList.querySelectorAll("input[type='checkbox']"));
+    if (!boxes.length) return;
+
+    const selected = boxes.filter(b => b.checked).length;
+    if (traitsPickedEl) traitsPickedEl.textContent = String(selected);
+
+    // Make the "pick 2" rule visible:
+    // - once you have 2, other boxes become disabled (still un-disable if you uncheck)
+    const lock = selected >= 2;
+    for (const box of boxes) {
+      const shouldDisable = lock && !box.checked;
+      box.disabled = shouldDisable;
+
+      const label = box.closest("label");
+      if (label) {
+        label.classList.toggle("disabled", shouldDisable);
+      }
+    }
+
+    // Let app.js own the Start button gating (name + points + traits).
+    // We only handle trait-locking + picked count here.
+  };
+
+  // Observe re-renders from app.js.
+  const obs = new MutationObserver(() => refresh());
+  obs.observe(traitsList, { childList: true, subtree: true });
+
+  // Also update on user changes.
+  traitsList.addEventListener("change", refresh);
+
+  // Initial.
+  refresh();
+})();
+
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', __run_ui_helpers__, { once: true });
+  } else { __run_ui_helpers__(); }
+})();
+// === END ui enhancements ===
