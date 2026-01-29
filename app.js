@@ -12,10 +12,6 @@ const deepCopy = (obj) => (obj == null ? null : JSON.parse(JSON.stringify(obj)))
 
 const MAJOR_AGES = new Set([20,25,30,35,40,45,50]);
 const SEASONS = ["Vernal", "Autumnal"];
-
-const OPPORTUNITY_GAP_MIN = 4; // encounter appears every 4–6 completed events
-const OPPORTUNITY_GAP_MAX = 6;
-
 // ---------- Storylines (explicit draw + pacing + pity) ----------
 /*
   Goals:
@@ -380,215 +376,9 @@ function chanceBand(pct) {
 }
 
 function arrowsForBonus(bonusPct) {
-  // 1 arrow per 5% edge. (Negative bonuses show down-arrows.)
-  const v = (bonusPct ?? 0);
-  const n = Math.max(0, Math.floor(Math.abs(v) / 5));
-  if (!n) return "";
-  return (v >= 0 ? "↑" : "↓").repeat(n);
-}
-
-
-function hash32(str) {
-  // small deterministic hash for stable flavor selection
-  let h = 2166136261;
-  for (let i = 0; i < str.length; i++) {
-    h ^= str.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return (h >>> 0);
-}
-
-const CARD_FLAVOR = {
-  Steel: [
-    "Steel answers faster than doubt.",
-    "A hard lesson, repeated until it sticks.",
-    "One clean motion beats ten brave ideas.",
-    "You learned to hit first—and then breathe."
-  ],
-  Quill: [
-    "Ink makes order out of noise.",
-    "A small note now saves a costly mistake later.",
-    "You let the details do the fighting.",
-    "A line on paper can move a room."
-  ],
-  Veil: [
-    "A truth withheld is still a weapon.",
-    "You step where the light doesn't reach.",
-    "The best lie is the one that feels familiar.",
-    "Quiet hands, loud results."
-  ],
-  Seal: [
-    "Authority is a blade with a polished edge.",
-    "You speak in terms people can't ignore.",
-    "A favor remembered is stronger than a threat.",
-    "Rules bend for those who know where to press."
-  ],
-  Hearth: [
-    "You hold steady when the world shakes.",
-    "Warmth is a kind of armor.",
-    "You refuse to break—quietly, completely.",
-    "Endurance wins the days no one sings about."
-  ]
-};
-
-function cardFlavor(c) {
-  if (!c) return "";
-  if (typeof c.flavor === "string" && c.flavor.trim()) return c.flavor.trim();
-  const pool = CARD_FLAVOR[c.discipline] || ["A practiced habit, honed by necessity."];
-  const key = String(c.id || c.name || c.discipline || "");
-  const idx = hash32(key) % pool.length;
-  return pool[idx];
-}
-
-function cardSceneText(ctxs) {
-  const arr = (ctxs ?? []).filter(Boolean);
-  return arr.length ? `in ${arr.join(" / ")}` : "in any scene";
-}
-
-
-// ---------- Opportunity (Trading Encounter) ----------
-function ensureOpportunityState() {
-  if (!state) return;
-  state.opportunity ??= {};
-  if (!Number.isFinite(state.opportunity.nextAt)) {
-    const base = (state.runEventIndex ?? 0);
-    state.opportunity.nextAt = base + rInt(OPPORTUNITY_GAP_MIN, OPPORTUNITY_GAP_MAX);
-  }
-}
-
-function shouldOfferOpportunity() {
-  if (!state) return false;
-  ensureOpportunityState();
-  const idx = state.runEventIndex ?? 0;
-  return idx >= (state.opportunity.nextAt ?? Infinity);
-}
-
-function scheduleNextOpportunity() {
-  if (!state) return;
-  ensureOpportunityState();
-  const idx = state.runEventIndex ?? 0;
-  state.opportunity.nextAt = idx + rInt(OPPORTUNITY_GAP_MIN, OPPORTUNITY_GAP_MAX);
-}
-
-function buildOpportunityTrades() {
-  const t1 = {
-    id: "sup_to_coin",
-    title: "Supplies → Coin",
-    note: "A hungry quartermaster pays less than you'd like.",
-    give: { resource: "Supplies", amount: rInt(3, 5) },
-    get:  { resource: "Coin",     amount: rInt(1, 3) }
-  };
-  const t2 = {
-    id: "coin_to_sup",
-    title: "Coin → Supplies",
-    note: "You buy in a hurry; the seller charges for speed.",
-    give: { resource: "Coin",     amount: rInt(4, 6) },
-    get:  { resource: "Supplies", amount: rInt(2, 4) }
-  };
-  const t3 = {
-    id: "sec_to_inf",
-    title: "Secrets → Influence",
-    note: "You trade dirt for favors—quietly, and for less than it's worth.",
-    give: { resource: "Secrets",   amount: rInt(2, 3) },
-    get:  { resource: "Influence", amount: rInt(1, 2) }
-  };
-  const t4 = {
-    id: "inf_to_coin",
-    title: "Influence → Coin",
-    note: "A favor cashed out in haste loses its shine.",
-    give: { resource: "Influence", amount: rInt(2, 3) },
-    get:  { resource: "Coin",      amount: rInt(1, 2) }
-  };
-
-  const base = [t1, t2, t3];
-
-  // Sometimes swap in Influence → Coin as one of the three offers.
-  if (Math.random() < 0.35) {
-    const drop = rInt(0, base.length - 1);
-    base.splice(drop, 1, t4);
-  }
-
-  return base;
-}
-
-function canAffordTrade(trade) {
-  const have = state?.res?.[trade.give.resource] ?? 0;
-  return have >= (trade.give.amount ?? 0);
-}
-
-function applyTrade(trade) {
-  if (!trade) return;
-  if (!canAffordTrade(trade)) return;
-
-  applyResourceDelta({ resource: trade.give.resource, amount: -(trade.give.amount ?? 0) });
-  applyResourceDelta({ resource: trade.get.resource,  amount: +(trade.get.amount ?? 0) });
-
-  log(`Opportunity: Traded ${trade.give.amount} ${trade.give.resource} for ${trade.get.amount} ${trade.get.resource}.`);
-}
-
-function openOpportunityModal({ onDone } = {}) {
-  const trades = buildOpportunityTrades();
-
-  const wrap = document.createElement("div");
-  wrap.className = "opportunityWrap";
-  wrap.innerHTML = `
-    <div class="muted">A broker flags you down with practiced warmth. “Quick exchanges, clean hands. What do you need?”</div>
-    <div class="spacer"></div>
-  `;
-
-  const grid = document.createElement("div");
-  grid.className = "tradeGrid";
-
-  for (const tr of trades) {
-    const affordable = canAffordTrade(tr);
-    const div = document.createElement("div");
-    div.className = "tradeOption cardbtn" + (affordable ? "" : " dim");
-    div.innerHTML = `
-      <div class="cardname">${tr.title}</div>
-      <div class="tradeMain">
-        <span class="delta neg">↓ ${tr.give.amount} ${tr.give.resource}</span>
-        <span class="muted">→</span>
-        <span class="delta pos">↑ ${tr.get.amount} ${tr.get.resource}</span>
-      </div>
-      <div class="muted small">${tr.note}</div>
-      ${affordable ? "" : `<div class="muted small">Not enough ${tr.give.resource}.</div>`}
-    `;
-
-    div.addEventListener("click", () => {
-      if (!affordable) return;
-      applyTrade(tr);
-      scheduleNextOpportunity();
-      saveState();
-      renderAll();
-
-      modalLocked = false;
-      closeModal();
-    });
-
-    grid.appendChild(div);
-  }
-
-  wrap.appendChild(grid);
-
-  const actions = document.createElement("div");
-  actions.className = "modalActions";
-
-  const leave = document.createElement("button");
-  leave.className = "btn ghost";
-  leave.textContent = "Leave";
-  leave.addEventListener("click", () => {
-    scheduleNextOpportunity();
-    saveState();
-
-    modalLocked = false;
-    closeModal();
-  });
-
-  actions.appendChild(leave);
-  wrap.appendChild(document.createElement("div")).className = "spacer";
-  wrap.appendChild(actions);
-
-  openModal("Opportunity", wrap, { locked: true, onClose: () => { onDone?.(); } });
+  // 1 arrow per 5% bonus
+  const n = Math.max(0, Math.floor((bonusPct ?? 0) / 5));
+  return "↑".repeat(n);
 }
 
 let creation = {
@@ -639,6 +429,13 @@ function summarizeBundle(bundle) {
   return lines;
 }
 
+
+function isDisplayConditionId(id) {
+  // Hide internal "pseudo-conditions" like rival_pressure / rumor_shield.
+  // Real conditions are TitleCase in this prototype.
+  return typeof id === "string" && /^[A-Z]/.test(id);
+}
+
 function summarizeBundleForPlayer(bundle) {
   const resources = [];
   const conditions = [];
@@ -651,6 +448,7 @@ function summarizeBundleForPlayer(bundle) {
   }
 
   for (const c of (bundle.conditions ?? [])) {
+    if (!isDisplayConditionId(c.id)) continue;
     const sev = c.severity ?? "Minor";
     if (c.mode === "Add") conditions.push(`Gained: ${c.id} (${sev})`);
     if (c.mode === "Remove") conditions.push(`Removed: ${c.id}`);
@@ -659,6 +457,54 @@ function summarizeBundleForPlayer(bundle) {
   }
 
   return { resources, conditions };
+}
+
+
+function renderResultBadges(bundle) {
+  const wrap = document.createElement("div");
+  wrap.className = "resultBadges";
+
+  if (!bundle) return wrap;
+
+  // Resources
+  for (const d of (bundle.resources ?? [])) {
+    const amt = d.amount ?? 0;
+    if (!amt) continue;
+    const pill = document.createElement("span");
+    pill.className = "pill " + (amt > 0 ? "good" : "bad");
+    pill.textContent = `${amt > 0 ? "↑" : "↓"} ${Math.abs(amt)} ${d.resource}`;
+    wrap.appendChild(pill);
+  }
+
+  // Conditions (displayable only)
+  for (const c of (bundle.conditions ?? [])) {
+    if (!isDisplayConditionId(c.id)) continue;
+    const mode = c.mode ?? "Add";
+    const sev = c.severity ?? "Minor";
+
+    const pill = document.createElement("span");
+
+    if (mode === "Add") {
+      pill.className = "pill bad";
+      pill.textContent = `↓ ${c.id} (${sev})`;
+    } else if (mode === "Remove") {
+      pill.className = "pill good";
+      pill.textContent = `↑ Remove ${c.id}`;
+    } else if (mode === "Downgrade") {
+      pill.className = "pill good";
+      pill.textContent = `↑ Ease ${c.id}`;
+    } else if (mode === "Upgrade") {
+      pill.className = "pill bad";
+      pill.textContent = `↓ Worsen ${c.id} (${sev})`;
+    } else {
+      pill.className = "pill";
+      pill.textContent = `${mode}: ${c.id}`;
+    }
+
+    wrap.appendChild(pill);
+  }
+
+  return wrap;
 }
 
 function defaultResultNarrative(ev, outcome, success, partial) {
@@ -836,6 +682,7 @@ const btnModalClose = document.getElementById("btnModalClose");
 let state = null;
 let currentEvent = null;
 let selectedOutcomeIndex = null;
+let showChanceDetails = false;
 let hand = [];        // [{ iid, cid }]
 let committed = [];   // [iid, iid]
 let nextHandIid = 1;
@@ -1081,11 +928,6 @@ function openDraftModal(onPicked) {
   const p = document.createElement("p");
   p.className = "muted";
   p.textContent = "Major milestone! Choose 1 card to add to your deck (it goes into your discard pile).";
-
-  const p2 = document.createElement("p");
-  p2.className = "muted small";
-  p2.textContent = "Click a card to choose."; 
-  wrap.appendChild(p2);
   wrap.appendChild(p);
 
   const list = document.createElement("div");
@@ -1102,14 +944,13 @@ function openDraftModal(onPicked) {
 
     div.innerHTML = `
       <div class="cardname">${c.name}</div>
-      <div class="cardtype muted">${c.discipline}</div>
-
-      <div class="cardbig">
-        <span class="arrows ${arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted"}">${arrowsForBonus(lvlData.bonus) || "—"}</span>
-        <span class="cardbigtext">${cardSceneText(c.contexts)}${lvlData.partialOnFail ? " • partial on failure" : ""}</span>
+      <div class="cardmeta">
+        <span class="badge">${c.discipline}</span>
+        <span class="badge">Contexts: ${(c.contexts ?? []).join(", ")}</span>
+        <span class="badge">${arrowsForBonus(lvlData.bonus)}</span>
+        <span class="badge">${c.rarity}</span>
       </div>
-
-      <div class="cardflavor"><em>${cardFlavor(c)}</em></div>
+      <div class="muted">Click to choose</div>
     `;
 
     const choose = () => {
@@ -2064,61 +1905,110 @@ function renderEvent() {
   eventPrompt.textContent = currentEvent.prompt;
 }
 
-
 function renderOutcomes() {
   outcomesEl.innerHTML = "";
+
+  // Focus panel (selected outcome details)
+  const focus = document.createElement("div");
+  focus.className = "outcomeFocus";
+
+  if (selectedOutcomeIndex == null) {
+    focus.innerHTML = `
+      <div class="focusTitle">Choose an approach</div>
+      <div class="muted">Select an outcome to see costs, results, and highlight playable cards.</div>
+    `;
+  } else {
+    const o = currentEvent.outcomes[selectedOutcomeIndex];
+    const cond = outcomeConditionRules(currentEvent, o);
+    const attemptCosts = cond.costs ?? [];
+    const attemptBundle = attemptCosts.length ? { resources: attemptCosts } : null;
+
+    const metaBits = [];
+    metaBits.push(`Stat: ${o.stat}`);
+    metaBits.push(`Diff: ${o.diff}`);
+    if ((o.allowed ?? []).length) metaBits.push(`Allows: ${(o.allowed ?? []).join(", ")}`);
+
+    focus.innerHTML = `
+      <div class="focusHeader">
+        <div>
+          <div class="focusTitle">${o.title}</div>
+          <div class="muted">${o.desc ?? ""}</div>
+          <div class="focusMeta muted">${metaBits.join(" • ")}</div>
+        </div>
+      </div>
+    `;
+
+    // Attempt cost
+    if (attemptBundle) {
+      const row = document.createElement("div");
+      row.className = "resultRow";
+      row.innerHTML = `<div class="resultLabel">Attempt cost</div>`;
+      row.appendChild(renderResultBadges(attemptBundle));
+      focus.appendChild(row);
+    }
+
+    // Results: Success / Failure
+    const res = document.createElement("div");
+    res.className = "focusResults";
+
+    const successCol = document.createElement("div");
+    successCol.className = "resultCol";
+    successCol.innerHTML = `<div class="resultLabel good">On success</div>`;
+    successCol.appendChild(renderResultBadges(o.success));
+
+    const failCol = document.createElement("div");
+    failCol.className = "resultCol";
+    failCol.innerHTML = `<div class="resultLabel bad">On failure</div>`;
+    failCol.appendChild(renderResultBadges(o.fail));
+
+    res.appendChild(successCol);
+    res.appendChild(failCol);
+
+    focus.appendChild(res);
+  }
+
+  outcomesEl.appendChild(focus);
+
+  // Compact list
+  const list = document.createElement("div");
+  list.className = "outcomeList";
+
   currentEvent.outcomes.forEach((o, idx) => {
     const baseReasons = unmetReasons(o.requirements);
     const cond = outcomeConditionRules(currentEvent, o);
     const reasons = [...baseReasons, ...(cond.reasons ?? [])];
-    const attemptCosts = cond.costs ?? [];
     const disabled = reasons.length > 0;
 
-    const gains = (o.preview?.gains ?? []);
-    const risks = (o.preview?.risks ?? []);
-
-    const previewBadges = []
-      .concat(gains.map(g => `<span class="badge gain">↑ ${g}</span>`))
-      .concat(risks.map(r => `<span class="badge risk">↓ ${r}</span>`))
-      .concat(attemptCosts.map(c => `<span class="badge risk">↓ ${Math.abs(c.amount ?? 0)} ${c.resource}</span>`))
-      .join("");
-
-    const div = document.createElement("div");
-    div.className = "outcome"
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "outcomeItem"
       + (selectedOutcomeIndex === idx ? " selected" : "")
       + (disabled ? " disabled" : "");
 
-    div.innerHTML = `
-      <div class="outcome-title">${o.title}</div>
-      <div class="muted">${o.desc ?? ""}</div>
-
-      ${previewBadges ? `<div class="preview-row">${previewBadges}</div>` : ``}
-
-      <div class="outcome-meta">
-        <span class="badge">Stat: ${o.stat}</span>
-        <span class="badge">Diff: ${o.diff}</span>
-        <span class="badge">Allows: ${(o.allowed ?? []).join(", ")}</span>
-        ${(o.tags?.length ? `<span class="badge">Tags: ${o.tags.join(", ")}</span>` : ``)}
-      </div>
-
-      ${disabled ? `<div class="muted">Locked: ${reasons.join(" • ")}</div>` : ``}
+    // Small meta line (kept short)
+    const meta = `Stat ${o.stat} • Diff ${o.diff}`;
+    item.innerHTML = `
+      <div class="outcomeItemTitle">${o.title}</div>
+      <div class="outcomeItemMeta">${meta}</div>
+      ${disabled ? `<div class="outcomeItemLock">Locked: ${reasons.join(" • ")}</div>` : ``}
     `;
 
-    div.addEventListener("click", () => {
+    item.addEventListener("click", () => {
       if (disabled) return;
       selectedOutcomeIndex = idx;
       committed = [];
+      showChanceDetails = false;
       renderAll();
     });
 
-    outcomesEl.appendChild(div);
+    list.appendChild(item);
   });
+
+  outcomesEl.appendChild(list);
 
   // Resolve button
   btnResolve.disabled = selectedOutcomeIndex == null;
 }
-
-
 
 function renderHand() {
   const cids = committedCardIds();
@@ -2133,11 +2023,10 @@ function renderHand() {
   slot2.classList.toggle("muted", !slot2Enabled || !cids[1]);
   slot2.classList.toggle("disabled", !slot2Enabled);
 
-  const hasOutcome = (selectedOutcomeIndex != null);
-  if (!hasOutcome) {
-    handHint.textContent = "Pick an outcome to highlight playable cards.";
+  if (selectedOutcomeIndex == null) {
+    handHint.textContent = "Pick an outcome to see which cards are playable.";
   } else {
-    handHint.textContent = `Tap a highlighted card to commit/uncommit (max ${cap}).`;
+    handHint.textContent = `Tap a playable card to commit/uncommit (max ${cap}).`;
   }
 
   handEl.innerHTML = "";
@@ -2146,34 +2035,31 @@ function renderHand() {
     const c = DATA.cardsById[cid];
     if (!c) continue;
 
-    const playable = hasOutcome ? isCardUsable(cid, selectedOutcomeIndex) : false;
+    const usable = (selectedOutcomeIndex != null) ? isCardUsable(cid, selectedOutcomeIndex) : false;
     const isCommitted = committed.includes(entry.iid);
 
     const lvlData = getCardLevelData(c);
-    const arrows = arrowsForBonus(lvlData.bonus) || "—";
-
-    const ctxs = (c.contexts ?? []);
+    const extra = lvlData.partialOnFail ? "Partial-on-fail" : null;
 
     const div = document.createElement("div");
     div.className = "cardbtn"
-      + (isCommitted ? " committed" : "")
-      + (hasOutcome ? (playable ? " playable" : " dim") : "");
+      + (usable ? "" : " disabled")
+      + (isCommitted ? " committed" : "");
 
     div.innerHTML = `
       <div class="cardname">${c.name}</div>
-      <div class="cardtype muted">${c.discipline}</div>
-
-      <div class="cardbig">
-        <span class="arrows ${arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted"}">${arrowsForBonus(lvlData.bonus) || "—"}</span>
-        <span class="cardbigtext">${cardSceneText(ctxs)}${lvlData.partialOnFail ? " • partial on failure" : ""}</span>
+      <div class="cardmeta">
+        <span class="badge">${c.discipline}</span>
+        <span class="badge">Contexts: ${(c.contexts ?? []).join(", ")}</span>
+        <span class="badge arrow">${arrowsForBonus(lvlData.bonus)}</span>
+        ${extra ? `<span class="badge">${extra}</span>` : ``}
       </div>
-
-      <div class="cardflavor"><em>${cardFlavor(c)}</em></div>
+      ${selectedOutcomeIndex != null && !usable ? `<div class="muted">Not usable for this outcome.</div>` : ``}
     `;
 
     div.addEventListener("click", () => {
-      if (!hasOutcome) return;
-      if (!playable) return;
+      if (selectedOutcomeIndex == null) return;
+      if (!usable) return;
 
       if (isCommitted) {
         committed = committed.filter(x => x !== entry.iid);
@@ -2188,15 +2074,17 @@ function renderHand() {
   }
 }
 
-
 function renderChance() {
   btnResolve.disabled = (selectedOutcomeIndex == null);
 
   if (selectedOutcomeIndex == null) {
     chanceLine.textContent = "Select an outcome.";
     chanceBreakdown.textContent = "";
+    chanceLine.classList.remove("clickable");
     return;
   }
+
+  chanceLine.classList.add("clickable");
 
   const o = currentEvent.outcomes[selectedOutcomeIndex];
   const parts = computeChanceParts(o, committedCardIds(), { ev: currentEvent, majorBeat: isMajorEventNow() });
@@ -2204,14 +2092,29 @@ function renderChance() {
 
   const cls = (chance >= 60) ? "good" : (chance <= 35) ? "bad" : "";
   const band = chanceBand(chance);
-  chanceLine.innerHTML = `Chance: <span class="${cls}">${band}</span> <span class="muted">(${chance}%)</span>`;
+  chanceLine.innerHTML = `Chance: <span class="${cls}">${band}</span> <span class="muted">(${chance}%)</span> <span class="muted tapHint">tap</span>`;
 
-  // Show a lightweight breakdown only when something interesting is happening.
+  if (!showChanceDetails) {
+    chanceBreakdown.textContent = "";
+    return;
+  }
+
+  const base = parts.prof.base;
+  const statPart = Math.round(parts.statVal * parts.prof.statMult);
+  const cards = Math.round(parts.cardBonus);
+  const diffPart = Math.round(parts.diff * parts.prof.diffMult);
+  const gapPart = Math.round(parts.gapPenalty);
+  const condPart = Math.round(parts.condMod);
+
   const bits = [];
-  if (parts.majorBeat) bits.push("Major beat");
-  if (parts.condMod) bits.push(`Conditions ${parts.condMod > 0 ? "+" : ""}${parts.condMod}%`);
-  if (parts.gapPenalty) bits.push(`Challenge gap -${parts.gapPenalty}%`);
-  chanceBreakdown.textContent = bits.join(" • ");
+  bits.push(`Base ${base}`);
+  bits.push(`+ Stat ${statPart}`);
+  if (cards) bits.push(`+ Cards ${cards}`);
+  bits.push(`− Diff ${diffPart}`);
+  if (gapPart) bits.push(`− Gap ${gapPart}`);
+  if (condPart) bits.push(`${condPart > 0 ? "+" : "−"} Conditions ${Math.abs(condPart)}`);
+
+  chanceBreakdown.textContent = bits.join(" ");
 }
 
 function renderAll() {
@@ -2882,9 +2785,8 @@ function advanceTime() {
     log(`— A year passes. Age is now ${state.age}.`);
   }
 }
-
 function finishEvent(evJustResolved) {
-  // Advance time (and tick condition/story timers).
+  // Advance time & start the next event.
   advanceTime();
 
   // Record history for anti-repeat + pacing
@@ -2892,40 +2794,23 @@ function finishEvent(evJustResolved) {
   updateStoryCountersAfterResolvedEvent(evJustResolved);
   updateStoryPacingAfterResolvedEvent(evJustResolved);
 
-  // Release resolve lock (but keep buttons disabled until the next screen is ready).
+  // Release resolve lock + re-enable top buttons.
   resolvingOutcome = false;
-  btnNewEvent.disabled = true;
-  btnDebugPickEvent.disabled = true;
+  btnNewEvent.disabled = false;
+  btnDebugPickEvent.disabled = false;
 
-  // Persist + reflect new time/resources before any interstitial.
-  ensureOpportunityState();
   saveState();
-  renderAll();
 
   // Start the next event (avoid immediate repeat of what you just played when possible).
   const avoid = evJustResolved?.id ? [evJustResolved.id] : [];
-
-  const proceed = () => {
-    btnNewEvent.disabled = false;
-    btnDebugPickEvent.disabled = false;
-    saveState();
-
-    try {
-      loadRandomEvent({ avoidIds: avoid });
-    } catch (e) {
-      console.error("Error while starting next event:", e);
-      // Safety: never softlock; fall back to a quiet event.
-      beginEvent(makeFallbackEvent("next-event error"));
-    }
-  };
-
-  if (shouldOfferOpportunity()) {
-    openOpportunityModal({ onDone: proceed });
-  } else {
-    proceed();
+  try {
+    loadRandomEvent({ avoidIds: avoid });
+  } catch (e) {
+    console.error("Error while starting next event:", e);
+    // Safety: never softlock; fall back to a quiet event.
+    beginEvent(makeFallbackEvent("next-event error"));
   }
 }
-
 
 
 // ---------- Resolve ----------
@@ -3252,6 +3137,12 @@ btnStart.addEventListener("click", () => {
 
 
 btnResolve.addEventListener("click", () => resolveSelectedOutcome());
+
+chanceLine.addEventListener("click", () => {
+  if (selectedOutcomeIndex == null) return;
+  showChanceDetails = !showChanceDetails;
+  renderChance();
+});
 btnNewEvent.addEventListener("click", () => {
   if (resolvingOutcome) return;
   const avoid = currentEvent?.id ? [currentEvent.id] : [];
@@ -3397,7 +3288,6 @@ function startRunFromBuilder(bg, givenName, familyName) {
     seasonIndex: 0,
     heirCount: 0,
     runEventIndex: 0,
-    opportunity: { nextAt: rInt(OPPORTUNITY_GAP_MIN, OPPORTUNITY_GAP_MAX) },
     story: { due: {}, noStoryEvents: 0 },
     condMeta: { starveMisses: 0, wantedHeat: 0, woundedStrain: 0 },
 
@@ -3450,8 +3340,6 @@ async function boot() {
     state.flags ??= {};
     state.standings ??= {};
     state.runEventIndex ??= 0;
-    state.opportunity ??= { nextAt: (state.runEventIndex ?? 0) + rInt(OPPORTUNITY_GAP_MIN, OPPORTUNITY_GAP_MAX) };
-    if (!Number.isFinite(state.opportunity.nextAt)) state.opportunity.nextAt = (state.runEventIndex ?? 0) + rInt(OPPORTUNITY_GAP_MIN, OPPORTUNITY_GAP_MAX);
     state.story ??= { due: {}, noStoryEvents: 0 };
     state.story.due ??= {};
     if (!Number.isFinite(state.story.noStoryEvents)) state.story.noStoryEvents = 0;
