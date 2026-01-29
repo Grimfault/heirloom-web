@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Heirloom (Prototype)</title>
-  <link rel="stylesheet" href="styles.cards_riders_wilds.v5.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div id="app" class="app">
@@ -22,32 +22,66 @@
     <main class="main">
       <!-- Start Screen -->
       <section id="startScreen" class="card">
-        <h2>Start a Run</h2>
-        <p class="muted"> Throughout history, the threads of fate have ever led to this moment...</p>
+        <div class="create-head">
+          <h2>Start a Run</h2>
+          <p class="muted">Throughout history, the threads of fate have ever led to this moment…</p>
+        </div>
 
-        <div class="panel">
-<label>Given Name</label>
-<input id="charName" />
+        <div class="create">
+          <!-- Identity -->
+          <section class="create-section">
+            <div class="section-title">
+              <h3>Identity</h3>
+              <div class="hint">Shown in your status line.</div>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label for="charName">Given name</label>
+                <input id="charName" placeholder="Rowan" autocomplete="given-name" />
+              </div>
+              <div class="field">
+                <label for="familyName">Family name</label>
+                <input id="familyName" placeholder="Thorne" autocomplete="family-name" />
+              </div>
+            </div>
+          </section>
 
-<label>Family Name</label>
-<input id="familyName" />
+          <!-- Background -->
+          <section class="create-section">
+            <div class="section-title">
+              <h3>Background</h3>
+              <div class="hint">Starting cards, resources, and event bias.</div>
+            </div>
+            <div class="field">
+              <label for="bgSelect">Choose your origin</label>
+              <select id="bgSelect"></select>
+              <div id="bootMsg" class="hint" style="margin-top:8px;"></div>
+            </div>
+          </section>
 
-<label>Background</label>
-<select id="bgSelect"></select>
+          <!-- Stats -->
+          <section class="create-section">
+            <div class="section-title row space">
+              <h3>Stats</h3>
+              <div class="hint">Remaining <b><span id="allocRemaining">4</span></b> / 4</div>
+            </div>
+            <div class="hint">Allocate points (max 5 per stat). Your background contributes to Base.</div>
+            <div id="allocGrid" class="allocGrid"></div>
+          </section>
 
-<div id="bootMsg" class="muted" style="margin-top:8px;"></div>
+          <!-- Traits -->
+          <section class="create-section">
+            <div class="section-title row space">
+              <h3>Starting Traits</h3>
+              <div class="hint"><span id="traitsPicked">0</span> / 2 selected</div>
+            </div>
+            <div class="hint">Traits are simple, permanent run-start nudges.</div>
+            <div id="traitsList" class="traitsGrid"></div>
+          </section>
 
-<div class="muted">
-  Allocate 4 points (max 5 per stat). Remaining:
-  <b><span id="allocRemaining">4</span></b>
-</div>
-<div id="allocGrid"></div>
-
-<div class="muted">Choose 2 starting traits:</div>
-<div id="traitsList"></div>
-
-
-<button id="btnStart" class="btn primary">Begin</button>
+          <div class="create-footer">
+            <button id="btnStart" class="btn primary btn-wide">Begin Run</button>
+          </div>
         </div>
      </section>
 
@@ -130,6 +164,7 @@
     </footer>
   </div>
 
-  <script src="app.cards_riders_wilds.v5.js"></script>
+  <script src="app.js"></script>
+  <script src="ui.enhancements.v1.js"></script>
 </body>
 </html>
