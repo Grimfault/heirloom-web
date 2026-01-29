@@ -13,7 +13,7 @@
    - Supports: requirements → disabled outcomes with reasons
    - Card levels: uses level 1 by default (upgrade-ready later)
 */
-console.log("✅ app.js loaded (v6.3)");
+console.log("✅ app.js loaded");
 
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const rInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
@@ -25,6 +25,84 @@ const SEASONS = ["Vernal", "Autumnal"];
 
 const OPPORTUNITY_GAP_MIN = 4; // encounter appears every 4–6 completed events
 const OPPORTUNITY_GAP_MAX = 6;
+
+
+// --- Meta currencies (scaffolding) ---
+// Scrip: earned during a bloodline; spent during Opportunity encounters to upgrade cards in your current deck.
+// Legacy: earned ONLY when the bloodline ends (no heir). Banked for a future bloodline tree.
+// Heirlooms: rare meta currency (future) used to unlock permanent cards / event packs / storylines.
+const META_KEY = "heirloom_meta_v01";
+let META = { legacy: 0, heirlooms: 0 };
+
+function loadMeta() {
+  try {
+    const raw = localStorage.getItem(META_KEY);
+    if (!raw) return;
+    const m = JSON.parse(raw);
+    if (m && typeof m === "object") {
+      META.legacy = Number.isFinite(m.legacy) ? m.legacy : 0;
+      META.heirlooms = Number.isFinite(m.heirlooms) ? m.heirlooms : 0;
+    }
+  } catch {}
+}
+function saveMeta() {
+  try { localStorage.setItem(META_KEY, JSON.stringify(META)); } catch {}
+}
+
+// Tunables (meaningful, not run-trivializing)
+const SCRIP_PER_EVENT = 1;
+const SCRIP_PER_MAJOR_BONUS = 1;
+const SCRIP_ON_DEATH_BONUS = 5;
+
+// Upgrade costs by rarity (Common < Uncommon < Rare). Wild is treated as Uncommon.
+const UPGRADE_COSTS = {
+  Common: [0, 6, 10],     // cost to go 1->2, 2->3 (index = current level)
+  Uncommon: [0, 10, 16],
+  Rare: [0, 16, 24],
+  Wild: [0, 10, 16]
+};
+
+function awardScrip(amount, reason = "") {
+  if (!state) return;
+  state.scrip = (state.scrip ?? 0) + (amount ?? 0);
+  // Keep log light; you can swap to UI pips later.
+  if (amount && reason) log(`+${amount} Scrip (${reason}).`);
+}
+
+function computeLegacyGain() {
+  // Prototype: legacy only on bloodline end. Tune later (Renown, standings, story endings, ambitions).
+  const renown = state?.res?.Renown ?? 0;
+  const heirsRuled = state?.heirCount ?? 0;
+  const age = state?.age ?? STARTING_AGE;
+  return Math.max(0, Math.floor(renown / 2) + heirsRuled + Math.floor((age - STARTING_AGE) / 5));
+}
+
+function maxCardLevel(card) {
+  const levels = card?.levels ?? [];
+  return Math.max(1, ...levels.map(l => l.level ?? 1));
+}
+
+function tryUpgradeCard(cardId) {
+  const c = DATA.cardsById[cardId];
+  if (!c) return { ok: false, msg: "Unknown card." };
+
+  state.cardLevels ??= {};
+  const cur = state.cardLevels[cardId] ?? 1;
+  const maxLvl = maxCardLevel(c);
+  if (cur >= maxLvl) return { ok: false, msg: "Already max level." };
+
+  const rarity = c.rarity ?? "Common";
+  const costTable = UPGRADE_COSTS[rarity] ?? UPGRADE_COSTS.Common;
+  const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
+
+  if ((state.scrip ?? 0) < cost) return { ok: false, msg: `Need ${cost} Scrip.` };
+
+  state.scrip -= cost;
+  state.cardLevels[cardId] = cur + 1;
+  saveState();
+  return { ok: true, msg: `Upgraded to Level ${cur + 1} (-${cost} Scrip).` };
+}
+
 
 // ---------- Storylines (explicit draw + pacing + pity) ----------
 /*
@@ -422,24 +500,6 @@ function formatResDelta(resource, amount) {
   return `${arrow}${n} ${resource}`;
 }
 
-
-function prettyConditionId(id) {
-  // Friendly label for condition IDs in card riders / inline summaries.
-  // Handles old IDs ("InDebt") and internal ids ("rival_pressure").
-  id = normalizeConditionId(id);
-  if (id == null) return "";
-  if (typeof id !== "string") return String(id);
-
-  // Convert snake/kebab to spaces, collapse whitespace.
-  let s = id.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
-
-  // If the id looks like an internal/lowercase token, Title-Case it for display.
-  if (/^[a-z]/.test(s)) {
-    s = s.split(" ").map(w => w ? (w[0].toUpperCase() + w.slice(1)) : "").join(" ");
-  }
-  return s;
-}
-
 function formatCondDelta(ch) {
   if (!ch) return "";
   const id = prettyConditionId(ch.id);
@@ -672,10 +732,70 @@ function openOpportunityModal({ onDone } = {}) {
     grid.appendChild(div);
   }
 
-  wrap.appendChild(grid);
+  
+wrap.appendChild(grid);
 
-  const actions = document.createElement("div");
-  actions.className = "modalActions";
+// --- Card upgrades (Scrip) ---
+const upWrap = document.createElement("div");
+upWrap.className = "upgradeWrap";
+upWrap.innerHTML = `
+  <div class="spacer"></div>
+  <div class="row space">
+    <div>
+      <div class="cardname">Upgrade Cards</div>
+      <div class="muted small">Spend Scrip to upgrade cards in your current deck. These upgrades persist across heirs, but are lost if the bloodline ends.</div>
+    </div>
+    <div class="pill">Scrip: <b>${state.scrip ?? 0}</b></div>
+  </div>
+`;
+
+const list = document.createElement("div");
+list.className = "upgradeList";
+
+const allIds = Array.from(new Set([...(state.masterDeck ?? []), ...(state.drawPile ?? []), ...(state.discardPile ?? [])]));
+for (const cid of allIds) {
+  const c = DATA.cardsById[cid];
+  if (!c) continue;
+
+  const cur = (state.cardLevels?.[cid] ?? 1);
+  const maxLvl = maxCardLevel(c);
+  const rarity = c.rarity ?? "Common";
+  const costTable = UPGRADE_COSTS[rarity] ?? UPGRADE_COSTS.Common;
+  const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
+
+  const row = document.createElement("div");
+  row.className = "upgradeRow";
+  const canUp = cur < maxLvl;
+  const canPay = (state.scrip ?? 0) >= cost;
+
+  row.innerHTML = `
+    <div class="upgradeInfo">
+      <div class="upgradeName">${c.name}</div>
+      <div class="muted small">${rarity} • Level ${cur}${canUp ? ` → ${cur+1}` : " (Max)"}</div>
+    </div>
+    <button class="btn small ${canUp && canPay ? "primary" : "ghost"}" ${canUp && canPay ? "" : "disabled"}>
+      ${canUp ? `Upgrade (-${cost})` : "Max"}
+    </button>
+  `;
+
+  const btn = row.querySelector("button");
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (!canUp) return;
+    const res = tryUpgradeCard(cid);
+    if (!res.ok) return;
+    closeModal();
+    openOpportunityModal({ onDone });
+  });
+
+  list.appendChild(row);
+}
+
+upWrap.appendChild(list);
+wrap.appendChild(upWrap);
+
+const actions = document.createElement("div");
+actions.className = "modalActions";
 
   const leave = document.createElement("button");
   leave.className = "btn ghost";
@@ -1345,10 +1465,7 @@ function expandDeck(deckField) {
       const count = Math.max(1, entry.count ?? 1);
       for (let i = 0; i < count; i++) out.push(entry.cardId ?? entry.id);
     }
-    return out;
-  }
-  return [];
-}
+
 
 function normalizeStarterDeck(deckIds) {
   const commonsByDisc = {};
@@ -1373,6 +1490,11 @@ function normalizeStarterDeck(deckIds) {
     out.push(rep);
   }
   return out;
+}
+
+    return out;
+  }
+  return [];
 }
 
 function drawHand(n) {
@@ -1456,8 +1578,7 @@ function handSizeForEvent(ev) {
 
 // ---------- Cards ----------
 function getCardLevel(cardId) {
-  // v0.1: always level 1; later can read meta upgrade map
-  return 1;
+  return (state?.cardLevels?.[cardId] ?? 1);
 }
 
 function getCardLevelData(card) {
@@ -1739,7 +1860,11 @@ function mergeBundles(a, b) {
 // ---------- Family / Heirs (prototype) ----------
 function ensureFamilyState() {
   state.family ??= { spouse: null, prospect: null, heirs: [] };
-  state.family.heirs ??= [];
+      state.family.heirs ??= [];
+
+    state.scrip ??= 0;
+    state.cardLevels ??= {};
+    state.lifetimeEvents ??= 0;
 }
 
 function openProspectModal(prospect, onDecision) {
@@ -2351,8 +2476,8 @@ function renderStatus() {
   statsLine.textContent =
     `Stats • Might ${state.stats.Might} • Wit ${state.stats.Wit} • Guile ${state.stats.Guile} • Gravitas ${state.stats.Gravitas} • Resolve ${state.stats.Resolve}${hf}`;
 
-  resourceLine.textContent =
-    `Coin ${state.res.Coin} • Supplies ${state.res.Supplies} • Renown ${state.res.Renown} • Influence ${state.res.Influence} • Secrets ${state.res.Secrets}`;
+    resourceLine.textContent =
+    `Coin ${state.res.Coin} • Supplies ${state.res.Supplies} • Renown ${state.res.Renown} • Influence ${state.res.Influence} • Secrets ${state.res.Secrets} • Scrip ${state.scrip ?? 0} • Heirlooms ${META.heirlooms} • Legacy Bank ${META.legacy}`;
 
   const condStr = state.conditions.length
     ? state.conditions.map(c => `${c.id} (${c.severity})`).join(", ")
@@ -3258,7 +3383,8 @@ function openEventPickerModal() {
 
 function advanceTime() {
   // Count events completed (drives storyline pacing + condition timers).
-  state.runEventIndex = (state.runEventIndex ?? 0) + 1;
+    state.runEventIndex = (state.runEventIndex ?? 0) + 1;
+  state.lifetimeEvents = (state.lifetimeEvents ?? 0) + 1;
 
   // Timers tick on completed events.
   tickConditionsAfterEvent();
@@ -3466,6 +3592,9 @@ function resolveSelectedOutcome() {
 
   // Mortality triggers (design rules)
   const wasMajor = currentEvent.kind === "major";
+
+  // Earn Scrip even if a mortality check kills you.
+  awardScripForResolvedEvent(evJustResolved, wasMajor);
   const perilous = (o.tags ?? []).includes("Perilous");
 
   const severeAfter = state.conditions.filter(c => c.severity === "Severe").length;
@@ -3531,8 +3660,94 @@ function resolveSelectedOutcome() {
 }
 
 // ---------- Succession ----------
+
+function openLifeEndModal(primary) {
+  const conds = (state.conditions ?? []).map(c => `${c.id} (${c.severity})`).join(", ") || "None";
+  const wrap = document.createElement("div");
+  wrap.innerHTML = `
+    <p><b>You died at age ${state.age}</b>.</p>
+    <p class="muted">Final conditions: ${conds}</p>
+    <div class="spacer"></div>
+    <div class="resultGrid">
+      <div class="resultBlock"><div class="muted small">Scrip gained</div><div class="big">+${SCRIP_ON_DEATH_BONUS}</div></div>
+      <div class="resultBlock"><div class="muted small">Heirlooms gained</div><div class="big">+0</div></div>
+      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+0</div><div class="muted small">Legacy is only awarded when the bloodline ends.</div></div>
+    </div>
+    <div class="spacer"></div>
+  `;
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+
+  const up = document.createElement("button");
+  up.className = "btn ghost";
+  up.textContent = "Upgrade Cards";
+  up.addEventListener("click", () => {
+    closeModal();
+    openOpportunityModal({ onDone: () => openLifeEndModal(primary) });
+  });
+
+  const cont = document.createElement("button");
+  cont.className = "btn primary";
+  cont.textContent = `Continue as ${primary.given}`;
+  cont.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    proceedSuccession(primary);
+  });
+
+  actions.appendChild(up);
+  actions.appendChild(cont);
+  wrap.appendChild(actions);
+
+  openModal("Run End", wrap, { locked: true });
+}
+
+function openBloodlineEndModal() {
+  const conds = (state.conditions ?? []).map(c => `${c.id} (${c.severity})`).join(", ") || "None";
+  const legacyGained = computeLegacyGain();
+  META.legacy += legacyGained;
+  saveMeta();
+
+  const wrap = document.createElement("div");
+  wrap.innerHTML = `
+    <p><b>You died at age ${state.age}</b>. With no named heir, your line ends.</p>
+    <p class="muted">Final conditions: ${conds}</p>
+    <div class="spacer"></div>
+    <div class="resultGrid">
+      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div></div>
+      <div class="resultBlock"><div class="muted small">Scrip kept</div><div class="big">0</div><div class="muted small">Scrip upgrades are lost when a bloodline ends.</div></div>
+      <div class="resultBlock"><div class="muted small">Heirlooms gained</div><div class="big">+0</div><div class="muted small">Scaffolding (future unlock currency).</div></div>
+    </div>
+    <div class="spacer"></div>
+  `;
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+
+  const newRun = document.createElement("button");
+  newRun.className = "btn primary";
+  newRun.textContent = "New Run";
+  newRun.addEventListener("click", () => {
+    localStorage.removeItem(SAVE_KEY);
+    state = null;
+    logEl.textContent = "";
+    modalLocked = false;
+    closeModal();
+    showStart();
+  });
+
+  actions.appendChild(newRun);
+  wrap.appendChild(actions);
+
+  openModal("Bloodline End", wrap, { locked: true });
+}
+
 function handleDeath() {
   ensureFamilyState();
+
+  // Award death bonus now (shown in the Run End screen).
+  awardScrip(SCRIP_ON_DEATH_BONUS, "Death");
 
   state.heirCount = (state.heirCount ?? 0) + 1;
 
@@ -3553,23 +3768,17 @@ function handleDeath() {
   const primary = heirs[0] ?? null;
 
   if (!primary) {
-    const wrap = document.createElement("div");
-    wrap.innerHTML = `
-      <p>Your line has no named heir. The household scatters. The record ends here.</p>
-      <p class="muted">Tip: pursue a match earlier, or survive long enough to see the first child come of age.</p>
-    `;
-    openModal("Bloodline Failure", wrap, {
-      locked: false,
-      onClose: () => {
-        localStorage.removeItem(SAVE_KEY);
-        state = null;
-        logEl.textContent = "";
-        showStart();
-      }
-    });
+    openBloodlineEndModal();
     return;
   }
 
+  // Show end-of-life summary and let the player upgrade before continuing.
+  openLifeEndModal(primary);
+  return;
+}
+
+
+function proceedSuccession(primary) {
   // Regency shortcut (prototype): if the heir is too young, time passes off-screen.
   if ((primary.age ?? 0) < STARTING_AGE) {
     const years = STARTING_AGE - (primary.age ?? 0);
@@ -3614,6 +3823,7 @@ function handleDeath() {
   renderAll();
   loadRandomEvent();
 }
+
 
 // ---------- UI wiring ----------
 btnReset.addEventListener("click", () => {
@@ -3836,6 +4046,11 @@ function startRunFromBuilder(bg, givenName, familyName) {
     story: { due: {}, noStoryEvents: 0 },
     condMeta: { starveMisses: 0, wantedHeat: 0, woundedStrain: 0 },
 
+    // Meta-in-bloodline
+    scrip: 0,
+    cardLevels: {},
+    lifetimeEvents: 0,
+
     // IMPORTANT: no heir focus until you actually have an heir
     heirFocus: null,
 
@@ -3879,6 +4094,7 @@ async function boot() {
   showLoadingUI(false);
   setBootMsg("");
 
+  loadMeta();
   populateBackgroundSelect();
 
   if (loadState()) {
