@@ -13,7 +13,7 @@
    - Supports: requirements → disabled outcomes with reasons
    - Card levels: uses level 1 by default (upgrade-ready later)
 */
-console.log("✅ app.js loaded");
+console.log("✅ app.js loaded (v6.3)");
 
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const rInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
@@ -1327,7 +1327,10 @@ function expandDeck(deckField) {
       const count = Math.max(1, entry.count ?? 1);
       for (let i = 0; i < count; i++) out.push(entry.cardId ?? entry.id);
     }
-
+    return out;
+  }
+  return [];
+}
 
 function normalizeStarterDeck(deckIds) {
   const commonsByDisc = {};
@@ -1352,11 +1355,6 @@ function normalizeStarterDeck(deckIds) {
     out.push(rep);
   }
   return out;
-}
-
-    return out;
-  }
-  return [];
 }
 
 function drawHand(n) {
