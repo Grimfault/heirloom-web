@@ -1038,6 +1038,20 @@ async function fetchJson(path) {
   return await res.json();
 }
 
+// Some hosts place JSON at the repo root instead of /data.
+// Try multiple candidate paths so deployments are less fragile.
+async function fetchJsonAny(paths) {
+  let lastErr = null;
+  for (const p of paths) {
+    try {
+      return await fetchJson(p);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr ?? new Error("Failed to load JSON"));
+}
+
 function indexData() {
   DATA.cardsById = Object.fromEntries(DATA.cards.map(c => [c.id, c]));
   DATA.eventsById = Object.fromEntries(DATA.events.map(e => [e.id, e]));
@@ -1046,9 +1060,9 @@ function indexData() {
 
 async function loadAllData() {
   const [cards, events, backgrounds] = await Promise.all([
-    fetchJson("./data/cards.json"),
-    fetchJson("./data/events.json"),
-    fetchJson("./data/backgrounds.json")
+    fetchJsonAny(["./data/cards.json", "./cards.json"]),
+    fetchJsonAny(["./data/events.json", "./events.json"]),
+    fetchJsonAny(["./data/backgrounds.json", "./backgrounds.json"])
   ]);
 
   DATA.cards = cards;
