@@ -422,6 +422,24 @@ function formatResDelta(resource, amount) {
   return `${arrow}${n} ${resource}`;
 }
 
+
+function prettyConditionId(id) {
+  // Friendly label for condition IDs in card riders / inline summaries.
+  // Handles old IDs ("InDebt") and internal ids ("rival_pressure").
+  id = normalizeConditionId(id);
+  if (id == null) return "";
+  if (typeof id !== "string") return String(id);
+
+  // Convert snake/kebab to spaces, collapse whitespace.
+  let s = id.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
+
+  // If the id looks like an internal/lowercase token, Title-Case it for display.
+  if (/^[a-z]/.test(s)) {
+    s = s.split(" ").map(w => w ? (w[0].toUpperCase() + w.slice(1)) : "").join(" ");
+  }
+  return s;
+}
+
 function formatCondDelta(ch) {
   if (!ch) return "";
   const id = prettyConditionId(ch.id);
