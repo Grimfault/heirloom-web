@@ -461,3 +461,25 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
 /* Chance details toggle */
 #chanceLine.clickable{ cursor: pointer; }
 #chanceLine .tapHint{ font-size: 0.82em; margin-left: 6px; opacity: 0.65; }
+
+
+/* --- Contrast tweaks (mobile readability) --- */
+.outcomeItemTitle { color: var(--text); }
+.outcomeItemMeta { opacity: 1; color: var(--muted); }
+
+.outcomeItem.disabled{
+  opacity: 0.78;
+  background: rgba(255,255,255,0.03);
+}
+.outcomeItem.disabled .outcomeItemTitle { color: rgba(233,238,245,0.86); }
+.outcomeItem.disabled .outcomeItemMeta { color: rgba(170,179,194,0.98); }
+
+.cardbtn.dim{
+  opacity: 0.55; /* was .38 */
+}
+
+/* Buttons on bright fills: improve contrast */
+.btn.primary, .btn.danger{
+  color: #0f1115; /* slightly lighter than pure black */
+  text-shadow: 0 1px 0 rgba(255,255,255,0.15);
+}
