@@ -583,6 +583,35 @@ function cardRarityMark(card) {
   return rarityPips(card.rarity);
 }
 
+function prettyConditionId(id) {
+  // Convert internal condition ids to readable labels.
+  // Examples:
+  //  - "InDebt" -> "In Debt" (handled by normalizeConditionId)
+  //  - "rival_pressure" -> "Rival Pressure"
+  //  - "Marked" -> "Marked"
+  id = normalizeConditionId(id);
+  if (id == null) return "";
+  if (typeof id !== "string") return String(id);
+
+  // Already human-friendly.
+  if (/^[A-Z]/.test(id) && /\s/.test(id)) return id;
+
+  // snake_case / kebab-case
+  let s = id.replace(/[_-]+/g, " ");
+
+  // CamelCase -> spaces (e.g., InDebt -> In Debt)
+  s = s.replace(/([a-z])([A-Z])/g, "$1 $2");
+
+  // Normalize whitespace
+  s = s.replace(/\s+/g, " ").trim();
+
+  // Title-case words if it looks code-ish.
+  s = s.split(" ").map(w => w ? (w[0].toUpperCase() + w.slice(1)) : w).join(" ");
+
+  return s;
+}
+
+
 function formatResDelta(resource, amount) {
   const n = Math.abs(amount ?? 0);
   const arrow = (amount ?? 0) >= 0 ? "↑" : "↓";
@@ -3764,7 +3793,12 @@ function resolveSelectedOutcome() {
     onClose: () => {
       runPostActionsSequentially(postActions, () => {
         if (wasMajor) {
-          openDraftModal(() => finishEvent(evJustResolved));
+          try {
+            openDraftModal(() => finishEvent(evJustResolved));
+          } catch (err) {
+            console.error("Draft modal failed; continuing to avoid softlock.", err);
+            finishEvent(evJustResolved);
+          }
         } else {
           finishEvent(evJustResolved);
         }
