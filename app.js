@@ -1465,6 +1465,18 @@ function expandDeck(deckField) {
       const count = Math.max(1, entry.count ?? 1);
       for (let i = 0; i < count; i++) out.push(entry.cardId ?? entry.id);
     }
+    return out;
+  }
+  return [];
+}
+
+/**
+ * Normalize the starter deck so that backgrounds can include "preview" cards
+ * (Uncommon/Rare/etc.) without granting them at run start.
+ *
+ * Rule: any non-Common (and non-Wild) card is deterministically replaced with a
+ * Common card of the same discipline, so the deck stays on-theme.
+ */
 function normalizeStarterDeck(deckIds) {
   const commonsByDisc = {};
   for (const c of (DATA.cards ?? [])) {
@@ -1478,21 +1490,19 @@ function normalizeStarterDeck(deckIds) {
   for (const cid of (deckIds ?? [])) {
     const c = DATA.cardsById[cid];
     if (!c) continue;
+
     if (c.rarity === "Common" && !isWildCard(c)) {
       out.push(cid);
       continue;
     }
+
     const pool = commonsByDisc[c.discipline ?? "Unknown"] || [];
     if (!pool.length) { out.push(cid); continue; }
-    const rep = pool[Math.abs(hash32(cid)) % pool.length];
+
+    const rep = pool[(hash32(String(cid)) >>> 0) % pool.length];
     out.push(rep);
   }
   return out;
-}
-
-    return out;
-  }
-  return [];
 }
 
 function drawHand(n) {
