@@ -100,6 +100,77 @@ function maxCardLevel(card) {
   return Math.max(1, ...levels.map(l => l.level ?? 1));
 }
 
+
+// --- Card level normalization ---
+// Design tweak: Treat the existing single "level 1" data in cards.json as *Level 2 (current power)*,
+// then generate a weaker Level 1 and a stronger Level 3 automatically.
+// This keeps data authoring simple while making upgrades meaningful.
+function scaleSignedInt(n, factor) {
+  const num = Number(n ?? 0);
+  if (!Number.isFinite(num) || num === 0) return 0;
+  let out = Math.round(num * factor);
+  // Keep non-zero effects non-zero, and preserve sign.
+  if (out === 0) out = num > 0 ? 1 : -1;
+  if (num > 0) out = Math.max(1, out);
+  if (num < 0) out = Math.min(-1, out);
+  return out;
+}
+
+function scaleBundleAmounts(bundle, factor) {
+  if (!bundle || typeof bundle !== "object") return bundle;
+  const b = deepCopy(bundle);
+
+  if (Array.isArray(b.resources)) {
+    b.resources = b.resources.map(r => ({
+      ...r,
+      amount: scaleSignedInt(r.amount ?? 0, factor)
+    }));
+  }
+  // Conditions typically shouldn't scale (severity is categorical), so leave them as-is.
+  return b;
+}
+
+function normalizeCardsForThreeLevels(cards) {
+  for (const card of (cards ?? [])) {
+    const levels = Array.isArray(card.levels) ? card.levels : [];
+    const has2 = levels.some(l => (l?.level ?? 0) === 2);
+    const has3 = levels.some(l => (l?.level ?? 0) === 3);
+    // If authoring already provided full levels, keep them.
+    if (has2 && has3) continue;
+
+    // If the card has exactly one level entry, interpret it as current power (Level 2 baseline).
+    if (levels.length === 1) {
+      const base = deepCopy(levels[0] ?? {});
+
+      const lvl2 = { ...deepCopy(base), level: 2 };
+
+      const lvl1 = { ...deepCopy(base), level: 1 };
+      lvl1.bonus = scaleSignedInt(base.bonus ?? 0, 0.75);
+      lvl1.onSuccess = scaleBundleAmounts(base.onSuccess, 0.75);
+      lvl1.onFailure = scaleBundleAmounts(base.onFailure, 0.75);
+      lvl1.onPlay    = scaleBundleAmounts(base.onPlay,    0.75);
+
+      const lvl3 = { ...deepCopy(base), level: 3 };
+      lvl3.bonus = scaleSignedInt(base.bonus ?? 0, 1.25);
+      // Slightly more generous at Level 3 than pure scaling for small numbers.
+      lvl3.onSuccess = scaleBundleAmounts(base.onSuccess, 1.25);
+      lvl3.onFailure = scaleBundleAmounts(base.onFailure, 1.25);
+      lvl3.onPlay    = scaleBundleAmounts(base.onPlay,    1.25);
+
+      card.levels = [lvl1, lvl2, lvl3];
+      continue;
+    }
+
+    // Otherwise: ensure there is at least a Level 2/3 by cloning the highest level as baseline.
+    const sorted = [...levels].sort((a,b) => (a?.level ?? 1) - (b?.level ?? 1));
+    const highest = deepCopy(sorted[sorted.length - 1] ?? {});
+    const baseline = { ...highest, level: 2 };
+    const lvl1 = { ...deepCopy(baseline), level: 1, bonus: scaleSignedInt(baseline.bonus ?? 0, 0.75) };
+    const lvl3 = { ...deepCopy(baseline), level: 3, bonus: scaleSignedInt(baseline.bonus ?? 0, 1.25) };
+    card.levels = [lvl1, baseline, lvl3];
+  }
+}
+
 function tryUpgradeCard(cardId) {
   const c = DATA.cardsById[cardId];
   if (!c) return { ok: false, msg: "Unknown card." };
@@ -708,130 +779,144 @@ function applyTrade(trade) {
   log(`Opportunity: Traded ${trade.give.amount} ${trade.give.resource} for ${trade.get.amount} ${trade.get.resource}.`);
 }
 
+
 function openOpportunityModal({ onDone } = {}) {
-  const trades = buildOpportunityTrades();
+  // One "Opportunity" is an interstitial: you can do multiple trades/upgrades,
+  // but you must click Finish to continue to the next event.
+  const session = {
+    trades: buildOpportunityTrades()
+  };
 
-  const wrap = document.createElement("div");
-  wrap.className = "opportunityWrap";
-  wrap.innerHTML = `
-    <div class="muted">A broker flags you down with practiced warmth. “Quick exchanges, clean hands. What do you need?”</div>
-    <div class="spacer"></div>
-  `;
+  const render = () => {
+    const trades = session.trades;
 
-  const grid = document.createElement("div");
-  grid.className = "tradeGrid";
-
-  for (const tr of trades) {
-    const affordable = canAffordTrade(tr);
-    const div = document.createElement("div");
-    div.className = "tradeOption cardbtn" + (affordable ? "" : " dim");
-    div.innerHTML = `
-      <div class="cardname">${tr.title}</div>
-      <div class="tradeMain">
-        <span class="delta neg">↓ ${tr.give.amount} ${tr.give.resource}</span>
-        <span class="muted">→</span>
-        <span class="delta pos">↑ ${tr.get.amount} ${tr.get.resource}</span>
-      </div>
-      <div class="muted small">${tr.note}</div>
-      ${affordable ? "" : `<div class="muted small">Not enough ${tr.give.resource}.</div>`}
+    const wrap = document.createElement("div");
+    wrap.className = "opportunityWrap";
+    wrap.innerHTML = `
+      <div class="muted">A broker flags you down with practiced warmth. “Quick exchanges, clean hands. What do you need?”</div>
+      <div class="muted small" style="margin-top:6px;">Make any trades or upgrades you want, then click <b>Finish</b> to continue.</div>
+      <div class="spacer"></div>
     `;
 
-    div.addEventListener("click", () => {
-      if (!affordable) return;
-      applyTrade(tr);
+    const grid = document.createElement("div");
+    grid.className = "tradeGrid";
+
+    for (const tr of trades) {
+      const affordable = canAffordTrade(tr);
+      const div = document.createElement("div");
+      div.className = "tradeOption cardbtn" + (affordable ? "" : " dim");
+      div.innerHTML = `
+        <div class="cardname">${tr.title}</div>
+        <div class="tradeMain">
+          <span class="delta neg">↓ ${tr.give.amount} ${tr.give.resource}</span>
+          <span class="muted">→</span>
+          <span class="delta pos">↑ ${tr.get.amount} ${tr.get.resource}</span>
+        </div>
+        <div class="muted small">${tr.note}</div>
+        ${affordable ? "" : `<div class="muted small">Not enough ${tr.give.resource}.</div>`}
+      `;
+
+      div.addEventListener("click", () => {
+        if (!affordable) return;
+        applyTrade(tr);
+        saveState();
+        renderAll();
+        render(); // stay in the opportunity until the player clicks Finish
+      });
+
+      grid.appendChild(div);
+    }
+
+    wrap.appendChild(grid);
+
+    // --- Card upgrades (Scrip) ---
+    const upWrap = document.createElement("div");
+    upWrap.className = "upgradeWrap";
+    upWrap.innerHTML = `
+      <div class="spacer"></div>
+      <div class="row space">
+        <div>
+          <div class="cardname">Upgrade Cards</div>
+          <div class="muted small">Spend Scrip to upgrade cards in your current deck.</div>
+        </div>
+        <div class="pill">Scrip: <b>${state.scrip ?? 0}</b></div>
+      </div>
+    `;
+
+    const list = document.createElement("div");
+    list.className = "upgradeList";
+
+    const allIds = Array.from(new Set([...(state.masterDeck ?? []), ...(state.drawPile ?? []), ...(state.discardPile ?? [])]));
+    for (const cid of allIds) {
+      const c = DATA.cardsById[cid];
+      if (!c) continue;
+
+      const cur = (state.cardLevels?.[cid] ?? 1);
+      const maxLvl = maxCardLevel(c);
+      const rarity = c.rarity ?? "Common";
+      const costTable = UPGRADE_COSTS[rarity] ?? UPGRADE_COSTS.Common;
+      const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
+
+      const row = document.createElement("div");
+      row.className = "upgradeRow";
+      const canUp = cur < maxLvl;
+      const canPay = (state.scrip ?? 0) >= cost;
+
+      row.innerHTML = `
+        <div class="upgradeInfo">
+          <div class="upgradeName">${c.name}</div>
+          <div class="muted small">${rarity} • Level ${cur}${canUp ? ` → ${cur + 1}` : " (Max)"}</div>
+        </div>
+        <button class="btn small ${canUp && canPay ? "primary" : "ghost"}" ${canUp && canPay ? "" : "disabled"}>
+          ${canUp ? `Upgrade (-${cost})` : "Max"}
+        </button>
+      `;
+
+      const btn = row.querySelector("button");
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!canUp) return;
+        const res = tryUpgradeCard(cid);
+        if (!res.ok) return;
+        // tryUpgradeCard() already saved; just refresh UI and stay in modal.
+        renderAll();
+        render();
+      });
+
+      list.appendChild(row);
+    }
+
+    upWrap.appendChild(list);
+    wrap.appendChild(upWrap);
+
+    // Actions
+    const actions = document.createElement("div");
+    actions.className = "modalActions";
+
+    const finish = document.createElement("button");
+    finish.className = "btn primary";
+    finish.textContent = "Finish";
+    finish.addEventListener("click", () => {
       scheduleNextOpportunity();
       saveState();
       renderAll();
 
       modalLocked = false;
       closeModal();
+
+      onDone?.();
     });
 
-    grid.appendChild(div);
-  }
+    actions.appendChild(finish);
+    wrap.appendChild(document.createElement("div")).className = "spacer";
+    wrap.appendChild(actions);
 
-  
-wrap.appendChild(grid);
+    openModal("Opportunity", wrap, { locked: true });
+  };
 
-// --- Card upgrades (Scrip) ---
-const upWrap = document.createElement("div");
-upWrap.className = "upgradeWrap";
-upWrap.innerHTML = `
-  <div class="spacer"></div>
-  <div class="row space">
-    <div>
-      <div class="cardname">Upgrade Cards</div>
-      <div class="muted small">Spend Scrip to upgrade cards in your current deck. These upgrades persist across heirs, but are lost if the bloodline ends.</div>
-    </div>
-    <div class="pill">Scrip: <b>${state.scrip ?? 0}</b></div>
-  </div>
-`;
-
-const list = document.createElement("div");
-list.className = "upgradeList";
-
-const allIds = Array.from(new Set([...(state.masterDeck ?? []), ...(state.drawPile ?? []), ...(state.discardPile ?? [])]));
-for (const cid of allIds) {
-  const c = DATA.cardsById[cid];
-  if (!c) continue;
-
-  const cur = (state.cardLevels?.[cid] ?? 1);
-  const maxLvl = maxCardLevel(c);
-  const rarity = c.rarity ?? "Common";
-  const costTable = UPGRADE_COSTS[rarity] ?? UPGRADE_COSTS.Common;
-  const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
-
-  const row = document.createElement("div");
-  row.className = "upgradeRow";
-  const canUp = cur < maxLvl;
-  const canPay = (state.scrip ?? 0) >= cost;
-
-  row.innerHTML = `
-    <div class="upgradeInfo">
-      <div class="upgradeName">${c.name}</div>
-      <div class="muted small">${rarity} • Level ${cur}${canUp ? ` → ${cur+1}` : " (Max)"}</div>
-    </div>
-    <button class="btn small ${canUp && canPay ? "primary" : "ghost"}" ${canUp && canPay ? "" : "disabled"}>
-      ${canUp ? `Upgrade (-${cost})` : "Max"}
-    </button>
-  `;
-
-  const btn = row.querySelector("button");
-  btn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    if (!canUp) return;
-    const res = tryUpgradeCard(cid);
-    if (!res.ok) return;
-    closeModal();
-    openOpportunityModal({ onDone });
-  });
-
-  list.appendChild(row);
+  render();
 }
 
-upWrap.appendChild(list);
-wrap.appendChild(upWrap);
-
-const actions = document.createElement("div");
-actions.className = "modalActions";
-
-  const leave = document.createElement("button");
-  leave.className = "btn ghost";
-  leave.textContent = "Leave";
-  leave.addEventListener("click", () => {
-    scheduleNextOpportunity();
-    saveState();
-
-    modalLocked = false;
-    closeModal();
-  });
-
-  actions.appendChild(leave);
-  wrap.appendChild(document.createElement("div")).className = "spacer";
-  wrap.appendChild(actions);
-
-  openModal("Opportunity", wrap, { locked: true, onClose: () => { onDone?.(); } });
-}
 
 let creation = {
   bgId: null,
@@ -1232,6 +1317,8 @@ async function loadAllData() {
   ]);
 
   DATA.cards = cards;
+  // Normalize card levels so the existing card data becomes Level 2 (current power).
+  normalizeCardsForThreeLevels(DATA.cards);
   DATA.events = events;
   DATA.backgrounds = backgrounds;
   indexData();
@@ -1604,7 +1691,8 @@ function handSizeForEvent(ev) {
 
 // ---------- Cards ----------
 function getCardLevel(cardId) {
-  return (state?.cardLevels?.[cardId] ?? 1);
+  const base = (state?.defaultCardLevel ?? 1);
+  return (state?.cardLevels?.[cardId] ?? base);
 }
 
 function getCardLevelData(card) {
@@ -4074,6 +4162,8 @@ function startRunFromBuilder(bg, givenName, familyName) {
 
     // Meta-in-bloodline
     scrip: 0,
+    cardLevelSchema: 2,
+    defaultCardLevel: 1,
     cardLevels: {},
     lifetimeEvents: 0,
 
@@ -4124,6 +4214,18 @@ async function boot() {
   populateBackgroundSelect();
 
   if (loadState()) {
+    // Migration: older saves assumed all cards were at "Level 1" (which is now the weaker baseline).
+    // Preserve the prior feel by treating old saves as if they start at Level 2 unless explicitly set.
+    if ((state.cardLevelSchema ?? 1) < 2) {
+      state.cardLevelSchema = 2;
+      state.defaultCardLevel = 2; // keep legacy saves at the prior balance point
+      state.cardLevels ??= {};
+      for (const k of Object.keys(state.cardLevels)) {
+        const v = state.cardLevels[k];
+        if (Number.isFinite(v)) state.cardLevels[k] = Math.min(3, v + 1);
+      }
+      saveState();
+    }
     state.flags ??= {};
     state.standings ??= {};
     state.runEventIndex ??= 0;
