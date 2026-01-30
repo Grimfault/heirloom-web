@@ -1465,8 +1465,6 @@ function expandDeck(deckField) {
       const count = Math.max(1, entry.count ?? 1);
       for (let i = 0; i < count; i++) out.push(entry.cardId ?? entry.id);
     }
-
-
 function normalizeStarterDeck(deckIds) {
   const commonsByDisc = {};
   for (const c of (DATA.cards ?? [])) {
