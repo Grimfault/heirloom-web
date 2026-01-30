@@ -251,16 +251,22 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
 .backdrop {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.6);
-  display:flex; align-items:center; justify-content:center;
-  padding: 12px;
+  display:flex; align-items:flex-start; justify-content:center;
+  padding: 24px 12px;
+  overflow: auto;
 }
+
 .modal {
   width: min(820px, 100%);
   background: #0f131c;
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
+
 
 /* ---- Run Economy + Clarity pass ---- */
 
@@ -365,6 +371,26 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   justify-content: flex-end;
   gap: 10px;
 }
+
+/* --- Opportunity upgrades --- */
+.upgradeList{
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+.upgradeRow{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(0,0,0,0.14);
+}
+.upgradeInfo{ min-width: 0; }
+.upgradeName{ font-weight: 900; }
+.upgradeRow button{ white-space: nowrap; }
 
 
 /* --- Outcome focus panel / compact list --- */
