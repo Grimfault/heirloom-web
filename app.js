@@ -69,6 +69,24 @@ function awardScrip(amount, reason = "") {
   if (amount && reason) log(`+${amount} Scrip (${reason}).`);
 }
 
+// Award Scrip for completing an event.
+// Called from resolveSelectedOutcome() *before* mortality checks so the final event still pays out.
+function awardScripForResolvedEvent(ev, wasMajor = false) {
+  if (!state) return;
+
+  // Allow event JSON to opt-out if desired.
+  if (ev && (ev.noScrip === true || (ev.tags ?? []).includes("NoScrip"))) return;
+
+  const isMajor = Boolean(
+    wasMajor ||
+    (ev?.kind === "major") ||
+    (typeof isMajorEventNow === "function" && isMajorEventNow())
+  );
+
+  const amount = SCRIP_PER_EVENT + (isMajor ? SCRIP_PER_MAJOR_BONUS : 0);
+  awardScrip(amount, isMajor ? "Major Event" : "Event");
+}
+
 function computeLegacyGain() {
   // Prototype: legacy only on bloodline end. Tune later (Renown, standings, story endings, ambitions).
   const renown = state?.res?.Renown ?? 0;
