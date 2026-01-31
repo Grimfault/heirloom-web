@@ -1,169 +1,177 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Heirloom (Prototype)</title>
-  <link rel="stylesheet" href="styles.css?v=8.0" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Heirloom (Prototype)</title>
+<link href="styles.css?v=8.0" rel="stylesheet"/>
 </head>
 <body>
-  <div id="app" class="app">
-    <header class="topbar">
-      <div>
-        <div class="title">Heirloom</div>
-        <div class="subtitle">Web Prototype v0.1</div>
-      </div>
-      <div class="topbar-actions">
-        <button id="btnNewEvent" class="btn ghost" disabled>New Event</button>
-        <button id="btnReset" class="btn danger">Reset</button>
-      </div>
-    </header>
+<div class="app" id="app">
+<header class="topbar">
+<div>
+<div class="title">Heirloom</div>
+<div class="subtitle">Web Prototype v0.1</div>
+</div>
+<div class="topbar-actions">
+<button class="btn ghost" disabled="" id="btnNewEvent">New Event</button>
+<button class="btn danger" id="btnReset">Reset</button>
+</div>
+</header>
+<main class="main">
+<!-- Start Screen -->
+<section class="card" id="startScreen">
+<div class="create-head">
+<h2>Start a Run</h2>
+<p class="muted">Throughout history, the threads of fate have ever led to this moment…</p>
+</div>
+<div class="create">
+<!-- Identity -->
+<section class="create-section">
+<div class="section-title">
+<h3>Identity</h3>
+<div class="hint">Shown in your status line.</div>
+</div>
+<div class="form-grid">
+<div class="field">
+<label for="charName">Given name</label>
+<input autocomplete="given-name" id="charName" placeholder="Rowan"/>
+</div>
+<div class="field">
+<label for="familyName">Family name</label>
+<input autocomplete="family-name" id="familyName" placeholder="Thorne"/>
+</div>
+</div>
+</section>
+<!-- Background -->
+<section class="create-section">
+<div class="section-title">
+<h3>Background</h3>
+<div class="hint">Starting cards, resources, and event bias.</div>
+</div>
+<div class="field">
+<label for="bgSelect">Choose your origin</label>
+<select id="bgSelect"></select>
+<div class="hint" id="bootMsg" style="margin-top:8px;"></div>
+</div>
+</section>
+<!-- Stats -->
+<section class="create-section">
+<div class="section-title row space">
+<h3>Stats</h3>
+<div class="hint">Remaining <b><span id="allocRemaining">4</span></b> / 4</div>
+</div>
+<div class="hint">Allocate points (max 5 per stat). Your background contributes to Base.</div>
+<div class="allocGrid" id="allocGrid"></div>
+</section>
+<!-- Traits -->
+<section class="create-section">
+<div class="section-title row space">
+<h3>Starting Traits</h3>
+<div class="hint"><span id="traitsPicked">0</span> / 2 selected</div>
+</div>
+<div class="hint">Traits are simple, permanent run-start nudges.</div>
+<div class="traitsGrid" id="traitsList"></div>
+</section>
+<div class="create-footer"><button class="btn primary btn-wide" id="btnStart">Begin Run</button><button class="btn ghost btn-wide" id="btnLegacy">Legacy</button><div class="muted small" id="legacyStartLine">Legacy: 0</div></div>
+</div>
+</section>
+<section class="card hidden" id="legacyScreen">
+<div class="row space">
+<div>
+<h2>Legacy</h2>
+<p class="muted">Spend Legacy to strengthen future rulers. Trunk upgrades support any playstyle; branches specialize.</p>
+<div class="muted">Available Legacy: <b><span id="legacyTotal">0</span></b></div>
+<div class="hint">Branches unlock after you’ve unlocked at least one rank in every trunk node.</div>
+</div>
+<button class="btn ghost" id="btnLegacyBack">Back</button>
+</div>
+<div class="spacer"></div>
+<h3>Trunk</h3>
+<div class="legacyList" id="legacyTrunk"></div>
+<div class="spacer"></div>
+<h3>Great Boons</h3>
+<div class="legacyList" id="legacyBig"></div>
+<div class="spacer"></div>
+<h3>Branches</h3>
+<div class="legacyBranches" id="legacyBranches"></div>
+</section>
 
-    <main class="main">
-      <!-- Start Screen -->
-      <section id="startScreen" class="card">
-        <div class="create-head">
-          <h2>Start a Run</h2>
-          <p class="muted">Throughout history, the threads of fate have ever led to this moment…</p>
-        </div>
+<!-- Game Screen -->
+<section class="hidden" id="gameScreen">
+<section class="card">
+<div class="row space">
+<div>
+<div class="status" id="statusLine"></div>
+<div id="statsLine"></div>
+<div class="muted" id="resourceLine"></div>
+<div class="muted" id="conditionLine"></div>
+</div>
+<div class="pill" id="majorPill" title="Major Event">MAJOR</div>
+</div>
+</section>
+<section class="card">
+<div class="row space">
+<div>
+<div class="event-name" id="eventName"></div>
+<div class="muted" id="eventMeta"></div>
+</div>
+<button class="btn ghost small" id="btnDebugPickEvent">Debug: Pick Event</button>
+</div>
+<p class="prompt" id="eventPrompt"></p>
+<div class="outcomes" id="outcomes"></div>
+</section>
+<section class="card">
+<div class="row space">
+<h3 id="handTitle">Your Hand</h3>
+<div class="muted" id="handHint"></div>
+</div>
+<div class="row gap handTools">
+<button class="btn ghost small" id="btnRedrawHand">Redraw Hand</button>
+<button class="btn ghost small" id="btnMulliganHand">Mulligan</button>
+<div class="muted small" id="handTokens"></div>
+</div>
 
-        <div class="create">
-          <!-- Identity -->
-          <section class="create-section">
-            <div class="section-title">
-              <h3>Identity</h3>
-              <div class="hint">Shown in your status line.</div>
-            </div>
-            <div class="form-grid">
-              <div class="field">
-                <label for="charName">Given name</label>
-                <input id="charName" placeholder="Rowan" autocomplete="given-name" />
-              </div>
-              <div class="field">
-                <label for="familyName">Family name</label>
-                <input id="familyName" placeholder="Thorne" autocomplete="family-name" />
-              </div>
-            </div>
-          </section>
-
-          <!-- Background -->
-          <section class="create-section">
-            <div class="section-title">
-              <h3>Background</h3>
-              <div class="hint">Starting cards, resources, and event bias.</div>
-            </div>
-            <div class="field">
-              <label for="bgSelect">Choose your origin</label>
-              <select id="bgSelect"></select>
-              <div id="bootMsg" class="hint" style="margin-top:8px;"></div>
-            </div>
-          </section>
-
-          <!-- Stats -->
-          <section class="create-section">
-            <div class="section-title row space">
-              <h3>Stats</h3>
-              <div class="hint">Remaining <b><span id="allocRemaining">4</span></b> / 4</div>
-            </div>
-            <div class="hint">Allocate points (max 5 per stat). Your background contributes to Base.</div>
-            <div id="allocGrid" class="allocGrid"></div>
-          </section>
-
-          <!-- Traits -->
-          <section class="create-section">
-            <div class="section-title row space">
-              <h3>Starting Traits</h3>
-              <div class="hint"><span id="traitsPicked">0</span> / 2 selected</div>
-            </div>
-            <div class="hint">Traits are simple, permanent run-start nudges.</div>
-            <div id="traitsList" class="traitsGrid"></div>
-          </section>
-
-          <div class="create-footer">
-            <button id="btnStart" class="btn primary btn-wide">Begin Run</button>
-          </div>
-        </div>
-     </section>
-
-      <!-- Game Screen -->
-      <section id="gameScreen" class="hidden">
-        <section class="card">
-          <div class="row space">
-            <div>
-              <div id="statusLine" class="status"></div>
-              <div id="statsLine"></div>
-              <div id="resourceLine" class="muted"></div>
-              <div id="conditionLine" class="muted"></div>
-            </div>
-            <div class="pill" id="majorPill" title="Major Event">MAJOR</div>
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="row space">
-            <div>
-              <div id="eventName" class="event-name"></div>
-              <div id="eventMeta" class="muted"></div>
-            </div>
-            <button id="btnDebugPickEvent" class="btn ghost small">Debug: Pick Event</button>
-          </div>
-
-          <p id="eventPrompt" class="prompt"></p>
-
-          <div class="outcomes" id="outcomes"></div>
-        </section>
-
-        <section class="card">
-          <div class="row space">
-            <h3>Your Hand (4)</h3>
-            <div class="muted" id="handHint"></div>
-          </div>
-
-          <div class="slots">
-            <div class="slot">
-              <div class="slot-label">Committed 1</div>
-              <div id="slot1" class="slot-card muted">—</div>
-            </div>
-            <div class="slot">
-              <div class="slot-label">Committed 2</div>
-              <div id="slot2" class="slot-card muted">—</div>
-            </div>
-          </div>
-
-          <div class="hand" id="hand"></div>
-
-          <div class="row space">
-            <div>
-              <div class="chance" id="chanceLine">Select an outcome.</div>
-              <div class="muted" id="chanceBreakdown"></div>
-            </div>
-            <button id="btnResolve" class="btn primary" disabled>Resolve</button>
-          </div>
-        </section>
-
-        <section class="card">
-          <h3>Log</h3>
-          <div id="log" class="log"></div>
-        </section>
-      </section>
-
-      <!-- Modal -->
-      <div id="modalBackdrop" class="backdrop hidden">
-        <div class="modal">
-          <div class="row space">
-            <h3 id="modalTitle">Debug</h3>
-            <button id="btnModalClose" class="btn ghost small">Close</button>
-          </div>
-          <div id="modalBody"></div>
-        </div>
-      </div>
-    </main>
-
-    <footer class="footer muted">
+<div class="slots">
+<div class="slot">
+<div class="slot-label">Committed 1</div>
+<div class="slot-card muted" id="slot1">—</div>
+</div>
+<div class="slot">
+<div class="slot-label">Committed 2</div>
+<div class="slot-card muted" id="slot2">—</div>
+</div>
+</div>
+<div class="hand" id="hand"></div>
+<div class="row space">
+<div>
+<div class="chance" id="chanceLine">Select an outcome.</div>
+<div class="muted" id="chanceBreakdown"></div>
+</div>
+<button class="btn primary" disabled="" id="btnResolve">Resolve</button>
+</div>
+</section>
+<section class="card">
+<h3>Log</h3>
+<div class="log" id="log"></div>
+</section>
+</section>
+<!-- Modal -->
+<div class="backdrop hidden" id="modalBackdrop">
+<div class="modal">
+<div class="row space">
+<h3 id="modalTitle">Debug</h3>
+<button class="btn ghost small" id="btnModalClose">Close</button>
+</div>
+<div id="modalBody"></div>
+</div>
+</div>
+</main>
+<footer class="footer muted">
       Tip: commit cards that match both the event context and the outcome’s allowed disciplines.
     </footer>
-  </div>
-
-  <script src="app.js" defer></script>
+</div>
+<script defer="" src="app.js?v=8.0"></script>
 </body>
 </html>
