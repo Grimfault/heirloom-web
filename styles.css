@@ -253,20 +253,13 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   background: rgba(0,0,0,0.6);
   display:flex; align-items:center; justify-content:center;
   padding: 12px;
-  overflow: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
 }
-
 .modal {
   width: min(820px, 100%);
   background: #0f131c;
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
-  max-height: calc(100vh - 24px);
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 /* ---- Run Economy + Clarity pass ---- */
@@ -372,26 +365,6 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   justify-content: flex-end;
   gap: 10px;
 }
-
-/* --- Opportunity upgrades --- */
-.upgradeList{
-  display: grid;
-  gap: 10px;
-  margin-top: 10px;
-}
-.upgradeRow{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 12px;
-  padding: 10px;
-  background: rgba(0,0,0,0.14);
-}
-.upgradeInfo{ min-width: 0; }
-.upgradeName{ font-weight: 900; }
-.upgradeRow button{ white-space: nowrap; }
 
 
 /* --- Outcome focus panel / compact list --- */
@@ -567,3 +540,92 @@ button:disabled, .btn:disabled { opacity: .65; }
 
 /* Wild cards: make dashed border more apparent */
 .cardbtn[data-discipline="Wild"] { border-style: dashed; border-color: rgba(122,168,255,.55); }
+
+
+/* === Legacy tree === */
+.legacyList, .legacyBranches {
+  display: grid;
+  gap: 10px;
+}
+
+.legacyNode {
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.legacyNode.locked {
+  opacity: 0.55;
+}
+
+.legacyNode .rowTitle {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.legacyNode .nodeName {
+  font-weight: 700;
+}
+
+.legacyNode .nodeMeta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.legacyNode .rankPill {
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.25);
+  font-size: 12px;
+}
+
+.legacyNode .nodeDesc {
+  margin-top: 6px;
+}
+
+.legacyNode .nodeActions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.legacyBranches .branchGroup {
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.branchHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.branchHeader h4 {
+  margin: 0;
+}
+
+.branchNodes {
+  margin-top: 10px;
+  display: grid;
+  gap: 10px;
+}
+
+/* Hand tools row */
+.handTools {
+  margin-top: -6px;
+  margin-bottom: 6px;
+  align-items: center;
+}
