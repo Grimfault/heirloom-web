@@ -32,7 +32,7 @@ const OPPORTUNITY_GAP_MAX = 6;
 // Legacy: earned ONLY when the bloodline ends (no heir). Banked for a future bloodline tree.
 // Heirlooms: rare meta currency (future) used to unlock permanent cards / event packs / storylines.
 const META_KEY = "heirloom_meta_v01";
-let META = { legacy: 0, heirlooms: 0 };
+let META = { legacy: 0, heirlooms: 0, legacyTree: { trunk: {}, big: {}, branches: {} } };
 
 function loadMeta() {
   try {
@@ -42,12 +42,388 @@ function loadMeta() {
     if (m && typeof m === "object") {
       META.legacy = Number.isFinite(m.legacy) ? m.legacy : 0;
       META.heirlooms = Number.isFinite(m.heirlooms) ? m.heirlooms : 0;
+      if (m.legacyTree && typeof m.legacyTree === "object") META.legacyTree = m.legacyTree;
     }
   } catch {}
+  ensureMetaTree();
 }
+
 function saveMeta() {
+  ensureMetaTree();
   try { localStorage.setItem(META_KEY, JSON.stringify(META)); } catch {}
 }
+
+// ---------- Legacy Tree (Meta Progression) ----------
+// Stored in META.legacyTree (localStorage). Safe to evolve: missing fields are defaulted.
+const TRUNK_RANK_COSTS = [2, 3, 4, 6, 8];   // ranks 1..5
+const BRANCH_RANK_COSTS = [4, 6, 8, 10, 12]; // ranks 1..5
+
+const LEGACY_TREE = {
+  trunk: [
+    { id: "t_packed_satchel",    name: "Packed Satchel",    max: 5, desc: "+1 starting Supplies per rank." },
+    { id: "t_stashed_coin",      name: "Stashed Coin",      max: 5, desc: "+1 starting Coin per rank." },
+    { id: "t_known_name",        name: "Known Name",        max: 5, desc: "+1 starting Renown per rank." },
+    { id: "t_old_introductions", name: "Old Introductions", max: 5, desc: "+1 starting Influence per rank." },
+    { id: "t_quiet_compromises", name: "Quiet Compromises", max: 5, desc: "+1 starting Secrets per rank." },
+    { id: "t_hardened_years",    name: "Hardened Years",    max: 5, desc: "-1% Mortality chance per rank." },
+    { id: "t_steady_hands",      name: "Steady Hands",      max: 5, desc: "+1% success chance per rank." },
+    { id: "t_better_odds",       name: "Better Odds",       max: 5, desc: "+1 Redraw token per life per rank (redraw your hand during an event)." },
+    { id: "t_heirs_upbringing",  name: "Heir’s Upbringing", max: 5, desc: "Succession: additional +Focus stat at ranks 3 and 5." },
+    { id: "t_dynastic_memory",   name: "Dynastic Memory",   max: 5, desc: "+1 Legacy gained at end-of-life per rank." }
+  ],
+  big: [
+    { id: "b_heirloom_vault",  name: "Heirloom Vault", cost: 35, desc: "Start each new run with the Wild card “Candle Witness” added to your deck." , prereqTrunkIndex: 2 },
+    { id: "b_second_breath",   name: "Second Breath",  cost: 45, desc: "Once per life, survive a fatal Mortality Check with a severe consequence.", prereqTrunkIndex: 6 },
+    { id: "b_fate_stitching",  name: "Fate Stitching", cost: 45, desc: "Once per life, you may Mulligan your hand (free redraw).", prereqTrunkIndex: 9 }
+  ],
+  branches: {
+    steel: {
+      title: "Steel",
+      subtitle: "Strife-forward: decisive, risky, respected.",
+      nodes: [
+        { id: "s_hard_blows",       name: "Hard Blows",       max: 5, desc: "+2% success chance per rank in Strife." },
+        { id: "s_battle_reputation",name: "Battle Reputation",max: 5, desc: "On Strife success, gain bonus Renown (stronger at higher ranks)." },
+        { id: "s_scar_tissue",      name: "Scar Tissue",      max: 5, desc: "Wounded is less punishing (downgrades at higher ranks)." }
+      ],
+      capstone: { id: "s_battle_tempo", name: "Battle Tempo", cost: 50, desc: "In Strife events, draw +1 card (before condition caps)." }
+    },
+    quill: {
+      title: "Quill",
+      subtitle: "Lore & planning: knowledge wins wars you never fight.",
+      nodes: [
+        { id: "q_keen_eye",    name: "Keen Eye",    max: 5, desc: "+2% success chance per rank in Lore." },
+        { id: "q_methodical",  name: "Methodical",  max: 5, desc: "Reduce the 'stat gap' penalty by 1 per rank." },
+        { id: "q_notes",       name: "Margin Notes",max: 5, desc: "On Lore success, gain bonus Secrets (stronger at higher ranks)." }
+      ],
+      capstone: { id: "q_archivists_certainty", name: "Archivist’s Certainty", cost: 50, desc: "In Lore events, draw +1 card (before condition caps)." }
+    },
+    veil: {
+      title: "Veil",
+      subtitle: "Schemes & shadows: leverage, escape, quiet power.",
+      nodes: [
+        { id: "v_slip_net",    name: "Slip the Net", max: 5, desc: "+2% success chance per rank in Scheme." },
+        { id: "v_dirty_leverage", name: "Dirty Leverage", max: 5, desc: "On Scheme success, gain bonus Secrets (stronger at higher ranks)." },
+        { id: "v_cool_head",   name: "Cool Head", max: 5, desc: "Wanted is less punishing (downgrades at higher ranks)." }
+      ],
+      capstone: { id: "v_shadow_alias", name: "Shadow Alias", cost: 50, desc: "The first time you would gain Wanted (Severe) each life, it becomes Minor instead." }
+    },
+    seal: {
+      title: "Seal",
+      subtitle: "Court & influence: alliances, favors, and public weight.",
+      nodes: [
+        { id: "se_presence",  name: "Court Presence", max: 5, desc: "+2% success chance per rank in Court." },
+        { id: "se_favors",    name: "Favors Called",  max: 5, desc: "On Court success, gain bonus Influence (stronger at higher ranks)." },
+        { id: "se_immunity",  name: "Polished Mask",  max: 5, desc: "Disgraced is less punishing (downgrades at higher ranks)." }
+      ],
+      capstone: { id: "se_network", name: "Network of Favors", cost: 50, desc: "In Court events, draw +1 card (before condition caps)." }
+    },
+    hearth: {
+      title: "Hearth",
+      subtitle: "Endurance & recovery: survive long enough to matter.",
+      nodes: [
+        { id: "h_endure",   name: "Endure", max: 5, desc: "-1% additional Mortality chance per rank." },
+        { id: "h_clean_living", name: "Clean Living", max: 5, desc: "Reduce duration of new Minor conditions (stronger at higher ranks)." },
+        { id: "h_second_wind", name: "Second Wind", max: 5, desc: "After Major Events, remove one Minor condition (chance improves with ranks)." }
+      ],
+      capstone: { id: "h_unbroken_year", name: "Unbroken Year", cost: 50, desc: "At the start of each Major Event, remove one Minor condition." }
+    }
+  }
+};
+
+function ensureMetaTree() {
+  META.legacyTree ??= {};
+  META.legacyTree.trunk ??= {};
+  META.legacyTree.big ??= {};
+  META.legacyTree.branches ??= {};
+  for (const k of Object.keys(LEGACY_TREE.branches)) META.legacyTree.branches[k] ??= {};
+}
+
+function trunkRank(id) {
+  ensureMetaTree();
+  return clamp(Number(META.legacyTree.trunk[id] ?? 0) || 0, 0, 5);
+}
+function branchRank(branchKey, id) {
+  ensureMetaTree();
+  return clamp(Number(META.legacyTree.branches?.[branchKey]?.[id] ?? 0) || 0, 0, 5);
+}
+function bigUnlocked(id) {
+  ensureMetaTree();
+  return Boolean(META.legacyTree.big?.[id]);
+}
+
+function trunkNodeUnlocked(idx) {
+  if (idx <= 0) return true;
+  const prev = LEGACY_TREE.trunk[idx - 1]?.id;
+  return trunkRank(prev) >= 1;
+}
+function trunkAllTouched() {
+  return LEGACY_TREE.trunk.every(n => trunkRank(n.id) >= 1);
+}
+
+function branchNodeUnlocked(branchKey, idx) {
+  if (!trunkAllTouched()) return false;
+  if (idx <= 0) return true;
+  const prev = LEGACY_TREE.branches[branchKey].nodes[idx - 1]?.id;
+  return branchRank(branchKey, prev) >= 1;
+}
+function branchCapUnlocked(branchKey) {
+  const capId = LEGACY_TREE.branches[branchKey]?.capstone?.id;
+  return capId ? bigUnlocked(capId) : false;
+}
+
+function nextRankCost(costs, nextRank) {
+  if (nextRank < 1 || nextRank > 5) return null;
+  return costs[nextRank - 1];
+}
+
+function buyTrunkRank(nodeId) {
+  ensureMetaTree();
+  const node = LEGACY_TREE.trunk.find(n => n.id === nodeId);
+  if (!node) return { ok: false, msg: "Unknown trunk node." };
+  const idx = LEGACY_TREE.trunk.findIndex(n => n.id === nodeId);
+  if (!trunkNodeUnlocked(idx)) return { ok: false, msg: "Locked. Unlock the previous trunk node first." };
+
+  const cur = trunkRank(nodeId);
+  if (cur >= node.max) return { ok: false, msg: "Already max rank." };
+  const next = cur + 1;
+  const cost = nextRankCost(TRUNK_RANK_COSTS, next);
+  if ((META.legacy ?? 0) < cost) return { ok: false, msg: "Not enough Legacy." };
+
+  META.legacy -= cost;
+  META.legacyTree.trunk[nodeId] = next;
+  saveMeta();
+  return { ok: true };
+}
+
+function buyBig(id) {
+  ensureMetaTree();
+  const boons = LEGACY_TREE.big.slice();
+  // also allow branch capstones as "big" unlocks
+  for (const k of Object.keys(LEGACY_TREE.branches)) {
+    boons.push(LEGACY_TREE.branches[k].capstone);
+  }
+  const node = boons.find(n => n.id === id);
+  if (!node) return { ok: false, msg: "Unknown boon." };
+  if (bigUnlocked(id)) return { ok: false, msg: "Already unlocked." };
+
+  // Prereq gating for trunk big boons
+  const trunkBoon = LEGACY_TREE.big.find(n => n.id === id);
+  if (trunkBoon) {
+    const needIdx = trunkBoon.prereqTrunkIndex ?? 0;
+    if (!trunkNodeUnlocked(needIdx) || trunkRank(LEGACY_TREE.trunk[needIdx]?.id) < 1) {
+      return { ok: false, msg: "Locked. Advance further down the trunk." };
+    }
+  }
+
+  // Branch capstones require branch fully touched (all branch nodes at least rank 1)
+  for (const k of Object.keys(LEGACY_TREE.branches)) {
+    const cap = LEGACY_TREE.branches[k].capstone;
+    if (cap?.id === id) {
+      if (!trunkAllTouched()) return { ok: false, msg: "Locked. Unlock every trunk node at least once." };
+      const allTouched = LEGACY_TREE.branches[k].nodes.every(n => branchRank(k, n.id) >= 1);
+      if (!allTouched) return { ok: false, msg: "Locked. Unlock each branch node at least once." };
+    }
+  }
+
+  const cost = node.cost ?? 0;
+  if ((META.legacy ?? 0) < cost) return { ok: false, msg: "Not enough Legacy." };
+
+  META.legacy -= cost;
+  META.legacyTree.big[id] = true;
+  saveMeta();
+  return { ok: true };
+}
+
+function buyBranchRank(branchKey, nodeId) {
+  ensureMetaTree();
+  const branch = LEGACY_TREE.branches[branchKey];
+  if (!branch) return { ok: false, msg: "Unknown branch." };
+  const idx = branch.nodes.findIndex(n => n.id === nodeId);
+  if (idx < 0) return { ok: false, msg: "Unknown branch node." };
+  if (!branchNodeUnlocked(branchKey, idx)) {
+    return { ok: false, msg: trunkAllTouched() ? "Locked. Unlock the previous branch node first." : "Locked. Unlock every trunk node at least once." };
+  }
+  const node = branch.nodes[idx];
+  const cur = branchRank(branchKey, nodeId);
+  if (cur >= node.max) return { ok: false, msg: "Already max rank." };
+  const next = cur + 1;
+  const cost = nextRankCost(BRANCH_RANK_COSTS, next);
+  if ((META.legacy ?? 0) < cost) return { ok: false, msg: "Not enough Legacy." };
+
+  META.legacy -= cost;
+  META.legacyTree.branches[branchKey][nodeId] = next;
+  saveMeta();
+  return { ok: true };
+}
+
+
+function escapeHtml(str) {
+  return String(str ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function fmtLegacy(n) { return `${Math.max(0, Math.floor(n ?? 0))}`; }
+
+function updateLegacyUIBadges() {
+  if (legacyTotalEl) legacyTotalEl.textContent = fmtLegacy(META.legacy ?? 0);
+  if (legacyStartLineEl) legacyStartLineEl.textContent = `Legacy: ${fmtLegacy(META.legacy ?? 0)}`;
+}
+
+function nodeCard({ title, meta, desc, locked=false, actions=[] }) {
+  const el = document.createElement("div");
+  el.className = "legacyNode" + (locked ? " locked" : "");
+  const actionsHtml = actions.map(a => a.outerHTML).join("");
+  el.innerHTML = `
+    <div class="rowTitle">
+      <div class="nodeName">${escapeHtml(title)}</div>
+      <div class="nodeMeta">${meta}</div>
+    </div>
+    <div class="nodeDesc muted">${escapeHtml(desc)}</div>
+    <div class="nodeActions">${actionsHtml}</div>
+  `;
+  // Attach handlers after innerHTML
+  const btns = el.querySelectorAll("button[data-action]");
+  for (const b of btns) {
+    const action = b.getAttribute("data-action");
+    const payload = b.getAttribute("data-payload");
+    if (action === "trunk") b.addEventListener("click", () => { buyTrunkRank(payload); renderLegacyPage(); });
+    if (action === "branch") {
+      const [bk, nid] = payload.split("|");
+      b.addEventListener("click", () => { buyBranchRank(bk, nid); renderLegacyPage(); });
+    }
+    if (action === "big") b.addEventListener("click", () => { buyBig(payload); renderLegacyPage(); });
+  }
+  return el;
+}
+
+function renderLegacyPage() {
+  if (!elLegacy) return;
+  ensureMetaTree();
+  updateLegacyUIBadges();
+
+  if (legacyTrunkEl) legacyTrunkEl.innerHTML = "";
+  if (legacyBigEl) legacyBigEl.innerHTML = "";
+  if (legacyBranchesEl) legacyBranchesEl.innerHTML = "";
+
+  // Trunk
+  if (legacyTrunkEl) {
+    LEGACY_TREE.trunk.forEach((n, idx) => {
+      const r = trunkRank(n.id);
+      const unlocked = trunkNodeUnlocked(idx);
+      const nextCost = (r < n.max) ? nextRankCost(TRUNK_RANK_COSTS, r + 1) : null;
+      const meta = `<span class="rankPill">Rank ${r}/${n.max}</span>` + (nextCost ? `<span class="muted small">Next: ${nextCost} Legacy</span>` : `<span class="muted small">Max</span>`);
+      const actions = [];
+      const btn = document.createElement("button");
+      btn.className = "btn primary small";
+      btn.textContent = (r < n.max) ? `Upgrade (+${r+1})` : "Maxed";
+      btn.disabled = !unlocked || r >= n.max || (META.legacy ?? 0) < (nextCost ?? 0);
+      btn.setAttribute("data-action", "trunk");
+      btn.setAttribute("data-payload", n.id);
+      actions.push(btn);
+
+      if (!unlocked) {
+        const lock = document.createElement("div");
+        lock.className = "muted small";
+        lock.textContent = "Unlock the previous trunk node to access this.";
+        actions.push(lock);
+      }
+      legacyTrunkEl.appendChild(nodeCard({ title: n.name, meta, desc: n.desc, locked: !unlocked, actions }));
+    });
+  }
+
+  // Big boons
+  if (legacyBigEl) {
+    LEGACY_TREE.big.forEach((b) => {
+      const unlocked = bigUnlocked(b.id);
+      const cost = b.cost ?? 0;
+      const meta = unlocked ? `<span class="rankPill">Unlocked</span>` : `<span class="rankPill">Cost ${cost}</span>`;
+      const actions = [];
+      const btn = document.createElement("button");
+      btn.className = unlocked ? "btn ghost small" : "btn primary small";
+      btn.textContent = unlocked ? "Unlocked" : "Unlock";
+      btn.disabled = unlocked || (META.legacy ?? 0) < cost;
+      btn.setAttribute("data-action", "big");
+      btn.setAttribute("data-payload", b.id);
+      actions.push(btn);
+
+      legacyBigEl.appendChild(nodeCard({ title: b.name, meta, desc: b.desc, locked: false, actions }));
+    });
+
+    // Branch capstones live here too, per-branch
+    const capWrap = document.createElement("div");
+    capWrap.className = "muted small";
+    capWrap.textContent = "Branch capstones unlock once you’ve touched every node in that branch (Rank 1+).";
+    legacyBigEl.appendChild(capWrap);
+  }
+
+  // Branches
+  if (legacyBranchesEl) {
+    const unlockedBranches = trunkAllTouched();
+    if (!unlockedBranches) {
+      const note = document.createElement("div");
+      note.className = "muted";
+      note.textContent = "Branches are locked. Unlock at least one rank in every trunk node first.";
+      legacyBranchesEl.appendChild(note);
+    }
+
+    for (const [key, branch] of Object.entries(LEGACY_TREE.branches)) {
+      const group = document.createElement("div");
+      group.className = "branchGroup";
+
+      const header = document.createElement("div");
+      header.className = "branchHeader";
+      const h = document.createElement("h4");
+      h.textContent = branch.title;
+      const sub = document.createElement("div");
+      sub.className = "muted small";
+      sub.textContent = branch.subtitle;
+      header.appendChild(h);
+      header.appendChild(sub);
+      group.appendChild(header);
+
+      const nodesWrap = document.createElement("div");
+      nodesWrap.className = "branchNodes";
+
+      branch.nodes.forEach((n, idx) => {
+        const r = branchRank(key, n.id);
+        const unlocked = branchNodeUnlocked(key, idx);
+        const nextCost = (r < n.max) ? nextRankCost(BRANCH_RANK_COSTS, r + 1) : null;
+        const meta = `<span class="rankPill">Rank ${r}/${n.max}</span>` + (nextCost ? `<span class="muted small">Next: ${nextCost} Legacy</span>` : `<span class="muted small">Max</span>`);
+        const btn = document.createElement("button");
+        btn.className = "btn primary small";
+        btn.textContent = (r < n.max) ? "Upgrade" : "Maxed";
+        btn.disabled = !unlocked || r >= n.max || (META.legacy ?? 0) < (nextCost ?? 0);
+        btn.setAttribute("data-action", "branch");
+        btn.setAttribute("data-payload", `${key}|${n.id}`);
+
+        nodesWrap.appendChild(nodeCard({ title: n.name, meta, desc: n.desc, locked: !unlocked, actions: [btn] }));
+      });
+
+      // Capstone block
+      const cap = branch.capstone;
+      const capUnlocked = bigUnlocked(cap.id);
+      const capCost = cap.cost ?? 0;
+      const allTouched = trunkAllTouched() && branch.nodes.every(n => branchRank(key, n.id) >= 1);
+      const capMeta = capUnlocked ? `<span class="rankPill">Unlocked</span>` : `<span class="rankPill">Cost ${capCost}</span>`;
+      const capBtn = document.createElement("button");
+      capBtn.className = capUnlocked ? "btn ghost small" : "btn primary small";
+      capBtn.textContent = capUnlocked ? "Unlocked" : "Unlock Capstone";
+      capBtn.disabled = capUnlocked || !allTouched || (META.legacy ?? 0) < capCost;
+      capBtn.setAttribute("data-action", "big");
+      capBtn.setAttribute("data-payload", cap.id);
+
+      nodesWrap.appendChild(nodeCard({ title: cap.name, meta: capMeta, desc: cap.desc, locked: !allTouched, actions: [capBtn] }));
+
+      group.appendChild(nodesWrap);
+      legacyBranchesEl.appendChild(group);
+    }
+  }
+}
+
 
 // Tunables (meaningful, not run-trivializing)
 const SCRIP_PER_EVENT = 1;
@@ -69,106 +445,19 @@ function awardScrip(amount, reason = "") {
   if (amount && reason) log(`+${amount} Scrip (${reason}).`);
 }
 
-// Award Scrip for completing an event.
-// Called from resolveSelectedOutcome() *before* mortality checks so the final event still pays out.
-function awardScripForResolvedEvent(ev, wasMajor = false) {
-  if (!state) return;
-
-  // Allow event JSON to opt-out if desired.
-  if (ev && (ev.noScrip === true || (ev.tags ?? []).includes("NoScrip"))) return;
-
-  const isMajor = Boolean(
-    wasMajor ||
-    (ev?.kind === "major") ||
-    (typeof isMajorEventNow === "function" && isMajorEventNow())
-  );
-
-  const amount = SCRIP_PER_EVENT + (isMajor ? SCRIP_PER_MAJOR_BONUS : 0);
-  awardScrip(amount, isMajor ? "Major Event" : "Event");
-}
-
 function computeLegacyGain() {
-  // Prototype: legacy only on bloodline end. Tune later (Renown, standings, story endings, ambitions).
+  // Legacy gained at end-of-life (per ruler). Tuned for prototype pacing.
   const renown = state?.res?.Renown ?? 0;
   const heirsRuled = state?.heirCount ?? 0;
   const age = state?.age ?? STARTING_AGE;
-  return Math.max(0, Math.floor(renown / 2) + heirsRuled + Math.floor((age - STARTING_AGE) / 5));
+  const base = Math.max(0, Math.floor(renown / 2) + heirsRuled + Math.floor((age - STARTING_AGE) / 5));
+  const bonus = trunkRank("t_dynastic_memory") ?? 0;
+  return Math.max(0, base + bonus);
 }
 
 function maxCardLevel(card) {
   const levels = card?.levels ?? [];
   return Math.max(1, ...levels.map(l => l.level ?? 1));
-}
-
-
-// --- Card level normalization ---
-// Design tweak: Treat the existing single "level 1" data in cards.json as *Level 2 (current power)*,
-// then generate a weaker Level 1 and a stronger Level 3 automatically.
-// This keeps data authoring simple while making upgrades meaningful.
-function scaleSignedInt(n, factor) {
-  const num = Number(n ?? 0);
-  if (!Number.isFinite(num) || num === 0) return 0;
-  let out = Math.round(num * factor);
-  // Keep non-zero effects non-zero, and preserve sign.
-  if (out === 0) out = num > 0 ? 1 : -1;
-  if (num > 0) out = Math.max(1, out);
-  if (num < 0) out = Math.min(-1, out);
-  return out;
-}
-
-function scaleBundleAmounts(bundle, factor) {
-  if (!bundle || typeof bundle !== "object") return bundle;
-  const b = deepCopy(bundle);
-
-  if (Array.isArray(b.resources)) {
-    b.resources = b.resources.map(r => ({
-      ...r,
-      amount: scaleSignedInt(r.amount ?? 0, factor)
-    }));
-  }
-  // Conditions typically shouldn't scale (severity is categorical), so leave them as-is.
-  return b;
-}
-
-function normalizeCardsForThreeLevels(cards) {
-  for (const card of (cards ?? [])) {
-    const levels = Array.isArray(card.levels) ? card.levels : [];
-    const has2 = levels.some(l => (l?.level ?? 0) === 2);
-    const has3 = levels.some(l => (l?.level ?? 0) === 3);
-    // If authoring already provided full levels, keep them.
-    if (has2 && has3) continue;
-
-    // If the card has exactly one level entry, interpret it as current power (Level 2 baseline).
-    if (levels.length === 1) {
-      const base = deepCopy(levels[0] ?? {});
-
-      const lvl2 = { ...deepCopy(base), level: 2 };
-
-      const lvl1 = { ...deepCopy(base), level: 1 };
-      lvl1.bonus = scaleSignedInt(base.bonus ?? 0, 0.75);
-      lvl1.onSuccess = scaleBundleAmounts(base.onSuccess, 0.75);
-      lvl1.onFailure = scaleBundleAmounts(base.onFailure, 0.75);
-      lvl1.onPlay    = scaleBundleAmounts(base.onPlay,    0.75);
-
-      const lvl3 = { ...deepCopy(base), level: 3 };
-      lvl3.bonus = scaleSignedInt(base.bonus ?? 0, 1.25);
-      // Slightly more generous at Level 3 than pure scaling for small numbers.
-      lvl3.onSuccess = scaleBundleAmounts(base.onSuccess, 1.25);
-      lvl3.onFailure = scaleBundleAmounts(base.onFailure, 1.25);
-      lvl3.onPlay    = scaleBundleAmounts(base.onPlay,    1.25);
-
-      card.levels = [lvl1, lvl2, lvl3];
-      continue;
-    }
-
-    // Otherwise: ensure there is at least a Level 2/3 by cloning the highest level as baseline.
-    const sorted = [...levels].sort((a,b) => (a?.level ?? 1) - (b?.level ?? 1));
-    const highest = deepCopy(sorted[sorted.length - 1] ?? {});
-    const baseline = { ...highest, level: 2 };
-    const lvl1 = { ...deepCopy(baseline), level: 1, bonus: scaleSignedInt(baseline.bonus ?? 0, 0.75) };
-    const lvl3 = { ...deepCopy(baseline), level: 3, bonus: scaleSignedInt(baseline.bonus ?? 0, 1.25) };
-    card.levels = [lvl1, baseline, lvl3];
-  }
 }
 
 function tryUpgradeCard(cardId) {
@@ -230,6 +519,15 @@ let DATA = {
 // ---------- DOM ----------
 const elStart = document.getElementById("startScreen");
 const elGame = document.getElementById("gameScreen");
+const elLegacy = document.getElementById("legacyScreen");
+const btnLegacy = document.getElementById("btnLegacy");
+const btnLegacyBack = document.getElementById("btnLegacyBack");
+const legacyTotalEl = document.getElementById("legacyTotal");
+const legacyStartLineEl = document.getElementById("legacyStartLine");
+const legacyTrunkEl = document.getElementById("legacyTrunk");
+const legacyBigEl = document.getElementById("legacyBig");
+const legacyBranchesEl = document.getElementById("legacyBranches");
+
 const bgSelect = document.getElementById("bgSelect");
 const btnStart = document.getElementById("btnStart");
 const btnReset = document.getElementById("btnReset");
@@ -256,6 +554,11 @@ const outcomesEl = document.getElementById("outcomes");
 
 const handEl = document.getElementById("hand");
 const handHint = document.getElementById("handHint");
+const handTitle = document.getElementById("handTitle");
+const btnRedrawHand = document.getElementById("btnRedrawHand");
+const btnMulliganHand = document.getElementById("btnMulliganHand");
+const handTokensEl = document.getElementById("handTokens");
+
 const slot1 = document.getElementById("slot1");
 const slot2 = document.getElementById("slot2");
 
@@ -583,35 +886,6 @@ function cardRarityMark(card) {
   return rarityPips(card.rarity);
 }
 
-function prettyConditionId(id) {
-  // Convert internal condition ids to readable labels.
-  // Examples:
-  //  - "InDebt" -> "In Debt" (handled by normalizeConditionId)
-  //  - "rival_pressure" -> "Rival Pressure"
-  //  - "Marked" -> "Marked"
-  id = normalizeConditionId(id);
-  if (id == null) return "";
-  if (typeof id !== "string") return String(id);
-
-  // Already human-friendly.
-  if (/^[A-Z]/.test(id) && /\s/.test(id)) return id;
-
-  // snake_case / kebab-case
-  let s = id.replace(/[_-]+/g, " ");
-
-  // CamelCase -> spaces (e.g., InDebt -> In Debt)
-  s = s.replace(/([a-z])([A-Z])/g, "$1 $2");
-
-  // Normalize whitespace
-  s = s.replace(/\s+/g, " ").trim();
-
-  // Title-case words if it looks code-ish.
-  s = s.split(" ").map(w => w ? (w[0].toUpperCase() + w.slice(1)) : w).join(" ");
-
-  return s;
-}
-
-
 function formatResDelta(resource, amount) {
   const n = Math.abs(amount ?? 0);
   const arrow = (amount ?? 0) >= 0 ? "↑" : "↓";
@@ -808,144 +1082,130 @@ function applyTrade(trade) {
   log(`Opportunity: Traded ${trade.give.amount} ${trade.give.resource} for ${trade.get.amount} ${trade.get.resource}.`);
 }
 
-
 function openOpportunityModal({ onDone } = {}) {
-  // One "Opportunity" is an interstitial: you can do multiple trades/upgrades,
-  // but you must click Finish to continue to the next event.
-  const session = {
-    trades: buildOpportunityTrades()
-  };
+  const trades = buildOpportunityTrades();
 
-  const render = () => {
-    const trades = session.trades;
+  const wrap = document.createElement("div");
+  wrap.className = "opportunityWrap";
+  wrap.innerHTML = `
+    <div class="muted">A broker flags you down with practiced warmth. “Quick exchanges, clean hands. What do you need?”</div>
+    <div class="spacer"></div>
+  `;
 
-    const wrap = document.createElement("div");
-    wrap.className = "opportunityWrap";
-    wrap.innerHTML = `
-      <div class="muted">A broker flags you down with practiced warmth. “Quick exchanges, clean hands. What do you need?”</div>
-      <div class="muted small" style="margin-top:6px;">Make any trades or upgrades you want, then click <b>Finish</b> to continue.</div>
-      <div class="spacer"></div>
-    `;
+  const grid = document.createElement("div");
+  grid.className = "tradeGrid";
 
-    const grid = document.createElement("div");
-    grid.className = "tradeGrid";
-
-    for (const tr of trades) {
-      const affordable = canAffordTrade(tr);
-      const div = document.createElement("div");
-      div.className = "tradeOption cardbtn" + (affordable ? "" : " dim");
-      div.innerHTML = `
-        <div class="cardname">${tr.title}</div>
-        <div class="tradeMain">
-          <span class="delta neg">↓ ${tr.give.amount} ${tr.give.resource}</span>
-          <span class="muted">→</span>
-          <span class="delta pos">↑ ${tr.get.amount} ${tr.get.resource}</span>
-        </div>
-        <div class="muted small">${tr.note}</div>
-        ${affordable ? "" : `<div class="muted small">Not enough ${tr.give.resource}.</div>`}
-      `;
-
-      div.addEventListener("click", () => {
-        if (!affordable) return;
-        applyTrade(tr);
-        saveState();
-        renderAll();
-        render(); // stay in the opportunity until the player clicks Finish
-      });
-
-      grid.appendChild(div);
-    }
-
-    wrap.appendChild(grid);
-
-    // --- Card upgrades (Scrip) ---
-    const upWrap = document.createElement("div");
-    upWrap.className = "upgradeWrap";
-    upWrap.innerHTML = `
-      <div class="spacer"></div>
-      <div class="row space">
-        <div>
-          <div class="cardname">Upgrade Cards</div>
-          <div class="muted small">Spend Scrip to upgrade cards in your current deck.</div>
-        </div>
-        <div class="pill">Scrip: <b>${state.scrip ?? 0}</b></div>
+  for (const tr of trades) {
+    const affordable = canAffordTrade(tr);
+    const div = document.createElement("div");
+    div.className = "tradeOption cardbtn" + (affordable ? "" : " dim");
+    div.innerHTML = `
+      <div class="cardname">${tr.title}</div>
+      <div class="tradeMain">
+        <span class="delta neg">↓ ${tr.give.amount} ${tr.give.resource}</span>
+        <span class="muted">→</span>
+        <span class="delta pos">↑ ${tr.get.amount} ${tr.get.resource}</span>
       </div>
+      <div class="muted small">${tr.note}</div>
+      ${affordable ? "" : `<div class="muted small">Not enough ${tr.give.resource}.</div>`}
     `;
 
-    const list = document.createElement("div");
-    list.className = "upgradeList";
-
-    const allIds = Array.from(new Set([...(state.masterDeck ?? []), ...(state.drawPile ?? []), ...(state.discardPile ?? [])]));
-    for (const cid of allIds) {
-      const c = DATA.cardsById[cid];
-      if (!c) continue;
-
-      const cur = (state.cardLevels?.[cid] ?? 1);
-      const maxLvl = maxCardLevel(c);
-      const rarity = c.rarity ?? "Common";
-      const costTable = UPGRADE_COSTS[rarity] ?? UPGRADE_COSTS.Common;
-      const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
-
-      const row = document.createElement("div");
-      row.className = "upgradeRow";
-      const canUp = cur < maxLvl;
-      const canPay = (state.scrip ?? 0) >= cost;
-
-      row.innerHTML = `
-        <div class="upgradeInfo">
-          <div class="upgradeName">${c.name}</div>
-          <div class="muted small">${rarity} • Level ${cur}${canUp ? ` → ${cur + 1}` : " (Max)"}</div>
-        </div>
-        <button class="btn small ${canUp && canPay ? "primary" : "ghost"}" ${canUp && canPay ? "" : "disabled"}>
-          ${canUp ? `Upgrade (-${cost})` : "Max"}
-        </button>
-      `;
-
-      const btn = row.querySelector("button");
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (!canUp) return;
-        const res = tryUpgradeCard(cid);
-        if (!res.ok) return;
-        // tryUpgradeCard() already saved; just refresh UI and stay in modal.
-        renderAll();
-        render();
-      });
-
-      list.appendChild(row);
-    }
-
-    upWrap.appendChild(list);
-    wrap.appendChild(upWrap);
-
-    // Actions
-    const actions = document.createElement("div");
-    actions.className = "modalActions";
-
-    const finish = document.createElement("button");
-    finish.className = "btn primary";
-    finish.textContent = "Finish";
-    finish.addEventListener("click", () => {
+    div.addEventListener("click", () => {
+      if (!affordable) return;
+      applyTrade(tr);
       scheduleNextOpportunity();
       saveState();
       renderAll();
 
       modalLocked = false;
       closeModal();
-
-      onDone?.();
     });
 
-    actions.appendChild(finish);
-    wrap.appendChild(document.createElement("div")).className = "spacer";
-    wrap.appendChild(actions);
+    grid.appendChild(div);
+  }
 
-    openModal("Opportunity", wrap, { locked: true });
-  };
+  
+wrap.appendChild(grid);
 
-  render();
+// --- Card upgrades (Scrip) ---
+const upWrap = document.createElement("div");
+upWrap.className = "upgradeWrap";
+upWrap.innerHTML = `
+  <div class="spacer"></div>
+  <div class="row space">
+    <div>
+      <div class="cardname">Upgrade Cards</div>
+      <div class="muted small">Spend Scrip to upgrade cards in your current deck. These upgrades persist across heirs, but are lost if the bloodline ends.</div>
+    </div>
+    <div class="pill">Scrip: <b>${state.scrip ?? 0}</b></div>
+  </div>
+`;
+
+const list = document.createElement("div");
+list.className = "upgradeList";
+
+const allIds = Array.from(new Set([...(state.masterDeck ?? []), ...(state.drawPile ?? []), ...(state.discardPile ?? [])]));
+for (const cid of allIds) {
+  const c = DATA.cardsById[cid];
+  if (!c) continue;
+
+  const cur = (state.cardLevels?.[cid] ?? 1);
+  const maxLvl = maxCardLevel(c);
+  const rarity = c.rarity ?? "Common";
+  const costTable = UPGRADE_COSTS[rarity] ?? UPGRADE_COSTS.Common;
+  const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
+
+  const row = document.createElement("div");
+  row.className = "upgradeRow";
+  const canUp = cur < maxLvl;
+  const canPay = (state.scrip ?? 0) >= cost;
+
+  row.innerHTML = `
+    <div class="upgradeInfo">
+      <div class="upgradeName">${c.name}</div>
+      <div class="muted small">${rarity} • Level ${cur}${canUp ? ` → ${cur+1}` : " (Max)"}</div>
+    </div>
+    <button class="btn small ${canUp && canPay ? "primary" : "ghost"}" ${canUp && canPay ? "" : "disabled"}>
+      ${canUp ? `Upgrade (-${cost})` : "Max"}
+    </button>
+  `;
+
+  const btn = row.querySelector("button");
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (!canUp) return;
+    const res = tryUpgradeCard(cid);
+    if (!res.ok) return;
+    closeModal();
+    openOpportunityModal({ onDone });
+  });
+
+  list.appendChild(row);
 }
 
+upWrap.appendChild(list);
+wrap.appendChild(upWrap);
+
+const actions = document.createElement("div");
+actions.className = "modalActions";
+
+  const leave = document.createElement("button");
+  leave.className = "btn ghost";
+  leave.textContent = "Leave";
+  leave.addEventListener("click", () => {
+    scheduleNextOpportunity();
+    saveState();
+
+    modalLocked = false;
+    closeModal();
+  });
+
+  actions.appendChild(leave);
+  wrap.appendChild(document.createElement("div")).className = "spacer";
+  wrap.appendChild(actions);
+
+  openModal("Opportunity", wrap, { locked: true, onClose: () => { onDone?.(); } });
+}
 
 let creation = {
   bgId: null,
@@ -1346,8 +1606,6 @@ async function loadAllData() {
   ]);
 
   DATA.cards = cards;
-  // Normalize card levels so the existing card data becomes Level 2 (current power).
-  normalizeCardsForThreeLevels(DATA.cards);
   DATA.events = events;
   DATA.backgrounds = backgrounds;
   indexData();
@@ -1599,18 +1857,6 @@ function expandDeck(deckField) {
       const count = Math.max(1, entry.count ?? 1);
       for (let i = 0; i < count; i++) out.push(entry.cardId ?? entry.id);
     }
-    return out;
-  }
-  return [];
-}
-
-/**
- * Normalize the starter deck so that backgrounds can include "preview" cards
- * (Uncommon/Rare/etc.) without granting them at run start.
- *
- * Rule: any non-Common (and non-Wild) card is deterministically replaced with a
- * Common card of the same discipline, so the deck stays on-theme.
- */
 function normalizeStarterDeck(deckIds) {
   const commonsByDisc = {};
   for (const c of (DATA.cards ?? [])) {
@@ -1624,19 +1870,21 @@ function normalizeStarterDeck(deckIds) {
   for (const cid of (deckIds ?? [])) {
     const c = DATA.cardsById[cid];
     if (!c) continue;
-
     if (c.rarity === "Common" && !isWildCard(c)) {
       out.push(cid);
       continue;
     }
-
     const pool = commonsByDisc[c.discipline ?? "Unknown"] || [];
     if (!pool.length) { out.push(cid); continue; }
-
-    const rep = pool[(hash32(String(cid)) >>> 0) % pool.length];
+    const rep = pool[Math.abs(hash32(cid)) % pool.length];
     out.push(rep);
   }
   return out;
+}
+
+    return out;
+  }
+  return [];
 }
 
 function drawHand(n) {
@@ -1720,8 +1968,7 @@ function handSizeForEvent(ev) {
 
 // ---------- Cards ----------
 function getCardLevel(cardId) {
-  const base = (state?.defaultCardLevel ?? 1);
-  return (state?.cardLevels?.[cardId] ?? base);
+  return (state?.cardLevels?.[cardId] ?? 1);
 }
 
 function getCardLevelData(card) {
@@ -2446,14 +2693,25 @@ function conditionBias(ev) {
 function showStart() {
   elStart.classList.remove("hidden");
   elGame.classList.add("hidden");
+  if (elLegacy) elLegacy.classList.add("hidden");
   btnNewEvent.disabled = true;
 }
 
 function showGame() {
   elStart.classList.add("hidden");
+  if (elLegacy) elLegacy.classList.add("hidden");
   elGame.classList.remove("hidden");
   btnNewEvent.disabled = false;
 }
+
+function showLegacy() {
+  if (elLegacy) elLegacy.classList.remove("hidden");
+  elStart.classList.add("hidden");
+  elGame.classList.add("hidden");
+  btnNewEvent.disabled = true;
+  renderLegacyPage();
+}
+
 
 let modalLocked = false;
 let modalOnClose = null;
@@ -2620,7 +2878,7 @@ function renderStatus() {
     `Stats • Might ${state.stats.Might} • Wit ${state.stats.Wit} • Guile ${state.stats.Guile} • Gravitas ${state.stats.Gravitas} • Resolve ${state.stats.Resolve}${hf}`;
 
     resourceLine.textContent =
-    `Coin ${state.res.Coin} • Supplies ${state.res.Supplies} • Renown ${state.res.Renown} • Influence ${state.res.Influence} • Secrets ${state.res.Secrets} • Scrip ${state.scrip ?? 0} • Heirlooms ${META.heirlooms} • Legacy Bank ${META.legacy}`;
+    `Coin ${state.res.Coin} • Supplies ${state.res.Supplies} • Renown ${state.res.Renown} • Influence ${state.res.Influence} • Secrets ${state.res.Secrets} • Scrip ${state.scrip ?? 0} • Heirlooms ${META.heirlooms} • Legacy ${META.legacy}`;
 
   const condStr = state.conditions.length
     ? state.conditions.map(c => `${c.id} (${c.severity})`).join(", ")
@@ -3735,6 +3993,7 @@ function resolveSelectedOutcome() {
 
   // Mortality triggers (design rules)
   const wasMajor = currentEvent.kind === "major";
+  let secondBreathNote = "";
 
   // Earn Scrip even if a mortality check kills you.
   awardScripForResolvedEvent(evJustResolved, wasMajor);
@@ -3754,15 +4013,39 @@ function resolveSelectedOutcome() {
     const mRoll = rInt(1, 100);
     log(`Mortality Check: ${mChance}% (roll ${mRoll})`);
     if (mRoll <= mChance) {
-      log(`💀 Death claims you at age ${state.age}.`);
+      // Second Breath: intercept one fatal Mortality Check per life.
+      if (bigUnlocked("b_second_breath")) {
+        initPerLifeMeta();
+        if (!state.metaPerLife.secondBreathUsed) {
+          state.metaPerLife.secondBreathUsed = true;
+          const pick = (currentEvent?.context === "Strife") ? "Wounded" : "Ill";
+          addCondition(pick, "Severe", { source: "Second Breath" });
+          state.res.Coin = clamp((state.res.Coin ?? 0) - 3, 0, 99);
+          state.res.Supplies = clamp((state.res.Supplies ?? 0) - 3, 0, 99);
+          secondBreathNote = `Second Breath kept you standing. (-3 Coin, -3 Supplies, +Severe ${pick})`;
+          log(`✦ Second Breath: you live. (Roll ${mRoll} <= ${mChance})`);
+        } else {
+          log(`💀 Death claims you at age ${state.age}.`);
 
-      // Release the lock (succession is modal-driven).
-      resolvingOutcome = false;
-      btnNewEvent.disabled = false;
-      btnDebugPickEvent.disabled = false;
+          // Release the lock (succession is modal-driven).
+          resolvingOutcome = false;
+          btnNewEvent.disabled = false;
+          btnDebugPickEvent.disabled = false;
 
-      handleDeath();
-      return;
+          handleDeath();
+          return;
+        }
+      } else {
+        log(`💀 Death claims you at age ${state.age}.`);
+
+        // Release the lock (succession is modal-driven).
+        resolvingOutcome = false;
+        btnNewEvent.disabled = false;
+        btnDebugPickEvent.disabled = false;
+
+        handleDeath();
+        return;
+      }
     }
   }
 
@@ -3777,7 +4060,8 @@ function resolveSelectedOutcome() {
     ? `Success! You pursued: ${o.title}`
     : (isPartial ? `Partial success. You pursued: ${o.title}` : `Failure. You pursued: ${o.title}`);
 
-  const narrative = (bundleForResult?.text ?? "").trim() || defaultResultNarrative(currentEvent, o, success, isPartial);
+  const narrativeBase = (bundleForResult?.text ?? "").trim() || defaultResultNarrative(currentEvent, o, success, isPartial);
+  const narrative = secondBreathNote ? `${narrativeBase}\n\n${secondBreathNote}` : narrativeBase;
   const { resources, conditions } = summarizeBundleForPlayer(bundleForResult);
 
   saveState();
@@ -3793,12 +4077,7 @@ function resolveSelectedOutcome() {
     onClose: () => {
       runPostActionsSequentially(postActions, () => {
         if (wasMajor) {
-          try {
-            openDraftModal(() => finishEvent(evJustResolved));
-          } catch (err) {
-            console.error("Draft modal failed; continuing to avoid softlock.", err);
-            finishEvent(evJustResolved);
-          }
+          openDraftModal(() => finishEvent(evJustResolved));
         } else {
           finishEvent(evJustResolved);
         }
@@ -3810,6 +4089,9 @@ function resolveSelectedOutcome() {
 // ---------- Succession ----------
 
 function openLifeEndModal(primary) {
+  const legacyGained = computeLegacyGain();
+  META.legacy += legacyGained;
+  saveMeta();
   const conds = (state.conditions ?? []).map(c => `${c.id} (${c.severity})`).join(", ") || "None";
   const wrap = document.createElement("div");
   wrap.innerHTML = `
@@ -3819,7 +4101,7 @@ function openLifeEndModal(primary) {
     <div class="resultGrid">
       <div class="resultBlock"><div class="muted small">Scrip gained</div><div class="big">+${SCRIP_ON_DEATH_BONUS}</div></div>
       <div class="resultBlock"><div class="muted small">Heirlooms gained</div><div class="big">+0</div></div>
-      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+0</div><div class="muted small">Legacy is only awarded when the bloodline ends.</div></div>
+      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div></div>
     </div>
     <div class="spacer"></div>
   `;
@@ -4005,6 +4287,20 @@ btnStart.addEventListener("click", () => {
 
   startRunFromBuilder(bg, given, family);
 });
+
+if (btnLegacy) {
+  btnLegacy.addEventListener("click", () => {
+    // Ensure meta exists even before the first run.
+    loadMeta();
+    showLegacy();
+  });
+}
+if (btnLegacyBack) {
+  btnLegacyBack.addEventListener("click", () => {
+    showStart();
+    updateLegacyUIBadges();
+  });
+}
 
 // Update the Begin button label/state as the user types.
 charNameInput.addEventListener("input", () => updateStartButtonState());
@@ -4196,8 +4492,6 @@ function startRunFromBuilder(bg, givenName, familyName) {
 
     // Meta-in-bloodline
     scrip: 0,
-    cardLevelSchema: 2,
-    defaultCardLevel: 1,
     cardLevels: {},
     lifetimeEvents: 0,
 
@@ -4245,21 +4539,10 @@ async function boot() {
   setBootMsg("");
 
   loadMeta();
+  updateLegacyUIBadges();
   populateBackgroundSelect();
 
   if (loadState()) {
-    // Migration: older saves assumed all cards were at "Level 1" (which is now the weaker baseline).
-    // Preserve the prior feel by treating old saves as if they start at Level 2 unless explicitly set.
-    if ((state.cardLevelSchema ?? 1) < 2) {
-      state.cardLevelSchema = 2;
-      state.defaultCardLevel = 2; // keep legacy saves at the prior balance point
-      state.cardLevels ??= {};
-      for (const k of Object.keys(state.cardLevels)) {
-        const v = state.cardLevels[k];
-        if (Number.isFinite(v)) state.cardLevels[k] = Math.min(3, v + 1);
-      }
-      saveState();
-    }
     state.flags ??= {};
     state.standings ??= {};
     state.runEventIndex ??= 0;
@@ -4294,6 +4577,334 @@ async function boot() {
     showStart();
   }
 }
+
+
+// ---------- Legacy effects wiring (runtime) ----------
+// __legacy_patch_block__
+function initPerLifeMeta() {
+  state.metaPerLife ??= {};
+  const lifeStamp = state.heirCount ?? 0;
+  if (state.metaPerLife.lifeStamp !== lifeStamp) {
+    state.metaPerLife = {
+      lifeStamp,
+      redrawTokens: trunkRank("t_better_odds") ?? 0,
+      mulliganUsed: false,
+      secondBreathUsed: false,
+      lastEventIndex: -1
+    };
+  }
+}
+
+function legacyContextChanceBonus(ev) {
+  if (!ev) return 0;
+  const ctx = ev.context;
+  let bonus = 0;
+  if (ctx === "Strife") bonus += (branchRank("steel", "s_hard_blows") * 2);
+  if (ctx === "Lore")   bonus += (branchRank("quill", "q_keen_eye") * 2);
+  if (ctx === "Scheme") bonus += (branchRank("veil", "v_slip_net") * 2);
+  if (ctx === "Court")  bonus += (branchRank("seal", "se_presence") * 2);
+  // Hearth has no flat context bonus; it shows up in mortality/conditions.
+  return bonus;
+}
+
+function applyLegacyStartDeckBonus() {
+  if (!state) return;
+  if (bigUnlocked("b_heirloom_vault")) {
+    const id = "candle_witness";
+    if (DATA?.cardsById?.[id] && Array.isArray(state.masterDeck) && !state.masterDeck.includes(id)) {
+      state.masterDeck.push(id);
+      // ensure it's drawable
+      state.drawPile.push(id);
+    }
+  }
+}
+
+function tryRemoveOneMinorCondition(reason = "") {
+  const idx = (state.conditions ?? []).findIndex(c => c.severity === "Minor");
+  if (idx >= 0) {
+    const removed = state.conditions[idx];
+    state.conditions.splice(idx, 1);
+    if (reason) log(`(Legacy) ${reason}: removed ${removed.id} (Minor).`);
+    return true;
+  }
+  return false;
+}
+
+// Wrap computeFinalResources to include trunk start resource bonuses.
+const __origComputeFinalResources = computeFinalResources;
+computeFinalResources = function(bg) {
+  const r = __origComputeFinalResources(bg);
+  r.Supplies  = clamp((r.Supplies  ?? 0) + trunkRank("t_packed_satchel"), 0, 99);
+  r.Coin      = clamp((r.Coin      ?? 0) + trunkRank("t_stashed_coin"), 0, 99);
+  r.Renown    = clamp((r.Renown    ?? 0) + trunkRank("t_known_name"), 0, 99);
+  r.Influence = clamp((r.Influence ?? 0) + trunkRank("t_old_introductions"), 0, 99);
+  r.Secrets   = clamp((r.Secrets   ?? 0) + trunkRank("t_quiet_compromises"), 0, 99);
+  return r;
+};
+
+// Wrap computeMortalityChance for trunk + hearth endurance.
+const __origComputeMortalityChance = computeMortalityChance;
+computeMortalityChance = function() {
+  let base = __origComputeMortalityChance();
+  base -= trunkRank("t_hardened_years");
+  base -= branchRank("hearth", "h_endure");
+  return Math.max(0, base);
+};
+
+// Wrap computeChanceParts for steady hands + context bonus, and tweak gap penalty for Quill.
+const __origComputeChanceParts = computeChanceParts;
+computeChanceParts = function(outcome, committedCids, opts = {}) {
+  const parts = __origComputeChanceParts(outcome, committedCids, opts);
+  const ev = opts.ev ?? currentEvent;
+  const steady = trunkRank("t_steady_hands");
+  const ctxBonus = legacyContextChanceBonus(ev);
+
+  // Quill: reduce stat gap pressure
+  const quillGapReduce = branchRank("quill", "q_methodical");
+  const newGapPenalty = Math.max(0, (parts.gapPenalty ?? 0) - quillGapReduce);
+  const deltaGap = (parts.gapPenalty ?? 0) - newGapPenalty;
+
+  parts.gapPenalty = newGapPenalty;
+  parts.raw = (parts.raw ?? 0) + steady + ctxBonus + deltaGap;
+  parts.chance = clamp(parts.raw, 5, 95);
+  return parts;
+};
+
+// Wrap handSizeForEvent for branch capstones.
+const __origHandSizeForEvent = handSizeForEvent;
+handSizeForEvent = function(ev) {
+  let n = __origHandSizeForEvent(ev);
+
+  if (ev?.context === "Strife" && bigUnlocked("s_battle_tempo")) n += 1;
+  if (ev?.context === "Lore"   && bigUnlocked("q_archivists_certainty")) n += 1;
+  if (ev?.context === "Court"  && bigUnlocked("se_network")) n += 1;
+
+  return Math.max(1, n);
+};
+
+// Wrap addCondition for branch mitigation
+const __origAddCondition = addCondition;
+addCondition = function(id, severity, opts = {}) {
+  const norm = normalizeConditionId(id);
+
+  // Veil capstone: first Wanted(Severe) per life becomes Minor.
+  if (norm === "Wanted" && severity === "Severe" && bigUnlocked("v_shadow_alias")) {
+    initPerLifeMeta();
+    if (!state.metaPerLife.wantedAliasUsed) {
+      state.metaPerLife.wantedAliasUsed = true;
+      severity = "Minor";
+      opts = { ...opts, source: (opts.source ? opts.source + " +Alias" : "Alias") };
+    }
+  }
+
+  // Steel mitigation: Wounded(Severe) becomes Minor at higher ranks.
+  if (norm === "Wounded" && severity === "Severe") {
+    const scar = branchRank("steel", "s_scar_tissue");
+    if (scar >= 3) severity = "Minor";
+  }
+
+  // Seal mitigation: Disgraced gets downgraded at higher ranks.
+  if (norm === "Disgraced" && severity === "Severe") {
+    const mask = branchRank("seal", "se_immunity");
+    if (mask >= 4) severity = "Minor";
+  }
+
+  // Hearth: shorten Minor condition durations.
+  const clean = branchRank("hearth", "h_clean_living");
+  if (clean > 0 && severity === "Minor") {
+    const d = (opts.durationEvents ?? defaultConditionDurationEvents(norm, severity));
+    const cut = Math.min(d, Math.floor(clean / 2)); // small, meaningful
+    if (Number.isFinite(d) && d > 0 && cut > 0) opts = { ...opts, durationEvents: Math.max(1, d - cut) };
+  }
+
+  return __origAddCondition(id, severity, opts);
+};
+
+// Wrap beginEvent to init per-life and per-event, and apply Hearth capstone on major events.
+const __origBeginEvent = beginEvent;
+beginEvent = function(ev) {
+  initPerLifeMeta();
+  applyLegacyStartDeckBonus();
+
+  // Per-event reset
+  state.metaPerLife.lastEventIndex = state.runEventIndex ?? 0;
+  state.metaPerLife.redrawUsedThisEvent = false;
+
+  // Hearth capstone: before a Major Event begins, remove one Minor condition.
+  if (bigUnlocked("h_unbroken_year")) {
+    const isMajor = (ev?.kind === "major");
+    if (isMajor) tryRemoveOneMinorCondition("Unbroken Year");
+  }
+
+  __origBeginEvent(ev);
+
+  // Hearth node: after major events, chance-based cleanup happens later (post-resolution).
+  // UI badges
+  updateLegacyUIBadges();
+};
+
+// Add simple post-success bonuses for some branches.
+function legacySuccessBonusBundle(ev, success) {
+  if (!success || !ev) return null;
+  const ctx = ev.context;
+  if (ctx === "Strife") {
+    const r = branchRank("steel", "s_battle_reputation");
+    const amt = (r >= 5) ? 2 : (r >= 2 ? 1 : 0);
+    if (amt) return { resources: [{ resource: "Renown", amount: amt }], text: "" };
+  }
+  if (ctx === "Scheme") {
+    const r = branchRank("veil", "v_dirty_leverage");
+    const amt = (r >= 5) ? 2 : (r >= 2 ? 1 : 0);
+    if (amt) return { resources: [{ resource: "Secrets", amount: amt }], text: "" };
+  }
+  if (ctx === "Court") {
+    const r = branchRank("seal", "se_favors");
+    const amt = (r >= 5) ? 2 : (r >= 2 ? 1 : 0);
+    if (amt) return { resources: [{ resource: "Influence", amount: amt }], text: "" };
+  }
+  if (ctx === "Lore") {
+    const r = branchRank("quill", "q_notes");
+    const amt = (r >= 5) ? 2 : (r >= 2 ? 1 : 0);
+    if (amt) return { resources: [{ resource: "Secrets", amount: amt }], text: "" };
+  }
+  return null;
+}
+
+// Patch resolveSelectedOutcome mortality to respect Second Breath and apply branch bonuses.
+const __origResolveSelectedOutcome = resolveSelectedOutcome;
+resolveSelectedOutcome = function() {
+  // Hook by calling original, but we need to intercept internally; so we re-implement the death-intercept via a soft flag.
+  // Easiest: set a temporary flag and let a tiny patch inside mortality log below handle it.
+  return __origResolveSelectedOutcome();
+};
+
+// Because resolveSelectedOutcome is large, we intercept death at the logging site by wrapping handleDeath.
+const __origHandleDeath = handleDeath;
+handleDeath = function() {
+  // If Second Breath is unlocked and we haven't used it this life, consume it instead of dying.
+  if (bigUnlocked("b_second_breath")) {
+    initPerLifeMeta();
+    if (!state.metaPerLife.secondBreathUsed && state.__pendingDeathIntercept) {
+      state.metaPerLife.secondBreathUsed = true;
+      state.__pendingDeathIntercept = false;
+
+      // Consequence: add a Severe condition + drain resources.
+      const pick = (currentEvent?.context === "Strife") ? "Wounded" : "Ill";
+      addCondition(pick, "Severe", { source: "Second Breath" });
+      state.res.Coin = clamp((state.res.Coin ?? 0) - 3, 0, 99);
+      state.res.Supplies = clamp((state.res.Supplies ?? 0) - 3, 0, 99);
+
+      log("✦ Second Breath: death passes you by—this time.");
+      saveState();
+      renderAll();
+      return; // do not die
+    }
+  }
+  return __origHandleDeath();
+};
+
+// Small patch: mark a pending intercept right before handleDeath() is called.
+const __origLog = log;
+log = function(msg) {
+  // Detect the specific death log line used by the engine and mark the intercept.
+  if (typeof msg === "string" && msg.includes("💀 Death claims you")) {
+    state.__pendingDeathIntercept = true;
+  }
+  return __origLog(msg);
+};
+
+// Wire hand tools
+function redrawHandCore({ consumeToken = true, markMulligan = false } = {}) {
+  if (!state || !currentEvent) return;
+  initPerLifeMeta();
+
+  if (consumeToken) {
+    if ((state.metaPerLife.redrawTokens ?? 0) <= 0) return;
+    state.metaPerLife.redrawTokens -= 1;
+  }
+  if (markMulligan) state.metaPerLife.mulliganUsed = true;
+
+  // Discard current hand back into circulation
+  for (const entry of (hand ?? [])) {
+    if (entry?.cid) state.discardPile.push(entry.cid);
+  }
+  hand = [];
+  committed = [];
+  selectedOutcomeIndex = null;
+  showChanceDetails = false;
+
+  drawHand(handSizeForEvent(currentEvent));
+  saveState();
+  renderAll();
+}
+
+if (btnRedrawHand) {
+  btnRedrawHand.addEventListener("click", () => {
+    initPerLifeMeta();
+    if ((state.metaPerLife.redrawTokens ?? 0) <= 0) return;
+    if (state.metaPerLife.redrawUsedThisEvent) return;
+    state.metaPerLife.redrawUsedThisEvent = true;
+    redrawHandCore({ consumeToken: true });
+  });
+}
+if (btnMulliganHand) {
+  btnMulliganHand.addEventListener("click", () => {
+    initPerLifeMeta();
+    if (!bigUnlocked("b_fate_stitching")) return;
+    if (state.metaPerLife.mulliganUsed) return;
+    state.metaPerLife.mulliganUsed = true;
+    redrawHandCore({ consumeToken: false, markMulligan: true });
+  });
+}
+
+// Wrap renderHand to update title and tool visibility.
+const __origRenderHand = renderHand;
+renderHand = function() {
+  __origRenderHand();
+  if (handTitle) {
+    const n = handSizeForEvent(currentEvent);
+    handTitle.textContent = `Your Hand (${n})`;
+  }
+  initPerLifeMeta();
+  if (handTokensEl) {
+    const tok = state?.metaPerLife?.redrawTokens ?? 0;
+    const mull = bigUnlocked("b_fate_stitching") ? (state?.metaPerLife?.mulliganUsed ? "used" : "ready") : "locked";
+    handTokensEl.textContent = `Redraw tokens: ${tok} • Mulligan: ${mull}`;
+  }
+  if (btnRedrawHand) {
+    const tok = state?.metaPerLife?.redrawTokens ?? 0;
+    btnRedrawHand.disabled = !currentEvent || tok <= 0 || Boolean(state?.metaPerLife?.redrawUsedThisEvent);
+  }
+  if (btnMulliganHand) {
+    const ok = bigUnlocked("b_fate_stitching") && !Boolean(state?.metaPerLife?.mulliganUsed);
+    btnMulliganHand.disabled = !currentEvent || !ok;
+  }
+};
+
+// Inject branch success bonus by wrapping applyBundle at the moment we call it would be risky.
+// Instead, we patch openResultModal payload by adding the bonuses immediately after resolution.
+// The safest hook point is right after saveState() / renderAll() in resolveSelectedOutcome; we do this by wrapping openResultModal.
+const __origOpenResultModal = openResultModal;
+openResultModal = function(opts) {
+  try {
+    // Apply branch success bonus if the last roll was a success and we have a currentEvent cached.
+    // The engine logs success earlier, so we infer from the title label.
+    const success = (opts?.title ?? "").includes("Success");
+    const bonus = legacySuccessBonusBundle(currentEvent, success);
+    if (bonus && success) {
+      applyBundle(bonus);
+      // Also add to the displayed resources list if possible (best-effort).
+      try {
+        const sum = summarizeBundleForPlayer(bonus);
+        if (sum?.resources?.length) {
+          opts.resources = [...(opts.resources ?? []), ...sum.resources];
+        }
+      } catch {}
+    }
+  } catch {}
+  return __origOpenResultModal(opts);
+};
+
 
 boot();
 
