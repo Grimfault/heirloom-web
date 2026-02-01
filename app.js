@@ -460,6 +460,18 @@ function awardScrip(amount, reason = "") {
   if (amount && reason) log(`+${amount} Scrip (${reason}).`);
 }
 
+// Award per-event Scrip (called once when an event is resolved).
+// - Always grants a baseline.
+// - Adds a bonus for Major events.
+// - Supports optional `scrip` field on the event itself.
+function awardScripForResolvedEvent(ev, isMajor = false) {
+  const base = (typeof SCRIP_PER_EVENT === "number") ? SCRIP_PER_EVENT : 0;
+  const majorBonus = (isMajor && typeof SCRIP_PER_MAJOR_BONUS === "number") ? SCRIP_PER_MAJOR_BONUS : 0;
+  const eventBonus = (ev && typeof ev.scrip === "number") ? ev.scrip : 0;
+  const total = Math.max(0, base + majorBonus + eventBonus);
+  if (total > 0) awardScrip(total, isMajor ? "Event (Major)" : "Event");
+}
+
 function computeLegacyGain() {
   // Legacy gained at end-of-life (per ruler). Tuned for prototype pacing.
   const renown = state?.res?.Renown ?? 0;
