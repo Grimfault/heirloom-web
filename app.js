@@ -460,6 +460,95 @@ function awardScrip(amount, reason = "") {
   if (amount && reason) log(`+${amount} Scrip (${reason}).`);
 }
 
+// Award baseline Scrip per resolved event.
+// If events ever define a numeric `scrip` field, it is used instead of the baseline.
+function awardScripForResolvedEvent(ev, isMajor = false) {
+  if (!state) return;
+  const explicit = (ev && typeof ev.scrip === "number") ? ev.scrip : null;
+  let amount = (explicit != null) ? explicit : SCRIP_PER_EVENT;
+  if (isMajor) amount += SCRIP_PER_MAJOR_BONUS;
+  if (amount > 0) awardScrip(amount, isMajor ? "event + major" : "event");
+}
+
+// If a card only has a single defined level in JSON, treat that as *Level 2* (today's baseline),
+// and auto-generate Level 1 (weaker) + Level 3 (stronger) so upgrades work.
+// This keeps your data files small while restoring the 3-level upgrade loop.
+const AUTO_LEVEL1_MULT = 0.75;
+const AUTO_LEVEL3_MULT = 1.25;
+
+function scaleInt(amount, mult) {
+  const x = Number(amount);
+  if (!Number.isFinite(x) || x === 0) return amount;
+  const scaled = Math.round(x * mult);
+  // preserve sign and ensure small magnitudes remain meaningful
+  if (x > 0) return Math.max(1, scaled);
+  return Math.min(-1, scaled);
+}
+
+function scaleBundleAmounts(bundle, mult) {
+  if (!bundle || typeof bundle !== "object") return bundle;
+  const out = deepCopy(bundle);
+  if (Array.isArray(out.resources)) {
+    out.resources = out.resources.map(r => ({
+      ...r,
+      amount: scaleInt(r.amount ?? 0, mult)
+    }));
+  }
+  return out;
+}
+
+function expandedThreeLevelsFromSingle(baseLevel) {
+  const base = deepCopy(baseLevel ?? {});
+  // Level 2 is the "current" strength (numbers in JSON today)
+  const lvl2 = deepCopy(base);
+  lvl2.level = 2;
+  lvl2.onSuccess = scaleBundleAmounts(lvl2.onSuccess ?? {}, 1.0);
+  lvl2.onFailure = scaleBundleAmounts(lvl2.onFailure ?? {}, 1.0);
+
+  const lvl1 = deepCopy(base);
+  lvl1.level = 1;
+  if (Number.isFinite(lvl1.bonus)) lvl1.bonus = scaleInt(lvl1.bonus, AUTO_LEVEL1_MULT);
+  lvl1.onSuccess = scaleBundleAmounts(lvl1.onSuccess ?? {}, AUTO_LEVEL1_MULT);
+  lvl1.onFailure = scaleBundleAmounts(lvl1.onFailure ?? {}, AUTO_LEVEL1_MULT);
+
+  const lvl3 = deepCopy(base);
+  lvl3.level = 3;
+  if (Number.isFinite(lvl3.bonus)) lvl3.bonus = scaleInt(lvl3.bonus, AUTO_LEVEL3_MULT);
+  lvl3.onSuccess = scaleBundleAmounts(lvl3.onSuccess ?? {}, AUTO_LEVEL3_MULT);
+  lvl3.onFailure = scaleBundleAmounts(lvl3.onFailure ?? {}, AUTO_LEVEL3_MULT);
+
+  // Ensure partialOnFail is explicitly present
+  for (const l of [lvl1, lvl2, lvl3]) {
+    if (typeof l.partialOnFail !== "boolean") l.partialOnFail = false;
+    l.onSuccess ??= {};
+    l.onFailure ??= {};
+  }
+  return [lvl1, lvl2, lvl3];
+}
+
+function ensureThreeLevelCards(cards) {
+  for (const c of (cards ?? [])) {
+    if (!c || typeof c !== "object") continue;
+    if (!Array.isArray(c.levels) || c.levels.length === 0) {
+      c.levels = expandedThreeLevelsFromSingle({ level: 2, bonus: 0, partialOnFail: false, onSuccess: {}, onFailure: {} });
+      continue;
+    }
+    const maxLvl = Math.max(1, ...c.levels.map(l => Number(l?.level ?? 1) || 1));
+    if (maxLvl >= 3) continue; // already supports upgrades
+    if (c.levels.length === 1) {
+      c.levels = expandedThreeLevelsFromSingle(c.levels[0]);
+    } else {
+      // If someone authored 2 levels, keep them and add a derived 3rd.
+      const byLevel = Object.fromEntries(c.levels.map(l => [Number(l.level ?? 1), l]));
+      const base = byLevel[2] ?? byLevel[1] ?? c.levels[0];
+      const lvl3 = expandedThreeLevelsFromSingle(base)[2];
+      const lvl1 = byLevel[1] ?? expandedThreeLevelsFromSingle(base)[0];
+      const lvl2 = byLevel[2] ?? expandedThreeLevelsFromSingle(base)[1];
+      c.levels = [lvl1, lvl2, lvl3];
+    }
+  }
+}
+
 function computeLegacyGain() {
   // Legacy gained at end-of-life (per ruler). Tuned for prototype pacing.
   const renown = state?.res?.Renown ?? 0;
@@ -473,67 +562,6 @@ function computeLegacyGain() {
 function maxCardLevel(card) {
   const levels = card?.levels ?? [];
   return Math.max(1, ...levels.map(l => l.level ?? 1));
-}
-
-
-// --- Card level normalization ---
-// Many deployments keep only a single "levels" entry in cards.json.
-// For the roguelite upgrade loop, we auto-expand cards to 3 levels:
-// - Level 1: weaker
-// - Level 2: "current strength" (the baseline numbers in data)
-// - Level 3: stronger
-//
-// If cards.json already defines multiple levels, we preserve them.
-const CARD_LEVEL_1_MULT = 0.75;
-const CARD_LEVEL_3_MULT = 1.25;
-
-function normalizeCardLevels(card) {
-  if (!card || typeof card !== "object") return;
-  const arr = Array.isArray(card.levels) ? card.levels.filter(Boolean) : [];
-
-  // Index unique levels by level number.
-  const by = new Map();
-  for (const l of arr) {
-    const n = Number(l?.level ?? 1);
-    if (!Number.isFinite(n)) continue;
-    if (!by.has(n)) by.set(n, l);
-  }
-
-  // If already has 1..3, just normalize order.
-  const has1 = by.has(1), has2 = by.has(2), has3 = by.has(3);
-  if (has1 && has2 && has3) {
-    card.levels = [by.get(1), by.get(2), by.get(3)].sort((a,b) => (a.level ?? 1) - (b.level ?? 1));
-    return;
-  }
-
-  // Choose a base template: prefer level 2; otherwise treat the single provided level as "level 2".
-  const base = by.get(2) || by.get(1) || arr[0] || { level: 2, bonus: 0, partialOnFail: false, onSuccess: {}, onFailure: {} };
-  const baseBonusRaw = Number(base?.bonus ?? 0);
-  const l2Bonus = Number.isFinite(baseBonusRaw) ? baseBonusRaw : 0;
-
-  let l1Bonus = Math.round(l2Bonus * CARD_LEVEL_1_MULT);
-  let l3Bonus = Math.round(l2Bonus * CARD_LEVEL_3_MULT);
-
-  // Ensure strict ordering when possible.
-  if (l1Bonus >= l2Bonus) l1Bonus = Math.max(0, l2Bonus - 1);
-  if (l3Bonus <= l2Bonus) l3Bonus = l2Bonus + 1;
-
-  const mk = (lvl, bonus) => {
-    const c = deepCopy(base);
-    c.level = lvl;
-    c.bonus = bonus;
-    return c;
-  };
-
-  const L1 = has1 ? by.get(1) : mk(1, l1Bonus);
-  const L2 = has2 ? by.get(2) : mk(2, l2Bonus);
-  const L3 = has3 ? by.get(3) : mk(3, l3Bonus);
-
-  card.levels = [L1, L2, L3].sort((a,b) => (a.level ?? 1) - (b.level ?? 1));
-}
-
-function normalizeAllCards() {
-  for (const c of (DATA.cards ?? [])) normalizeCardLevels(c);
 }
 
 function tryUpgradeCard(cardId) {
@@ -1688,10 +1716,10 @@ async function loadAllData() {
   ]);
 
   DATA.cards = cards;
+  // Restore 3-level upgrade loop even when JSON cards only define a single baseline level.
+  ensureThreeLevelCards(DATA.cards);
   DATA.events = events;
   DATA.backgrounds = backgrounds;
-  // Ensure every card supports the 3-level upgrade loop.
-  normalizeAllCards();
   indexData();
   annotateEventSignals();
   DATA.storylineMetaById = null; // rebuilt lazily
