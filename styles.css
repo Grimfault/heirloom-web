@@ -629,3 +629,13 @@ button:disabled, .btn:disabled { opacity: .65; }
   margin-bottom: 6px;
   align-items: center;
 }
+
+/* ---------- Main Menu ---------- */
+.menuHero { text-align: center; padding: 22px 10px 10px; }
+.menuTitle {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+}
+.menuActions { display:flex; flex-direction:column; gap:10px; margin-top: 10px; }
