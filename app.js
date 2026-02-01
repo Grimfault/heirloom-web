@@ -460,18 +460,6 @@ function awardScrip(amount, reason = "") {
   if (amount && reason) log(`+${amount} Scrip (${reason}).`);
 }
 
-// Award per-event Scrip (called once when an event is resolved).
-// - Always grants a baseline.
-// - Adds a bonus for Major events.
-// - Supports optional `scrip` field on the event itself.
-function awardScripForResolvedEvent(ev, isMajor = false) {
-  const base = (typeof SCRIP_PER_EVENT === "number") ? SCRIP_PER_EVENT : 0;
-  const majorBonus = (isMajor && typeof SCRIP_PER_MAJOR_BONUS === "number") ? SCRIP_PER_MAJOR_BONUS : 0;
-  const eventBonus = (ev && typeof ev.scrip === "number") ? ev.scrip : 0;
-  const total = Math.max(0, base + majorBonus + eventBonus);
-  if (total > 0) awardScrip(total, isMajor ? "Event (Major)" : "Event");
-}
-
 function computeLegacyGain() {
   // Legacy gained at end-of-life (per ruler). Tuned for prototype pacing.
   const renown = state?.res?.Renown ?? 0;
@@ -485,6 +473,67 @@ function computeLegacyGain() {
 function maxCardLevel(card) {
   const levels = card?.levels ?? [];
   return Math.max(1, ...levels.map(l => l.level ?? 1));
+}
+
+
+// --- Card level normalization ---
+// Many deployments keep only a single "levels" entry in cards.json.
+// For the roguelite upgrade loop, we auto-expand cards to 3 levels:
+// - Level 1: weaker
+// - Level 2: "current strength" (the baseline numbers in data)
+// - Level 3: stronger
+//
+// If cards.json already defines multiple levels, we preserve them.
+const CARD_LEVEL_1_MULT = 0.75;
+const CARD_LEVEL_3_MULT = 1.25;
+
+function normalizeCardLevels(card) {
+  if (!card || typeof card !== "object") return;
+  const arr = Array.isArray(card.levels) ? card.levels.filter(Boolean) : [];
+
+  // Index unique levels by level number.
+  const by = new Map();
+  for (const l of arr) {
+    const n = Number(l?.level ?? 1);
+    if (!Number.isFinite(n)) continue;
+    if (!by.has(n)) by.set(n, l);
+  }
+
+  // If already has 1..3, just normalize order.
+  const has1 = by.has(1), has2 = by.has(2), has3 = by.has(3);
+  if (has1 && has2 && has3) {
+    card.levels = [by.get(1), by.get(2), by.get(3)].sort((a,b) => (a.level ?? 1) - (b.level ?? 1));
+    return;
+  }
+
+  // Choose a base template: prefer level 2; otherwise treat the single provided level as "level 2".
+  const base = by.get(2) || by.get(1) || arr[0] || { level: 2, bonus: 0, partialOnFail: false, onSuccess: {}, onFailure: {} };
+  const baseBonusRaw = Number(base?.bonus ?? 0);
+  const l2Bonus = Number.isFinite(baseBonusRaw) ? baseBonusRaw : 0;
+
+  let l1Bonus = Math.round(l2Bonus * CARD_LEVEL_1_MULT);
+  let l3Bonus = Math.round(l2Bonus * CARD_LEVEL_3_MULT);
+
+  // Ensure strict ordering when possible.
+  if (l1Bonus >= l2Bonus) l1Bonus = Math.max(0, l2Bonus - 1);
+  if (l3Bonus <= l2Bonus) l3Bonus = l2Bonus + 1;
+
+  const mk = (lvl, bonus) => {
+    const c = deepCopy(base);
+    c.level = lvl;
+    c.bonus = bonus;
+    return c;
+  };
+
+  const L1 = has1 ? by.get(1) : mk(1, l1Bonus);
+  const L2 = has2 ? by.get(2) : mk(2, l2Bonus);
+  const L3 = has3 ? by.get(3) : mk(3, l3Bonus);
+
+  card.levels = [L1, L2, L3].sort((a,b) => (a.level ?? 1) - (b.level ?? 1));
+}
+
+function normalizeAllCards() {
+  for (const c of (DATA.cards ?? [])) normalizeCardLevels(c);
 }
 
 function tryUpgradeCard(cardId) {
@@ -1641,6 +1690,8 @@ async function loadAllData() {
   DATA.cards = cards;
   DATA.events = events;
   DATA.backgrounds = backgrounds;
+  // Ensure every card supports the 3-level upgrade loop.
+  normalizeAllCards();
   indexData();
   annotateEventSignals();
   DATA.storylineMetaById = null; // rebuilt lazily
