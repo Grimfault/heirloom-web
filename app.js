@@ -306,20 +306,22 @@ function renderLegacyPage() {
   updateLegacyUIBadges();
 
   if (legacyTrunkEl) legacyTrunkEl.innerHTML = "";
-  if (legacyBigEl) legacyBigEl.innerHTML = "";
   if (legacyBranchesEl) legacyBranchesEl.innerHTML = "";
 
-  // Trunk
+  // Trunk (+ Great Boons interleaved after trunk nodes 3, 7, 10)
   if (legacyTrunkEl) {
     LEGACY_TREE.trunk.forEach((n, idx) => {
       const r = trunkRank(n.id);
       const unlocked = trunkNodeUnlocked(idx);
       const nextCost = (r < n.max) ? nextRankCost(TRUNK_RANK_COSTS, r + 1) : null;
-      const meta = `<span class="rankPill">Rank ${r}/${n.max}</span>` + (nextCost ? `<span class="muted small">Next: ${nextCost} Legacy</span>` : `<span class="muted small">Max</span>`);
+      const meta =
+        `<span class="rankPill">Rank ${r}/${n.max}</span>` +
+        (nextCost ? `<span class="muted small">Next: ${nextCost} Legacy</span>` : `<span class="muted small">Max</span>`);
+
       const actions = [];
       const btn = document.createElement("button");
       btn.className = "btn primary small";
-      btn.textContent = (r < n.max) ? `Upgrade (+${r+1})` : "Maxed";
+      btn.textContent = (r < n.max) ? `Upgrade (+${r + 1})` : "Maxed";
       btn.disabled = !unlocked || r >= n.max || (META.legacy ?? 0) < (nextCost ?? 0);
       btn.setAttribute("data-action", "trunk");
       btn.setAttribute("data-payload", n.id);
@@ -331,33 +333,41 @@ function renderLegacyPage() {
         lock.textContent = "Unlock the previous trunk node to access this.";
         actions.push(lock);
       }
+
       legacyTrunkEl.appendChild(nodeCard({ title: n.name, meta, desc: n.desc, locked: !unlocked, actions }));
+
+      // Insert Great Boons that unlock after this trunk node
+      const boonsHere = (LEGACY_TREE.big ?? []).filter(b => (b.prereqTrunkIndex ?? -1) === idx);
+      for (const b of boonsHere) {
+        const boonUnlocked = bigUnlocked(b.id);
+        const cost = b.cost ?? 0;
+
+        const prereqNode = LEGACY_TREE.trunk[idx];
+        const prereqMet = prereqNode ? (trunkRank(prereqNode.id) >= 1) : true;
+
+        const boonMeta = boonUnlocked
+          ? `<span class="rankPill">Great Boon • Unlocked</span>`
+          : `<span class="rankPill">Great Boon • Cost ${cost}</span>`;
+
+        const boonBtn = document.createElement("button");
+        boonBtn.className = boonUnlocked ? "btn ghost small" : "btn primary small";
+        boonBtn.textContent = boonUnlocked ? "Unlocked" : "Unlock";
+        boonBtn.disabled = boonUnlocked || !prereqMet || (META.legacy ?? 0) < cost;
+        boonBtn.setAttribute("data-action", "big");
+        boonBtn.setAttribute("data-payload", b.id);
+
+        const boonActions = [boonBtn];
+
+        if (!prereqMet) {
+          const note = document.createElement("div");
+          note.className = "muted small";
+          note.textContent = `Unlock Rank 1+ in “${prereqNode?.name ?? "the prerequisite trunk node"}” to access this boon.`;
+          boonActions.push(note);
+        }
+
+        legacyTrunkEl.appendChild(nodeCard({ title: b.name, meta: boonMeta, desc: b.desc, locked: !prereqMet, actions: boonActions }));
+      }
     });
-  }
-
-  // Big boons
-  if (legacyBigEl) {
-    LEGACY_TREE.big.forEach((b) => {
-      const unlocked = bigUnlocked(b.id);
-      const cost = b.cost ?? 0;
-      const meta = unlocked ? `<span class="rankPill">Unlocked</span>` : `<span class="rankPill">Cost ${cost}</span>`;
-      const actions = [];
-      const btn = document.createElement("button");
-      btn.className = unlocked ? "btn ghost small" : "btn primary small";
-      btn.textContent = unlocked ? "Unlocked" : "Unlock";
-      btn.disabled = unlocked || (META.legacy ?? 0) < cost;
-      btn.setAttribute("data-action", "big");
-      btn.setAttribute("data-payload", b.id);
-      actions.push(btn);
-
-      legacyBigEl.appendChild(nodeCard({ title: b.name, meta, desc: b.desc, locked: false, actions }));
-    });
-
-    // Branch capstones live here too, per-branch
-    const capWrap = document.createElement("div");
-    capWrap.className = "muted small";
-    capWrap.textContent = "Branch capstones unlock once you’ve touched every node in that branch (Rank 1+).";
-    legacyBigEl.appendChild(capWrap);
   }
 
   // Branches
@@ -392,7 +402,10 @@ function renderLegacyPage() {
         const r = branchRank(key, n.id);
         const unlocked = branchNodeUnlocked(key, idx);
         const nextCost = (r < n.max) ? nextRankCost(BRANCH_RANK_COSTS, r + 1) : null;
-        const meta = `<span class="rankPill">Rank ${r}/${n.max}</span>` + (nextCost ? `<span class="muted small">Next: ${nextCost} Legacy</span>` : `<span class="muted small">Max</span>`);
+        const meta =
+          `<span class="rankPill">Rank ${r}/${n.max}</span>` +
+          (nextCost ? `<span class="muted small">Next: ${nextCost} Legacy</span>` : `<span class="muted small">Max</span>`);
+
         const btn = document.createElement("button");
         btn.className = "btn primary small";
         btn.textContent = (r < n.max) ? "Upgrade" : "Maxed";
@@ -403,12 +416,13 @@ function renderLegacyPage() {
         nodesWrap.appendChild(nodeCard({ title: n.name, meta, desc: n.desc, locked: !unlocked, actions: [btn] }));
       });
 
-      // Capstone block
+      // Capstone block (still rendered inside each branch)
       const cap = branch.capstone;
       const capUnlocked = bigUnlocked(cap.id);
       const capCost = cap.cost ?? 0;
       const allTouched = trunkAllTouched() && branch.nodes.every(n => branchRank(key, n.id) >= 1);
       const capMeta = capUnlocked ? `<span class="rankPill">Unlocked</span>` : `<span class="rankPill">Cost ${capCost}</span>`;
+
       const capBtn = document.createElement("button");
       capBtn.className = capUnlocked ? "btn ghost small" : "btn primary small";
       capBtn.textContent = capUnlocked ? "Unlocked" : "Unlock Capstone";
@@ -423,6 +437,7 @@ function renderLegacyPage() {
     }
   }
 }
+
 
 
 // Tunables (meaningful, not run-trivializing)
@@ -520,6 +535,12 @@ let DATA = {
 const elStart = document.getElementById("startScreen");
 const elGame = document.getElementById("gameScreen");
 const elLegacy = document.getElementById("legacyScreen");
+const elMenu = document.getElementById("menuScreen");
+const topbarEl = document.getElementById("topbar");
+const footerEl = document.getElementById("footerTip");
+
+const btnMenuStart = document.getElementById("btnMenuStart");
+const btnStartBack = document.getElementById("btnStartBack");
 const btnLegacy = document.getElementById("btnLegacy");
 const btnLegacyBack = document.getElementById("btnLegacyBack");
 const legacyTotalEl = document.getElementById("legacyTotal");
@@ -1851,13 +1872,24 @@ function expandDeck(deckField) {
   // - [{cardId:"id", count:2}, ...]
   if (!deckField) return [];
   if (Array.isArray(deckField) && typeof deckField[0] === "string") return [...deckField];
+
   if (Array.isArray(deckField) && typeof deckField[0] === "object") {
     const out = [];
     for (const entry of deckField) {
-      const count = Math.max(1, entry.count ?? 1);
-      for (let i = 0; i < count; i++) out.push(entry.cardId ?? entry.id);
+      const count = Math.max(1, entry?.count ?? 1);
+      const id = entry?.cardId ?? entry?.id;
+      if (!id) continue;
+      for (let i = 0; i < count; i++) out.push(id);
     }
+    return out;
+  }
+
+  return [];
+}
+
 function normalizeStarterDeck(deckIds) {
+  // Replace non-common (and Wild) placeholders with Commons of the same discipline.
+  // This prevents backgrounds from "starting" with Uncommon/Rare in the prototype.
   const commonsByDisc = {};
   for (const c of (DATA.cards ?? [])) {
     if (c?.rarity !== "Common") continue;
@@ -1870,22 +1902,21 @@ function normalizeStarterDeck(deckIds) {
   for (const cid of (deckIds ?? [])) {
     const c = DATA.cardsById[cid];
     if (!c) continue;
+
     if (c.rarity === "Common" && !isWildCard(c)) {
       out.push(cid);
       continue;
     }
+
     const pool = commonsByDisc[c.discipline ?? "Unknown"] || [];
     if (!pool.length) { out.push(cid); continue; }
+
     const rep = pool[Math.abs(hash32(cid)) % pool.length];
     out.push(rep);
   }
   return out;
 }
 
-    return out;
-  }
-  return [];
-}
 
 function drawHand(n) {
   hand = [];
@@ -2690,28 +2721,55 @@ function conditionBias(ev) {
 }
 
 // ---------- UI helpers ----------
-function showStart() {
-  elStart.classList.remove("hidden");
+function showMenu() {
+  if (elMenu) elMenu.classList.remove("hidden");
+  if (topbarEl) topbarEl.classList.add("hidden");
+  if (footerEl) footerEl.classList.add("hidden");
+
+  elStart.classList.add("hidden");
   elGame.classList.add("hidden");
   if (elLegacy) elLegacy.classList.add("hidden");
+
   btnNewEvent.disabled = true;
 }
 
+function showStart() {
+  if (elMenu) elMenu.classList.add("hidden");
+  if (topbarEl) topbarEl.classList.remove("hidden");
+  if (footerEl) footerEl.classList.add("hidden");
+
+  elStart.classList.remove("hidden");
+  elGame.classList.add("hidden");
+  if (elLegacy) elLegacy.classList.add("hidden");
+
+  btnNewEvent.disabled = true;
+  updateStartButtonState();
+}
+
 function showGame() {
+  if (elMenu) elMenu.classList.add("hidden");
+  if (topbarEl) topbarEl.classList.remove("hidden");
+  if (footerEl) footerEl.classList.remove("hidden");
+
   elStart.classList.add("hidden");
   if (elLegacy) elLegacy.classList.add("hidden");
   elGame.classList.remove("hidden");
+
   btnNewEvent.disabled = false;
 }
 
 function showLegacy() {
+  if (elMenu) elMenu.classList.add("hidden");
+  if (topbarEl) topbarEl.classList.remove("hidden");
+  if (footerEl) footerEl.classList.add("hidden");
+
   if (elLegacy) elLegacy.classList.remove("hidden");
   elStart.classList.add("hidden");
   elGame.classList.add("hidden");
+
   btnNewEvent.disabled = true;
   renderLegacyPage();
 }
-
 
 let modalLocked = false;
 let modalOnClose = null;
@@ -4164,7 +4222,7 @@ function openBloodlineEndModal() {
     logEl.textContent = "";
     modalLocked = false;
     closeModal();
-    showStart();
+    showMenu();
   });
 
   actions.appendChild(newRun);
@@ -4260,8 +4318,20 @@ btnReset.addEventListener("click", () => {
   localStorage.removeItem(SAVE_KEY);
   state = null;
   logEl.textContent = "";
-  showStart();
+  showMenu();
 });
+
+if (btnMenuStart) {
+  btnMenuStart.addEventListener("click", () => {
+    showStart();
+  });
+}
+if (btnStartBack) {
+  btnStartBack.addEventListener("click", () => {
+    showMenu();
+    updateLegacyUIBadges();
+  });
+}
 
 btnStart.addEventListener("click", () => {
   const bg = DATA.backgroundsById[bgSelect.value];
@@ -4297,7 +4367,7 @@ if (btnLegacy) {
 }
 if (btnLegacyBack) {
   btnLegacyBack.addEventListener("click", () => {
-    showStart();
+    showMenu();
     updateLegacyUIBadges();
   });
 }
@@ -4574,7 +4644,7 @@ async function boot() {
     log("Loaded saved run state.");
     loadRandomEvent();
   } else {
-    showStart();
+    showMenu();
   }
 }
 
