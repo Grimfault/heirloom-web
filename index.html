@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="app" id="app">
-<header class="topbar">
+<header class="topbar hidden" id="topbar">
 <div>
 <div class="title">Heirloom</div>
 <div class="subtitle">Web Prototype v0.1</div>
@@ -20,8 +20,19 @@
 </div>
 </header>
 <main class="main">
+<!-- Main Menu -->
+<section class="card" id="menuScreen">
+  <div class="menuHero">
+    <h1 class="menuTitle">Heirloom</h1>
+  </div>
+  <div class="menuActions">
+    <button class="btn primary btn-wide" id="btnMenuStart">Start</button>
+    <button class="btn ghost btn-wide" id="btnLegacy">Upgrades</button>
+  </div>
+</section>
+
 <!-- Start Screen -->
-<section class="card" id="startScreen">
+<section class="card hidden" id="startScreen">
 <div class="create-head">
 <h2>Start a Run</h2>
 <p class="muted">Throughout history, the threads of fate have ever led to this moment…</p>
@@ -74,7 +85,7 @@
 <div class="hint">Traits are simple, permanent run-start nudges.</div>
 <div class="traitsGrid" id="traitsList"></div>
 </section>
-<div class="create-footer"><button class="btn primary btn-wide" id="btnStart">Begin Run</button><button class="btn ghost btn-wide" id="btnLegacy">Legacy</button><div class="muted small" id="legacyStartLine">Legacy: 0</div></div>
+<div class="create-footer"><button class="btn primary btn-wide" id="btnStart">Begin Run</button><button class="btn ghost btn-wide" id="btnStartBack">Back</button><div class="muted small" id="legacyStartLine">Legacy: 0</div></div>
 </div>
 </section>
 <section class="card hidden" id="legacyScreen">
@@ -90,9 +101,6 @@
 <div class="spacer"></div>
 <h3>Trunk</h3>
 <div class="legacyList" id="legacyTrunk"></div>
-<div class="spacer"></div>
-<h3>Great Boons</h3>
-<div class="legacyList" id="legacyBig"></div>
 <div class="spacer"></div>
 <h3>Branches</h3>
 <div class="legacyBranches" id="legacyBranches"></div>
@@ -168,7 +176,7 @@
 </div>
 </div>
 </main>
-<footer class="footer muted">
+<footer class="footer muted hidden" id="footerTip">
       Tip: commit cards that match both the event context and the outcome’s allowed disciplines.
     </footer>
 </div>
