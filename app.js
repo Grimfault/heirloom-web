@@ -1194,6 +1194,7 @@ function applyTrade(trade) {
 
 function openOpportunityModal({ onDone } = {}) {
   const trades = buildOpportunityTrades();
+  let tradeMade = false;
 
   const wrap = document.createElement("div");
   wrap.className = "opportunityWrap";
@@ -1202,106 +1203,167 @@ function openOpportunityModal({ onDone } = {}) {
     <div class="spacer"></div>
   `;
 
-  const grid = document.createElement("div");
-  grid.className = "tradeGrid";
+  // --- Trades (1 per Opportunity) ---
+  const tradeHead = document.createElement("div");
+  tradeHead.className = "row space";
 
-  for (const tr of trades) {
-    const affordable = canAffordTrade(tr);
-    const div = document.createElement("div");
-    div.className = "tradeOption cardbtn" + (affordable ? "" : " dim");
-    div.innerHTML = `
-      <div class="cardname">${tr.title}</div>
-      <div class="tradeMain">
-        <span class="delta neg">↓ ${tr.give.amount} ${tr.give.resource}</span>
-        <span class="muted">→</span>
-        <span class="delta pos">↑ ${tr.get.amount} ${tr.get.resource}</span>
-      </div>
-      <div class="muted small">${tr.note}</div>
-      ${affordable ? "" : `<div class="muted small">Not enough ${tr.give.resource}.</div>`}
-    `;
-
-    div.addEventListener("click", () => {
-      if (!affordable) return;
-      applyTrade(tr);
-      scheduleNextOpportunity();
-      saveState();
-      renderAll();
-
-      modalLocked = false;
-      closeModal();
-    });
-
-    grid.appendChild(div);
-  }
-
-  
-wrap.appendChild(grid);
-
-// --- Card upgrades (Scrip) ---
-const upWrap = document.createElement("div");
-upWrap.className = "upgradeWrap";
-upWrap.innerHTML = `
-  <div class="spacer"></div>
-  <div class="row space">
-    <div>
-      <div class="cardname">Upgrade Cards</div>
-      <div class="muted small">Spend Scrip to upgrade cards in your current deck. These upgrades persist across heirs, but are lost if the bloodline ends.</div>
-    </div>
-    <div class="pill">Scrip: <b>${state.scrip ?? 0}</b></div>
-  </div>
-`;
-
-const list = document.createElement("div");
-list.className = "upgradeList";
-
-const allIds = Array.from(new Set([...(state.masterDeck ?? []), ...(state.drawPile ?? []), ...(state.discardPile ?? [])]));
-for (const cid of allIds) {
-  const c = DATA.cardsById[cid];
-  if (!c) continue;
-
-  const cur = (state.cardLevels?.[cid] ?? 1);
-  const maxLvl = maxCardLevel(c);
-  const rarity = c.rarity ?? "Common";
-  const costTable = UPGRADE_COSTS[rarity] ?? UPGRADE_COSTS.Common;
-  const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
-
-  const row = document.createElement("div");
-  row.className = "upgradeRow";
-  const canUp = cur < maxLvl;
-  const canPay = (state.scrip ?? 0) >= cost;
-
-  row.innerHTML = `
-    <div class="upgradeInfo">
-      <div class="upgradeName">${c.name}</div>
-      <div class="muted small">${rarity} • Level ${cur}${canUp ? ` → ${cur+1}` : " (Max)"}</div>
-    </div>
-    <button class="btn small ${canUp && canPay ? "primary" : "ghost"}" ${canUp && canPay ? "" : "disabled"}>
-      ${canUp ? `Upgrade (-${cost})` : "Max"}
-    </button>
+  const tradeInfo = document.createElement("div");
+  tradeInfo.innerHTML = `
+    <div class="cardname">Trade</div>
+    <div class="muted small">Make <b>one</b> exchange (optional). After that, you can still upgrade cards.</div>
   `;
 
-  const btn = row.querySelector("button");
-  btn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    if (!canUp) return;
-    const res = tryUpgradeCard(cid);
-    if (!res.ok) return;
-    closeModal();
-    openOpportunityModal({ onDone });
-  });
+  const tradePill = document.createElement("div");
+  tradePill.className = "pill";
 
-  list.appendChild(row);
-}
+  tradeHead.appendChild(tradeInfo);
+  tradeHead.appendChild(tradePill);
+  wrap.appendChild(tradeHead);
 
-upWrap.appendChild(list);
-wrap.appendChild(upWrap);
+  const grid = document.createElement("div");
+  grid.className = "tradeGrid";
+  wrap.appendChild(grid);
 
-const actions = document.createElement("div");
-actions.className = "modalActions";
+  const tradeEls = [];
+
+  function renderTradeOption(tr) {
+    const div = document.createElement("div");
+    div.className = "tradeOption cardbtn";
+
+    function paint() {
+      const affordable = canAffordTrade(tr);
+      const disabled = tradeMade || !affordable;
+
+      div.className = "tradeOption cardbtn" + (disabled ? " dim" : "");
+      div.innerHTML = `
+        <div class="cardname">${tr.title}</div>
+        <div class="tradeMain">
+          <span class="delta neg">↓ ${tr.give.amount} ${tr.give.resource}</span>
+          <span class="muted">→</span>
+          <span class="delta pos">↑ ${tr.get.amount} ${tr.get.resource}</span>
+        </div>
+        <div class="muted small">${tr.note}</div>
+        ${tradeMade
+          ? `<div class="muted small">Trade already used.</div>`
+          : (affordable ? "" : `<div class="muted small">Not enough ${tr.give.resource}.</div>`)
+        }
+      `;
+    }
+
+    div.addEventListener("click", () => {
+      if (tradeMade) return;
+      if (!canAffordTrade(tr)) return;
+
+      applyTrade(tr);
+      tradeMade = true;
+      saveState();
+      renderAll();
+      refreshTrades();
+    });
+
+    tradeEls.push({ tr, div, paint });
+    paint();
+    return div;
+  }
+
+  function refreshTrades() {
+    tradePill.innerHTML = tradeMade
+      ? `Trade: <b>Used</b>`
+      : `Trade: <b>1</b> left`;
+
+    for (const t of tradeEls) t.paint();
+  }
+
+  for (const tr of trades) {
+    grid.appendChild(renderTradeOption(tr));
+  }
+
+  refreshTrades();
+
+  // --- Card upgrades (Scrip) ---
+  const upWrap = document.createElement("div");
+  upWrap.className = "upgradeWrap";
+
+  const upTop = document.createElement("div");
+  upTop.className = "row space";
+
+  const upInfo = document.createElement("div");
+  upInfo.innerHTML = `
+    <div class="spacer"></div>
+    <div class="cardname">Upgrade Cards</div>
+    <div class="muted small">Spend Scrip to upgrade cards in your current deck. You can upgrade as many times as you can afford.</div>
+  `;
+
+  const scripPill = document.createElement("div");
+  scripPill.className = "pill";
+
+  upTop.appendChild(upInfo);
+  upTop.appendChild(scripPill);
+
+  const list = document.createElement("div");
+  list.className = "upgradeList";
+
+  function refreshUpgrades() {
+    scripPill.innerHTML = `Scrip: <b>${state.scrip ?? 0}</b>`;
+    list.innerHTML = "";
+
+    const allIds = Array.from(new Set([...(state.masterDeck ?? []), ...(state.drawPile ?? []), ...(state.discardPile ?? [])]));
+
+    for (const cid of allIds) {
+      const c = DATA.cardsById[cid];
+      if (!c) continue;
+
+      const cur = (state.cardLevels?.[cid] ?? 1);
+      const maxLvl = maxCardLevel(c);
+      const rarity = c.rarity ?? "Common";
+      const costTable = UPGRADE_COSTS[rarity] ?? UPGRADE_COSTS.Common;
+      const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
+
+      const row = document.createElement("div");
+      row.className = "upgradeRow";
+
+      const canUp = cur < maxLvl;
+      const canPay = (state.scrip ?? 0) >= cost;
+
+      row.innerHTML = `
+        <div class="upgradeInfo">
+          <div class="upgradeName">${c.name}</div>
+          <div class="muted small">${rarity} • Level ${cur}${canUp ? ` → ${cur + 1}` : " (Max)"}</div>
+        </div>
+        <button class="btn small ${canUp && canPay ? "primary" : "ghost"}" ${canUp && canPay ? "" : "disabled"}>
+          ${canUp ? `Upgrade (-${cost})` : "Max"}
+        </button>
+      `;
+
+      const btn = row.querySelector("button");
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!canUp) return;
+
+        const res = tryUpgradeCard(cid);
+        if (!res.ok) return;
+
+        log(res.msg);
+        renderAll();
+        refreshUpgrades();
+      });
+
+      list.appendChild(row);
+    }
+  }
+
+  upWrap.appendChild(upTop);
+  upWrap.appendChild(list);
+  wrap.appendChild(upWrap);
+
+  refreshUpgrades();
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
 
   const leave = document.createElement("button");
-  leave.className = "btn ghost";
-  leave.textContent = "Leave";
+  leave.className = "btn primary";
+  leave.textContent = "Continue";
   leave.addEventListener("click", () => {
     scheduleNextOpportunity();
     saveState();
