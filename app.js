@@ -1192,7 +1192,6 @@ function applyTrade(trade) {
   log(`Opportunity: Traded ${trade.give.amount} ${trade.give.resource} for ${trade.get.amount} ${trade.get.resource}.`);
 }
 
-
 function openOpportunityModal({ onDone } = {}) {
   const trades = buildOpportunityTrades();
   let tradeMade = false;
@@ -2154,21 +2153,41 @@ function normalizeStarterDeck(deckIds) {
   return out;
 }
 
+// Ensure deck piles can't become invalid/empty in a way that softlocks the run.
+// This is defensive: older saves, debug picks, rerolls, or modal errors should
+// never leave the player unable to draw.
+function ensureDeckIntegrity(reason = "") {
+  if (!state) return;
+
+  state.drawPile = Array.isArray(state.drawPile) ? state.drawPile : [];
+  state.discardPile = Array.isArray(state.discardPile) ? state.discardPile : [];
+  state.masterDeck = Array.isArray(state.masterDeck) ? state.masterDeck : [];
+
+  // If masterDeck is missing, rebuild from whatever cards exist.
+  if (state.masterDeck.length === 0) {
+    const combined = [...state.drawPile, ...state.discardPile];
+    if (combined.length) state.masterDeck = [...combined];
+  }
+
+  // If both piles are empty but we have a master deck, refill draw pile.
+  if (state.drawPile.length === 0 && state.discardPile.length === 0 && state.masterDeck.length) {
+    state.drawPile = shuffle([...state.masterDeck]);
+    state.discardPile = [];
+    if (reason) console.warn("Deck integrity refill:", reason);
+  }
+}
+
 
 function drawHand(n) {
+  ensureDeckIntegrity("drawHand:start");
   hand = [];
   for (let i = 0; i < n; i++) {
     if (state.drawPile.length === 0) {
       state.drawPile = shuffle(state.discardPile);
       state.discardPile = [];
 
-      // Safety: if both piles are empty (e.g., after rerolls/debug picks),
-      // rebuild from the master deck so the run can't softlock.
-      if (state.drawPile.length === 0 && Array.isArray(state.masterDeck) && state.masterDeck.length) {
-        state.drawPile = shuffle([...state.masterDeck]);
-        state.discardPile = [];
-      }
-
+      // If both piles are empty, rebuild from masterDeck.
+      ensureDeckIntegrity("drawHand:reshuffle-empty");
       if (state.drawPile.length === 0) break;
     }
     const cid = state.drawPile.pop();
@@ -2179,13 +2198,11 @@ function drawHand(n) {
 
 function drawOneCardIntoHand() {
   if (!state) return null;
+  ensureDeckIntegrity("drawOneCard:start");
   if (state.drawPile.length === 0) {
     state.drawPile = shuffle(state.discardPile);
     state.discardPile = [];
-    if (state.drawPile.length === 0 && Array.isArray(state.masterDeck) && state.masterDeck.length) {
-      state.drawPile = shuffle([...state.masterDeck]);
-      state.discardPile = [];
-    }
+    ensureDeckIntegrity("drawOneCard:reshuffle-empty");
     if (state.drawPile.length === 0) return null;
   }
   const cid = state.drawPile.pop();
@@ -2637,14 +2654,30 @@ function openChildModal(onConfirm) {
 }
 
 function runPostActionsSequentially(actions, done) {
+  // Post-actions frequently open follow-up modals (heirs, spouses, etc.).
+  // If any post-action throws, we MUST continue so the run can't softlock
+  // with an empty hand / disabled buttons.
   const list = (actions ?? []).filter(fn => typeof fn === "function");
   let i = 0;
+
   const step = () => {
     if (i >= list.length) return done?.();
     const fn = list[i++];
-    fn(step);
+    try {
+      fn(step);
+    } catch (e) {
+      console.error("Post-action error (skipping):", e);
+      // Keep going; never block progression.
+      step();
+    }
   };
-  step();
+
+  try {
+    step();
+  } catch (e) {
+    console.error("Post-action runner error:", e);
+    done?.();
+  }
 }
 
 function applySpecial(sp) {
@@ -4370,13 +4403,56 @@ function resolveSelectedOutcome() {
     conditions,
     locked: false,
     onClose: () => {
-      runPostActionsSequentially(postActions, () => {
-        if (wasMajor) {
-          openDraftModal(() => finishEvent(evJustResolved));
-        } else {
+      const safeFinish = () => {
+        // Absolutely never allow an exception here to strand the player
+        // on the same event with an empty hand.
+        try {
           finishEvent(evJustResolved);
+        } catch (e) {
+          console.error("finishEvent crashed (emergency unlock):", e);
+          // Emergency unlock + fallback event.
+          resolvingOutcome = false;
+          btnNewEvent.disabled = false;
+          btnDebugPickEvent.disabled = false;
+          try {
+            beginEvent(makeFallbackEvent("finishEvent error"));
+          } catch {}
         }
-      });
+      };
+
+      const afterPost = () => {
+        if (wasMajor) {
+          // Draft modal is optional but must never block progression.
+          let advanced = false;
+          const done = () => {
+            if (advanced) return;
+            advanced = true;
+            safeFinish();
+          };
+          try {
+            openDraftModal(() => done());
+          } catch (e) {
+            console.error("Draft modal error (skipping draft):", e);
+            done();
+          }
+
+          // Ultra-defensive: if for any reason the draft modal didn't actually open,
+          // don't strand the run.
+          if (modalBackdrop.classList.contains("hidden")) {
+            console.warn("Draft modal did not open; advancing to avoid softlock.");
+            done();
+          }
+        } else {
+          safeFinish();
+        }
+      };
+
+      try {
+        runPostActionsSequentially(postActions, afterPost);
+      } catch (e) {
+        console.error("Post-action chain failed (skipping):", e);
+        afterPost();
+      }
     }
   });
 }
