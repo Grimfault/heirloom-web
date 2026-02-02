@@ -610,6 +610,32 @@ const STATS = ["Might","Wit","Guile","Gravitas","Resolve"];
 const RES = ["Coin","Supplies","Renown","Influence","Secrets"];
 const TIERS = ["Hostile","Wary","Neutral","Favored","Exalted"];
 
+// --- Factions & Standing (early implementation) ---
+const FACTIONS = [
+  { id: "Crown",     name: "Crown of Valewyr" },
+  { id: "League",    name: "Marcher League" },
+  { id: "Covenant",  name: "Iron Covenant" },
+  { id: "Synod",     name: "Verdant Synod" },
+  { id: "Emirate",   name: "Ashen Emirate" },
+  { id: "Collegium", name: "Grey Collegium" },
+];
+
+// Storylines map cleanly to a primary faction for early Standing integration.
+// (You can override per-event later with ev.factionId or pools:["faction:..."]).
+const STORYLINE_TO_FACTION = {
+  wc: "Crown",
+  mg: "League",
+  bo: "Covenant",
+  pa: "Synod",
+  da: "Collegium",
+  ct: "Crown",
+};
+
+function getStandingTier(factionId) {
+  return (state?.standings?.[factionId] ?? "Neutral");
+}
+
+
 // ---------- Data (loaded) ----------
 let DATA = {
   cards: [],
@@ -1578,6 +1604,15 @@ function summarizeBundleForPlayer(bundle) {
     resources.push(`${d.resource}: ${fmtDelta(amt)}`);
   }
 
+  for (const s of (bundle.standings ?? [])) {
+    const steps = s.steps ?? 0;
+    if (!steps) continue;
+    const sign = steps > 0 ? '+' : '';
+    const abs = Math.abs(steps);
+    const label = abs === 1 ? 'tier' : 'tiers';
+    resources.push(`${s.factionId} Standing: ${sign}${steps} ${label}`);
+  }
+
   for (const c of (bundle.conditions ?? [])) {
     if (!isDisplayConditionId(c.id)) continue;
     const sev = c.severity ?? "Minor";
@@ -1945,10 +1980,10 @@ function unmetReasons(requirements) {
         reasons.push(`Blocked by ${req.id}${req.severity && req.severity !== "Any" ? ` (${req.severity})` : ""}`);
         break;
       case "HasFlag":
-        reasons.push(`Requires flag: ${req.id}`);
+        reasons.push("Requires earlier choices you didn't make");
         break;
       case "NotFlag":
-        reasons.push(`Blocked by flag: ${req.id}`);
+        reasons.push("Unavailable due to earlier choices");
         break;
       case "AgeRange":
         reasons.push(`Requires age ${req.min}–${req.max}`);
@@ -2494,6 +2529,25 @@ function applyStandingDelta(s) {
   const next = clamp(idx + (s.steps ?? 0), 0, TIERS.length - 1);
   state.standings[s.factionId] = TIERS[next];
 }
+
+// Early Standing pass: completing faction-linked storyline steps improves Standing on full success.
+// (Explicit standings in event data always override this.)
+function autoStandingBundleForResolvedEvent(ev, success, isPartial, existingBundle) {
+  if (!success || isPartial) return null;
+  const slId = ev?.storyline?.id;
+  if (!slId) return null;
+  const factionId = STORYLINE_TO_FACTION[slId];
+  if (!factionId) return null;
+
+  // If the event explicitly sets standing, don't double-apply.
+  if (existingBundle && Array.isArray(existingBundle.standings) && existingBundle.standings.length) return null;
+
+  // Don't spam a meaningless +1 when already maxed.
+  if (getStandingTier(factionId) === 'Exalted') return null;
+
+  return { standings: [{ factionId, steps: 1 }] };
+}
+
 
 function applyBundle(bundle) {
   if (!bundle) return [];
@@ -3621,6 +3675,51 @@ function poolBias(ev) {
   return m;
 }
 
+// Standing influences what you see next. High standing with a faction
+// increases the chance of seeing their invitations, audits, patronage, etc.
+function factionIdsForEvent(ev) {
+  const set = new Set();
+  if (ev?.factionId) set.add(ev.factionId);
+
+  const pools = ev?.pools;
+  if (Array.isArray(pools)) {
+    for (const p of pools) {
+      if (typeof p === 'string' && p.startsWith('faction:')) {
+        const id = p.slice(8);
+        if (id) set.add(id);
+      }
+    }
+  }
+
+  const slId = ev?.storyline?.id;
+  if (slId && STORYLINE_TO_FACTION[slId]) set.add(STORYLINE_TO_FACTION[slId]);
+
+  return Array.from(set);
+}
+
+function standingMultiplierForTier(tier) {
+  switch (tier) {
+    case 'Hostile': return 0.60;
+    case 'Wary': return 0.85;
+    case 'Neutral': return 1.00;
+    case 'Favored': return 1.25;
+    case 'Exalted': return 1.45;
+    default: return 1.00;
+  }
+}
+
+function standingBias(ev) {
+  const fids = factionIdsForEvent(ev);
+  if (!fids.length) return 1;
+
+  let m = 1;
+  for (const fid of fids) {
+    m *= standingMultiplierForTier(getStandingTier(fid));
+  }
+  // keep it sane
+  return clamp(m, 0.50, 1.70);
+}
+
 
 function ageBias(ev) {
   // Soft preference toward events that "fit" the current age inside their allowed range.
@@ -3653,6 +3752,8 @@ function eventDirectorWeight(ev) {
   w *= scarcityBias(ev);
   w *= riskBias(ev);
   w *= poolBias(ev);
+
+  w *= standingBias(ev);
 
   // Condition attractors / avoiders:
   w *= conditionBias(ev);
@@ -4260,7 +4361,9 @@ function resolveSelectedOutcome() {
 
   if (success) {
     const cardBundle = bundleFromCommittedCards(committedCardIds(), "onSuccess");
-    const merged = mergeBundles(o.success, cardBundle);
+    let merged = mergeBundles(o.success, cardBundle);
+    const autoStanding = autoStandingBundleForResolvedEvent(evJustResolved, true, false, merged);
+    if (autoStanding) merged = mergeBundles(merged, autoStanding);
     postActions.push(...applyBundle(merged));
     bundleForSummary = merged;
     log(`SUCCESS (${roll} ≤ ${chance}) → ${o.title}`);
