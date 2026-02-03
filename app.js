@@ -1194,114 +1194,259 @@ function applyTrade(trade) {
 
 function openOpportunityModal({ onDone } = {}) {
   const trades = buildOpportunityTrades();
+  let tradeMade = false;
 
   const wrap = document.createElement("div");
   wrap.className = "opportunityWrap";
-  wrap.innerHTML = `
+
+  // Top intro + current resources (so trades/upgrades are informed).
+  const intro = document.createElement("div");
+  intro.innerHTML = `
     <div class="muted">A broker flags you down with practiced warmth. “Quick exchanges, clean hands. What do you need?”</div>
     <div class="spacer"></div>
   `;
+  wrap.appendChild(intro);
+
+  const resBar = document.createElement("div");
+  resBar.className = "resBar";
+  wrap.appendChild(resBar);
+
+  function refreshResBar() {
+    const r = state?.res ?? {};
+    const scrip = state?.scrip ?? 0;
+    const items = [
+      ["Coin", r.Coin ?? 0],
+      ["Supplies", r.Supplies ?? 0],
+      ["Renown", r.Renown ?? 0],
+      ["Influence", r.Influence ?? 0],
+      ["Secrets", r.Secrets ?? 0],
+      ["Scrip", scrip]
+    ];
+    resBar.innerHTML = items
+      .map(([k, v]) => `<span class="chip">${k}: <b>${v}</b></span>`)
+      .join("");
+  }
+
+  refreshResBar();
+
+  // --- Trades (1 per Opportunity) ---
+  const tradeHead = document.createElement("div");
+  tradeHead.className = "row space";
+
+  const tradeInfo = document.createElement("div");
+  tradeInfo.innerHTML = `
+    <div class="cardname">Trade</div>
+    <div class="muted small">Make <b>one</b> exchange (optional). After that, you can still upgrade cards.</div>
+  `;
+
+  const tradePill = document.createElement("div");
+  tradePill.className = "pill";
+
+  tradeHead.appendChild(tradeInfo);
+  tradeHead.appendChild(tradePill);
+  wrap.appendChild(tradeHead);
 
   const grid = document.createElement("div");
   grid.className = "tradeGrid";
+  wrap.appendChild(grid);
+
+  const tradeEls = [];
+
+  function refreshTrades() {
+    tradePill.innerHTML = tradeMade ? `Trade: <b>Used</b>` : `Trade: <b>1</b> left`;
+    for (const t of tradeEls) t.paint();
+  }
 
   for (const tr of trades) {
-    const affordable = canAffordTrade(tr);
     const div = document.createElement("div");
-    div.className = "tradeOption cardbtn" + (affordable ? "" : " dim");
-    div.innerHTML = `
-      <div class="cardname">${tr.title}</div>
-      <div class="tradeMain">
-        <span class="delta neg">↓ ${tr.give.amount} ${tr.give.resource}</span>
-        <span class="muted">→</span>
-        <span class="delta pos">↑ ${tr.get.amount} ${tr.get.resource}</span>
-      </div>
-      <div class="muted small">${tr.note}</div>
-      ${affordable ? "" : `<div class="muted small">Not enough ${tr.give.resource}.</div>`}
-    `;
+    div.className = "tradeOption cardbtn";
+
+    function paint() {
+      const affordable = canAffordTrade(tr);
+      const disabled = tradeMade || !affordable;
+      div.className = "tradeOption cardbtn" + (disabled ? " dim" : "");
+      div.innerHTML = `
+        <div class="cardname">${tr.title}</div>
+        <div class="tradeMain">
+          <span class="delta neg">↓ ${tr.give.amount} ${tr.give.resource}</span>
+          <span class="muted">→</span>
+          <span class="delta pos">↑ ${tr.get.amount} ${tr.get.resource}</span>
+        </div>
+        <div class="muted small">${tr.note}</div>
+        ${tradeMade
+          ? `<div class="muted small">Trade already used.</div>`
+          : (affordable ? "" : `<div class="muted small">Not enough ${tr.give.resource}.</div>`)
+        }
+      `;
+    }
 
     div.addEventListener("click", () => {
-      if (!affordable) return;
+      if (tradeMade) return;
+      if (!canAffordTrade(tr)) return;
+
       applyTrade(tr);
-      scheduleNextOpportunity();
+      tradeMade = true;
       saveState();
       renderAll();
-
-      modalLocked = false;
-      closeModal();
+      refreshResBar();
+      refreshTrades();
+      refreshUpgrades();
     });
 
+    tradeEls.push({ div, paint });
+    paint();
     grid.appendChild(div);
   }
 
-  
-wrap.appendChild(grid);
+  refreshTrades();
 
-// --- Card upgrades (Scrip) ---
-const upWrap = document.createElement("div");
-upWrap.className = "upgradeWrap";
-upWrap.innerHTML = `
-  <div class="spacer"></div>
-  <div class="row space">
-    <div>
-      <div class="cardname">Upgrade Cards</div>
-      <div class="muted small">Spend Scrip to upgrade cards in your current deck. These upgrades persist across heirs, but are lost if the bloodline ends.</div>
-    </div>
-    <div class="pill">Scrip: <b>${state.scrip ?? 0}</b></div>
-  </div>
-`;
+  // --- Card upgrades (Scrip) ---
+  function getLevelDataAt(card, level) {
+    const levels = card?.levels ?? [];
+    return levels.find(x => Number(x.level ?? 1) == Number(level)) || levels[0] || { level: 1, bonus: 0, partialOnFail: false };
+  }
 
-const list = document.createElement("div");
-list.className = "upgradeList";
+  function cardRiderTextAt(card, lvlData) {
+    if (!card) return "";
 
-const allIds = Array.from(new Set([...(state.masterDeck ?? []), ...(state.drawPile ?? []), ...(state.discardPile ?? [])]));
-for (const cid of allIds) {
-  const c = DATA.cardsById[cid];
-  if (!c) continue;
+    if (isWildCard(card)) {
+      const t = bundleInlineSummary(lvlData?.onPlay);
+      return t ? `Use anytime • ${t}` : "Use anytime";
+    }
 
-  const cur = (state.cardLevels?.[cid] ?? 1);
-  const maxLvl = maxCardLevel(c);
-  const rarity = c.rarity ?? "Common";
-  const costTable = UPGRADE_COSTS[rarity] ?? UPGRADE_COSTS.Common;
-  const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
+    const onS = bundleInlineSummary(lvlData?.onSuccess);
+    const onF = bundleInlineSummary(lvlData?.onFailure);
+    const parts = [];
+    if (onS) parts.push(`✓ ${onS}`);
+    if (onF) parts.push(`✗ ${onF}`);
+    return parts.join(" / ");
+  }
 
-  const row = document.createElement("div");
-  row.className = "upgradeRow";
-  const canUp = cur < maxLvl;
-  const canPay = (state.scrip ?? 0) >= cost;
+  function cardLineAt(card, level) {
+    const lvlData = getLevelDataAt(card, level);
+    const isWild = isWildCard(card);
 
-  row.innerHTML = `
-    <div class="upgradeInfo">
-      <div class="upgradeName">${c.name}</div>
-      <div class="muted small">${rarity} • Level ${cur}${canUp ? ` → ${cur+1}` : " (Max)"}</div>
-    </div>
-    <button class="btn small ${canUp && canPay ? "primary" : "ghost"}" ${canUp && canPay ? "" : "disabled"}>
-      ${canUp ? `Upgrade (-${cost})` : "Max"}
-    </button>
+    const arrowsText = isWild ? "✦" : (arrowsForBonus(lvlData.bonus) || "—");
+    const arrowsClass = isWild
+      ? "muted"
+      : (arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted");
+
+    const riderText = cardRiderTextAt(card, lvlData);
+    const scenesText = cardScenesText(card);
+    const line3 = isWild
+      ? riderText
+      : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""));
+
+    return { arrowsText, arrowsClass, line3 };
+  }
+
+  const upWrap = document.createElement("div");
+  upWrap.className = "upgradeWrap";
+
+  const upTop = document.createElement("div");
+  upTop.className = "row space";
+
+  const upInfo = document.createElement("div");
+  upInfo.innerHTML = `
+    <div class="spacer"></div>
+    <div class="cardname">Upgrade Cards</div>
+    <div class="muted small">Spend Scrip to upgrade cards in your current deck. Upgrade as many times as you can afford.</div>
   `;
 
-  const btn = row.querySelector("button");
-  btn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    if (!canUp) return;
-    const res = tryUpgradeCard(cid);
-    if (!res.ok) return;
-    closeModal();
-    openOpportunityModal({ onDone });
-  });
+  const scripPill = document.createElement("div");
+  scripPill.className = "pill";
 
-  list.appendChild(row);
-}
+  upTop.appendChild(upInfo);
+  upTop.appendChild(scripPill);
 
-upWrap.appendChild(list);
-wrap.appendChild(upWrap);
+  const list = document.createElement("div");
+  list.className = "upgradeList";
 
-const actions = document.createElement("div");
-actions.className = "modalActions";
+  upWrap.appendChild(upTop);
+  upWrap.appendChild(list);
+  wrap.appendChild(upWrap);
+
+  function refreshUpgrades() {
+    scripPill.innerHTML = `Scrip: <b>${state.scrip ?? 0}</b>`;
+
+    // Stable list: unique card ids, sorted by name.
+    const allIds = Array.from(new Set([...(state.masterDeck ?? []), ...(state.drawPile ?? []), ...(state.discardPile ?? [])]));
+    allIds.sort((a, b) => {
+      const A = DATA.cardsById[a]?.name ?? a;
+      const B = DATA.cardsById[b]?.name ?? b;
+      return A.localeCompare(B);
+    });
+
+    list.innerHTML = "";
+
+    for (const cid of allIds) {
+      const c = DATA.cardsById[cid];
+      if (!c) continue;
+
+      const cur = (state.cardLevels?.[cid] ?? 1);
+      const maxLvl = maxCardLevel(c);
+      const rarity = c.rarity ?? "Common";
+      const costTable = UPGRADE_COSTS[rarity] ?? UPGRADE_COSTS.Common;
+      const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
+
+      const canUp = cur < maxLvl;
+      const canPay = (state.scrip ?? 0) >= cost;
+
+      const curLine = cardLineAt(c, cur);
+      const nextLine = canUp ? cardLineAt(c, cur + 1) : null;
+
+      const row = document.createElement("div");
+      row.className = "upgradeRow";
+
+      row.innerHTML = `
+        <div class="upgradeInfo">
+          <div class="upgradeName">${c.name}</div>
+          <div class="muted small">${rarity} • ${c.discipline} • Level ${cur}${canUp ? ` → ${cur + 1}` : " (Max)"}</div>
+
+          <div class="upgradeEffect">
+            <div class="small"><span class="muted">Current:</span>
+              <span class="arrows ${curLine.arrowsClass}">${curLine.arrowsText}</span>
+              <span>${curLine.line3 || "—"}</span>
+            </div>
+            ${nextLine ? `
+              <div class="small"><span class="muted">Next:</span>
+                <span class="arrows ${nextLine.arrowsClass}">${nextLine.arrowsText}</span>
+                <span>${nextLine.line3 || "—"}</span>
+              </div>
+            ` : ``}
+          </div>
+        </div>
+
+        <button class="btn small ${canUp && canPay ? "primary" : "ghost"}" ${canUp && canPay ? "" : "disabled"}>
+          ${canUp ? `Upgrade (-${cost})` : "Max"}
+        </button>
+      `;
+
+      const btn = row.querySelector("button");
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!canUp) return;
+        const res = tryUpgradeCard(cid);
+        if (!res.ok) return;
+        log(res.msg);
+        renderAll();
+        refreshResBar();
+        refreshUpgrades();
+      });
+
+      list.appendChild(row);
+    }
+  }
+
+  refreshUpgrades();
+
+  // --- Continue (advance to next event) ---
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
 
   const leave = document.createElement("button");
-  leave.className = "btn ghost";
-  leave.textContent = "Leave";
+  leave.className = "btn primary";
+  leave.textContent = "Continue";
   leave.addEventListener("click", () => {
     scheduleNextOpportunity();
     saveState();
@@ -1800,10 +1945,10 @@ function unmetReasons(requirements) {
         reasons.push(`Blocked by ${req.id}${req.severity && req.severity !== "Any" ? ` (${req.severity})` : ""}`);
         break;
       case "HasFlag":
-        reasons.push(`Requires flag: ${req.id}`);
+        reasons.push(`Locked: your earlier choices didn’t open this path.`);
         break;
       case "NotFlag":
-        reasons.push(`Blocked by flag: ${req.id}`);
+        reasons.push(`Locked: your earlier choices closed this path.`);
         break;
       case "AgeRange":
         reasons.push(`Requires age ${req.min}–${req.max}`);
