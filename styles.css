@@ -251,12 +251,8 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
 .backdrop {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.6);
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
+  display:flex; align-items:center; justify-content:center;
   padding: 12px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 .modal {
   width: min(820px, 100%);
@@ -264,15 +260,6 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
-  margin: auto 0;
-  max-height: calc(100vh - 24px);
-  display: flex;
-  flex-direction: column;
-}
-#modalBody {
-  overflow-y: auto;
-  min-height: 0;
-  padding-bottom: 6px;
 }
 
 /* ---- Run Economy + Clarity pass ---- */
@@ -316,6 +303,20 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border-color: rgba(243, 201, 105, 0.45);
 }
 
+
+.resBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 10px 0;
+}
+
+.opportunityWrap .modalActions {
+  position: sticky;
+  bottom: 0;
+  padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(15,19,28,0) 0%, rgba(15,19,28,0.85) 30%, rgba(15,19,28,0.96) 100%);
+}
 .cardbig {
   margin-top: 6px;
   display: flex;
@@ -377,12 +378,6 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  position: sticky;
-  bottom: 0;
-  padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
-  background: rgba(15,19,28,0.96);
-  border-top: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: blur(6px);
 }
 
 
@@ -658,9 +653,3 @@ button:disabled, .btn:disabled { opacity: .65; }
   letter-spacing: 0.4px;
 }
 .menuActions { display:flex; flex-direction:column; gap:10px; margin-top: 10px; }
-
-/* Opportunity modal helpers */
-.resBar{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
-.resBar .chip{ padding: 4px 8px; }
-.upgradeEffect{ margin-top: 8px; display:flex; flex-direction:column; gap:6px; line-height: 1.25; }
-.upgradeEffect .arrows{ font-size: 12px; margin: 0 6px 0 6px; }
