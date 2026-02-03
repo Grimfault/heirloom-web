@@ -610,32 +610,6 @@ const STATS = ["Might","Wit","Guile","Gravitas","Resolve"];
 const RES = ["Coin","Supplies","Renown","Influence","Secrets"];
 const TIERS = ["Hostile","Wary","Neutral","Favored","Exalted"];
 
-// --- Factions & Standing (early implementation) ---
-const FACTIONS = [
-  { id: "Crown",     name: "Crown of Valewyr" },
-  { id: "League",    name: "Marcher League" },
-  { id: "Covenant",  name: "Iron Covenant" },
-  { id: "Synod",     name: "Verdant Synod" },
-  { id: "Emirate",   name: "Ashen Emirate" },
-  { id: "Collegium", name: "Grey Collegium" },
-];
-
-// Storylines map cleanly to a primary faction for early Standing integration.
-// (You can override per-event later with ev.factionId or pools:["faction:..."]).
-const STORYLINE_TO_FACTION = {
-  wc: "Crown",
-  mg: "League",
-  bo: "Covenant",
-  pa: "Synod",
-  da: "Collegium",
-  ct: "Crown",
-};
-
-function getStandingTier(factionId) {
-  return (state?.standings?.[factionId] ?? "Neutral");
-}
-
-
 // ---------- Data (loaded) ----------
 let DATA = {
   cards: [],
@@ -1220,259 +1194,114 @@ function applyTrade(trade) {
 
 function openOpportunityModal({ onDone } = {}) {
   const trades = buildOpportunityTrades();
-  let tradeMade = false;
 
   const wrap = document.createElement("div");
   wrap.className = "opportunityWrap";
-
-  // Top intro + current resources (so trades/upgrades are informed).
-  const intro = document.createElement("div");
-  intro.innerHTML = `
+  wrap.innerHTML = `
     <div class="muted">A broker flags you down with practiced warmth. “Quick exchanges, clean hands. What do you need?”</div>
     <div class="spacer"></div>
   `;
-  wrap.appendChild(intro);
-
-  const resBar = document.createElement("div");
-  resBar.className = "resBar";
-  wrap.appendChild(resBar);
-
-  function refreshResBar() {
-    const r = state?.res ?? {};
-    const scrip = state?.scrip ?? 0;
-    const items = [
-      ["Coin", r.Coin ?? 0],
-      ["Supplies", r.Supplies ?? 0],
-      ["Renown", r.Renown ?? 0],
-      ["Influence", r.Influence ?? 0],
-      ["Secrets", r.Secrets ?? 0],
-      ["Scrip", scrip]
-    ];
-    resBar.innerHTML = items
-      .map(([k, v]) => `<span class="chip">${k}: <b>${v}</b></span>`)
-      .join("");
-  }
-
-  refreshResBar();
-
-  // --- Trades (1 per Opportunity) ---
-  const tradeHead = document.createElement("div");
-  tradeHead.className = "row space";
-
-  const tradeInfo = document.createElement("div");
-  tradeInfo.innerHTML = `
-    <div class="cardname">Trade</div>
-    <div class="muted small">Make <b>one</b> exchange (optional). After that, you can still upgrade cards.</div>
-  `;
-
-  const tradePill = document.createElement("div");
-  tradePill.className = "pill";
-
-  tradeHead.appendChild(tradeInfo);
-  tradeHead.appendChild(tradePill);
-  wrap.appendChild(tradeHead);
 
   const grid = document.createElement("div");
   grid.className = "tradeGrid";
-  wrap.appendChild(grid);
-
-  const tradeEls = [];
-
-  function refreshTrades() {
-    tradePill.innerHTML = tradeMade ? `Trade: <b>Used</b>` : `Trade: <b>1</b> left`;
-    for (const t of tradeEls) t.paint();
-  }
 
   for (const tr of trades) {
+    const affordable = canAffordTrade(tr);
     const div = document.createElement("div");
-    div.className = "tradeOption cardbtn";
-
-    function paint() {
-      const affordable = canAffordTrade(tr);
-      const disabled = tradeMade || !affordable;
-      div.className = "tradeOption cardbtn" + (disabled ? " dim" : "");
-      div.innerHTML = `
-        <div class="cardname">${tr.title}</div>
-        <div class="tradeMain">
-          <span class="delta neg">↓ ${tr.give.amount} ${tr.give.resource}</span>
-          <span class="muted">→</span>
-          <span class="delta pos">↑ ${tr.get.amount} ${tr.get.resource}</span>
-        </div>
-        <div class="muted small">${tr.note}</div>
-        ${tradeMade
-          ? `<div class="muted small">Trade already used.</div>`
-          : (affordable ? "" : `<div class="muted small">Not enough ${tr.give.resource}.</div>`)
-        }
-      `;
-    }
+    div.className = "tradeOption cardbtn" + (affordable ? "" : " dim");
+    div.innerHTML = `
+      <div class="cardname">${tr.title}</div>
+      <div class="tradeMain">
+        <span class="delta neg">↓ ${tr.give.amount} ${tr.give.resource}</span>
+        <span class="muted">→</span>
+        <span class="delta pos">↑ ${tr.get.amount} ${tr.get.resource}</span>
+      </div>
+      <div class="muted small">${tr.note}</div>
+      ${affordable ? "" : `<div class="muted small">Not enough ${tr.give.resource}.</div>`}
+    `;
 
     div.addEventListener("click", () => {
-      if (tradeMade) return;
-      if (!canAffordTrade(tr)) return;
-
+      if (!affordable) return;
       applyTrade(tr);
-      tradeMade = true;
+      scheduleNextOpportunity();
       saveState();
       renderAll();
-      refreshResBar();
-      refreshTrades();
-      refreshUpgrades();
+
+      modalLocked = false;
+      closeModal();
     });
 
-    tradeEls.push({ div, paint });
-    paint();
     grid.appendChild(div);
   }
 
-  refreshTrades();
+  
+wrap.appendChild(grid);
 
-  // --- Card upgrades (Scrip) ---
-  function getLevelDataAt(card, level) {
-    const levels = card?.levels ?? [];
-    return levels.find(x => Number(x.level ?? 1) == Number(level)) || levels[0] || { level: 1, bonus: 0, partialOnFail: false };
-  }
+// --- Card upgrades (Scrip) ---
+const upWrap = document.createElement("div");
+upWrap.className = "upgradeWrap";
+upWrap.innerHTML = `
+  <div class="spacer"></div>
+  <div class="row space">
+    <div>
+      <div class="cardname">Upgrade Cards</div>
+      <div class="muted small">Spend Scrip to upgrade cards in your current deck. These upgrades persist across heirs, but are lost if the bloodline ends.</div>
+    </div>
+    <div class="pill">Scrip: <b>${state.scrip ?? 0}</b></div>
+  </div>
+`;
 
-  function cardRiderTextAt(card, lvlData) {
-    if (!card) return "";
+const list = document.createElement("div");
+list.className = "upgradeList";
 
-    if (isWildCard(card)) {
-      const t = bundleInlineSummary(lvlData?.onPlay);
-      return t ? `Use anytime • ${t}` : "Use anytime";
-    }
+const allIds = Array.from(new Set([...(state.masterDeck ?? []), ...(state.drawPile ?? []), ...(state.discardPile ?? [])]));
+for (const cid of allIds) {
+  const c = DATA.cardsById[cid];
+  if (!c) continue;
 
-    const onS = bundleInlineSummary(lvlData?.onSuccess);
-    const onF = bundleInlineSummary(lvlData?.onFailure);
-    const parts = [];
-    if (onS) parts.push(`✓ ${onS}`);
-    if (onF) parts.push(`✗ ${onF}`);
-    return parts.join(" / ");
-  }
+  const cur = (state.cardLevels?.[cid] ?? 1);
+  const maxLvl = maxCardLevel(c);
+  const rarity = c.rarity ?? "Common";
+  const costTable = UPGRADE_COSTS[rarity] ?? UPGRADE_COSTS.Common;
+  const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
 
-  function cardLineAt(card, level) {
-    const lvlData = getLevelDataAt(card, level);
-    const isWild = isWildCard(card);
+  const row = document.createElement("div");
+  row.className = "upgradeRow";
+  const canUp = cur < maxLvl;
+  const canPay = (state.scrip ?? 0) >= cost;
 
-    const arrowsText = isWild ? "✦" : (arrowsForBonus(lvlData.bonus) || "—");
-    const arrowsClass = isWild
-      ? "muted"
-      : (arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted");
-
-    const riderText = cardRiderTextAt(card, lvlData);
-    const scenesText = cardScenesText(card);
-    const line3 = isWild
-      ? riderText
-      : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""));
-
-    return { arrowsText, arrowsClass, line3 };
-  }
-
-  const upWrap = document.createElement("div");
-  upWrap.className = "upgradeWrap";
-
-  const upTop = document.createElement("div");
-  upTop.className = "row space";
-
-  const upInfo = document.createElement("div");
-  upInfo.innerHTML = `
-    <div class="spacer"></div>
-    <div class="cardname">Upgrade Cards</div>
-    <div class="muted small">Spend Scrip to upgrade cards in your current deck. Upgrade as many times as you can afford.</div>
+  row.innerHTML = `
+    <div class="upgradeInfo">
+      <div class="upgradeName">${c.name}</div>
+      <div class="muted small">${rarity} • Level ${cur}${canUp ? ` → ${cur+1}` : " (Max)"}</div>
+    </div>
+    <button class="btn small ${canUp && canPay ? "primary" : "ghost"}" ${canUp && canPay ? "" : "disabled"}>
+      ${canUp ? `Upgrade (-${cost})` : "Max"}
+    </button>
   `;
 
-  const scripPill = document.createElement("div");
-  scripPill.className = "pill";
+  const btn = row.querySelector("button");
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (!canUp) return;
+    const res = tryUpgradeCard(cid);
+    if (!res.ok) return;
+    closeModal();
+    openOpportunityModal({ onDone });
+  });
 
-  upTop.appendChild(upInfo);
-  upTop.appendChild(scripPill);
+  list.appendChild(row);
+}
 
-  const list = document.createElement("div");
-  list.className = "upgradeList";
+upWrap.appendChild(list);
+wrap.appendChild(upWrap);
 
-  upWrap.appendChild(upTop);
-  upWrap.appendChild(list);
-  wrap.appendChild(upWrap);
-
-  function refreshUpgrades() {
-    scripPill.innerHTML = `Scrip: <b>${state.scrip ?? 0}</b>`;
-
-    // Stable list: unique card ids, sorted by name.
-    const allIds = Array.from(new Set([...(state.masterDeck ?? []), ...(state.drawPile ?? []), ...(state.discardPile ?? [])]));
-    allIds.sort((a, b) => {
-      const A = DATA.cardsById[a]?.name ?? a;
-      const B = DATA.cardsById[b]?.name ?? b;
-      return A.localeCompare(B);
-    });
-
-    list.innerHTML = "";
-
-    for (const cid of allIds) {
-      const c = DATA.cardsById[cid];
-      if (!c) continue;
-
-      const cur = (state.cardLevels?.[cid] ?? 1);
-      const maxLvl = maxCardLevel(c);
-      const rarity = c.rarity ?? "Common";
-      const costTable = UPGRADE_COSTS[rarity] ?? UPGRADE_COSTS.Common;
-      const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
-
-      const canUp = cur < maxLvl;
-      const canPay = (state.scrip ?? 0) >= cost;
-
-      const curLine = cardLineAt(c, cur);
-      const nextLine = canUp ? cardLineAt(c, cur + 1) : null;
-
-      const row = document.createElement("div");
-      row.className = "upgradeRow";
-
-      row.innerHTML = `
-        <div class="upgradeInfo">
-          <div class="upgradeName">${c.name}</div>
-          <div class="muted small">${rarity} • ${c.discipline} • Level ${cur}${canUp ? ` → ${cur + 1}` : " (Max)"}</div>
-
-          <div class="upgradeEffect">
-            <div class="small"><span class="muted">Current:</span>
-              <span class="arrows ${curLine.arrowsClass}">${curLine.arrowsText}</span>
-              <span>${curLine.line3 || "—"}</span>
-            </div>
-            ${nextLine ? `
-              <div class="small"><span class="muted">Next:</span>
-                <span class="arrows ${nextLine.arrowsClass}">${nextLine.arrowsText}</span>
-                <span>${nextLine.line3 || "—"}</span>
-              </div>
-            ` : ``}
-          </div>
-        </div>
-
-        <button class="btn small ${canUp && canPay ? "primary" : "ghost"}" ${canUp && canPay ? "" : "disabled"}>
-          ${canUp ? `Upgrade (-${cost})` : "Max"}
-        </button>
-      `;
-
-      const btn = row.querySelector("button");
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (!canUp) return;
-        const res = tryUpgradeCard(cid);
-        if (!res.ok) return;
-        log(res.msg);
-        renderAll();
-        refreshResBar();
-        refreshUpgrades();
-      });
-
-      list.appendChild(row);
-    }
-  }
-
-  refreshUpgrades();
-
-  // --- Continue (advance to next event) ---
-  const actions = document.createElement("div");
-  actions.className = "modalActions";
+const actions = document.createElement("div");
+actions.className = "modalActions";
 
   const leave = document.createElement("button");
-  leave.className = "btn primary";
-  leave.textContent = "Continue";
+  leave.className = "btn ghost";
+  leave.textContent = "Leave";
   leave.addEventListener("click", () => {
     scheduleNextOpportunity();
     saveState();
@@ -1602,15 +1431,6 @@ function summarizeBundleForPlayer(bundle) {
     const amt = d.amount ?? 0;
     if (!amt) continue;
     resources.push(`${d.resource}: ${fmtDelta(amt)}`);
-  }
-
-  for (const s of (bundle.standings ?? [])) {
-    const steps = s.steps ?? 0;
-    if (!steps) continue;
-    const sign = steps > 0 ? '+' : '';
-    const abs = Math.abs(steps);
-    const label = abs === 1 ? 'tier' : 'tiers';
-    resources.push(`${s.factionId} Standing: ${sign}${steps} ${label}`);
   }
 
   for (const c of (bundle.conditions ?? [])) {
@@ -1980,10 +1800,10 @@ function unmetReasons(requirements) {
         reasons.push(`Blocked by ${req.id}${req.severity && req.severity !== "Any" ? ` (${req.severity})` : ""}`);
         break;
       case "HasFlag":
-        reasons.push("Requires earlier choices you didn't make");
+        reasons.push(`Requires flag: ${req.id}`);
         break;
       case "NotFlag":
-        reasons.push("Unavailable due to earlier choices");
+        reasons.push(`Blocked by flag: ${req.id}`);
         break;
       case "AgeRange":
         reasons.push(`Requires age ${req.min}–${req.max}`);
@@ -2529,25 +2349,6 @@ function applyStandingDelta(s) {
   const next = clamp(idx + (s.steps ?? 0), 0, TIERS.length - 1);
   state.standings[s.factionId] = TIERS[next];
 }
-
-// Early Standing pass: completing faction-linked storyline steps improves Standing on full success.
-// (Explicit standings in event data always override this.)
-function autoStandingBundleForResolvedEvent(ev, success, isPartial, existingBundle) {
-  if (!success || isPartial) return null;
-  const slId = ev?.storyline?.id;
-  if (!slId) return null;
-  const factionId = STORYLINE_TO_FACTION[slId];
-  if (!factionId) return null;
-
-  // If the event explicitly sets standing, don't double-apply.
-  if (existingBundle && Array.isArray(existingBundle.standings) && existingBundle.standings.length) return null;
-
-  // Don't spam a meaningless +1 when already maxed.
-  if (getStandingTier(factionId) === 'Exalted') return null;
-
-  return { standings: [{ factionId, steps: 1 }] };
-}
-
 
 function applyBundle(bundle) {
   if (!bundle) return [];
@@ -3675,51 +3476,6 @@ function poolBias(ev) {
   return m;
 }
 
-// Standing influences what you see next. High standing with a faction
-// increases the chance of seeing their invitations, audits, patronage, etc.
-function factionIdsForEvent(ev) {
-  const set = new Set();
-  if (ev?.factionId) set.add(ev.factionId);
-
-  const pools = ev?.pools;
-  if (Array.isArray(pools)) {
-    for (const p of pools) {
-      if (typeof p === 'string' && p.startsWith('faction:')) {
-        const id = p.slice(8);
-        if (id) set.add(id);
-      }
-    }
-  }
-
-  const slId = ev?.storyline?.id;
-  if (slId && STORYLINE_TO_FACTION[slId]) set.add(STORYLINE_TO_FACTION[slId]);
-
-  return Array.from(set);
-}
-
-function standingMultiplierForTier(tier) {
-  switch (tier) {
-    case 'Hostile': return 0.60;
-    case 'Wary': return 0.85;
-    case 'Neutral': return 1.00;
-    case 'Favored': return 1.25;
-    case 'Exalted': return 1.45;
-    default: return 1.00;
-  }
-}
-
-function standingBias(ev) {
-  const fids = factionIdsForEvent(ev);
-  if (!fids.length) return 1;
-
-  let m = 1;
-  for (const fid of fids) {
-    m *= standingMultiplierForTier(getStandingTier(fid));
-  }
-  // keep it sane
-  return clamp(m, 0.50, 1.70);
-}
-
 
 function ageBias(ev) {
   // Soft preference toward events that "fit" the current age inside their allowed range.
@@ -3752,8 +3508,6 @@ function eventDirectorWeight(ev) {
   w *= scarcityBias(ev);
   w *= riskBias(ev);
   w *= poolBias(ev);
-
-  w *= standingBias(ev);
 
   // Condition attractors / avoiders:
   w *= conditionBias(ev);
@@ -4361,9 +4115,7 @@ function resolveSelectedOutcome() {
 
   if (success) {
     const cardBundle = bundleFromCommittedCards(committedCardIds(), "onSuccess");
-    let merged = mergeBundles(o.success, cardBundle);
-    const autoStanding = autoStandingBundleForResolvedEvent(evJustResolved, true, false, merged);
-    if (autoStanding) merged = mergeBundles(merged, autoStanding);
+    const merged = mergeBundles(o.success, cardBundle);
     postActions.push(...applyBundle(merged));
     bundleForSummary = merged;
     log(`SUCCESS (${roll} ≤ ${chance}) → ${o.title}`);
