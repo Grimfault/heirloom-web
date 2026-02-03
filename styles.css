@@ -250,6 +250,8 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
 
 .backdrop {
   position: fixed; inset: 0;
+  /* Ensure modals sit above the sticky topbar/header */
+  z-index: 1000;
   background: rgba(0,0,0,0.6);
   display:flex; align-items:center; justify-content:center;
   padding: 12px;
@@ -260,6 +262,9 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
+  /* Prevent long modals from running off-screen */
+  max-height: calc(100vh - 24px);
+  overflow: auto;
 }
 
 /* ---- Run Economy + Clarity pass ---- */
@@ -303,20 +308,6 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border-color: rgba(243, 201, 105, 0.45);
 }
 
-
-.resBar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 6px 0 10px 0;
-}
-
-.opportunityWrap .modalActions {
-  position: sticky;
-  bottom: 0;
-  padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, rgba(15,19,28,0) 0%, rgba(15,19,28,0.85) 30%, rgba(15,19,28,0.96) 100%);
-}
 .cardbig {
   margin-top: 6px;
   display: flex;
