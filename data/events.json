@@ -506,7 +506,7 @@
           ]
         },
         "success": {
-          "text": "You vanish into smoke and return with small disasters in your wake: a dropped lantern among their own wagons, a commander’s pouch missing, a signal horn smashed. The town is saved by a thousand little…",
+          "text": "You vanish into smoke and return with small disasters in your wake: a dropped lantern among their own wagons, a commander’s pouch missing, a signal horn smashed. The town is saved by a thousand little choices made in time.",
           "resources": [
             {
               "resource": "Coin",
@@ -610,7 +610,7 @@
           ]
         },
         "success": {
-          "text": "You speak terms, you speak payment, and the captain nods like a merchant closing a deal. Their soldiers fall in behind you with practiced quiet, and people notice you travel with teeth.",
+          "text": "You speak terms, you speak payment, and the captain nods like a merchant closing a bargain. Their soldiers fall in behind you with practiced quiet, and people notice you travel with teeth.",
           "resources": [
             {
               "resource": "Coin",
@@ -896,7 +896,7 @@
           ]
         },
         "success": {
-          "text": "You let the thief take it again, then close the circle with a nod to a stall-keeper and a foot in the right place. When you retrieve your coin, there’s more in the purse than before, either a ‘fee’ for the…",
+          "text": "You let the thief take it again, then close the circle with a nod to a stall-keeper and a foot in the right place. When you retrieve your coin, there’s more in the purse than before—either a ‘fee’ for the trouble or a mistake you don’t correct.",
           "resources": [
             {
               "resource": "Coin",
@@ -937,7 +937,7 @@
           ]
         },
         "success": {
-          "text": "You raise your voice and make the theft everyone’s concern: honor, safety, the kind of city people want to live in. The crowd shifts, a few hands grab at the runner, and your purse returns with an awkward…",
+          "text": "You raise your voice and make the theft everyone’s concern: honor, safety, the kind of city people want to live in. The crowd shifts, a few hands grab at the runner, and your purse returns with an awkward apology and averted eyes.",
           "resources": [
             {
               "resource": "Coin",
@@ -1084,7 +1084,7 @@
           ]
         },
         "success": {
-          "text": "You seed a sweeter lie in the right ears, one that flatters the listeners for believing it. The original rumor still exists, but now it has competition, and people love choosing which story makes them feel…",
+          "text": "You seed a sweeter lie in the right ears, one that flatters the listeners for believing it. The original rumor still exists, but now it has competition, and people love choosing whichever story makes them feel clever.",
           "resources": [
             {
               "resource": "Renown",
@@ -1700,7 +1700,7 @@
           ]
         },
         "fail": {
-          "text": "You try to skim from the chaos and someone catches the shape of your hands moving. A rumor begins in the same breath as your ‘deal,’ and it spreads faster than you can deny it.",
+          "text": "You try to skim from the chaos and someone catches the shape of your hands moving. A rumor begins in the same breath as your ‘bargain,’ and it spreads faster than you can deny it.",
           "resources": [
             {
               "resource": "Influence",
@@ -1756,7 +1756,7 @@
           ]
         },
         "success": {
-          "text": "You rise at the right moment, neither too eager nor too late, and your words land like a well-placed hand on a shoulder. The host smiles, genuinely, or at least convincingly, and you feel doors click open…",
+          "text": "You rise at the right moment, neither too eager nor too late, and your words land like a well-placed hand on a shoulder. The host smiles—genuinely, or at least convincingly—and you feel doors click open in your direction.",
           "resources": [
             {
               "resource": "Influence",
@@ -1809,7 +1809,7 @@
           ]
         },
         "fail": {
-          "text": "You lean in one time too many, ask one question too sharp, and someone’s gaze lingers on you like a needle finding fabric. You still hear things, but now you also feel it: you’ve been noticed, and not with…",
+          "text": "You lean in one time too many, ask one question too sharp, and someone’s gaze lingers on you like a needle finding fabric. You still hear things, but now you also feel it: you’ve been noticed, and not with kindness.",
           "conditions": [
             {
               "id": "Marked",
@@ -2181,7 +2181,7 @@
           ]
         },
         "success": {
-          "text": "You cite the right charter, the right season, the right clause that makes their demand less absolute than they’d like. The clerk grudgingly adjusts the total and, more importantly, marks you as someone who…",
+          "text": "You cite the right charter, the right season, the right clause that makes their demand less absolute than they’d like. The clerk grudgingly adjusts the total and, more importantly, marks you as someone who reads before they pay.",
           "resources": [
             {
               "resource": "Coin",
@@ -2423,7 +2423,7 @@
           ]
         },
         "fail": {
-          "text": "He takes your coin and then charges you again in ‘fees’ you can’t argue while sitting in his boat. By the time you’re across, you’re poorer than you planned and missing a bit of your provisions as well…",
+          "text": "He takes your coin and then charges you again in ‘fees’ you can’t argue while sitting in his boat. By the time you’re across, you’re poorer than you planned—and missing a bit of your provisions as well.",
           "resources": [
             {
               "resource": "Coin",
@@ -2597,7 +2597,7 @@
           ]
         },
         "success": {
-          "text": "A local takes your coin and then takes you by a route you would never have dared alone, half hidden trails, half superstition, all effective. You arrive with more provisions than you expected, and a new…",
+          "text": "A local takes your coin and then takes you by a route you would never have dared alone—half hidden trails, half superstition, all effective. You arrive with more provisions than you expected, and a new contact who expects a favor later.",
           "resources": [
             {
               "resource": "Coin",
@@ -2648,7 +2648,7 @@
           ]
         },
         "success": {
-          "text": "You move light and fast, stepping where you shouldn’t and trusting instincts over maps. You find a stash, left by smugglers or a desperate traveler, and pocket both goods and a telling detail about who uses…",
+          "text": "You move light and fast, stepping where you shouldn’t and trusting instincts over maps. You find a stash, left by smugglers or a desperate traveler, and pocket both goods and a telling detail about who uses these marsh paths—and when.",
           "resources": [
             {
               "resource": "Supplies",
@@ -2782,7 +2782,7 @@
           ]
         },
         "success": {
-          "text": "You approach with respect instead of demands, and the locals respond like you’ve treated them as people rather than scenery. They point you true, warn you about a bad stretch ahead, and in doing so, tie a…",
+          "text": "You approach with respect instead of demands, and the locals respond like you’ve treated them as people rather than scenery. They point you true, warn you about a bad stretch ahead, and in doing so, tie a small, useful obligation to your name.",
           "resources": [
             {
               "resource": "Influence",
@@ -2822,7 +2822,7 @@
           ]
         },
         "success": {
-          "text": "A satchel left unattended is an invitation, and you accept it with quiet hands. The map inside is better than you hoped, marked routes, private shortcuts, and a note about a patrol schedule that feels very…",
+          "text": "A satchel left unattended is an invitation, and you accept it with quiet hands. The map inside is better than you hoped: marked routes, private shortcuts, and a note about a patrol schedule that feels very much like leverage.",
           "resources": [
             {
               "resource": "Secrets",
@@ -2963,7 +2963,7 @@
           ]
         },
         "success": {
-          "text": "You make it quick, no cruelty, no speeches, just a hard decision carried out with hard hands. You get enough to keep moving, but you also earn what all theft earns in lean times: eyes that remember, and mouths…",
+          "text": "You make it quick—no cruelty, no speeches—just a hard decision carried out with hard hands. You get enough to keep moving, but you also earn what all theft earns in lean times: eyes that remember, and mouths that whisper.",
           "resources": [
             {
               "resource": "Supplies",
@@ -3077,7 +3077,7 @@
           ]
         },
         "success": {
-          "text": "You test each beam before you trust it, shift stones with a stick instead of your hands, and pause when the tower creaks as if remembering how to fall. Under a loose flagstone you find a small cache: a few…",
+          "text": "You test each beam before you trust it, shift stones with a stick instead of your hands, and pause when the tower creaks as if remembering how to fall. Under a loose flagstone you find a small cache: a few coins and a sealed letter.",
           "resources": [
             {
               "resource": "Coin",
@@ -3193,7 +3193,7 @@
           "risks": []
         },
         "success": {
-          "text": "You turn away, not because you’re uninterested, but because you can smell the trouble on the air. Down the road you help a traveler who’s stuck in the mud, or you share a word with a local who appreciates…",
+          "text": "You turn away, not because you’re uninterested, but because you can smell the trouble on the air. Down the road you help a traveler who’s stuck in the mud, or you share a word with a local who appreciates restraint. It buys you nothing now, but it leaves you unmarked.",
           "resources": [
             {
               "resource": "Influence",
@@ -3299,7 +3299,7 @@
       },
       {
         "title": "Hide It for a Time",
-        "desc": "Keep it close, but not *too* close.",
+        "desc": "Keep it close, but not “too” close.",
         "stat": "Resolve",
         "diff": 3,
         "allowed": [
@@ -3463,7 +3463,7 @@
           ]
         },
         "success": {
-          "text": "You ask about old feuds, note who looks away when certain names are spoken, and read the village’s records with the patience of someone who expects lies. The relic isn’t ‘just’ a relic, its history points to a…",
+          "text": "You ask about old feuds, note who looks away when certain names are spoken, and read the village’s records with the patience of someone who expects lies. The relic isn’t ‘just’ a relic; its history points to a missing chapter in local politics.",
           "resources": [
             {
               "resource": "Secrets",
@@ -3507,7 +3507,7 @@
           ]
         },
         "success": {
-          "text": "You ‘recover’ something that looks right in the lamplight and feels right to hopeful hands. The village embraces it like a miracle, and you walk away with the original tucked safely away and profit weighing…",
+          "text": "You ‘recover’ something that looks right in the lamplight and feels right to hopeful hands. The village embraces it like a miracle, and you walk away with the original tucked safely away and profit weighing heavy in your pocket.",
           "resources": [
             {
               "resource": "Coin",
@@ -3872,7 +3872,7 @@
           ]
         },
         "success": {
-          "text": "You grab someone by the collar, bark a threat that sounds like authority, and ‘confiscate’ their purse in the name of ‘keeping them safe.’ Others see it and decide not to argue. In the scramble you learn a…",
+          "text": "You grab someone by the collar, bark a threat that sounds like authority, and ‘confiscate’ their purse in the name of ‘keeping them safe.’ Others see it and decide not to argue. In the scramble you learn a useful name whispered between punches.",
           "resources": [
             {
               "resource": "Coin",
@@ -3885,7 +3885,7 @@
           ]
         },
         "fail": {
-          "text": "You try to squeeze coin from panic and discover someone in the room has sharper instincts than you. A hand clamps your wrist, a voice calls you out, and suddenly the brawl has a new target: the ‘thief’ in…",
+          "text": "You try to squeeze coin from panic and discover someone in the room has sharper instincts than you. A hand clamps your wrist, a voice calls you out, and suddenly the brawl has a new target: the ‘thief’ in their midst.",
           "conditions": [
             {
               "id": "Wanted",
@@ -4305,7 +4305,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Outside a frontier keep, a guard captain steps into your path with the easy confidence of someone backed by steel and paperwork. Their hand rests near the hilt, not gripping, just reminding.",
+    "prompt": "Outside a frontier keep, a guard captain steps into your path with the easy confidence of someone backed by steel and writs. Their hand rests near the hilt, not gripping, just reminding.",
     "outcomes": [
       {
         "title": "Stand Tall",
@@ -4413,7 +4413,7 @@
           ]
         },
         "success": {
-          "text": "You vanish into the crowd’s blind spots, move when they blink, and pass the checkpoint as if you were never meant to stop there. Behind you, the captain’s voice rises in irritation, but it’s too late, you’re…",
+          "text": "You vanish into the crowd’s blind spots, move when they blink, and pass the checkpoint as if you were never meant to stop there. Behind you, the captain’s voice rises in irritation, but it’s too late—you’re already across the line.",
           "resources": [
             {
               "resource": "Secrets",
@@ -4664,7 +4664,7 @@
           ]
         },
         "success": {
-          "text": "You choose the right mouths, barmaids, scribes, guards with loose lips, and you give them a story that sounds like they discovered it themselves. Within days, your name is spoken with a slightly different…",
+          "text": "You choose the right mouths—barmaids, scribes, guards with loose lips—and you give them a story that sounds like they discovered it themselves. Within days, your name is spoken with a slightly different slant.",
           "resources": [
             {
               "resource": "Renown",
@@ -4765,7 +4765,7 @@
           ]
         },
         "fail": {
-          "text": "You chase the rumor through alleys of half-truth and spite. Every source points to another source, every certainty dissolves into ‘I heard.’ By the time you stop, you’ve spent a day wrestling smoke, and the…",
+          "text": "You chase the rumor through alleys of half-truth and spite. Every source points to another source, every certainty dissolves into ‘I heard.’ By the time you stop, you’ve spent a day wrestling smoke, and the rumor is no closer to dying.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -4804,7 +4804,7 @@
           ]
         },
         "fail": {
-          "text": "Your silence is interpreted the way crowds love to interpret silence: as an admission. The rumor hardens while you stand still, and by the time you notice the damage, your name has already been bent into…",
+          "text": "Your silence is interpreted the way crowds love to interpret silence: as an admission. The rumor hardens while you stand still, and by the time you notice the damage, your name has already been bent into a joke people enjoy repeating.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -5336,7 +5336,7 @@
           ]
         },
         "fail": {
-          "text": "Your defense becomes the spectacle the court wanted, just not in the way you intended. A misstep is seized, a phrase is twisted, and suddenly you are not a defender of fairness but an accomplice in the crowd’s…",
+          "text": "Your defense becomes the spectacle the court wanted—just not in the way you intended. A misstep is seized, a phrase is twisted, and suddenly you are not a defender of fairness but an accomplice in the crowd’s eyes.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -5366,7 +5366,7 @@
           ]
         },
         "success": {
-          "text": "You scour the record, talk to the right clerk, follow a detail that doesn’t fit. Somewhere in the paperwork is a seam, an impossible timeline, a forged mark, a witness who wasn’t where they claimed.",
+          "text": "You scour the record, talk to the right clerk, follow a detail that doesn’t fit. Somewhere in the writs is a seam, an impossible timeline, a forged mark, a witness who wasn’t where they claimed.",
           "resources": [
             {
               "resource": "Secrets",
@@ -5503,7 +5503,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "In the capital’s court, a patron smiles as if you belong to their success. They ask for a ‘small service’ in a tone that makes it clear the service is only small to *them*.",
+    "prompt": "In the capital’s court, a patron smiles as if you belong to their success. They ask for a ‘small service’ in a tone that makes it clear the service is only small to “them”.",
     "outcomes": [
       {
         "title": "Accept Dutifully",
@@ -5682,7 +5682,7 @@
           ]
         },
         "success": {
-          "text": "You accept the insinuation with practiced ease, neither confirming nor denying, just letting the room imagine what it wants. Doors open when people believe you’re being \"considered.\" You leave the feast…",
+          "text": "You accept the insinuation with practiced ease, neither confirming nor denying, just letting the room imagine what it wants. Doors open when people believe you’re being \"considered.\" You leave the feast with options you didn’t have an hour ago.",
           "resources": [
             {
               "resource": "Influence",
@@ -5811,7 +5811,7 @@
           ]
         },
         "success": {
-          "text": "You laugh softly, offer a carefully chosen compliment about someone *else*, and let the matchmaker’s instincts do the rest. Within minutes the room is chewing on a new narrative, one that keeps your name out…",
+          "text": "You laugh softly, offer a carefully chosen compliment about someone else, and let the matchmaker’s instincts do the rest. Within minutes the room is chewing on a new narrative—one that keeps your name out of the target’s mouth.",
           "resources": [
             {
               "resource": "Coin",
@@ -5856,7 +5856,7 @@
     ],
     "minAge": 16,
     "maxAge": 70,
-    "prompt": "Outside a frontier keep, the failure is sudden and final: a crack like a snapped bone, then the sickening tilt of your cart, or the sag of a pack rig, dumping weight into the mud. The sun is already dropping, and the road ahead is the kind that grows teeth…",
+    "prompt": "Outside a frontier keep, the failure is sudden and final: a crack like a snapped bone, then the sickening tilt of your cart, or the sag of a pack rig, dumping weight into the mud. The sun is already dropping, and the road ahead is the kind that grows teeth after dusk.",
     "outcomes": [
       {
         "title": "Fix It Yourself",
@@ -6118,7 +6118,7 @@
           ]
         },
         "fail": {
-          "text": "Your ‘detour’ becomes a slow trap: false turns, dead ends, and exposed stretches where the wind punishes every mistake. By the time you find anything like a workable path, you’ve eaten through far more than…",
+          "text": "Your ‘detour’ becomes a slow trap: false turns, dead ends, and exposed stretches where the wind punishes every mistake. By the time you find anything like a workable path, you’ve eaten through far more than you planned.",
           "resources": [
             {
               "resource": "Supplies",
@@ -6393,7 +6393,7 @@
           ]
         },
         "success": {
-          "text": "You douse the coals, pack quickly, and vanish into the dark before they’re close enough to commit. You learn a useful truth about the road, how quickly danger forms around comfort, and you carry that lesson…",
+          "text": "You douse the coals, pack quickly, and vanish into the dark before they’re close enough to commit. You learn a useful truth about the road—how quickly danger forms around comfort—and you carry that lesson like a warmed stone.",
           "resources": [
             {
               "resource": "Secrets",
@@ -6493,7 +6493,7 @@
           ]
         },
         "success": {
-          "text": "You ask the right questions: which office issued the writ, what seal should look like up close, what the toll is ‘supposed’ to fund. The tollkeeper stumbles, and the assistants shift in a way that answers you…",
+          "text": "You ask the right questions: which office issued the writ, what the seal should look like up close, what the toll is ‘supposed’ to fund. The tollkeeper stumbles, and the assistants shift in a way that answers you before anyone speaks.",
           "resources": [
             {
               "resource": "Secrets",
@@ -6557,7 +6557,7 @@
       },
       {
         "title": "Forge Your Own Pass",
-        "desc": "Meet fraud with fraud. Give them paperwork that makes their paperwork irrelevant.",
+        "desc": "Meet fraud with fraud. Give them writs that makes their writs irrelevant.",
         "stat": "Guile",
         "diff": 4,
         "allowed": [
@@ -7254,7 +7254,7 @@
       },
       {
         "title": "Endure the Consequences",
-        "desc": "Take the hit and outlast the record. Survive the paperwork long enough to fix it later.",
+        "desc": "Take the hit and outlast the record. Survive the writs long enough to fix it later.",
         "stat": "Resolve",
         "diff": 3,
         "allowed": [
@@ -7272,7 +7272,7 @@
           ]
         },
         "success": {
-          "text": "You absorb the indignity, keep your head down when needed, and refuse to let the mistake define you. People see you endure and keep functioning anyway, and that stubborn steadiness becomes its own kind of…",
+          "text": "You absorb the indignity, keep your head down when needed, and refuse to let the mistake define you. People see you endure and keep functioning anyway, and that stubborn steadiness becomes its own kind of respect.",
           "resources": [
             {
               "resource": "Renown",
@@ -10371,7 +10371,7 @@
     "prompt": "In a shipyard port’s shipyards, a merchant caravan offers you temporary work: one road, one payout. They warn you the last caravan lost two guards and all its spice.",
     "outcomes": [
       {
-        "title": "Take the Job",
+        "title": "Take the Work",
         "desc": "Be steel on the road, for coin.",
         "stat": "Might",
         "diff": 2,
@@ -11378,7 +11378,7 @@
           ]
         },
         "fail": {
-          "text": "Guards arrive faster than you expected. The court loves its paperwork.",
+          "text": "Guards arrive faster than you expected. The court loves its writs.",
           "conditions": [
             {
               "id": "Wanted",
@@ -13511,7 +13511,7 @@
     ],
     "minAge": 20,
     "maxAge": 20,
-    "prompt": "You’ve survived long enough to realize that “someday” is a lie people tell themselves. A door is opening, quietly, without ceremony, and if you don’t step through, it may never open again. At a frontier keep, the road narrows between palisade and river. A quarrel has turned into a crush: a wounded carter, a shouting sergeant, and a crowd that wants to be anywhere else. Someone looks to you, not because you’re important, but because you’re *present*. This is the first moment you feel it: a life can tilt on a single choice. This is your first true turning. The next years will grow from what you do here.",
+    "prompt": "You’ve survived long enough to realize that “someday” is a lie people tell themselves. A door is opening, quietly, without ceremony, and if you don’t step through, it may never open again. At a frontier keep, the road narrows between palisade and river. A quarrel has turned into a crush: a wounded carter, a shouting sergeant, and a crowd that wants to be anywhere else. Someone looks to you, not because you’re important, but because you’re “present”. This is the first moment you feel it: a life can tilt on a single choice. This is your first true turning. The next years will grow from what you do here.",
     "outcomes": [
       {
         "title": "Take Up the Spear",
@@ -13619,7 +13619,7 @@
           ]
         },
         "success": {
-          "text": "You find the hinge of the dispute in three lines. The sergeant quiets when you read the figures aloud. A clerk presses a scrap of official paper into your palm, proof you can *count*. A margin note, your margin note, changes who pays.",
+          "text": "You find the hinge of the dispute in three lines. The sergeant quiets when you read the figures aloud. A clerk presses a scrap of official paper into your palm, proof you can “count”. A margin note, your margin note, changes who pays.",
           "resources": [
             {
               "resource": "Influence",
@@ -13938,7 +13938,7 @@
     ],
     "minAge": 20,
     "maxAge": 20,
-    "prompt": "You’ve survived long enough to realize that “someday” is a lie people tell themselves. A door is opening, quietly, without ceremony, and if you don’t step through, it may never open again. At a hospice-abbey, the hospice gates never fully close. Tonight, a ward is short-handed, the kind of short-handed that turns a cough into a funeral. A sister with ink-stained fingers asks you a simple question: *“What do you want your life to be for?”* This is your first true turning. The next years will grow from what you do here.",
+    "prompt": "You’ve survived long enough to realize that “someday” is a lie people tell themselves. A door is opening, quietly, without ceremony, and if you don’t step through, it may never open again. At a hospice-abbey, the hospice gates never fully close. Tonight, a ward is short-handed, the kind of short-handed that turns a cough into a funeral. A sister with ink-stained fingers asks you a simple question: ““What do you want your life to be for?”” This is your first true turning. The next years will grow from what you do here.",
     "outcomes": [
       {
         "title": "Stand Watch at the Door",
@@ -14505,7 +14505,7 @@
         }
       },
       {
-        "title": "Make a Deal in the Shadows",
+        "title": "Strike a Bargain in the Shadows",
         "desc": "A minor seal-stamp, a blank slip of parchment, and a promise that no one will remember your face.",
         "stat": "Guile",
         "diff": 4,
@@ -14758,7 +14758,7 @@
     ],
     "minAge": 35,
     "maxAge": 35,
-    "prompt": "By now, your choices have consequences that arrive before you do. Friends have become obligations, rivals have become patterns, and a single decision can turn a nuisance into an enemy. At the capital, the muster grounds are muddy with practice and nerves. A captain you once impressed now offers you a place *above* the line. It’s the kind of offer that turns friends into rivals and rivals into knives. Your earlier choices have brought you to this crossroads. What you do now hardens into habit, and into enemies.",
+    "prompt": "By now, your choices have consequences that arrive before you do. Friends have become obligations, rivals have become patterns, and a single decision can turn a nuisance into an enemy. At the capital, the muster grounds are muddy with practice and nerves. A captain you once impressed now offers you a place “above” the line. It’s the kind of offer that turns friends into rivals and rivals into knives. Your earlier choices have brought you to this crossroads. What you do now hardens into habit, and into enemies.",
     "outcomes": [
       {
         "title": "Take Command",
@@ -15056,7 +15056,7 @@
     ],
     "minAge": 35,
     "maxAge": 35,
-    "prompt": "By now, your choices have consequences that arrive before you do. Friends have become obligations, rivals have become patterns, and a single decision can turn a nuisance into an enemy. In a lakeside city, torches hiss over lake-fog. A sealed challenge arrives with no crest, just a time, a place, and a promise: *win, and the doors open; lose, and the rumors do.* You can feel the trap, and also the opportunity. Your earlier choices have brought you to this crossroads. What you do now hardens into habit, and into enemies.",
+    "prompt": "By now, your choices have consequences that arrive before you do. Friends have become obligations, rivals have become patterns, and a single decision can turn a nuisance into an enemy. In a lakeside city, torches hiss over lake-fog. A sealed challenge arrives with no crest, just a time, a place, and a promise: “win, and the doors open; lose, and the rumors do.” You can feel the trap, and also the opportunity. Your earlier choices have brought you to this crossroads. What you do now hardens into habit, and into enemies.",
     "outcomes": [
       {
         "title": "Meet Them Blade-to-Blade",
@@ -15110,7 +15110,7 @@
           ]
         },
         "fail": {
-          "text": "You’re outplayed. Not beaten, *outplayed*. The point was never the blade; it was the witness.",
+          "text": "You’re outplayed. Not beaten, “outplayed”. The point was never the blade; it was the witness.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -15739,7 +15739,7 @@
       },
       {
         "title": "Blackmail the Broker",
-        "desc": "If they want dirt, you’ll make sure it sticks to *them*.",
+        "desc": "If they want dirt, you’ll make sure it sticks to “them”.",
         "stat": "Guile",
         "diff": 4,
         "allowed": [
@@ -16087,7 +16087,7 @@
           ]
         },
         "fail": {
-          "text": "Your names aren’t enough. They want *more*, and they know you can get it.",
+          "text": "Your names aren’t enough. They want “more”, and they know you can get it.",
           "conditions": [
             {
               "id": "Wanted",
@@ -16161,7 +16161,7 @@
           ]
         },
         "fail": {
-          "text": "They were ready. You wake up with bruises and a message carved into the wall: *Next time, die.*",
+          "text": "They were ready. You wake up with bruises and a message carved into the wall: “Next time, die.”",
           "conditions": [
             {
               "id": "Wounded",
@@ -16224,7 +16224,7 @@
           "conditions": []
         },
         "fail": {
-          "text": "You’re caught on the road. The collectors don’t shout; they simply *act*.",
+          "text": "You’re caught on the road. The collectors don’t shout; they simply “act”.",
           "conditions": [
             {
               "id": "Wanted",
@@ -16981,7 +16981,7 @@
           "conditions": []
         },
         "fail": {
-          "text": "The buyer is a trap. The file returns to you with a new note: *We know.*",
+          "text": "The buyer is a trap. The file returns to you with a new note: “We know.”",
           "conditions": [
             {
               "id": "Marked",
@@ -18376,7 +18376,7 @@
     ],
     "minAge": 50,
     "maxAge": 50,
-    "prompt": "You’ve begun to measure time differently, less by plans, more by what will remain when you’re gone. People watch you for precedent, and your own household watches you for meaning. In the stacks of an archive-fortress, you are offered a shelf with your name already inked on the wood. The question isn’t whether you can write history. The question is what you will *do* with it. You can feel the weight of years behind you. Whatever you set in motion now will outlast you.",
+    "prompt": "You’ve begun to measure time differently, less by plans, more by what will remain when you’re gone. People watch you for precedent, and your own household watches you for meaning. In the stacks of an archive-fortress, you are offered a shelf with your name already inked on the wood. The question isn’t whether you can write history. The question is what you will “do” with it. You can feel the weight of years behind you. Whatever you set in motion now will outlast you.",
     "outcomes": [
       {
         "title": "Compile the Chronicle",
@@ -19078,7 +19078,7 @@
           ]
         },
         "fail": {
-          "text": "Your buyer double-crosses you. The truth spreads anyway, and the heat lands on *you*.",
+          "text": "Your buyer double-crosses you. The truth spreads anyway, and the heat lands on “you”.",
           "conditions": [
             {
               "id": "Wanted",
@@ -19556,7 +19556,7 @@
     ],
     "minAge": 50,
     "maxAge": 50,
-    "prompt": "You’ve begun to measure time differently, less by plans, more by what will remain when you’re gone. People watch you for precedent, and your own household watches you for meaning. In a toll city, a charter is laid before you, new roads, new taxes, new promises. If you sign, your name will be carved into stone. If you refuse, someone else will sign, and they will carve *their* name. You can feel the weight of years behind you. Whatever you set in motion now will outlast you.",
+    "prompt": "You’ve begun to measure time differently, less by plans, more by what will remain when you’re gone. People watch you for precedent, and your own household watches you for meaning. In a toll city, a charter is laid before you, new roads, new taxes, new promises. If you sign, your name will be carved into stone. If you refuse, someone else will sign, and they will carve “their” name. You can feel the weight of years behind you. Whatever you set in motion now will outlast you.",
     "outcomes": [
       {
         "title": "Sign and Shape It",
@@ -21063,7 +21063,7 @@
       },
       {
         "title": "Set a Warning",
-        "desc": "You drag the wagon into view and carve a sign: *Danger.*",
+        "desc": "You drag the wagon into view and carve a sign: “Danger.”",
         "stat": "Might",
         "diff": 3,
         "allowed": [
@@ -21292,7 +21292,7 @@
     ],
     "minAge": 30,
     "maxAge": 30,
-    "prompt": "There are rules here that nobody says out loud. You can feel them anyway. At thirty, you’re no longer ‘promising.’ You’re either *something*… or you’re still waiting. A messenger brings a summons to a toll city: your name has been entered into a trial ledger. If you hesitate, the world will decide for you.",
+    "prompt": "There are rules here that nobody says out loud. You can feel them anyway. At thirty, you’re no longer ‘promising.’ You’re either “something”… or you’re still waiting. A messenger brings a summons to a toll city: your name has been entered into a trial ledger. If you hesitate, the world will decide for you.",
     "outcomes": [
       {
         "title": "Defend Yourself in Full",
@@ -28752,7 +28752,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In High Valewyr, etiquette is a blade—smiled at, sheathed, and used without apology. Your entrance becomes a spectacle; a Riverlord loudly tests whether your shine is substance.",
+    "prompt": "In High Valewyr, etiquette is a blade—smiled at, sheathed, and used without apology. The Stag Court watches your first step as if it were testimony.",
     "outcomes": [
       {
         "title": "Attend With Care",
@@ -29049,7 +29049,7 @@
   },
   {
     "id": "sl_wc_02_care",
-    "name": "The Wolf Court — Act II",
+    "name": "The Wolf Court—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -29079,7 +29079,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "The stag-and-thorn banners of the Crown hang heavy over High Valewyr, as if the river itself has been sworn to silence. A clerk offers you a copy of the seating ledger—names, debts, and who must not sit beside whom.",
+    "prompt": "You move like a careful player, collecting names and debts the way Riverlords collect tolls. In the Stag Court, allies are made in whispers.",
     "outcomes": [
       {
         "title": "Hold to Stag Court",
@@ -29242,7 +29242,7 @@
   },
   {
     "id": "sl_wc_02_bold",
-    "name": "The Wolf Court — Act II",
+    "name": "The Wolf Court—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -29272,7 +29272,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "The Stag Court blooms with perfumed politics; even the candles look like witnesses. Your entrance becomes a spectacle; a Riverlord loudly tests whether your shine is substance.",
+    "prompt": "You take the center of the room on purpose. Under stag-and-thorn banners, a single wrong bow can be a wound that never heals.",
     "outcomes": [
       {
         "title": "Keep to Black Mantle Offices",
@@ -29435,7 +29435,7 @@
   },
   {
     "id": "sl_wc_02_shadow",
-    "name": "The Wolf Court — Act II",
+    "name": "The Wolf Court—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -29465,7 +29465,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "The Stag Court blooms with perfumed politics; even the candles look like witnesses. A sidehall door opens where it shouldn't. Someone inside says your name as if reading it off a list.",
+    "prompt": "You slip into the side-halls where the candlelight is weaker and the truth is negotiable. Old Quays gossip reaches the court before the river mist burns off.",
     "outcomes": [
       {
         "title": "Keep to Black Mantle Offices",
@@ -29628,7 +29628,7 @@
   },
   {
     "id": "sl_wc_02_refusal",
-    "name": "The Wolf Court — Act II",
+    "name": "The Wolf Court—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -29658,7 +29658,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "The Stag Court blooms with perfumed politics; even the candles look like witnesses. A Black Mantle waits near your lodgings, polite as a noose. \"A refusal is still an answer,\" they say.",
+    "prompt": "You keep to the edges and let the court’s gaze slide past you. In High Valewyr, absence is read as a statement.",
     "outcomes": [
       {
         "title": "Keep to Old Quays",
@@ -29821,7 +29821,7 @@
   },
   {
     "id": "sl_wc_03_care_steady",
-    "name": "The Wolf Court — Act III",
+    "name": "The Wolf Court—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -29851,7 +29851,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "The stag-and-thorn banners of the Crown hang heavy over High Valewyr, as if the river itself has been sworn to silence. The ledger is not paper—it is leverage. One blot of ink could ruin a house.",
+    "prompt": "Your quiet ties begin to tug on seating charts and marriage talk. Someone notices the pattern. You press forward with your hands clean, and the river-city holds its breath.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -30019,7 +30019,7 @@
   },
   {
     "id": "sl_wc_03_care_edge",
-    "name": "The Wolf Court — Act III",
+    "name": "The Wolf Court—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -30049,7 +30049,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "The stag-and-thorn banners of the Crown hang heavy over High Valewyr, as if the river itself has been sworn to silence. A smiling rival offers an alliance that sounds like a threat in good clothing.",
+    "prompt": "Your quiet ties begin to tug on seating charts and marriage talk. Someone notices the pattern. You press forward with your teeth showing, and the river-city holds its breath.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -30217,7 +30217,7 @@
   },
   {
     "id": "sl_wc_03_bold_steady",
-    "name": "The Wolf Court — Act III",
+    "name": "The Wolf Court—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -30247,7 +30247,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "The stag-and-thorn banners of the Crown hang heavy over High Valewyr, as if the river itself has been sworn to silence. A smiling rival offers an alliance that sounds like a threat in good clothing.",
+    "prompt": "Your entrance has made you a topic. Now the Stag Court decides whether you are a novelty or a threat. You press forward with your hands clean, and the river-city holds its breath.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -30415,7 +30415,7 @@
   },
   {
     "id": "sl_wc_03_bold_edge",
-    "name": "The Wolf Court — Act III",
+    "name": "The Wolf Court—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -30445,7 +30445,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In High Valewyr, etiquette is a blade—smiled at, sheathed, and used without apology. The Black Mantles ask questions that make innocence feel complicated.",
+    "prompt": "Your entrance has made you a topic. Now the Stag Court decides whether you are a novelty or a threat. You press forward with your teeth showing, and the river-city holds its breath.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -30613,7 +30613,7 @@
   },
   {
     "id": "sl_wc_03_shadow_steady",
-    "name": "The Wolf Court — Act III",
+    "name": "The Wolf Court—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -30643,7 +30643,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In High Valewyr, etiquette is a blade—smiled at, sheathed, and used without apology. The Black Mantles ask questions that make innocence feel complicated.",
+    "prompt": "The side-halls have names for you now. Black Mantle eyes linger where they didn’t before. You press forward with your hands clean, and the river-city holds its breath.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -30811,7 +30811,7 @@
   },
   {
     "id": "sl_wc_03_shadow_edge",
-    "name": "The Wolf Court — Act III",
+    "name": "The Wolf Court—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -30841,7 +30841,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In High Valewyr, etiquette is a blade—smiled at, sheathed, and used without apology. The Black Mantles ask questions that make innocence feel complicated.",
+    "prompt": "The side-halls have names for you now. Black Mantle eyes linger where they didn’t before. You press forward with your teeth showing, and the river-city holds its breath.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -31009,7 +31009,7 @@
   },
   {
     "id": "sl_wc_03_refusal_steady",
-    "name": "The Wolf Court — Act III",
+    "name": "The Wolf Court—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -31039,7 +31039,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In High Valewyr, etiquette is a blade—smiled at, sheathed, and used without apology. The locked sidehall teaches you how court secrets are kept: by making everyone complicit.",
+    "prompt": "Your distance has become its own rumor. Courtiers fill silence with stories, and stories become weapons. You press forward with your hands clean, and the river-city holds its breath.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -31207,7 +31207,7 @@
   },
   {
     "id": "sl_wc_03_refusal_edge",
-    "name": "The Wolf Court — Act III",
+    "name": "The Wolf Court—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -31237,7 +31237,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "The stag-and-thorn banners of the Crown hang heavy over High Valewyr, as if the river itself has been sworn to silence. The ledger is not paper—it is leverage. One blot of ink could ruin a house.",
+    "prompt": "Your distance has become its own rumor. Courtiers fill silence with stories, and stories become weapons. You press forward with your teeth showing, and the river-city holds its breath.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -31405,7 +31405,7 @@
   },
   {
     "id": "sl_wc_04_care_steady_commit",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -31436,7 +31436,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "When the court finally exhales, you realize it was holding its breath around you. Widow's Market frames the outcome in a way you can’t fully control.",
+    "prompt": "A careful web, and now a single cut can unravel it—or tighten into a noose. And after you kept your hands clean, this is where you bind yourself to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Stand in the light",
@@ -31620,7 +31620,7 @@
   },
   {
     "id": "sl_wc_04_care_steady_burn",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -31651,7 +31651,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In the Widow’s Market, people sell what they saw—and what they swear they saw. Widow's Market frames the outcome in a way you can’t fully control.",
+    "prompt": "A careful web, and now a single cut can unravel it—or tighten into a noose. And after you kept your hands clean, this is where you leave scorch-marks to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -31853,7 +31853,7 @@
   },
   {
     "id": "sl_wc_04_care_edge_commit",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -31884,7 +31884,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "By Reapfall, rumors about you move faster than coin across the Old Quays. Widow's Market frames the outcome in a way you can’t fully control.",
+    "prompt": "A careful web, and now a single cut can unravel it—or tighten into a noose. And after you played with sharp elbows, this is where you bind yourself to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -32068,7 +32068,7 @@
   },
   {
     "id": "sl_wc_04_care_edge_burn",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -32099,7 +32099,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In the Widow’s Market, people sell what they saw—and what they swear they saw. Widow's Market frames the outcome in a way you can’t fully control.",
+    "prompt": "A careful web, and now a single cut can unravel it—or tighten into a noose. And after you played with sharp elbows, this is where you leave scorch-marks to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Take the scar for a crown",
@@ -32301,7 +32301,7 @@
   },
   {
     "id": "sl_wc_04_bold_steady_commit",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -32332,7 +32332,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "By Reapfall, rumors about you move faster than coin across the Old Quays. Black Mantle Offices frames the outcome in a way you can’t fully control.",
+    "prompt": "Steel in silk. You chose spectacle; now you learn what spectacle costs. And after you kept your hands clean, this is where you bind yourself to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Claim the outcome",
@@ -32516,7 +32516,7 @@
   },
   {
     "id": "sl_wc_04_bold_steady_burn",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -32547,7 +32547,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "By Reapfall, rumors about you move faster than coin across the Old Quays. Old Quays frames the outcome in a way you can’t fully control.",
+    "prompt": "Steel in silk. You chose spectacle; now you learn what spectacle costs. And after you kept your hands clean, this is where you leave scorch-marks to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -32749,7 +32749,7 @@
   },
   {
     "id": "sl_wc_04_bold_edge_commit",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -32780,7 +32780,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "When the court finally exhales, you realize it was holding its breath around you. Stag Court frames the outcome in a way you can’t fully control.",
+    "prompt": "Steel in silk. You chose spectacle; now you learn what spectacle costs. And after you played with sharp elbows, this is where you bind yourself to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -32964,7 +32964,7 @@
   },
   {
     "id": "sl_wc_04_bold_edge_burn",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -32995,7 +32995,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In the Widow’s Market, people sell what they saw—and what they swear they saw. High Valewyr frames the outcome in a way you can’t fully control.",
+    "prompt": "Steel in silk. You chose spectacle; now you learn what spectacle costs. And after you played with sharp elbows, this is where you leave scorch-marks to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -33197,7 +33197,7 @@
   },
   {
     "id": "sl_wc_04_shadow_steady_commit",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -33228,7 +33228,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "By Reapfall, rumors about you move faster than coin across the Old Quays. Stag Court frames the outcome in a way you can’t fully control.",
+    "prompt": "Secrets have weight. The court decides whether to fear you, use you, or bury you. And after you kept your hands clean, this is where you bind yourself to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Claim the outcome",
@@ -33412,7 +33412,7 @@
   },
   {
     "id": "sl_wc_04_shadow_steady_burn",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -33443,7 +33443,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "When the court finally exhales, you realize it was holding its breath around you. Old Quays frames the outcome in a way you can’t fully control.",
+    "prompt": "Secrets have weight. The court decides whether to fear you, use you, or bury you. And after you kept your hands clean, this is where you leave scorch-marks to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -33645,7 +33645,7 @@
   },
   {
     "id": "sl_wc_04_shadow_edge_commit",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -33676,7 +33676,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In the Widow’s Market, people sell what they saw—and what they swear they saw. Black Mantle Offices frames the outcome in a way you can’t fully control.",
+    "prompt": "Secrets have weight. The court decides whether to fear you, use you, or bury you. And after you played with sharp elbows, this is where you bind yourself to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Stand in the light",
@@ -33860,7 +33860,7 @@
   },
   {
     "id": "sl_wc_04_shadow_edge_burn",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -33891,7 +33891,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In the Widow’s Market, people sell what they saw—and what they swear they saw. High Valewyr frames the outcome in a way you can’t fully control.",
+    "prompt": "Secrets have weight. The court decides whether to fear you, use you, or bury you. And after you played with sharp elbows, this is where you leave scorch-marks to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -34093,7 +34093,7 @@
   },
   {
     "id": "sl_wc_04_refusal_steady_commit",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -34124,7 +34124,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "By Reapfall, rumors about you move faster than coin across the Old Quays. Stag Court frames the outcome in a way you can’t fully control.",
+    "prompt": "You tried to remain outside. High Valewyr punishes distance as readily as ambition. And after you kept your hands clean, this is where you bind yourself to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Take the witness",
@@ -34308,7 +34308,7 @@
   },
   {
     "id": "sl_wc_04_refusal_steady_burn",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -34339,7 +34339,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In the Widow’s Market, people sell what they saw—and what they swear they saw. Widow's Market frames the outcome in a way you can’t fully control.",
+    "prompt": "You tried to remain outside. High Valewyr punishes distance as readily as ambition. And after you kept your hands clean, this is where you leave scorch-marks to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -34541,7 +34541,7 @@
   },
   {
     "id": "sl_wc_04_refusal_edge_commit",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -34572,7 +34572,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "In the Widow’s Market, people sell what they saw—and what they swear they saw. Black Mantle Offices frames the outcome in a way you can’t fully control.",
+    "prompt": "You tried to remain outside. High Valewyr punishes distance as readily as ambition. And after you played with sharp elbows, this is where you bind yourself to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -34756,7 +34756,7 @@
   },
   {
     "id": "sl_wc_04_refusal_edge_burn",
-    "name": "The Wolf Court — Ending",
+    "name": "The Wolf Court—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -34787,7 +34787,7 @@
         "id": "sl_wc_done"
       }
     ],
-    "prompt": "By Reapfall, rumors about you move faster than coin across the Old Quays. Old Quays frames the outcome in a way you can’t fully control.",
+    "prompt": "You tried to remain outside. High Valewyr punishes distance as readily as ambition. And after you played with sharp elbows, this is where you leave scorch-marks to the Stag Court’s memory.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -35011,7 +35011,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "A letter of credit is a prayer written to coin, and the League is its god. An audit summons arrives with the quiet menace of polite paper. Someone wants you insolvent.",
+    "prompt": "A letter of credit is a prayer written to coin, and the Marcher League is its god. An audit summons arrives with the quiet menace of polite paper.",
     "outcomes": [
       {
         "title": "Sign as Guarantor",
@@ -35311,7 +35311,7 @@
   },
   {
     "id": "sl_mg_02_guarantor",
-    "name": "The Merchant’s Gambit — Act II",
+    "name": "The Merchant’s Gambit—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -35341,7 +35341,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "A letter of credit is a prayer written to coin, and the League is its god. An audit summons arrives with the quiet menace of polite paper. Someone wants you insolvent.",
+    "prompt": "A Signatory’s favor is a bridge made of paper and promises. You go looking for a name willing to stand behind yours.",
     "outcomes": [
       {
         "title": "Hold to Contract Court",
@@ -35504,7 +35504,7 @@
   },
   {
     "id": "sl_mg_02_fineink",
-    "name": "The Merchant’s Gambit — Act II",
+    "name": "The Merchant’s Gambit—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -35534,7 +35534,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "In the Marcher League, ink is stronger than steel—because steel needs a contract to be legal. You find a hidden clause that turns one missed payment into a lifetime of leverage.",
+    "prompt": "In Kestrelbank, the Contract Court is theater. You don’t win by being right—you win by controlling the record.",
     "outcomes": [
       {
         "title": "Mind Marrowgate",
@@ -35697,7 +35697,7 @@
   },
   {
     "id": "sl_mg_02_forge",
-    "name": "The Merchant’s Gambit — Act II",
+    "name": "The Merchant’s Gambit—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -35727,7 +35727,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "Kestrelbank smells like wax, salt, and numbers. The countinghouses never truly sleep. A Quiet House intermediary offers you a new signature—at a price you can't write down.",
+    "prompt": "Wax, ink, and salt air: Gilderhaven never truly sleeps. A Quiet House runner offers you a cleaner story than the truth.",
     "outcomes": [
       {
         "title": "Hold to Gilderhaven",
@@ -35890,7 +35890,7 @@
   },
   {
     "id": "sl_mg_02_walk",
-    "name": "The Merchant’s Gambit — Act II",
+    "name": "The Merchant’s Gambit—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -35920,7 +35920,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "In the Marcher League, ink is stronger than steel—because steel needs a contract to be legal. You walk away, and the ledger follows. Debts in the League have legs.",
+    "prompt": "You consider walking away before the ledger closes. In the League, departure is still a kind of entry—someone will note it.",
     "outcomes": [
       {
         "title": "Mind Kestrelbank",
@@ -36083,7 +36083,7 @@
   },
   {
     "id": "sl_mg_03_guarantor_steady",
-    "name": "The Merchant’s Gambit — Act III",
+    "name": "The Merchant’s Gambit—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -36113,7 +36113,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "In the Marcher League, ink is stronger than steel—because steel needs a contract to be legal. On a night quay in Gilderhaven, goods change hands without names attached.",
+    "prompt": "Your guarantor’s smile is friendly, but their eyes are measuring. In the League, kindness is an invoice. You tighten the terms, and the countinghouses listen.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -36285,7 +36285,7 @@
   },
   {
     "id": "sl_mg_03_guarantor_edge",
-    "name": "The Merchant’s Gambit — Act III",
+    "name": "The Merchant’s Gambit—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -36315,7 +36315,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "Kestrelbank smells like wax, salt, and numbers. The countinghouses never truly sleep. Contract Court is theater. You win by controlling the story, not the facts.",
+    "prompt": "Your guarantor’s smile is friendly, but their eyes are measuring. In the League, kindness is an invoice. You push for leverage, and the countinghouses listen.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -36487,7 +36487,7 @@
   },
   {
     "id": "sl_mg_03_fineink_steady",
-    "name": "The Merchant’s Gambit — Act III",
+    "name": "The Merchant’s Gambit—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -36517,7 +36517,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "Kestrelbank smells like wax, salt, and numbers. The countinghouses never truly sleep. The Salt Guild reminds you that logistics can be a weapon: shortages, delays, 'accidents'.",
+    "prompt": "The court clerk’s quill pauses over your name. You feel the weight of every clause you’ve ever ignored. You tighten the terms, and the countinghouses listen.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -36689,7 +36689,7 @@
   },
   {
     "id": "sl_mg_03_fineink_edge",
-    "name": "The Merchant’s Gambit — Act III",
+    "name": "The Merchant’s Gambit—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -36719,7 +36719,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "In the Marcher League, ink is stronger than steel—because steel needs a contract to be legal. On a night quay in Gilderhaven, goods change hands without names attached.",
+    "prompt": "The court clerk’s quill pauses over your name. You feel the weight of every clause you’ve ever ignored. You push for leverage, and the countinghouses listen.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -36891,7 +36891,7 @@
   },
   {
     "id": "sl_mg_03_forge_steady",
-    "name": "The Merchant’s Gambit — Act III",
+    "name": "The Merchant’s Gambit—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -36921,7 +36921,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "In the Marcher League, ink is stronger than steel—because steel needs a contract to be legal. On a night quay in Gilderhaven, goods change hands without names attached.",
+    "prompt": "A forged seal holds—until someone tests it. In the Marches, doubt is a solvent. You tighten the terms, and the countinghouses listen.",
     "outcomes": [
       {
         "title": "Set it before witnesses",
@@ -37093,7 +37093,7 @@
   },
   {
     "id": "sl_mg_03_forge_edge",
-    "name": "The Merchant’s Gambit — Act III",
+    "name": "The Merchant’s Gambit—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -37123,7 +37123,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "A letter of credit is a prayer written to coin, and the League is its god. Contract Court is theater. You win by controlling the story, not the facts.",
+    "prompt": "A forged seal holds—until someone tests it. In the Marches, doubt is a solvent. You push for leverage, and the countinghouses listen.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -37295,7 +37295,7 @@
   },
   {
     "id": "sl_mg_03_walk_steady",
-    "name": "The Merchant’s Gambit — Act III",
+    "name": "The Merchant’s Gambit—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -37325,7 +37325,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "A letter of credit is a prayer written to coin, and the League is its god. On a night quay in Gilderhaven, goods change hands without names attached.",
+    "prompt": "You’ve tried to step aside. The League steps after you, softly, with receipts. You tighten the terms, and the countinghouses listen.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -37497,7 +37497,7 @@
   },
   {
     "id": "sl_mg_03_walk_edge",
-    "name": "The Merchant’s Gambit — Act III",
+    "name": "The Merchant’s Gambit—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -37527,7 +37527,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "A letter of credit is a prayer written to coin, and the League is its god. Contract Court is theater. You win by controlling the story, not the facts.",
+    "prompt": "You’ve tried to step aside. The League steps after you, softly, with receipts. You push for leverage, and the countinghouses listen.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -37699,7 +37699,7 @@
   },
   {
     "id": "sl_mg_04_guarantor_steady_commit",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -37730,7 +37730,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "Somewhere, a clerk writes your name in a margin. That is how the League remembers. Gilderhaven frames the outcome in a way you can’t fully control.",
+    "prompt": "A favor has terms. The last page is always the most expensive. And after you tightened the terms, this is where you sign your name in blood and ink, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Stand in the light",
@@ -37910,7 +37910,7 @@
   },
   {
     "id": "sl_mg_04_guarantor_steady_burn",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -37941,7 +37941,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "When it’s over, you can’t tell whether you beat the League or simply learned to breathe its air. Gilderhaven frames the outcome in a way you can’t fully control.",
+    "prompt": "A favor has terms. The last page is always the most expensive. And after you tightened the terms, this is where you burn the paper trail, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -38121,7 +38121,7 @@
   },
   {
     "id": "sl_mg_04_guarantor_edge_commit",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -38152,7 +38152,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "Somewhere, a clerk writes your name in a margin. That is how the League remembers. Kestrelbank frames the outcome in a way you can’t fully control.",
+    "prompt": "A favor has terms. The last page is always the most expensive. And after you pushed for leverage, this is where you sign your name in blood and ink, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -38332,7 +38332,7 @@
   },
   {
     "id": "sl_mg_04_guarantor_edge_burn",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -38363,7 +38363,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "You leave with coin or with a lesson—but either way, someone else pays interest. Contract Court frames the outcome in a way you can’t fully control.",
+    "prompt": "A favor has terms. The last page is always the most expensive. And after you pushed for leverage, this is where you burn the paper trail, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -38543,7 +38543,7 @@
   },
   {
     "id": "sl_mg_04_fineink_steady_commit",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -38574,7 +38574,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "Somewhere, a clerk writes your name in a margin. That is how the League remembers. Gilderhaven frames the outcome in a way you can’t fully control.",
+    "prompt": "The record can be rewritten, but not erased. And after you tightened the terms, this is where you sign your name in blood and ink, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Stand in the light",
@@ -38754,7 +38754,7 @@
   },
   {
     "id": "sl_mg_04_fineink_steady_burn",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -38785,7 +38785,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "When it’s over, you can’t tell whether you beat the League or simply learned to breathe its air. Kestrelbank frames the outcome in a way you can’t fully control.",
+    "prompt": "The record can be rewritten, but not erased. And after you tightened the terms, this is where you burn the paper trail, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -38965,7 +38965,7 @@
   },
   {
     "id": "sl_mg_04_fineink_edge_commit",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -38996,7 +38996,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "You leave with coin or with a lesson—but either way, someone else pays interest. Kestrelbank frames the outcome in a way you can’t fully control.",
+    "prompt": "The record can be rewritten, but not erased. And after you pushed for leverage, this is where you sign your name in blood and ink, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -39176,7 +39176,7 @@
   },
   {
     "id": "sl_mg_04_fineink_edge_burn",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -39207,7 +39207,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "You leave with coin or with a lesson—but either way, someone else pays interest. Kestrelbank frames the outcome in a way you can’t fully control.",
+    "prompt": "The record can be rewritten, but not erased. And after you pushed for leverage, this is where you burn the paper trail, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -39387,7 +39387,7 @@
   },
   {
     "id": "sl_mg_04_forge_steady_commit",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -39418,7 +39418,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "Somewhere, a clerk writes your name in a margin. That is how the League remembers. Gilderhaven frames the outcome in a way you can’t fully control.",
+    "prompt": "A lie can carry you far—until it reaches someone who keeps better ledgers. And after you tightened the terms, this is where you sign your name in blood and ink, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Take the witness",
@@ -39598,7 +39598,7 @@
   },
   {
     "id": "sl_mg_04_forge_steady_burn",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -39629,7 +39629,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "You leave with coin or with a lesson—but either way, someone else pays interest. Countinghouse frames the outcome in a way you can’t fully control.",
+    "prompt": "A lie can carry you far—until it reaches someone who keeps better ledgers. And after you tightened the terms, this is where you burn the paper trail, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -39809,7 +39809,7 @@
   },
   {
     "id": "sl_mg_04_forge_edge_commit",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -39840,7 +39840,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "Somewhere, a clerk writes your name in a margin. That is how the League remembers. Gilderhaven frames the outcome in a way you can’t fully control.",
+    "prompt": "A lie can carry you far—until it reaches someone who keeps better ledgers. And after you pushed for leverage, this is where you sign your name in blood and ink, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Take the witness",
@@ -40020,7 +40020,7 @@
   },
   {
     "id": "sl_mg_04_forge_edge_burn",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -40051,7 +40051,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "You leave with coin or with a lesson—but either way, someone else pays interest. Kestrelbank frames the outcome in a way you can’t fully control.",
+    "prompt": "A lie can carry you far—until it reaches someone who keeps better ledgers. And after you pushed for leverage, this is where you burn the paper trail, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -40231,7 +40231,7 @@
   },
   {
     "id": "sl_mg_04_walk_steady_commit",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -40262,7 +40262,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "When it’s over, you can’t tell whether you beat the League or simply learned to breathe its air. Countinghouse frames the outcome in a way you can’t fully control.",
+    "prompt": "You can leave a city, but you can’t leave a contract that’s been filed. And after you tightened the terms, this is where you sign your name in blood and ink, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -40442,7 +40442,7 @@
   },
   {
     "id": "sl_mg_04_walk_steady_burn",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -40473,7 +40473,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "Somewhere, a clerk writes your name in a margin. That is how the League remembers. Marrowgate frames the outcome in a way you can’t fully control.",
+    "prompt": "You can leave a city, but you can’t leave a contract that’s been filed. And after you tightened the terms, this is where you burn the paper trail, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Take the scar for a crown",
@@ -40653,7 +40653,7 @@
   },
   {
     "id": "sl_mg_04_walk_edge_commit",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -40684,7 +40684,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "Somewhere, a clerk writes your name in a margin. That is how the League remembers. Marrowgate frames the outcome in a way you can’t fully control.",
+    "prompt": "You can leave a city, but you can’t leave a contract that’s been filed. And after you pushed for leverage, this is where you sign your name in blood and ink, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Claim the outcome",
@@ -40864,7 +40864,7 @@
   },
   {
     "id": "sl_mg_04_walk_edge_burn",
-    "name": "The Merchant’s Gambit — Ending",
+    "name": "The Merchant’s Gambit—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -40895,7 +40895,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "Somewhere, a clerk writes your name in a margin. That is how the League remembers. Gilderhaven frames the outcome in a way you can’t fully control.",
+    "prompt": "You can leave a city, but you can’t leave a contract that’s been filed. And after you pushed for leverage, this is where you burn the paper trail, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Take the scar for a crown",
@@ -41097,7 +41097,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "The mountain air makes lies feel thin. You leave, but the dispute follows. In the Covenant, refusing to witness can be read as taking a side.",
+    "prompt": "In the Ironspine, an oath is not a promise. It is a weight everyone can feel. At an oathstone, words become witnesses.",
     "outcomes": [
       {
         "title": "Bear Witness",
@@ -41388,7 +41388,7 @@
   },
   {
     "id": "sl_bo_02_witness",
-    "name": "The Broken Oath — Act II",
+    "name": "The Broken Oath—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -41418,7 +41418,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "Skarnhold’s oathstone plaza is a public memory. Breaking it does not summon lightning—it summons enemies. A ringclan elder asks you to carry a message to Frostbarrow Pass—too important for a runner, too dangerous for pride.",
+    "prompt": "Skarnhold’s ring-hall is loud with quiet rules. To speak at the oathstone is to invite judgment—and protection.",
     "outcomes": [
       {
         "title": "Hold to Ring Hall",
@@ -41581,7 +41581,7 @@
   },
   {
     "id": "sl_bo_02_finewords",
-    "name": "The Broken Oath — Act II",
+    "name": "The Broken Oath—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -41611,7 +41611,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "The mountain air makes lies feel thin. You find the vow’s weak seam: a word that can be interpreted like a blade turned sideways.",
+    "prompt": "A Ring-Law can be bent by clever tongue, but not without consequences. The clan elders listen for weakness like wolves scent blood.",
     "outcomes": [
       {
         "title": "Hold to Stonewold",
@@ -41774,7 +41774,7 @@
   },
   {
     "id": "sl_bo_02_fee",
-    "name": "The Broken Oath — Act II",
+    "name": "The Broken Oath—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -41804,7 +41804,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "The mountain air makes lies feel thin. Someone from the Grey Oath offers you protection in exchange for a story shaped the 'right' way.",
+    "prompt": "A wergild is meant to end a feud. Sometimes it only prices it. Someone offers you a number and calls it peace.",
     "outcomes": [
       {
         "title": "Hold to Stonewold",
@@ -41967,7 +41967,7 @@
   },
   {
     "id": "sl_bo_02_refuse",
-    "name": "The Broken Oath — Act II",
+    "name": "The Broken Oath—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -41997,7 +41997,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "In the Ironspine, an oath is heavier than iron. People measure you by what you swear and what you keep. You leave, but the dispute follows. In the Covenant, refusing to witness can be read as taking a side.",
+    "prompt": "You refuse to bargain with the oathstone. In the Covenant, refusal is an answer everyone remembers.",
     "outcomes": [
       {
         "title": "Keep to Skarnhold",
@@ -42160,7 +42160,7 @@
   },
   {
     "id": "sl_bo_03_witness_steady",
-    "name": "The Broken Oath — Act III",
+    "name": "The Broken Oath—Act III",
     "context": "Strife",
     "kind": "general",
     "weight": 1,
@@ -42190,7 +42190,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "Skarnhold’s oathstone plaza is a public memory. Breaking it does not summon lightning—it summons enemies. A sealed letter appears—proof of oathbreaking, or proof of a frame.",
+    "prompt": "Your words have been heard. Now the hall decides what they mean. You call for witness, and the clan lines tighten.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -42358,7 +42358,7 @@
   },
   {
     "id": "sl_bo_03_witness_edge",
-    "name": "The Broken Oath — Act III",
+    "name": "The Broken Oath—Act III",
     "context": "Strife",
     "kind": "general",
     "weight": 1,
@@ -42388,7 +42388,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "Skarnhold’s oathstone plaza is a public memory. Breaking it does not summon lightning—it summons enemies. A Ring-Law duel is offered as 'closure.' It is also a performance.",
+    "prompt": "Your words have been heard. Now the hall decides what they mean. You call for iron, and the clan lines tighten.",
     "outcomes": [
       {
         "title": "Set it before witnesses",
@@ -42556,7 +42556,7 @@
   },
   {
     "id": "sl_bo_03_finewords_steady",
-    "name": "The Broken Oath — Act III",
+    "name": "The Broken Oath—Act III",
     "context": "Strife",
     "kind": "general",
     "weight": 1,
@@ -42586,7 +42586,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "The mountain air makes lies feel thin. At Frostbarrow Pass, hospitality and vengeance share a table. Both ask what you brought.",
+    "prompt": "Your argument threads through Ring-Law and tradition. One wrong twist and it becomes an insult. You call for witness, and the clan lines tighten.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -42754,7 +42754,7 @@
   },
   {
     "id": "sl_bo_03_finewords_edge",
-    "name": "The Broken Oath — Act III",
+    "name": "The Broken Oath—Act III",
     "context": "Strife",
     "kind": "general",
     "weight": 1,
@@ -42784,7 +42784,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "The mountain air makes lies feel thin. At Frostbarrow Pass, hospitality and vengeance share a table. Both ask what you brought.",
+    "prompt": "Your argument threads through Ring-Law and tradition. One wrong twist and it becomes an insult. You call for iron, and the clan lines tighten.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -42952,7 +42952,7 @@
   },
   {
     "id": "sl_bo_03_fee_steady",
-    "name": "The Broken Oath — Act III",
+    "name": "The Broken Oath—Act III",
     "context": "Strife",
     "kind": "general",
     "weight": 1,
@@ -42982,7 +42982,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "Skarnhold’s oathstone plaza is a public memory. Breaking it does not summon lightning—it summons enemies. A sealed letter appears—proof of oathbreaking, or proof of a frame.",
+    "prompt": "Coin can measure loss, but it cannot measure pride. The number you offered is now a banner. You call for witness, and the clan lines tighten.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -43150,7 +43150,7 @@
   },
   {
     "id": "sl_bo_03_fee_edge",
-    "name": "The Broken Oath — Act III",
+    "name": "The Broken Oath—Act III",
     "context": "Strife",
     "kind": "general",
     "weight": 1,
@@ -43180,7 +43180,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "In the Ironspine, an oath is heavier than iron. People measure you by what you swear and what you keep. A bloodprice is negotiated with the calm of weather. The wrong number can restart a feud.",
+    "prompt": "Coin can measure loss, but it cannot measure pride. The number you offered is now a banner. You call for iron, and the clan lines tighten.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -43348,7 +43348,7 @@
   },
   {
     "id": "sl_bo_03_refuse_steady",
-    "name": "The Broken Oath — Act III",
+    "name": "The Broken Oath—Act III",
     "context": "Strife",
     "kind": "general",
     "weight": 1,
@@ -43378,7 +43378,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "The mountain air makes lies feel thin. A sealed letter appears—proof of oathbreaking, or proof of a frame.",
+    "prompt": "You stood on refusal. Now you stand on the consequences of being unbought. You call for witness, and the clan lines tighten.",
     "outcomes": [
       {
         "title": "Set it before witnesses",
@@ -43546,7 +43546,7 @@
   },
   {
     "id": "sl_bo_03_refuse_edge",
-    "name": "The Broken Oath — Act III",
+    "name": "The Broken Oath—Act III",
     "context": "Strife",
     "kind": "general",
     "weight": 1,
@@ -43576,7 +43576,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "The mountain air makes lies feel thin. At Frostbarrow Pass, hospitality and vengeance share a table. Both ask what you brought.",
+    "prompt": "You stood on refusal. Now you stand on the consequences of being unbought. You call for iron, and the clan lines tighten.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -43744,7 +43744,7 @@
   },
   {
     "id": "sl_bo_04_witness_steady_commit",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -43775,7 +43775,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "A clan speaks your name in a hall. In the Covenant, that is either honor or warning. Skarnhold frames the outcome in a way you can’t fully control.",
+    "prompt": "Witness cuts both ways—truth and trap, mercy and humiliation. And after you called for witness, this is where you bind the feud into peace, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Claim the outcome",
@@ -43959,7 +43959,7 @@
   },
   {
     "id": "sl_bo_04_witness_steady_burn",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -43990,7 +43990,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "A clan speaks your name in a hall. In the Covenant, that is either honor or warning. Stonewold frames the outcome in a way you can’t fully control.",
+    "prompt": "Witness cuts both ways—truth and trap, mercy and humiliation. And after you called for witness, this is where you leave splinters in the Ring-Laws, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -44174,7 +44174,7 @@
   },
   {
     "id": "sl_bo_04_witness_edge_commit",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -44205,7 +44205,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "When the rings settle, the mountain remembers what you chose, not what you meant. Oathstone Plaza frames the outcome in a way you can’t fully control.",
+    "prompt": "Witness cuts both ways—truth and trap, mercy and humiliation. And after you called for iron, this is where you bind the feud into peace, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Stand in the light",
@@ -44389,7 +44389,7 @@
   },
   {
     "id": "sl_bo_04_witness_edge_burn",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -44420,7 +44420,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "You leave with peace, or with a truce that has receipts. Oathstone Plaza frames the outcome in a way you can’t fully control.",
+    "prompt": "Witness cuts both ways—truth and trap, mercy and humiliation. And after you called for iron, this is where you leave splinters in the Ring-Laws, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -44604,7 +44604,7 @@
   },
   {
     "id": "sl_bo_04_finewords_steady_commit",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -44635,7 +44635,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "When the rings settle, the mountain remembers what you chose, not what you meant. Stonewold frames the outcome in a way you can’t fully control.",
+    "prompt": "Cleverness can save you, but the Covenant hates being made a fool. And after you called for witness, this is where you bind the feud into peace, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Stand in the light",
@@ -44819,7 +44819,7 @@
   },
   {
     "id": "sl_bo_04_finewords_steady_burn",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -44850,7 +44850,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "When the rings settle, the mountain remembers what you chose, not what you meant. Oathstone Plaza frames the outcome in a way you can’t fully control.",
+    "prompt": "Cleverness can save you, but the Covenant hates being made a fool. And after you called for witness, this is where you leave splinters in the Ring-Laws, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -45034,7 +45034,7 @@
   },
   {
     "id": "sl_bo_04_finewords_edge_commit",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -45065,7 +45065,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "When the rings settle, the mountain remembers what you chose, not what you meant. Stonewold frames the outcome in a way you can’t fully control.",
+    "prompt": "Cleverness can save you, but the Covenant hates being made a fool. And after you called for iron, this is where you bind the feud into peace, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -45249,7 +45249,7 @@
   },
   {
     "id": "sl_bo_04_finewords_edge_burn",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -45280,7 +45280,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "A clan speaks your name in a hall. In the Covenant, that is either honor or warning. Frostbarrow Pass frames the outcome in a way you can’t fully control.",
+    "prompt": "Cleverness can save you, but the Covenant hates being made a fool. And after you called for iron, this is where you leave splinters in the Ring-Laws, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -45464,7 +45464,7 @@
   },
   {
     "id": "sl_bo_04_fee_steady_commit",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -45495,7 +45495,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "You leave with peace, or with a truce that has receipts. Ring Hall frames the outcome in a way you can’t fully control.",
+    "prompt": "Wergild ends some feuds. Others it merely arms. And after you called for witness, this is where you bind the feud into peace, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Stand in the light",
@@ -45679,7 +45679,7 @@
   },
   {
     "id": "sl_bo_04_fee_steady_burn",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -45710,7 +45710,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "You leave with peace, or with a truce that has receipts. Frostbarrow Pass frames the outcome in a way you can’t fully control.",
+    "prompt": "Wergild ends some feuds. Others it merely arms. And after you called for witness, this is where you leave splinters in the Ring-Laws, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -45894,7 +45894,7 @@
   },
   {
     "id": "sl_bo_04_fee_edge_commit",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -45925,7 +45925,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "You leave with peace, or with a truce that has receipts. Frostbarrow Pass frames the outcome in a way you can’t fully control.",
+    "prompt": "Wergild ends some feuds. Others it merely arms. And after you called for iron, this is where you bind the feud into peace, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Take the witness",
@@ -46109,7 +46109,7 @@
   },
   {
     "id": "sl_bo_04_fee_edge_burn",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -46140,7 +46140,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "A clan speaks your name in a hall. In the Covenant, that is either honor or warning. Oathstone Plaza frames the outcome in a way you can’t fully control.",
+    "prompt": "Wergild ends some feuds. Others it merely arms. And after you called for iron, this is where you leave splinters in the Ring-Laws, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -46324,7 +46324,7 @@
   },
   {
     "id": "sl_bo_04_refuse_steady_commit",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -46355,7 +46355,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "A clan speaks your name in a hall. In the Covenant, that is either honor or warning. Frostbarrow Pass frames the outcome in a way you can’t fully control.",
+    "prompt": "Refusal is a kind of oath. The mountains hold you to it. And after you called for witness, this is where you bind the feud into peace, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -46539,7 +46539,7 @@
   },
   {
     "id": "sl_bo_04_refuse_steady_burn",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -46570,7 +46570,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "You leave with peace, or with a truce that has receipts. Ring Hall frames the outcome in a way you can’t fully control.",
+    "prompt": "Refusal is a kind of oath. The mountains hold you to it. And after you called for witness, this is where you leave splinters in the Ring-Laws, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -46754,7 +46754,7 @@
   },
   {
     "id": "sl_bo_04_refuse_edge_commit",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -46785,7 +46785,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "When the rings settle, the mountain remembers what you chose, not what you meant. Oathstone Plaza frames the outcome in a way you can’t fully control.",
+    "prompt": "Refusal is a kind of oath. The mountains hold you to it. And after you called for iron, this is where you bind the feud into peace, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -46969,7 +46969,7 @@
   },
   {
     "id": "sl_bo_04_refuse_edge_burn",
-    "name": "The Broken Oath — Ending",
+    "name": "The Broken Oath—Ending",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -47000,7 +47000,7 @@
         "id": "sl_bo_done"
       }
     ],
-    "prompt": "You leave with peace, or with a truce that has receipts. Frostbarrow Pass frames the outcome in a way you can’t fully control.",
+    "prompt": "Refusal is a kind of oath. The mountains hold you to it. And after you called for iron, this is where you leave splinters in the Ring-Laws, and carry the Covenant’s memory forward.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -47206,7 +47206,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "The road to Larkhallow is lined with shrines and fresh soil. The last plague is still a shadow on people’s mouths. You overhear a Candlekeeper counting names that should not be spoken aloud yet.",
+    "prompt": "Larkhallow’s hospice walls are painted in candle smoke and prayers. The Verdant Synod teaches the Seven Mercies, but plague forces the order of them.",
     "outcomes": [
       {
         "title": "Walk With Them",
@@ -47492,7 +47492,7 @@
   },
   {
     "id": "sl_pa_02_walk",
-    "name": "Pilgrimage of Ash — Act II",
+    "name": "Pilgrimage of Ash—Act II",
     "context": "Journey",
     "kind": "general",
     "weight": 1,
@@ -47522,7 +47522,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "The road to Larkhallow is lined with shrines and fresh soil. The last plague is still a shadow on people’s mouths. At the quarantine gate, a Hospitaller asks what you carry: food, lies, or infection.",
+    "prompt": "You consider walking away from Larkhallow before the city’s grief becomes your own. The road does not absolve you.",
     "outcomes": [
       {
         "title": "Work within Quarantine Wall",
@@ -47683,7 +47683,7 @@
   },
   {
     "id": "sl_pa_02_distance",
-    "name": "Pilgrimage of Ash — Act II",
+    "name": "Pilgrimage of Ash—Act II",
     "context": "Journey",
     "kind": "general",
     "weight": 1,
@@ -47713,7 +47713,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "A green candle mark on a door means 'help' and 'danger' in the same breath. You overhear a Candlekeeper counting names that should not be spoken aloud yet.",
+    "prompt": "You keep your distance from the wards, breathing through cloth and caution. Mercy is safer from far away.",
     "outcomes": [
       {
         "title": "Hold to Verdemont Abbey",
@@ -47874,7 +47874,7 @@
   },
   {
     "id": "sl_pa_02_map",
-    "name": "Pilgrimage of Ash — Act II",
+    "name": "Pilgrimage of Ash—Act II",
     "context": "Journey",
     "kind": "general",
     "weight": 1,
@@ -47904,7 +47904,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "A green candle mark on a door means 'help' and 'danger' in the same breath. The stolen map leads you to a reed-choked shortcut—and to smoke you can’t place.",
+    "prompt": "Someone slips you a stolen map of quarantine routes. In the Synod’s shadow, even directions can be a sin.",
     "outcomes": [
       {
         "title": "Work within Quarantine Wall",
@@ -48065,7 +48065,7 @@
   },
   {
     "id": "sl_pa_02_candle",
-    "name": "Pilgrimage of Ash — Act II",
+    "name": "Pilgrimage of Ash—Act II",
     "context": "Journey",
     "kind": "general",
     "weight": 1,
@@ -48095,7 +48095,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "The road to Larkhallow is lined with shrines and fresh soil. The last plague is still a shadow on people’s mouths. The ledger draws attention: some want it honored, some want it burned.",
+    "prompt": "A Candlekeeper offers you a list of the dead and asks you to add names with steady hands. Witness is a kind of mercy.",
     "outcomes": [
       {
         "title": "Mind Quarantine Wall",
@@ -48256,7 +48256,7 @@
   },
   {
     "id": "sl_pa_03_walk_steady",
-    "name": "Pilgrimage of Ash — Act III",
+    "name": "Pilgrimage of Ash—Act III",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -48286,7 +48286,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "A green candle mark on a door means 'help' and 'danger' in the same breath. A brass stamp decides who is admitted, who is turned away, who is buried without ceremony.",
+    "prompt": "You tried to leave. Larkhallow has a way of sending its need after you. You keep the rite, and the hospice breathes around you.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -48450,7 +48450,7 @@
   },
   {
     "id": "sl_pa_03_walk_edge",
-    "name": "Pilgrimage of Ash — Act III",
+    "name": "Pilgrimage of Ash—Act III",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -48480,7 +48480,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "Synod pilgrims walk like living prayers—quiet, tired, and stubborn. Smoke in the reeds is either a campfire… or a quarantine breach.",
+    "prompt": "You tried to leave. Larkhallow has a way of sending its need after you. You step into the sicklight, and the hospice breathes around you.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -48644,7 +48644,7 @@
   },
   {
     "id": "sl_pa_03_distance_steady",
-    "name": "Pilgrimage of Ash — Act III",
+    "name": "Pilgrimage of Ash—Act III",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -48674,7 +48674,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "A green candle mark on a door means 'help' and 'danger' in the same breath. The Candle Rite names the dead. Sometimes it names the living, too.",
+    "prompt": "Your caution has kept you whole. It may not keep others whole. You keep the rite, and the hospice breathes around you.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -48838,7 +48838,7 @@
   },
   {
     "id": "sl_pa_03_distance_edge",
-    "name": "Pilgrimage of Ash — Act III",
+    "name": "Pilgrimage of Ash—Act III",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -48868,7 +48868,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "A green candle mark on a door means 'help' and 'danger' in the same breath. The Candle Rite names the dead. Sometimes it names the living, too.",
+    "prompt": "Your caution has kept you whole. It may not keep others whole. You step into the sicklight, and the hospice breathes around you.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -49032,7 +49032,7 @@
   },
   {
     "id": "sl_pa_03_map_steady",
-    "name": "Pilgrimage of Ash — Act III",
+    "name": "Pilgrimage of Ash—Act III",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -49062,7 +49062,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "The road to Larkhallow is lined with shrines and fresh soil. The last plague is still a shadow on people’s mouths. Inside the hospice ward, exhaustion is communal. So is guilt.",
+    "prompt": "A hidden route is still a route. Someone will follow your footprints, and someone will count bodies. You keep the rite, and the hospice breathes around you.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -49226,7 +49226,7 @@
   },
   {
     "id": "sl_pa_03_map_edge",
-    "name": "Pilgrimage of Ash — Act III",
+    "name": "Pilgrimage of Ash—Act III",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -49256,7 +49256,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "A green candle mark on a door means 'help' and 'danger' in the same breath. The Candle Rite names the dead. Sometimes it names the living, too.",
+    "prompt": "A hidden route is still a route. Someone will follow your footprints, and someone will count bodies. You step into the sicklight, and the hospice breathes around you.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -49420,7 +49420,7 @@
   },
   {
     "id": "sl_pa_03_candle_steady",
-    "name": "Pilgrimage of Ash — Act III",
+    "name": "Pilgrimage of Ash—Act III",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -49450,7 +49450,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "The road to Larkhallow is lined with shrines and fresh soil. The last plague is still a shadow on people’s mouths. A brass stamp decides who is admitted, who is turned away, who is buried without ceremony.",
+    "prompt": "The dead do not argue. The living do. Your witness has made you part of a quarrel you can’t pretend not to see. You keep the rite, and the hospice breathes around you.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -49614,7 +49614,7 @@
   },
   {
     "id": "sl_pa_03_candle_edge",
-    "name": "Pilgrimage of Ash — Act III",
+    "name": "Pilgrimage of Ash—Act III",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -49644,7 +49644,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "The road to Larkhallow is lined with shrines and fresh soil. The last plague is still a shadow on people’s mouths. Inside the hospice ward, exhaustion is communal. So is guilt.",
+    "prompt": "The dead do not argue. The living do. Your witness has made you part of a quarrel you can’t pretend not to see. You step into the sicklight, and the hospice breathes around you.",
     "outcomes": [
       {
         "title": "Set it before witnesses",
@@ -49808,7 +49808,7 @@
   },
   {
     "id": "sl_pa_04_walk_steady_commit",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -49839,7 +49839,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "You leave the Synod’s walls changed—by ash, by witness, or by what you refused to see. Verdemont Abbey frames the outcome in a way you can’t fully control.",
+    "prompt": "Walking away is never clean. Not from a hospice. Not from the dead. And after you kept the rite, this is where you take a vow that sticks, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Claim the outcome",
@@ -50019,7 +50019,7 @@
   },
   {
     "id": "sl_pa_04_walk_steady_burn",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -50050,7 +50050,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "Larkhallow remembers who helped when it was inconvenient. Verdemont Abbey frames the outcome in a way you can’t fully control.",
+    "prompt": "Walking away is never clean. Not from a hospice. Not from the dead. And after you kept the rite, this is where you let mercy burn, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -50230,7 +50230,7 @@
   },
   {
     "id": "sl_pa_04_walk_edge_commit",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -50261,7 +50261,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "Mercy is not clean work. It stains your hands and then asks what you’ll do with them. Wrenfield frames the outcome in a way you can’t fully control.",
+    "prompt": "Walking away is never clean. Not from a hospice. Not from the dead. And after you stepped closer to the wards, this is where you take a vow that sticks, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Stand in the light",
@@ -50441,7 +50441,7 @@
   },
   {
     "id": "sl_pa_04_walk_edge_burn",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -50472,7 +50472,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "You leave the Synod’s walls changed—by ash, by witness, or by what you refused to see. Quarantine Wall frames the outcome in a way you can’t fully control.",
+    "prompt": "Walking away is never clean. Not from a hospice. Not from the dead. And after you stepped closer to the wards, this is where you let mercy burn, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -50652,7 +50652,7 @@
   },
   {
     "id": "sl_pa_04_distance_steady_commit",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -50683,7 +50683,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "You leave the Synod’s walls changed—by ash, by witness, or by what you refused to see. Quarantine Wall frames the outcome in a way you can’t fully control.",
+    "prompt": "Distance is not innocence. It is a choice, and the plague reads choices. And after you kept the rite, this is where you take a vow that sticks, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -50863,7 +50863,7 @@
   },
   {
     "id": "sl_pa_04_distance_steady_burn",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -50894,7 +50894,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "Larkhallow remembers who helped when it was inconvenient. Quarantine Wall frames the outcome in a way you can’t fully control.",
+    "prompt": "Distance is not innocence. It is a choice, and the plague reads choices. And after you kept the rite, this is where you let mercy burn, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -51074,7 +51074,7 @@
   },
   {
     "id": "sl_pa_04_distance_edge_commit",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -51105,7 +51105,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "Mercy is not clean work. It stains your hands and then asks what you’ll do with them. Quarantine Wall frames the outcome in a way you can’t fully control.",
+    "prompt": "Distance is not innocence. It is a choice, and the plague reads choices. And after you stepped closer to the wards, this is where you take a vow that sticks, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Take the witness",
@@ -51285,7 +51285,7 @@
   },
   {
     "id": "sl_pa_04_distance_edge_burn",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -51316,7 +51316,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "Larkhallow remembers who helped when it was inconvenient. Candlekeeper Hall frames the outcome in a way you can’t fully control.",
+    "prompt": "Distance is not innocence. It is a choice, and the plague reads choices. And after you stepped closer to the wards, this is where you let mercy burn, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -51496,7 +51496,7 @@
   },
   {
     "id": "sl_pa_04_map_steady_commit",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -51527,7 +51527,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "You leave the Synod’s walls changed—by ash, by witness, or by what you refused to see. Wrenfield frames the outcome in a way you can’t fully control.",
+    "prompt": "Shortcuts save some lives and cost others. The Synod will decide which you bought. And after you kept the rite, this is where you take a vow that sticks, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Stand in the light",
@@ -51707,7 +51707,7 @@
   },
   {
     "id": "sl_pa_04_map_steady_burn",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -51738,7 +51738,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "You leave the Synod’s walls changed—by ash, by witness, or by what you refused to see. Wrenfield frames the outcome in a way you can’t fully control.",
+    "prompt": "Shortcuts save some lives and cost others. The Synod will decide which you bought. And after you kept the rite, this is where you let mercy burn, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -51918,7 +51918,7 @@
   },
   {
     "id": "sl_pa_04_map_edge_commit",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -51949,7 +51949,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "Mercy is not clean work. It stains your hands and then asks what you’ll do with them. Larkhallow frames the outcome in a way you can’t fully control.",
+    "prompt": "Shortcuts save some lives and cost others. The Synod will decide which you bought. And after you stepped closer to the wards, this is where you take a vow that sticks, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -52129,7 +52129,7 @@
   },
   {
     "id": "sl_pa_04_map_edge_burn",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -52160,7 +52160,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "Larkhallow remembers who helped when it was inconvenient. Quarantine Wall frames the outcome in a way you can’t fully control.",
+    "prompt": "Shortcuts save some lives and cost others. The Synod will decide which you bought. And after you stepped closer to the wards, this is where you let mercy burn, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -52340,7 +52340,7 @@
   },
   {
     "id": "sl_pa_04_candle_steady_commit",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -52371,7 +52371,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "Larkhallow remembers who helped when it was inconvenient. Quarantine Wall frames the outcome in a way you can’t fully control.",
+    "prompt": "Witness can heal. Witness can condemn. Sometimes it does both. And after you kept the rite, this is where you take a vow that sticks, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Take the witness",
@@ -52551,7 +52551,7 @@
   },
   {
     "id": "sl_pa_04_candle_steady_burn",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -52582,7 +52582,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "Mercy is not clean work. It stains your hands and then asks what you’ll do with them. Verdemont Abbey frames the outcome in a way you can’t fully control.",
+    "prompt": "Witness can heal. Witness can condemn. Sometimes it does both. And after you kept the rite, this is where you let mercy burn, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -52762,7 +52762,7 @@
   },
   {
     "id": "sl_pa_04_candle_edge_commit",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -52793,7 +52793,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "Larkhallow remembers who helped when it was inconvenient. Quarantine Wall frames the outcome in a way you can’t fully control.",
+    "prompt": "Witness can heal. Witness can condemn. Sometimes it does both. And after you stepped closer to the wards, this is where you take a vow that sticks, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Claim the outcome",
@@ -52973,7 +52973,7 @@
   },
   {
     "id": "sl_pa_04_candle_edge_burn",
-    "name": "Pilgrimage of Ash — Ending",
+    "name": "Pilgrimage of Ash—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -53004,7 +53004,7 @@
         "id": "sl_pa_done"
       }
     ],
-    "prompt": "Larkhallow remembers who helped when it was inconvenient. Candlekeeper Hall frames the outcome in a way you can’t fully control.",
+    "prompt": "Witness can heal. Witness can condemn. Sometimes it does both. And after you stepped closer to the wards, this is where you let mercy burn, and Larkhallow remembers your name.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -53207,7 +53207,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "The Sable Coast is all stormlight and accusation. People here swear the drowned can hear you. You find a salt-soaked ledger in driftwood: names, dates, and gaps that look deliberate.",
+    "prompt": "On the Sable Coast, storms keep their own calendar. A drowned abbey’s stones surface at low tide—and what they witnessed refuses to stay buried.",
     "outcomes": [
       {
         "title": "Shelter in the Wayhouse",
@@ -53490,7 +53490,7 @@
   },
   {
     "id": "sl_da_02_wayhouse",
-    "name": "The Drowned Abbey — Act II",
+    "name": "The Drowned Abbey—Act II",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -53521,7 +53521,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Salt wind carries old prayers and newer lies; both stick in the throat. A wayhouse keeper mentions a bell that rings underwater on certain nights.",
+    "prompt": "A coastal wayhouse keeps a green candle burning against the dark. The keeper offers shelter—and questions that feel like a ledger.",
     "outcomes": [
       {
         "title": "Hold to Drowned Monastery",
@@ -53684,7 +53684,7 @@
   },
   {
     "id": "sl_da_02_fishers",
-    "name": "The Drowned Abbey — Act II",
+    "name": "The Drowned Abbey—Act II",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -53715,7 +53715,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Along the coast, monasteries are half-ruin, half-warning. A fisher shows you a 'witness stone' dragged from the surf—marked with script nobody claims to know.",
+    "prompt": "Fisherfolk haul ‘witness stones’ from the surf and won’t meet your eyes when they speak. They know what the sea returns.",
     "outcomes": [
       {
         "title": "Work within Thornmere",
@@ -53878,7 +53878,7 @@
   },
   {
     "id": "sl_da_02_shore",
-    "name": "The Drowned Abbey — Act II",
+    "name": "The Drowned Abbey—Act II",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -53909,7 +53909,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "The Sable Coast is all stormlight and accusation. People here swear the drowned can hear you. You find a salt-soaked ledger in driftwood: names, dates, and gaps that look deliberate.",
+    "prompt": "The tide line is a border with no guards. The drowned ruins wait in the gap between waves.",
     "outcomes": [
       {
         "title": "Hold to Storm Port",
@@ -54072,7 +54072,7 @@
   },
   {
     "id": "sl_da_02_loot",
-    "name": "The Drowned Abbey — Act II",
+    "name": "The Drowned Abbey—Act II",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -54103,7 +54103,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Salt wind carries old prayers and newer lies; both stick in the throat. Inside the tidelocked chapel, relic glow is restrained—like something trying not to be seen.",
+    "prompt": "Salvagers pick the abbey clean between tides. A Grey Collegium Keybearer would call it ‘recovery.’ A Synod sister would call it theft.",
     "outcomes": [
       {
         "title": "Keep to Greyvault",
@@ -54266,7 +54266,7 @@
   },
   {
     "id": "sl_da_03_wayhouse_steady",
-    "name": "The Drowned Abbey — Act III",
+    "name": "The Drowned Abbey—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -54297,7 +54297,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "The Sable Coast is all stormlight and accusation. People here swear the drowned can hear you. The ledger’s ink runs, but certain lines refuse to blur—as if the paper remembers.",
+    "prompt": "The wayhouse keeper watches like a Candlekeeper, counting truths instead of bodies. You measure each step, and the drowned halls listen.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -54465,7 +54465,7 @@
   },
   {
     "id": "sl_da_03_wayhouse_edge",
-    "name": "The Drowned Abbey — Act III",
+    "name": "The Drowned Abbey—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -54496,7 +54496,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Salt wind carries old prayers and newer lies; both stick in the throat. A Collegium Keybearer arrives late, pretending coincidence.",
+    "prompt": "The wayhouse keeper watches like a Candlekeeper, counting truths instead of bodies. You go deeper, and the drowned halls listen.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -54664,7 +54664,7 @@
   },
   {
     "id": "sl_da_03_fishers_steady",
-    "name": "The Drowned Abbey — Act III",
+    "name": "The Drowned Abbey—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -54695,7 +54695,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Along the coast, monasteries are half-ruin, half-warning. A Synod Vigilant insists relics are 'witness' and therefore dangerous when politicized.",
+    "prompt": "The fishers’ stories tangle. Some are lies. Some are warnings. You measure each step, and the drowned halls listen.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -54863,7 +54863,7 @@
   },
   {
     "id": "sl_da_03_fishers_edge",
-    "name": "The Drowned Abbey — Act III",
+    "name": "The Drowned Abbey—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -54894,7 +54894,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Salt wind carries old prayers and newer lies; both stick in the throat. A Synod Vigilant insists relics are 'witness' and therefore dangerous when politicized.",
+    "prompt": "The fishers’ stories tangle. Some are lies. Some are warnings. You go deeper, and the drowned halls listen.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -55062,7 +55062,7 @@
   },
   {
     "id": "sl_da_03_shore_steady",
-    "name": "The Drowned Abbey — Act III",
+    "name": "The Drowned Abbey—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -55093,7 +55093,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Salt wind carries old prayers and newer lies; both stick in the throat. A Synod Vigilant insists relics are 'witness' and therefore dangerous when politicized.",
+    "prompt": "You’ve learned the timing of the waves. The abbey learns the timing of you. You measure each step, and the drowned halls listen.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -55261,7 +55261,7 @@
   },
   {
     "id": "sl_da_03_shore_edge",
-    "name": "The Drowned Abbey — Act III",
+    "name": "The Drowned Abbey—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -55292,7 +55292,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Along the coast, monasteries are half-ruin, half-warning. The ledger’s ink runs, but certain lines refuse to blur—as if the paper remembers.",
+    "prompt": "You’ve learned the timing of the waves. The abbey learns the timing of you. You go deeper, and the drowned halls listen.",
     "outcomes": [
       {
         "title": "Set it before witnesses",
@@ -55460,7 +55460,7 @@
   },
   {
     "id": "sl_da_03_loot_steady",
-    "name": "The Drowned Abbey — Act III",
+    "name": "The Drowned Abbey—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -55491,7 +55491,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Along the coast, monasteries are half-ruin, half-warning. A Synod Vigilant insists relics are 'witness' and therefore dangerous when politicized.",
+    "prompt": "You’ve taken something the coast considers owned. Now other hands reach for it. You measure each step, and the drowned halls listen.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -55659,7 +55659,7 @@
   },
   {
     "id": "sl_da_03_loot_edge",
-    "name": "The Drowned Abbey — Act III",
+    "name": "The Drowned Abbey—Act III",
     "context": "Scheme",
     "kind": "general",
     "weight": 1,
@@ -55690,7 +55690,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Salt wind carries old prayers and newer lies; both stick in the throat. A Collegium Keybearer arrives late, pretending coincidence.",
+    "prompt": "You’ve taken something the coast considers owned. Now other hands reach for it. You go deeper, and the drowned halls listen.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -55858,7 +55858,7 @@
   },
   {
     "id": "sl_da_04_wayhouse_steady_commit",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -55890,7 +55890,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Some truths should be buried. Others are already drowned and still trying to breathe. Greyvault frames the outcome in a way you can’t fully control.",
+    "prompt": "Shelter has a price: confession, or debt, or both. And after you measured each step, this is where you carry witness into daylight, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Take the witness",
@@ -56070,7 +56070,7 @@
   },
   {
     "id": "sl_da_04_wayhouse_steady_burn",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -56102,7 +56102,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "You can sell a relic, hide it, or bring it to an institution that will call it duty. Greyvault frames the outcome in a way you can’t fully control.",
+    "prompt": "Shelter has a price: confession, or debt, or both. And after you measured each step, this is where you seal the truth away, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -56300,7 +56300,7 @@
   },
   {
     "id": "sl_da_04_wayhouse_edge_commit",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -56332,7 +56332,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "You can sell a relic, hide it, or bring it to an institution that will call it duty. Sable Coast frames the outcome in a way you can’t fully control.",
+    "prompt": "Shelter has a price: confession, or debt, or both. And after you went deeper than you should, this is where you carry witness into daylight, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -56512,7 +56512,7 @@
   },
   {
     "id": "sl_da_04_wayhouse_edge_burn",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -56544,7 +56544,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Some truths should be buried. Others are already drowned and still trying to breathe. Storm Port frames the outcome in a way you can’t fully control.",
+    "prompt": "Shelter has a price: confession, or debt, or both. And after you went deeper than you should, this is where you seal the truth away, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -56742,7 +56742,7 @@
   },
   {
     "id": "sl_da_04_fishers_steady_commit",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -56774,7 +56774,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "When you leave the coast, the sea keeps what it wants. You only keep what it allows. Storm Port frames the outcome in a way you can’t fully control.",
+    "prompt": "Some secrets are communal. Some are bait. And after you measured each step, this is where you carry witness into daylight, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -56954,7 +56954,7 @@
   },
   {
     "id": "sl_da_04_fishers_steady_burn",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -56986,7 +56986,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "You can sell a relic, hide it, or bring it to an institution that will call it duty. Storm Port frames the outcome in a way you can’t fully control.",
+    "prompt": "Some secrets are communal. Some are bait. And after you measured each step, this is where you seal the truth away, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -57184,7 +57184,7 @@
   },
   {
     "id": "sl_da_04_fishers_edge_commit",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -57216,7 +57216,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "When you leave the coast, the sea keeps what it wants. You only keep what it allows. Thornmere frames the outcome in a way you can’t fully control.",
+    "prompt": "Some secrets are communal. Some are bait. And after you went deeper than you should, this is where you carry witness into daylight, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Stand in the light",
@@ -57396,7 +57396,7 @@
   },
   {
     "id": "sl_da_04_fishers_edge_burn",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -57428,7 +57428,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "When you leave the coast, the sea keeps what it wants. You only keep what it allows. Greyvault frames the outcome in a way you can’t fully control.",
+    "prompt": "Some secrets are communal. Some are bait. And after you went deeper than you should, this is where you seal the truth away, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -57626,7 +57626,7 @@
   },
   {
     "id": "sl_da_04_shore_steady_commit",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -57658,7 +57658,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "You can sell a relic, hide it, or bring it to an institution that will call it duty. Thornmere frames the outcome in a way you can’t fully control.",
+    "prompt": "The abbey’s silence is not peace. It is pressure. And after you measured each step, this is where you carry witness into daylight, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -57838,7 +57838,7 @@
   },
   {
     "id": "sl_da_04_shore_steady_burn",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -57870,7 +57870,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "When you leave the coast, the sea keeps what it wants. You only keep what it allows. Drowned Monastery frames the outcome in a way you can’t fully control.",
+    "prompt": "The abbey’s silence is not peace. It is pressure. And after you measured each step, this is where you seal the truth away, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Take the scar for a crown",
@@ -58068,7 +58068,7 @@
   },
   {
     "id": "sl_da_04_shore_edge_commit",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -58100,7 +58100,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "When you leave the coast, the sea keeps what it wants. You only keep what it allows. Greyvault frames the outcome in a way you can’t fully control.",
+    "prompt": "The abbey’s silence is not peace. It is pressure. And after you went deeper than you should, this is where you carry witness into daylight, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -58280,7 +58280,7 @@
   },
   {
     "id": "sl_da_04_shore_edge_burn",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -58312,7 +58312,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "You can sell a relic, hide it, or bring it to an institution that will call it duty. Drowned Monastery frames the outcome in a way you can’t fully control.",
+    "prompt": "The abbey’s silence is not peace. It is pressure. And after you went deeper than you should, this is where you seal the truth away, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -58510,7 +58510,7 @@
   },
   {
     "id": "sl_da_04_loot_steady_commit",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -58542,7 +58542,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Some truths should be buried. Others are already drowned and still trying to breathe. Drowned Monastery frames the outcome in a way you can’t fully control.",
+    "prompt": "A stolen relic is still a relic. It still has rules. And after you measured each step, this is where you carry witness into daylight, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Take the witness",
@@ -58722,7 +58722,7 @@
   },
   {
     "id": "sl_da_04_loot_steady_burn",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -58754,7 +58754,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "When you leave the coast, the sea keeps what it wants. You only keep what it allows. Greyvault frames the outcome in a way you can’t fully control.",
+    "prompt": "A stolen relic is still a relic. It still has rules. And after you measured each step, this is where you seal the truth away, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -58952,7 +58952,7 @@
   },
   {
     "id": "sl_da_04_loot_edge_commit",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -58984,7 +58984,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "Some truths should be buried. Others are already drowned and still trying to breathe. Sable Coast frames the outcome in a way you can’t fully control.",
+    "prompt": "A stolen relic is still a relic. It still has rules. And after you went deeper than you should, this is where you carry witness into daylight, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -59164,7 +59164,7 @@
   },
   {
     "id": "sl_da_04_loot_edge_burn",
-    "name": "The Drowned Abbey — Ending",
+    "name": "The Drowned Abbey—Ending",
     "context": "Lore",
     "kind": "general",
     "weight": 1,
@@ -59196,7 +59196,7 @@
         "id": "sl_da_done"
       }
     ],
-    "prompt": "You can sell a relic, hide it, or bring it to an institution that will call it duty. Drowned Monastery frames the outcome in a way you can’t fully control.",
+    "prompt": "A stolen relic is still a relic. It still has rules. And after you went deeper than you should, this is where you seal the truth away, and the Sable Coast takes your measure.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -59424,7 +59424,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "In a market town’s warm noise, you notice someone who doesn’t flinch when your name is spoken. A witness to your directness offers advice that sounds suspiciously like gossip.",
+    "prompt": "In High Valewyr, marriage is a treaty written in smiles. At Widow’s Market, rumors trade hands as quickly as ribbons.",
     "outcomes": [
       {
         "title": "Make a gentle introduction",
@@ -59708,7 +59708,7 @@
   },
   {
     "id": "sl_ct_02_gentle",
-    "name": "Courtship — Act II",
+    "name": "Courtship—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -59738,7 +59738,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "In the Crownlands, marriage is a story people tell about you. Better to help write it. A shared errand becomes a test: small honesty under small pressure.",
+    "prompt": "You offer patience and steadiness in a city that prefers spectacle. Some hearts recognize a quieter strength.",
     "outcomes": [
       {
         "title": "Hold to Thornmere",
@@ -59899,7 +59899,7 @@
   },
   {
     "id": "sl_ct_02_clever",
-    "name": "Courtship — Act II",
+    "name": "Courtship—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -59929,7 +59929,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "In a market town’s warm noise, you notice someone who doesn’t flinch when your name is spoken. A walk turns into a conversation about weather, debts, and what people are willing to carry.",
+    "prompt": "You court through wit and timing, letting the Stag Court think it discovered your desire first.",
     "outcomes": [
       {
         "title": "Keep to Widow's Market",
@@ -60090,7 +60090,7 @@
   },
   {
     "id": "sl_ct_02_bold",
-    "name": "Courtship — Act II",
+    "name": "Courtship—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -60120,7 +60120,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "At a riverside tavern, laughter and politics share a table; so do hopes that pretend they aren’t hopes. A witness to your directness offers advice that sounds suspiciously like gossip.",
+    "prompt": "You make your intent unmistakable. In the Crownlands, certainty can be charm—or a threat.",
     "outcomes": [
       {
         "title": "Work within Gloambridge",
@@ -60281,7 +60281,7 @@
   },
   {
     "id": "sl_ct_02_mystery",
-    "name": "Courtship — Act II",
+    "name": "Courtship—Act II",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -60311,7 +60311,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "In the Crownlands, marriage is a story people tell about you. Better to help write it. Your new acquaintance asks what you want—and you realize how dangerous clarity is.",
+    "prompt": "You let absence and rumor do work for you. In High Valewyr, mystery is a kind of perfume.",
     "outcomes": [
       {
         "title": "Work within Thornmere",
@@ -60472,7 +60472,7 @@
   },
   {
     "id": "sl_ct_03_gentle_steady",
-    "name": "Courtship — Act III",
+    "name": "Courtship—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -60502,7 +60502,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "At a riverside tavern, laughter and politics share a table; so do hopes that pretend they aren’t hopes. The prospect asks for a truth you’ve avoided saying aloud.",
+    "prompt": "Your kindness has been noticed. So has the way others try to take advantage of it. You prove your steadiness, and the city watches.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -60686,7 +60686,7 @@
   },
   {
     "id": "sl_ct_03_gentle_edge",
-    "name": "Courtship — Act III",
+    "name": "Courtship—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -60716,7 +60716,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "In a market town’s warm noise, you notice someone who doesn’t flinch when your name is spoken. Vows and dowry negotiations begin. Families show up in the margins.",
+    "prompt": "Your kindness has been noticed. So has the way others try to take advantage of it. You press your suit, and the city watches.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -60900,7 +60900,7 @@
   },
   {
     "id": "sl_ct_03_clever_steady",
-    "name": "Courtship — Act III",
+    "name": "Courtship—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -60930,7 +60930,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "In the Crownlands, marriage is a story people tell about you. Better to help write it. A private vow tempts you: quieter, simpler, less protected.",
+    "prompt": "Your jokes have become a pattern. Someone tries to predict you, and you must decide whether to let them. You prove your steadiness, and the city watches.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -61114,7 +61114,7 @@
   },
   {
     "id": "sl_ct_03_clever_edge",
-    "name": "Courtship — Act III",
+    "name": "Courtship—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -61144,7 +61144,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "In the Crownlands, marriage is a story people tell about you. Better to help write it. A private vow tempts you: quieter, simpler, less protected.",
+    "prompt": "Your jokes have become a pattern. Someone tries to predict you, and you must decide whether to let them. You press your suit, and the city watches.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -61328,7 +61328,7 @@
   },
   {
     "id": "sl_ct_03_bold_steady",
-    "name": "Courtship — Act III",
+    "name": "Courtship—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -61358,7 +61358,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "In a market town’s warm noise, you notice someone who doesn’t flinch when your name is spoken. Vows and dowry negotiations begin. Families show up in the margins.",
+    "prompt": "Your confidence has drawn eyes—and scrutiny. Someone asks what you are really buying with your smile. You prove your steadiness, and the city watches.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -61542,7 +61542,7 @@
   },
   {
     "id": "sl_ct_03_bold_edge",
-    "name": "Courtship — Act III",
+    "name": "Courtship—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -61572,7 +61572,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "At a riverside tavern, laughter and politics share a table; so do hopes that pretend they aren’t hopes. A patron offers to 'help'—for a future favor you can’t price.",
+    "prompt": "Your confidence has drawn eyes—and scrutiny. Someone asks what you are really buying with your smile. You press your suit, and the city watches.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -61756,7 +61756,7 @@
   },
   {
     "id": "sl_ct_03_mystery_steady",
-    "name": "Courtship — Act III",
+    "name": "Courtship—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -61786,7 +61786,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "At a riverside tavern, laughter and politics share a table; so do hopes that pretend they aren’t hopes. A patron offers to 'help'—for a future favor you can’t price.",
+    "prompt": "Rumor has carried your name. Now rumor demands an answer. You prove your steadiness, and the city watches.",
     "outcomes": [
       {
         "title": "Set it before witnesses",
@@ -61970,7 +61970,7 @@
   },
   {
     "id": "sl_ct_03_mystery_edge",
-    "name": "Courtship — Act III",
+    "name": "Courtship—Act III",
     "context": "Court",
     "kind": "general",
     "weight": 1,
@@ -62000,7 +62000,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "At a riverside tavern, laughter and politics share a table; so do hopes that pretend they aren’t hopes. A patron offers to 'help'—for a future favor you can’t price.",
+    "prompt": "Rumor has carried your name. Now rumor demands an answer. You press your suit, and the city watches.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -62184,7 +62184,7 @@
   },
   {
     "id": "sl_ct_04_gentle_steady_commit",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -62215,7 +62215,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "A household is not built in a day, but it can be unmade in one night. In Widow's Market, the household holds its breath.",
+    "prompt": "Gentleness can be mistaken for weakness, until it refuses to bend. And after you proved your steadiness, this is where you bind it into a vow, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Take the witness",
@@ -62421,7 +62421,7 @@
   },
   {
     "id": "sl_ct_04_gentle_steady_burn",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -62452,7 +62452,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Some legacies begin with ceremony. Others begin with a single exhausted cry. In High Valewyr, the household holds its breath.",
+    "prompt": "Gentleness can be mistaken for weakness, until it refuses to bend. And after you proved your steadiness, this is where you let it turn to scandal, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -62658,7 +62658,7 @@
   },
   {
     "id": "sl_ct_04_gentle_edge_commit",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -62689,7 +62689,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Some legacies begin with ceremony. Others begin with a single exhausted cry. In High Valewyr, the household holds its breath.",
+    "prompt": "Gentleness can be mistaken for weakness, until it refuses to bend. And after you pressed your suit hard, this is where you bind it into a vow, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Claim the outcome",
@@ -62895,7 +62895,7 @@
   },
   {
     "id": "sl_ct_04_gentle_edge_burn",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -62926,7 +62926,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "A household is not built in a day, but it can be unmade in one night. In Widow's Market, the household holds its breath.",
+    "prompt": "Gentleness can be mistaken for weakness, until it refuses to bend. And after you pressed your suit hard, this is where you let it turn to scandal, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -63132,7 +63132,7 @@
   },
   {
     "id": "sl_ct_04_clever_steady_commit",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -63163,7 +63163,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "A household is not built in a day, but it can be unmade in one night. In Thornmere, the household holds its breath.",
+    "prompt": "Cleverness wins hearts—and makes enemies who feel outplayed. And after you proved your steadiness, this is where you bind it into a vow, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Stand in the light",
@@ -63369,7 +63369,7 @@
   },
   {
     "id": "sl_ct_04_clever_steady_burn",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -63400,7 +63400,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "A household is not built in a day, but it can be unmade in one night. In Thornmere, the household holds its breath.",
+    "prompt": "Cleverness wins hearts—and makes enemies who feel outplayed. And after you proved your steadiness, this is where you let it turn to scandal, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -63606,7 +63606,7 @@
   },
   {
     "id": "sl_ct_04_clever_edge_commit",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -63637,7 +63637,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Some legacies begin with ceremony. Others begin with a single exhausted cry. In Thornmere, the household holds its breath.",
+    "prompt": "Cleverness wins hearts—and makes enemies who feel outplayed. And after you pressed your suit hard, this is where you bind it into a vow, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Claim the outcome",
@@ -63843,7 +63843,7 @@
   },
   {
     "id": "sl_ct_04_clever_edge_burn",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -63874,7 +63874,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Some legacies begin with ceremony. Others begin with a single exhausted cry. In Thornmere, the household holds its breath.",
+    "prompt": "Cleverness wins hearts—and makes enemies who feel outplayed. And after you pressed your suit hard, this is where you let it turn to scandal, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -64080,7 +64080,7 @@
   },
   {
     "id": "sl_ct_04_bold_steady_commit",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -64111,7 +64111,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Some legacies begin with ceremony. Others begin with a single exhausted cry. In Widow's Market, the household holds its breath.",
+    "prompt": "A bold courtship ends loudly, one way or another. And after you proved your steadiness, this is where you bind it into a vow, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -64317,7 +64317,7 @@
   },
   {
     "id": "sl_ct_04_bold_steady_burn",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -64348,7 +64348,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Some legacies begin with ceremony. Others begin with a single exhausted cry. In Widow's Market, the household holds its breath.",
+    "prompt": "A bold courtship ends loudly, one way or another. And after you proved your steadiness, this is where you let it turn to scandal, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -64554,7 +64554,7 @@
   },
   {
     "id": "sl_ct_04_bold_edge_commit",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -64585,7 +64585,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "A household is not built in a day, but it can be unmade in one night. In High Valewyr, the household holds its breath.",
+    "prompt": "A bold courtship ends loudly, one way or another. And after you pressed your suit hard, this is where you bind it into a vow, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Claim the outcome",
@@ -64791,7 +64791,7 @@
   },
   {
     "id": "sl_ct_04_bold_edge_burn",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -64822,7 +64822,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "When the time comes, you learn whether love is a comfort or another kind of oath. In High Valewyr, the household holds its breath.",
+    "prompt": "A bold courtship ends loudly, one way or another. And after you pressed your suit hard, this is where you let it turn to scandal, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -65028,7 +65028,7 @@
   },
   {
     "id": "sl_ct_04_mystery_steady_commit",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -65059,7 +65059,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "When the time comes, you learn whether love is a comfort or another kind of oath. In Widow's Market, the household holds its breath.",
+    "prompt": "Mystery cannot last forever. Eventually you must be known. And after you proved your steadiness, this is where you bind it into a vow, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -65265,7 +65265,7 @@
   },
   {
     "id": "sl_ct_04_mystery_steady_burn",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -65296,7 +65296,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "A household is not built in a day, but it can be unmade in one night. In Thornmere, the household holds its breath.",
+    "prompt": "Mystery cannot last forever. Eventually you must be known. And after you proved your steadiness, this is where you let it turn to scandal, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -65502,7 +65502,7 @@
   },
   {
     "id": "sl_ct_04_mystery_edge_commit",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -65533,7 +65533,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "When the time comes, you learn whether love is a comfort or another kind of oath. In Widow's Market, the household holds its breath.",
+    "prompt": "Mystery cannot last forever. Eventually you must be known. And after you pressed your suit hard, this is where you bind it into a vow, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Take the witness",
@@ -65739,7 +65739,7 @@
   },
   {
     "id": "sl_ct_04_mystery_edge_burn",
-    "name": "Courtship — Ending",
+    "name": "Courtship—Ending",
     "context": "Hearth",
     "kind": "general",
     "weight": 1,
@@ -65770,7 +65770,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "When the time comes, you learn whether love is a comfort or another kind of oath. In Widow's Market, the household holds its breath.",
+    "prompt": "Mystery cannot last forever. Eventually you must be known. And after you pressed your suit hard, this is where you let it turn to scandal, and carry the consequences home.",
     "outcomes": [
       {
         "title": "Wear the fallout",
