@@ -3,11 +3,11 @@
     "id": "squire",
     "name": "Squire",
     "startStats": {
-      "Might": 3,
-      "Wit": 1,
-      "Guile": 1,
-      "Gravitas": 1,
-      "Resolve": 2
+      "Might": 5,
+      "Wit": 2,
+      "Guile": 2,
+      "Gravitas": 2,
+      "Resolve": 4
     },
     "startRes": {
       "Coin": 2,
@@ -59,11 +59,11 @@
     "id": "ledger_clerk",
     "name": "Ledger Clerk",
     "startStats": {
-      "Might": 1,
-      "Wit": 3,
-      "Guile": 1,
-      "Gravitas": 2,
-      "Resolve": 1
+      "Might": 2,
+      "Wit": 5,
+      "Guile": 2,
+      "Gravitas": 4,
+      "Resolve": 2
     },
     "startRes": {
       "Coin": 1,
@@ -115,11 +115,11 @@
     "id": "street_urchin",
     "name": "Street Urchin",
     "startStats": {
-      "Might": 1,
-      "Wit": 2,
-      "Guile": 3,
-      "Gravitas": 1,
-      "Resolve": 1
+      "Might": 2,
+      "Wit": 4,
+      "Guile": 5,
+      "Gravitas": 2,
+      "Resolve": 2
     },
     "startRes": {
       "Coin": 1,
@@ -171,11 +171,11 @@
     "id": "minor_noble",
     "name": "Minor Noble",
     "startStats": {
-      "Might": 1,
-      "Wit": 2,
-      "Guile": 1,
-      "Gravitas": 3,
-      "Resolve": 1
+      "Might": 2,
+      "Wit": 4,
+      "Guile": 2,
+      "Gravitas": 5,
+      "Resolve": 2
     },
     "startRes": {
       "Coin": 3,
@@ -231,11 +231,11 @@
     "id": "pilgrim_wanderer",
     "name": "Pilgrim Wanderer",
     "startStats": {
-      "Might": 1,
-      "Wit": 2,
-      "Guile": 1,
-      "Gravitas": 1,
-      "Resolve": 3
+      "Might": 2,
+      "Wit": 4,
+      "Guile": 2,
+      "Gravitas": 2,
+      "Resolve": 5
     },
     "startRes": {
       "Coin": 1,
@@ -283,14 +283,14 @@
     "id": "novice",
     "name": "Verdant Novice",
     "desc": "A monastery ward turned wanderer: letters, patience, and quiet resilience.",
-    "stats": {
-      "Might": 1,
-      "Wit": 3,
-      "Guile": 1,
-      "Gravitas": 1,
-      "Resolve": 2
+    "startStats": {
+      "Might": 2,
+      "Wit": 5,
+      "Guile": 2,
+      "Gravitas": 2,
+      "Resolve": 4
     },
-    "res": {
+    "startRes": {
       "Coin": 1,
       "Supplies": 2,
       "Renown": 0,
@@ -335,15 +335,15 @@
   {
     "id": "guild_factor",
     "name": "Guild Factor",
-    "desc": "Ledger, leverage, and long memories—coin moves faster than steel.",
-    "stats": {
-      "Might": 1,
-      "Wit": 2,
-      "Guile": 1,
-      "Gravitas": 3,
-      "Resolve": 1
+    "desc": "Ledger, leverage, and long memories\u2014coin moves faster than steel.",
+    "startStats": {
+      "Might": 2,
+      "Wit": 4,
+      "Guile": 2,
+      "Gravitas": 5,
+      "Resolve": 2
     },
-    "res": {
+    "startRes": {
       "Coin": 3,
       "Supplies": 2,
       "Renown": 0,
@@ -397,14 +397,14 @@
     "id": "outlaw",
     "name": "Outlaw",
     "desc": "You learned early that laws are written for other people.",
-    "stats": {
-      "Might": 2,
-      "Wit": 1,
-      "Guile": 3,
-      "Gravitas": 1,
-      "Resolve": 1
+    "startStats": {
+      "Might": 4,
+      "Wit": 2,
+      "Guile": 5,
+      "Gravitas": 2,
+      "Resolve": 2
     },
-    "res": {
+    "startRes": {
       "Coin": 1,
       "Supplies": 2,
       "Renown": 0,
@@ -454,14 +454,14 @@
     "id": "hedge_knight",
     "name": "Hedge Knight",
     "desc": "A sword for hire with a code you pretend not to need.",
-    "stats": {
-      "Might": 3,
-      "Wit": 1,
-      "Guile": 1,
-      "Gravitas": 2,
-      "Resolve": 1
+    "startStats": {
+      "Might": 5,
+      "Wit": 2,
+      "Guile": 2,
+      "Gravitas": 4,
+      "Resolve": 2
     },
-    "res": {
+    "startRes": {
       "Coin": 2,
       "Supplies": 3,
       "Renown": 1,
@@ -514,15 +514,15 @@
   {
     "id": "caravan_scout",
     "name": "Caravan Scout",
-    "desc": "Roads, weather, and strangers: you can read them all—mostly.",
-    "stats": {
-      "Might": 2,
-      "Wit": 2,
+    "desc": "Roads, weather, and strangers: you can read them all\u2014mostly.",
+    "startStats": {
+      "Might": 4,
+      "Wit": 5,
       "Guile": 2,
-      "Gravitas": 1,
-      "Resolve": 1
+      "Gravitas": 2,
+      "Resolve": 2
     },
-    "res": {
+    "startRes": {
       "Coin": 2,
       "Supplies": 4,
       "Renown": 0,
