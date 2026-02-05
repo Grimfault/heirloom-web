@@ -679,7 +679,7 @@ const logEl = document.getElementById("log");
 const bootMsg = document.getElementById("bootMsg");
 const setBootMsg = (msg) => { if (bootMsg) bootMsg.textContent = msg || ""; };
 
-const START_ALLOC_POINTS = 6;
+const START_ALLOC_POINTS = 5;
 const STAT_CAP = 10;
 const STAT_SCALE = STAT_CAP / 5; // 2.0 when STAT_CAP is 10
 const DIFF_SCALE = STAT_SCALE; // keep outcome diffs 1–5 but scale internally
@@ -3142,14 +3142,20 @@ function renderCreationUI() {
 
   // Allocation grid
   allocGrid.innerHTML = "";
+  const startStats = getBackgroundStartStats(bg);
   const finalStats = computeFinalStats(bg);
+
+  // Keep helper labels in sync (if present)
+  const allocTotalEl = document.getElementById("allocTotal");
+  if (allocTotalEl) allocTotalEl.textContent = String(START_ALLOC_POINTS);
+  const statCapEl = document.getElementById("statCap");
+  if (statCapEl) statCapEl.textContent = String(STAT_CAP);
 
   for (const s of STATS) {
     const row = document.createElement("div");
     row.className = "allocRow";
 
-    const startStats = bg.startStats ?? bg.stats ?? {};
-      const base = startStats[s] ?? 0;
+    const base = startStats[s] ?? 0;
     const alloc = creation.alloc[s] ?? 0;
     const final = finalStats[s] ?? 0;
 
@@ -4787,7 +4793,8 @@ function updateStartButtonState() {
   if (!given || !family) {
     btnStart.textContent = "Enter your name";
   } else if (rem !== 0) {
-    btnStart.textContent = `Spend ${rem} point${rem === 1 ? "" : "s"}`;
+    if (rem > 0) btnStart.textContent = `Spend ${rem} point${rem === 1 ? "" : "s"}`;
+    else btnStart.textContent = `Refund ${Math.abs(rem)} point${Math.abs(rem) === 1 ? "" : "s"}`;
   } else if (picked !== 2) {
     btnStart.textContent = "Pick 2 traits";
   } else {
@@ -4799,6 +4806,38 @@ function traitById(id) {
   return TRAITS.find(t => t.id === id) || null;
 }
 
+function getBackgroundStartStats(bg) {
+  const raw = bg?.startStats ?? bg?.stats ?? {};
+  const vals = STATS.map(s => raw[s] ?? 0);
+  const maxV = Math.max(...vals, 0);
+
+  let out = {};
+
+  // If backgrounds are still authored in the old 1–3 (0–5 era) format, map them into the 0–10 era:
+  // 1 → 1, 2 → 3, 3 → 4. (Keeps early starts modest so you can’t hit 10 “for free.”)
+  if (STAT_CAP === 10 && maxV <= 3) {
+    const map = { 0: 0, 1: 1, 2: 3, 3: 4 };
+    for (const s of STATS) {
+      const v = Number(raw[s] ?? 0);
+      const key = clamp(v, 0, 3);
+      out[s] = map[key] ?? 0;
+    }
+  } else {
+    for (const s of STATS) out[s] = Number(raw[s] ?? 0);
+  }
+
+  // If a background was authored in the older “baseline 2” format (min >= 2), nudge everything down by 1
+  // so that “untrained” stats sit at 1, and hard-boosting a single stat comes at a real opportunity cost.
+  const minV = Math.min(...STATS.map(s => out[s] ?? 0));
+  if (minV >= 2) {
+    for (const s of STATS) out[s] = clamp((out[s] ?? 0) - 1, 0, STAT_CAP);
+  } else {
+    for (const s of STATS) out[s] = clamp(out[s] ?? 0, 0, STAT_CAP);
+  }
+
+  return out;
+}
+
 function defaultStats() {
   return Object.fromEntries(STATS.map(s => [s, 0]));
 }
@@ -4807,7 +4846,7 @@ function defaultRes() {
 }
 
 function computeFinalStats(bg) {
-  const base = deepCopy(bg.startStats ?? bg.stats) ?? defaultStats();
+  const base = deepCopy(getBackgroundStartStats(bg)) ?? defaultStats();
 
   for (const s of STATS) {
     base[s] = clamp((base[s] ?? 0) + (creation.alloc[s] ?? 0), 0, STAT_CAP);
