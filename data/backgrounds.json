@@ -3,11 +3,11 @@
     "id": "squire",
     "name": "Squire",
     "startStats": {
-      "Might": 3,
+      "Might": 4,
       "Wit": 1,
       "Guile": 1,
-      "Gravitas": 1,
-      "Resolve": 2
+      "Gravitas": 2,
+      "Resolve": 3
     },
     "startRes": {
       "Coin": 2,
@@ -60,10 +60,10 @@
     "name": "Ledger Clerk",
     "startStats": {
       "Might": 1,
-      "Wit": 3,
+      "Wit": 4,
       "Guile": 1,
-      "Gravitas": 2,
-      "Resolve": 1
+      "Gravitas": 3,
+      "Resolve": 2
     },
     "startRes": {
       "Coin": 1,
@@ -115,9 +115,9 @@
     "id": "street_urchin",
     "name": "Street Urchin",
     "startStats": {
-      "Might": 1,
-      "Wit": 2,
-      "Guile": 3,
+      "Might": 2,
+      "Wit": 3,
+      "Guile": 4,
       "Gravitas": 1,
       "Resolve": 1
     },
@@ -172,9 +172,9 @@
     "name": "Minor Noble",
     "startStats": {
       "Might": 1,
-      "Wit": 2,
-      "Guile": 1,
-      "Gravitas": 3,
+      "Wit": 3,
+      "Guile": 2,
+      "Gravitas": 4,
       "Resolve": 1
     },
     "startRes": {
@@ -231,11 +231,11 @@
     "id": "pilgrim_wanderer",
     "name": "Pilgrim Wanderer",
     "startStats": {
-      "Might": 1,
-      "Wit": 2,
+      "Might": 2,
+      "Wit": 3,
       "Guile": 1,
       "Gravitas": 1,
-      "Resolve": 3
+      "Resolve": 4
     },
     "startRes": {
       "Coin": 1,
@@ -285,10 +285,10 @@
     "desc": "A monastery ward turned wanderer: letters, patience, and quiet resilience.",
     "stats": {
       "Might": 1,
-      "Wit": 3,
-      "Guile": 1,
+      "Wit": 4,
+      "Guile": 2,
       "Gravitas": 1,
-      "Resolve": 2
+      "Resolve": 3
     },
     "res": {
       "Coin": 1,
@@ -338,10 +338,10 @@
     "desc": "Ledger, leverage, and long memories—coin moves faster than steel.",
     "stats": {
       "Might": 1,
-      "Wit": 2,
+      "Wit": 3,
       "Guile": 1,
-      "Gravitas": 3,
-      "Resolve": 1
+      "Gravitas": 4,
+      "Resolve": 2
     },
     "res": {
       "Coin": 3,
@@ -398,11 +398,11 @@
     "name": "Outlaw",
     "desc": "You learned early that laws are written for other people.",
     "stats": {
-      "Might": 2,
+      "Might": 3,
       "Wit": 1,
-      "Guile": 3,
+      "Guile": 4,
       "Gravitas": 1,
-      "Resolve": 1
+      "Resolve": 2
     },
     "res": {
       "Coin": 1,
@@ -455,11 +455,11 @@
     "name": "Hedge Knight",
     "desc": "A sword for hire with a code you pretend not to need.",
     "stats": {
-      "Might": 3,
+      "Might": 4,
       "Wit": 1,
       "Guile": 1,
-      "Gravitas": 2,
-      "Resolve": 1
+      "Gravitas": 3,
+      "Resolve": 2
     },
     "res": {
       "Coin": 2,
@@ -516,9 +516,9 @@
     "name": "Caravan Scout",
     "desc": "Roads, weather, and strangers: you can read them all—mostly.",
     "stats": {
-      "Might": 2,
-      "Wit": 2,
-      "Guile": 2,
+      "Might": 3,
+      "Wit": 3,
+      "Guile": 3,
       "Gravitas": 1,
       "Resolve": 1
     },
