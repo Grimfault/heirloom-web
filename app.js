@@ -497,6 +497,92 @@ function scaleBundleAmounts(bundle, mult) {
   return out;
 }
 
+function uniqConditions(list) {
+  const out = [];
+  const seen = new Set();
+  for (const c of (list ?? [])) {
+    const key = `${c.id}|${c.mode}|${c.severity ?? ""}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(c);
+  }
+  return out;
+}
+
+function scaleWildOnPlay(baseOnPlay, toLevel) {
+  // Base is treated as Level 1 for Wild cards.
+  const out = deepCopy(baseOnPlay ?? {});
+  // Scale resources: +1 per level above base.
+  if (Array.isArray(out.resources)) {
+    out.resources = out.resources.map(r => {
+      const amt = Number(r.amount ?? 0);
+      if (!Number.isFinite(amt) || amt === 0) return r;
+      const scaled = amt + (toLevel - 1) * (amt > 0 ? 1 : -1);
+      return { ...r, amount: scaled };
+    });
+  }
+
+  // Improve conditions in a small, readable way.
+  // Rules:
+  // - Downgrade -> Remove at Level 3
+  // - For Wounded/Ill downgrades: Level 2 also removes Exhausted; Level 3 removes the target condition
+  // - For Quiet Prayer (remove Exhausted): Level 2 downgrades Ill; Level 3 removes Ill
+  if (Array.isArray(out.conditions)) {
+    const conds = deepCopy(out.conditions);
+
+    // Quiet Prayer pattern: remove Exhausted
+    const removesExhausted = conds.some(x => x.id === "Exhausted" && x.mode === "Remove");
+    if (removesExhausted) {
+      if (toLevel === 2) conds.push({ id: "Ill", mode: "Downgrade" });
+      if (toLevel >= 3) conds.push({ id: "Ill", mode: "Remove" });
+    }
+
+    for (const c of conds) {
+      if (toLevel >= 3 && c.mode === "Downgrade") {
+        // Level 3 turns downgrades into removals (strong payoff).
+        c.mode = "Remove";
+      }
+    }
+
+    // Wounded/Ill downgrade helpers
+    const downgradesWoundedOrIll = conds.some(x => (x.id === "Wounded" || x.id === "Ill") && x.mode === (toLevel >= 3 ? "Remove" : "Downgrade"));
+    if (downgradesWoundedOrIll && toLevel >= 2) {
+      conds.push({ id: "Exhausted", mode: "Remove" });
+    }
+
+    out.conditions = uniqConditions(conds);
+  }
+
+  return out;
+}
+
+function expandedThreeLevelsFromSingleWild(baseLevel) {
+  const base = deepCopy(baseLevel ?? {});
+  // Authored Wild cards are treated as Level 1 baseline.
+  const lvl1 = deepCopy(base);
+  lvl1.level = 1;
+  lvl1.onPlay = scaleWildOnPlay(lvl1.onPlay ?? {}, 1);
+
+  const lvl2 = deepCopy(base);
+  lvl2.level = 2;
+  lvl2.onPlay = scaleWildOnPlay(lvl2.onPlay ?? {}, 2);
+
+  const lvl3 = deepCopy(base);
+  lvl3.level = 3;
+  lvl3.onPlay = scaleWildOnPlay(lvl3.onPlay ?? {}, 3);
+
+  for (const l of [lvl1, lvl2, lvl3]) {
+    if (typeof l.partialOnFail !== "boolean") l.partialOnFail = false;
+    if (!Number.isFinite(l.bonus)) l.bonus = 0;
+    l.onSuccess ??= {};
+    l.onFailure ??= {};
+    l.onPlay ??= {};
+  }
+  return [lvl1, lvl2, lvl3];
+}
+
+
+
 function expandedThreeLevelsFromSingle(baseLevel) {
   const base = deepCopy(baseLevel ?? {});
   // Level 2 is the "current" strength (numbers in JSON today)
@@ -530,13 +616,13 @@ function ensureThreeLevelCards(cards) {
   for (const c of (cards ?? [])) {
     if (!c || typeof c !== "object") continue;
     if (!Array.isArray(c.levels) || c.levels.length === 0) {
-      c.levels = expandedThreeLevelsFromSingle({ level: 2, bonus: 0, partialOnFail: false, onSuccess: {}, onFailure: {} });
+      c.levels = isWildCard(c) ? expandedThreeLevelsFromSingleWild({ level: 1, bonus: 0, partialOnFail: false, onSuccess: {}, onFailure: {}, onPlay: {} }) : expandedThreeLevelsFromSingle({ level: 2, bonus: 0, partialOnFail: false, onSuccess: {}, onFailure: {} });
       continue;
     }
     const maxLvl = Math.max(1, ...c.levels.map(l => Number(l?.level ?? 1) || 1));
     if (maxLvl >= 3) continue; // already supports upgrades
     if (c.levels.length === 1) {
-      c.levels = expandedThreeLevelsFromSingle(c.levels[0]);
+      c.levels = isWildCard(c) ? expandedThreeLevelsFromSingleWild(c.levels[0]) : expandedThreeLevelsFromSingle(c.levels[0]);
     } else {
       // If someone authored 2 levels, keep them and add a derived 3rd.
       const byLevel = Object.fromEntries(c.levels.map(l => [Number(l.level ?? 1), l]));
@@ -578,6 +664,20 @@ function tryUpgradeCard(cardId) {
   const cost = costTable[cur] ?? costTable[costTable.length - 1] ?? 10;
 
   if ((state.scrip ?? 0) < cost) return { ok: false, msg: `Need ${cost} Scrip.` };
+
+  // No-op protection: don't charge for an upgrade that doesn't change gameplay.
+  const curData = (c.levels ?? []).find(x => x.level === cur) || getCardLevelData(c);
+  const nextData = (c.levels ?? []).find(x => x.level === (cur + 1));
+  if (nextData) {
+    const a = deepCopy(curData); delete a.level;
+    const b = deepCopy(nextData); delete b.level;
+    // Normalize missing bundles
+    a.onSuccess ??= {}; a.onFailure ??= {}; a.onPlay ??= {};
+    b.onSuccess ??= {}; b.onFailure ??= {}; b.onPlay ??= {};
+    if (JSON.stringify(a) === JSON.stringify(b)) {
+      return { ok: false, msg: "That upgrade would have no effect." };
+    }
+  }
 
   state.scrip -= cost;
   state.cardLevels[cardId] = cur + 1;
@@ -1163,7 +1263,7 @@ function cardFlavor(c) {
 
 function cardSceneText(ctxs) {
   const arr = (ctxs ?? []).filter(Boolean);
-  return arr.length ? `in ${arr.join(" / ")}` : "in any scene";
+  return arr.length ? `Scene: ${arr.join(" / ")}` : "Scene: any";
 }
 
 
@@ -2352,6 +2452,55 @@ function isCardUsable(cardId, outcomeIndex) {
   return contextOk && disciplineOk;
 }
 
+function cardUsabilityDetails(cardId, outcomeIndex) {
+  const card = DATA.cardsById[cardId];
+  const o = currentEvent?.outcomes?.[outcomeIndex];
+  if (!card || !o) {
+    return { playable: false, isWild: false, sceneOk: false, allowedOk: false, reason: "Unavailable" };
+  }
+
+  const isWild = isWildCard(card);
+  if (isWild) {
+    return { playable: true, isWild: true, sceneOk: true, allowedOk: true, reason: "Wild — usable anytime." };
+  }
+
+  const sceneOk = (card.contexts ?? []).includes(currentEvent.context);
+  const allowedOk = (o.allowed ?? []).includes(card.discipline);
+  const playable = sceneOk && allowedOk;
+
+  let reason = "";
+  if (playable) reason = `Playable (${currentEvent.context} + ${card.discipline})`;
+  else if (!sceneOk && !allowedOk) reason = `Not usable (needs ${currentEvent.context} and ${(o.allowed ?? []).join("/")})`;
+  else if (!sceneOk) reason = `Wrong scene (needs ${currentEvent.context})`;
+  else reason = `Not allowed (needs ${(o.allowed ?? []).join("/")})`;
+
+  return { playable, isWild, sceneOk, allowedOk, reason };
+}
+
+function countCommitReadyCardsForOutcome(outcomeIndex) {
+  if (outcomeIndex == null) return 0;
+  let n = 0;
+  for (const entry of (hand ?? [])) {
+    const cid = entry?.cid;
+    const c = DATA.cardsById[cid];
+    if (!c) continue;
+    if (isWildCard(c)) continue; // counts exclude Wild
+    if (isCardUsable(cid, outcomeIndex)) n++;
+  }
+  return n;
+}
+
+function countWildCardsInHand() {
+  let n = 0;
+  for (const entry of (hand ?? [])) {
+    const c = DATA.cardsById[entry?.cid];
+    if (c && isWildCard(c)) n++;
+  }
+  return n;
+}
+
+
+
 function cardLabel(cardId) {
   const c = DATA.cardsById[cardId];
   if (!c) return cardId;
@@ -3293,7 +3442,7 @@ function renderStatus() {
 function renderEvent() {
   eventName.textContent = currentEvent.name;
     ensureFamilyState();
-  let meta = `Context: ${currentEvent.context}`;
+  let meta = `Scene: ${currentEvent.context}`;
   if (currentEvent?.storyline?.id === "ct" && state.family.prospect) {
     meta += ` • Prospect: ${state.family.prospect.given} (${state.family.prospect.cultureName})`;
   }
@@ -3424,7 +3573,9 @@ function renderHand() {
   if (!hasOutcome) {
     handHint.textContent = "Pick an outcome to commit cards. (Wild cards can be used anytime.)";
   } else {
-    handHint.textContent = `Tap a highlighted card to commit/uncommit (max ${cap}).`;
+    const commitReady = countCommitReadyCardsForOutcome(selectedOutcomeIndex);
+    const wildCount = countWildCardsInHand();
+    handHint.textContent = `Commit-ready: ${commitReady} • Wild usable: ${wildCount} • Tap highlighted cards to commit/uncommit (max ${cap}).`;
   }
 
   handEl.innerHTML = "";
@@ -3443,7 +3594,22 @@ function renderHand() {
     const rarityMark = cardRarityMark(c);
     const riderText = cardRiderText(c);
     const scenesText = cardScenesText(c);
-    const line3 = isWild ? riderText : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""));
+    const line3 = isWild ? riderText : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""))
+    let usabilityHtml = "";
+    if (hasOutcome) {
+      const d = cardUsabilityDetails(cid, selectedOutcomeIndex);
+      if (d.isWild) {
+        usabilityHtml = `<div class="cardchips"><span class="chip chipWild">Wild</span><span class="chip chipGood">Scene ✓</span><span class="chip chipGood">Allowed ✓</span></div>`;
+      } else {
+        usabilityHtml = `<div class="cardchips">`
+          + `<span class="chip ${d.sceneOk ? "chipGood" : "chipBad"}">Scene ${d.sceneOk ? "✓" : "✗"}</span>`
+          + `<span class="chip ${d.allowedOk ? "chipGood" : "chipBad"}">Allowed ${d.allowedOk ? "✓" : "✗"}</span>`
+          + `</div>`;
+      }
+    } else if (isWild) {
+      usabilityHtml = `<div class="cardchips"><span class="chip chipWild">Wild</span></div>`;
+    }
+;
 
     const div = document.createElement("div");
     div.className = "cardbtn"
@@ -3462,6 +3628,8 @@ function renderHand() {
         <span class="arrows ${arrowsClass}">${arrowsText}</span>
         <span class="cardbigtext">${line3}</span>
       </div>
+
+      ${usabilityHtml}
 
       <div class="cardflavor"><em>${cardFlavor(c)}</em></div>
     `;
