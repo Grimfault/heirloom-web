@@ -59738,11 +59738,11 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "You offer patience and steadiness in a city that prefers spectacle. Some hearts recognize a quieter strength.",
+    "prompt": "You choose patience over spectacle. In Widow’s Market, even softness can be a kind of steel—if you know when to show it.",
     "outcomes": [
       {
-        "title": "Hold to Thornmere",
-        "desc": "Use proper courtship to make the next door open on its own.",
+        "title": "Chaperoned Meeting",
+        "desc": "Arrange a proper meeting—families present, eyes watching, nothing left to rumor.",
         "stat": "Gravitas",
         "diff": 3,
         "allowed": [
@@ -59757,7 +59757,7 @@
           "risks": []
         },
         "success": {
-          "text": "You keep your footing in Thornmere. In Crown, rules are a weapon when you grip them first.",
+          "text": "The meeting is small, proper, and unexpectedly warm. You leave with a promise that feels like it can last.",
           "flags": [
             {
               "id": "sl_ct_step2",
@@ -59786,8 +59786,12 @@
           ]
         },
         "fail": {
-          "text": "You reach for the rules in Thornmere, but someone else wrote them. The room notes the strain.",
+          "text": "Too many eyes, too many rules. The warmth cools into courtesy, and courtesy into distance. The match slips away.",
           "flags": [
+            {
+              "id": "sl_ct_active",
+              "mode": "Remove"
+            },
             {
               "id": "sl_ct_step2",
               "mode": "Remove"
@@ -59798,25 +59802,40 @@
             },
             {
               "id": "sl_ct_step3",
-              "mode": "Add",
-              "durationEvents": 0
+              "mode": "Remove"
             },
             {
-              "id": "ct_p3_gentle_steady",
+              "id": "sl_ct_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "ct_declined",
               "mode": "Add",
-              "durationEvents": 0
+              "durationEvents": 6
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "special": [
+            {
+              "type": "ClearProspect"
             }
           ]
         }
       },
       {
-        "title": "Take the back way Thornmere",
-        "desc": "Take the quick way—bribes, shortcuts, and private letters; accept what it draws.",
-        "stat": "Guile",
+        "title": "Quiet Letters",
+        "desc": "Speak in private, where sincerity can land… and where gossip can turn it into a blade.",
+        "stat": "Resolve",
         "diff": 3,
         "allowed": [
-          "Veil",
-          "Hearth"
+          "Hearth",
+          "Seal"
         ],
         "tags": [],
         "preview": {
@@ -59828,7 +59847,7 @@
           ]
         },
         "success": {
-          "text": "You take the short path through Thornmere and come out ahead—at the price of a few new eyes on you.",
+          "text": "Your letters find their mark. The words are plain—but the risk makes them feel truer.",
           "flags": [
             {
               "id": "sl_ct_step2",
@@ -59857,8 +59876,12 @@
           ]
         },
         "fail": {
-          "text": "The shortcut in Thornmere snaps shut behind you. Attention follows—quiet at first, then official.",
+          "text": "A private note becomes public in the worst way. The prospect withdraws, and you are left holding your own handwriting.",
           "flags": [
+            {
+              "id": "sl_ct_active",
+              "mode": "Remove"
+            },
             {
               "id": "sl_ct_step2",
               "mode": "Remove"
@@ -59869,13 +59892,16 @@
             },
             {
               "id": "sl_ct_step3",
-              "mode": "Add",
-              "durationEvents": 0
+              "mode": "Remove"
             },
             {
-              "id": "ct_p3_gentle_edge",
+              "id": "sl_ct_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "ct_declined",
               "mode": "Add",
-              "durationEvents": 0
+              "durationEvents": 6
             }
           ],
           "conditions": [
@@ -59883,6 +59909,11 @@
               "id": "Disgraced",
               "mode": "Add",
               "severity": "Minor"
+            }
+          ],
+          "special": [
+            {
+              "type": "ClearProspect"
             }
           ]
         }
@@ -59929,16 +59960,16 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "You court through wit and timing, letting the Stag Court think it discovered your desire first.",
+    "prompt": "You court through timing and laughter. In High Valewyr, every joke is a test: of wit, of taste, of who gets to laugh.",
     "outcomes": [
       {
-        "title": "Keep to Widow's Market",
-        "desc": "Use proper courtship to make the next door open on its own.",
-        "stat": "Gravitas",
+        "title": "Public Banter",
+        "desc": "Win the room first, then them—let laughter turn etiquette into advantage.",
+        "stat": "Wit",
         "diff": 3,
         "allowed": [
-          "Seal",
-          "Quill"
+          "Quill",
+          "Seal"
         ],
         "tags": [],
         "preview": {
@@ -59948,7 +59979,7 @@
           "risks": []
         },
         "success": {
-          "text": "You keep your footing in Widow's Market. In Crown, rules are a weapon when you grip them first.",
+          "text": "You make them laugh without making them small. In the afterglow, agreement comes easier than expected.",
           "flags": [
             {
               "id": "sl_ct_step2",
@@ -59977,8 +60008,12 @@
           ]
         },
         "fail": {
-          "text": "You reach for the rules in Widow's Market, but someone else wrote them. The room notes the strain.",
+          "text": "The laughter turns sideways. Someone repeats your words without the charm. What felt light becomes a stain.",
           "flags": [
+            {
+              "id": "sl_ct_active",
+              "mode": "Remove"
+            },
             {
               "id": "sl_ct_step2",
               "mode": "Remove"
@@ -59989,25 +60024,40 @@
             },
             {
               "id": "sl_ct_step3",
-              "mode": "Add",
-              "durationEvents": 0
+              "mode": "Remove"
             },
             {
-              "id": "ct_p3_clever_steady",
+              "id": "sl_ct_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "ct_declined",
               "mode": "Add",
-              "durationEvents": 0
+              "durationEvents": 6
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "special": [
+            {
+              "type": "ClearProspect"
             }
           ]
         }
       },
       {
-        "title": "Cut through Widow's Market",
-        "desc": "Take the quick way—bribes, shortcuts, and private letters; accept what it draws.",
+        "title": "Barbed Joke",
+        "desc": "Test the line between charm and cruelty. A sharper laugh can cut rivals—or you.",
         "stat": "Guile",
         "diff": 3,
         "allowed": [
           "Veil",
-          "Hearth"
+          "Quill"
         ],
         "tags": [],
         "preview": {
@@ -60019,7 +60069,7 @@
           ]
         },
         "success": {
-          "text": "You take the short path through Widow's Market and come out ahead—at the price of a few new eyes on you.",
+          "text": "The joke lands like a dagger in velvet. Rivals flinch; your prospect doesn’t look away.",
           "flags": [
             {
               "id": "sl_ct_step2",
@@ -60048,8 +60098,12 @@
           ]
         },
         "fail": {
-          "text": "The shortcut in Widow's Market snaps shut behind you. Attention follows—quiet at first, then official.",
+          "text": "The line you walk snaps. The joke becomes cruelty in someone else’s mouth, and the match collapses under the noise.",
           "flags": [
+            {
+              "id": "sl_ct_active",
+              "mode": "Remove"
+            },
             {
               "id": "sl_ct_step2",
               "mode": "Remove"
@@ -60060,13 +60114,16 @@
             },
             {
               "id": "sl_ct_step3",
-              "mode": "Add",
-              "durationEvents": 0
+              "mode": "Remove"
             },
             {
-              "id": "ct_p3_clever_edge",
+              "id": "sl_ct_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "ct_declined",
               "mode": "Add",
-              "durationEvents": 0
+              "durationEvents": 6
             }
           ],
           "conditions": [
@@ -60074,6 +60131,11 @@
               "id": "Disgraced",
               "mode": "Add",
               "severity": "Minor"
+            }
+          ],
+          "special": [
+            {
+              "type": "ClearProspect"
             }
           ]
         }
@@ -60120,16 +60182,16 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "You make your intent unmistakable. In the Crownlands, certainty can be charm—or a threat.",
+    "prompt": "You make your intent unmistakable. In the Stag Court, certainty draws eyes—and invites someone to challenge it.",
     "outcomes": [
       {
-        "title": "Work within Gloambridge",
-        "desc": "Use proper courtship to make the next door open on its own.",
+        "title": "Declare Intent",
+        "desc": "Ask plainly, with witnesses close enough to make it real and hard to ignore.",
         "stat": "Gravitas",
         "diff": 3,
         "allowed": [
           "Seal",
-          "Quill"
+          "Steel"
         ],
         "tags": [],
         "preview": {
@@ -60139,7 +60201,7 @@
           "risks": []
         },
         "success": {
-          "text": "You keep your footing in Gloambridge. In Crown, rules are a weapon when you grip them first.",
+          "text": "You speak your intent and hold the gaze. The witnesses remember who did not blink.",
           "flags": [
             {
               "id": "sl_ct_step2",
@@ -60162,14 +60224,18 @@
           ],
           "resources": [
             {
-              "resource": "Influence",
+              "resource": "Renown",
               "amount": 1
             }
           ]
         },
         "fail": {
-          "text": "You reach for the rules in Gloambridge, but someone else wrote them. The room notes the strain.",
+          "text": "Certainty reads as arrogance to the wrong person. The room chooses to interpret you unkindly—and the door closes.",
           "flags": [
+            {
+              "id": "sl_ct_active",
+              "mode": "Remove"
+            },
             {
               "id": "sl_ct_step2",
               "mode": "Remove"
@@ -60180,24 +60246,39 @@
             },
             {
               "id": "sl_ct_step3",
-              "mode": "Add",
-              "durationEvents": 0
+              "mode": "Remove"
             },
             {
-              "id": "ct_p3_bold_steady",
+              "id": "sl_ct_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "ct_declined",
               "mode": "Add",
-              "durationEvents": 0
+              "durationEvents": 6
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "special": [
+            {
+              "type": "ClearProspect"
             }
           ]
         }
       },
       {
-        "title": "Slip past Gloambridge",
-        "desc": "Take the quick way—bribes, shortcuts, and private letters; accept what it draws.",
-        "stat": "Guile",
+        "title": "Prove Worth",
+        "desc": "Do something undeniable. Let deeds answer what words can’t—at whatever cost.",
+        "stat": "Might",
         "diff": 3,
         "allowed": [
-          "Veil",
+          "Steel",
           "Hearth"
         ],
         "tags": [],
@@ -60210,7 +60291,7 @@
           ]
         },
         "success": {
-          "text": "You take the short path through Gloambridge and come out ahead—at the price of a few new eyes on you.",
+          "text": "You win a small victory in public view. It is not gentle… but it is convincing.",
           "flags": [
             {
               "id": "sl_ct_step2",
@@ -60239,8 +60320,12 @@
           ]
         },
         "fail": {
-          "text": "The shortcut in Gloambridge snaps shut behind you. Attention follows—quiet at first, then official.",
+          "text": "Your deed draws the wrong sort of attention. Instead of admiration, you earn alarm—and a clean refusal.",
           "flags": [
+            {
+              "id": "sl_ct_active",
+              "mode": "Remove"
+            },
             {
               "id": "sl_ct_step2",
               "mode": "Remove"
@@ -60251,13 +60336,16 @@
             },
             {
               "id": "sl_ct_step3",
-              "mode": "Add",
-              "durationEvents": 0
+              "mode": "Remove"
             },
             {
-              "id": "ct_p3_bold_edge",
+              "id": "sl_ct_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "ct_declined",
               "mode": "Add",
-              "durationEvents": 0
+              "durationEvents": 6
             }
           ],
           "conditions": [
@@ -60265,6 +60353,11 @@
               "id": "Disgraced",
               "mode": "Add",
               "severity": "Minor"
+            }
+          ],
+          "special": [
+            {
+              "type": "ClearProspect"
             }
           ]
         }
@@ -60311,16 +60404,16 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "You let absence and rumor do work for you. In High Valewyr, mystery is a kind of perfume.",
+    "prompt": "You let rumor do half the work. In Thornmere, absence can be bait… but the wrong kind of attention still bites.",
     "outcomes": [
       {
-        "title": "Work within Thornmere",
-        "desc": "Use proper courtship to make the next door open on its own.",
-        "stat": "Gravitas",
+        "title": "Measured Distance",
+        "desc": "Keep your pace slow. Let them come closer on their own terms—and at your chosen time.",
+        "stat": "Wit",
         "diff": 3,
         "allowed": [
-          "Seal",
-          "Quill"
+          "Quill",
+          "Veil"
         ],
         "tags": [],
         "preview": {
@@ -60330,7 +60423,7 @@
           "risks": []
         },
         "success": {
-          "text": "You keep your footing in Thornmere. In Crown, rules are a weapon when you grip them first.",
+          "text": "You give just enough to invite pursuit, not enough to invite certainty. Curiosity turns into commitment.",
           "flags": [
             {
               "id": "sl_ct_step2",
@@ -60359,8 +60452,12 @@
           ]
         },
         "fail": {
-          "text": "You reach for the rules in Thornmere, but someone else wrote them. The room notes the strain.",
+          "text": "You wait for them to come closer, but they decide the distance is safer. Rumor stops being invitation and becomes warning.",
           "flags": [
+            {
+              "id": "sl_ct_active",
+              "mode": "Remove"
+            },
             {
               "id": "sl_ct_step2",
               "mode": "Remove"
@@ -60371,20 +60468,35 @@
             },
             {
               "id": "sl_ct_step3",
-              "mode": "Add",
-              "durationEvents": 0
+              "mode": "Remove"
             },
             {
-              "id": "ct_p3_mystery_steady",
+              "id": "sl_ct_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "ct_declined",
               "mode": "Add",
-              "durationEvents": 0
+              "durationEvents": 6
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ],
+          "special": [
+            {
+              "type": "ClearProspect"
             }
           ]
         }
       },
       {
-        "title": "Take the back way Thornmere",
-        "desc": "Take the quick way—bribes, shortcuts, and private letters; accept what it draws.",
+        "title": "Vanishing Act",
+        "desc": "Leave only a trace: a token, a rumor, a half-truth. Make them chase what you never quite offer.",
         "stat": "Guile",
         "diff": 3,
         "allowed": [
@@ -60401,7 +60513,7 @@
           ]
         },
         "success": {
-          "text": "You take the short path through Thornmere and come out ahead—at the price of a few new eyes on you.",
+          "text": "You vanish at the perfect moment. By the time they find you again, the chase has become the story.",
           "flags": [
             {
               "id": "sl_ct_step2",
@@ -60430,8 +60542,12 @@
           ]
         },
         "fail": {
-          "text": "The shortcut in Thornmere snaps shut behind you. Attention follows—quiet at first, then official.",
+          "text": "Your disappearance reads as deceit, not allure. The chase ends in resentment, and the house quietly turns away.",
           "flags": [
+            {
+              "id": "sl_ct_active",
+              "mode": "Remove"
+            },
             {
               "id": "sl_ct_step2",
               "mode": "Remove"
@@ -60442,13 +60558,16 @@
             },
             {
               "id": "sl_ct_step3",
-              "mode": "Add",
-              "durationEvents": 0
+              "mode": "Remove"
             },
             {
-              "id": "ct_p3_mystery_edge",
+              "id": "sl_ct_step4",
+              "mode": "Remove"
+            },
+            {
+              "id": "ct_declined",
               "mode": "Add",
-              "durationEvents": 0
+              "durationEvents": 6
             }
           ],
           "conditions": [
@@ -60456,6 +60575,11 @@
               "id": "Disgraced",
               "mode": "Add",
               "severity": "Minor"
+            }
+          ],
+          "special": [
+            {
+              "type": "ClearProspect"
             }
           ]
         }
@@ -60502,7 +60626,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Your kindness has been noticed. So has the way others try to take advantage of it. You prove your steadiness, and the city watches.",
+    "prompt": "Your kindness has been noticed. So has the way others try to take advantage of it. You prove your steadiness, and the city watches. The question now is simple: can you make the vows hold in public?",
     "outcomes": [
       {
         "title": "Bind it",
@@ -60522,7 +60646,7 @@
           "risks": []
         },
         "success": {
-          "text": "You set the terms in High Valewyr, clean and binding. Crown has to treat it as real.",
+          "text": "You set the terms in High Valewyr, clean and binding. Crown has to treat it as real. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -60556,7 +60680,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in High Valewyr, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in High Valewyr, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -60605,7 +60729,7 @@
           ]
         },
         "success": {
-          "text": "You hit where it hurts in High Valewyr. The damage spreads faster than apologies can chase.",
+          "text": "You hit where it hurts in High Valewyr. The damage spreads faster than apologies can chase. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -60639,7 +60763,7 @@
           ]
         },
         "fail": {
-          "text": "You swing for pain in High Valewyr and miss the clean cut. Now it's messy, and mess has a cost.",
+          "text": "You swing for pain in High Valewyr and miss the clean cut. Now it's messy, and mess has a cost. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -60716,7 +60840,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Your kindness has been noticed. So has the way others try to take advantage of it. You press your suit, and the city watches.",
+    "prompt": "Your kindness has been noticed. So has the way others try to take advantage of it. You press your suit, and the city watches. The question now is simple: can you make the vows hold in public?",
     "outcomes": [
       {
         "title": "Seal it",
@@ -60736,7 +60860,7 @@
           "risks": []
         },
         "success": {
-          "text": "You set the terms in Thornmere, clean and binding. Crown has to treat it as real.",
+          "text": "You set the terms in Thornmere, clean and binding. Crown has to treat it as real. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -60770,7 +60894,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Thornmere, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Thornmere, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -60819,7 +60943,7 @@
           ]
         },
         "success": {
-          "text": "You hit where it hurts in Thornmere. The damage spreads faster than apologies can chase.",
+          "text": "You hit where it hurts in Thornmere. The damage spreads faster than apologies can chase. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -60853,7 +60977,7 @@
           ]
         },
         "fail": {
-          "text": "You swing for pain in Thornmere and miss the clean cut. Now it's messy, and mess has a cost.",
+          "text": "You swing for pain in Thornmere and miss the clean cut. Now it's messy, and mess has a cost. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -60930,7 +61054,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Your jokes have become a pattern. Someone tries to predict you, and you must decide whether to let them. You prove your steadiness, and the city watches.",
+    "prompt": "Your jokes have become a pattern. Someone tries to predict you, and you must decide whether to let them. You prove your steadiness, and the city watches. The question now is simple: can you make the vows hold in public?",
     "outcomes": [
       {
         "title": "Seal it",
@@ -60950,7 +61074,7 @@
           "risks": []
         },
         "success": {
-          "text": "You set the terms in Widow's Market, clean and binding. Crown has to treat it as real.",
+          "text": "You set the terms in Widow's Market, clean and binding. Crown has to treat it as real. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -60984,7 +61108,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Widow's Market, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Widow's Market, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61033,7 +61157,7 @@
           ]
         },
         "success": {
-          "text": "You hit where it hurts in Widow's Market. The damage spreads faster than apologies can chase.",
+          "text": "You hit where it hurts in Widow's Market. The damage spreads faster than apologies can chase. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61067,7 +61191,7 @@
           ]
         },
         "fail": {
-          "text": "You swing for pain in Widow's Market and miss the clean cut. Now it's messy, and mess has a cost.",
+          "text": "You swing for pain in Widow's Market and miss the clean cut. Now it's messy, and mess has a cost. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61144,7 +61268,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Your jokes have become a pattern. Someone tries to predict you, and you must decide whether to let them. You press your suit, and the city watches.",
+    "prompt": "Your jokes have become a pattern. Someone tries to predict you, and you must decide whether to let them. You press your suit, and the city watches. The question now is simple: can you make the vows hold in public?",
     "outcomes": [
       {
         "title": "Seal it",
@@ -61164,7 +61288,7 @@
           "risks": []
         },
         "success": {
-          "text": "You set the terms in Widow's Market, clean and binding. Crown has to treat it as real.",
+          "text": "You set the terms in Widow's Market, clean and binding. Crown has to treat it as real. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61198,7 +61322,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Widow's Market, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Widow's Market, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61247,7 +61371,7 @@
           ]
         },
         "success": {
-          "text": "You hit where it hurts in Widow's Market. The damage spreads faster than apologies can chase.",
+          "text": "You hit where it hurts in Widow's Market. The damage spreads faster than apologies can chase. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61281,7 +61405,7 @@
           ]
         },
         "fail": {
-          "text": "You swing for pain in Widow's Market and miss the clean cut. Now it's messy, and mess has a cost.",
+          "text": "You swing for pain in Widow's Market and miss the clean cut. Now it's messy, and mess has a cost. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61358,7 +61482,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Your confidence has drawn eyes—and scrutiny. Someone asks what you are really buying with your smile. You prove your steadiness, and the city watches.",
+    "prompt": "Your confidence has drawn eyes—and scrutiny. Someone asks what you are really buying with your smile. You prove your steadiness, and the city watches. The question now is simple: can you make the vows hold in public?",
     "outcomes": [
       {
         "title": "Bind it",
@@ -61378,7 +61502,7 @@
           "risks": []
         },
         "success": {
-          "text": "You set the terms in Thornmere, clean and binding. Crown has to treat it as real.",
+          "text": "You set the terms in Thornmere, clean and binding. Crown has to treat it as real. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61412,7 +61536,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Thornmere, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Thornmere, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61461,7 +61585,7 @@
           ]
         },
         "success": {
-          "text": "You hit where it hurts in Thornmere. The damage spreads faster than apologies can chase.",
+          "text": "You hit where it hurts in Thornmere. The damage spreads faster than apologies can chase. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61495,7 +61619,7 @@
           ]
         },
         "fail": {
-          "text": "You swing for pain in Thornmere and miss the clean cut. Now it's messy, and mess has a cost.",
+          "text": "You swing for pain in Thornmere and miss the clean cut. Now it's messy, and mess has a cost. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61572,7 +61696,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Your confidence has drawn eyes—and scrutiny. Someone asks what you are really buying with your smile. You press your suit, and the city watches.",
+    "prompt": "Your confidence has drawn eyes—and scrutiny. Someone asks what you are really buying with your smile. You press your suit, and the city watches. The question now is simple: can you make the vows hold in public?",
     "outcomes": [
       {
         "title": "Seal it",
@@ -61592,7 +61716,7 @@
           "risks": []
         },
         "success": {
-          "text": "You set the terms in Gloambridge, clean and binding. Crown has to treat it as real.",
+          "text": "You set the terms in Gloambridge, clean and binding. Crown has to treat it as real. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61626,7 +61750,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Gloambridge, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Gloambridge, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61675,7 +61799,7 @@
           ]
         },
         "success": {
-          "text": "You hit where it hurts in Gloambridge. The damage spreads faster than apologies can chase.",
+          "text": "You hit where it hurts in Gloambridge. The damage spreads faster than apologies can chase. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61709,7 +61833,7 @@
           ]
         },
         "fail": {
-          "text": "You swing for pain in Gloambridge and miss the clean cut. Now it's messy, and mess has a cost.",
+          "text": "You swing for pain in Gloambridge and miss the clean cut. Now it's messy, and mess has a cost. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61786,7 +61910,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Rumor has carried your name. Now rumor demands an answer. You prove your steadiness, and the city watches.",
+    "prompt": "Rumor has carried your name. Now rumor demands an answer. You prove your steadiness, and the city watches. The question now is simple: can you make the vows hold in public?",
     "outcomes": [
       {
         "title": "Set it before witnesses",
@@ -61806,7 +61930,7 @@
           "risks": []
         },
         "success": {
-          "text": "You set the terms in Gloambridge, clean and binding. Crown has to treat it as real.",
+          "text": "You set the terms in Gloambridge, clean and binding. Crown has to treat it as real. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61840,7 +61964,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Gloambridge, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Gloambridge, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61889,7 +62013,7 @@
           ]
         },
         "success": {
-          "text": "You hit where it hurts in Gloambridge. The damage spreads faster than apologies can chase.",
+          "text": "You hit where it hurts in Gloambridge. The damage spreads faster than apologies can chase. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -61923,7 +62047,7 @@
           ]
         },
         "fail": {
-          "text": "You swing for pain in Gloambridge and miss the clean cut. Now it's messy, and mess has a cost.",
+          "text": "You swing for pain in Gloambridge and miss the clean cut. Now it's messy, and mess has a cost. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -62000,7 +62124,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Rumor has carried your name. Now rumor demands an answer. You press your suit, and the city watches.",
+    "prompt": "Rumor has carried your name. Now rumor demands an answer. You press your suit, and the city watches. The question now is simple: can you make the vows hold in public?",
     "outcomes": [
       {
         "title": "Seal it",
@@ -62020,7 +62144,7 @@
           "risks": []
         },
         "success": {
-          "text": "You set the terms in Gloambridge, clean and binding. Crown has to treat it as real.",
+          "text": "You set the terms in Gloambridge, clean and binding. Crown has to treat it as real. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -62054,7 +62178,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Gloambridge, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Gloambridge, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -62103,7 +62227,7 @@
           ]
         },
         "success": {
-          "text": "You hit where it hurts in Gloambridge. The damage spreads faster than apologies can chase.",
+          "text": "You hit where it hurts in Gloambridge. The damage spreads faster than apologies can chase. Vows are spoken, and the court is forced to treat it as real.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -62137,7 +62261,7 @@
           ]
         },
         "fail": {
-          "text": "You swing for pain in Gloambridge and miss the clean cut. Now it's messy, and mess has a cost.",
+          "text": "You swing for pain in Gloambridge and miss the clean cut. Now it's messy, and mess has a cost. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -62215,7 +62339,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Gentleness can be mistaken for weakness, until it refuses to bend. And after you proved your steadiness, this is where you bind it into a vow, and carry the consequences home.",
+    "prompt": "Gentleness can be mistaken for weakness, until it refuses to bend. And after you proved your steadiness, this is where you bind it into a vow, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Take the witness",
@@ -62236,7 +62360,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62271,7 +62395,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62297,11 +62421,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -62332,7 +62451,7 @@
           ]
         },
         "success": {
-          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62367,7 +62486,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62393,11 +62512,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -62452,7 +62566,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Gentleness can be mistaken for weakness, until it refuses to bend. And after you proved your steadiness, this is where you let it turn to scandal, and carry the consequences home.",
+    "prompt": "Gentleness can be mistaken for weakness, until it refuses to bend. And after you proved your steadiness, this is where you let it turn to scandal, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -62473,7 +62587,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62508,7 +62622,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62534,11 +62648,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -62569,7 +62678,7 @@
           ]
         },
         "success": {
-          "text": "You leave High Valewyr before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave High Valewyr before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62604,7 +62713,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62630,11 +62739,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -62689,7 +62793,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Gentleness can be mistaken for weakness, until it refuses to bend. And after you pressed your suit hard, this is where you bind it into a vow, and carry the consequences home.",
+    "prompt": "Gentleness can be mistaken for weakness, until it refuses to bend. And after you pressed your suit hard, this is where you bind it into a vow, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Claim the outcome",
@@ -62710,7 +62814,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62745,7 +62849,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62771,11 +62875,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -62806,7 +62905,7 @@
           ]
         },
         "success": {
-          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62841,7 +62940,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62867,11 +62966,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -62926,7 +63020,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Gentleness can be mistaken for weakness, until it refuses to bend. And after you pressed your suit hard, this is where you let it turn to scandal, and carry the consequences home.",
+    "prompt": "Gentleness can be mistaken for weakness, until it refuses to bend. And after you pressed your suit hard, this is where you let it turn to scandal, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -62947,7 +63041,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -62982,7 +63076,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63008,11 +63102,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -63043,7 +63132,7 @@
           ]
         },
         "success": {
-          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63078,7 +63167,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63104,11 +63193,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -63163,7 +63247,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Cleverness wins hearts—and makes enemies who feel outplayed. And after you proved your steadiness, this is where you bind it into a vow, and carry the consequences home.",
+    "prompt": "Cleverness wins hearts—and makes enemies who feel outplayed. And after you proved your steadiness, this is where you bind it into a vow, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Stand in the light",
@@ -63184,7 +63268,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63219,7 +63303,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63245,11 +63329,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -63280,7 +63359,7 @@
           ]
         },
         "success": {
-          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63315,7 +63394,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63341,11 +63420,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -63400,7 +63474,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Cleverness wins hearts—and makes enemies who feel outplayed. And after you proved your steadiness, this is where you let it turn to scandal, and carry the consequences home.",
+    "prompt": "Cleverness wins hearts—and makes enemies who feel outplayed. And after you proved your steadiness, this is where you let it turn to scandal, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -63421,7 +63495,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63456,7 +63530,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63482,11 +63556,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -63517,7 +63586,7 @@
           ]
         },
         "success": {
-          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63552,7 +63621,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63578,11 +63647,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -63637,7 +63701,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Cleverness wins hearts—and makes enemies who feel outplayed. And after you pressed your suit hard, this is where you bind it into a vow, and carry the consequences home.",
+    "prompt": "Cleverness wins hearts—and makes enemies who feel outplayed. And after you pressed your suit hard, this is where you bind it into a vow, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Claim the outcome",
@@ -63658,7 +63722,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63693,7 +63757,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63719,11 +63783,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -63754,7 +63813,7 @@
           ]
         },
         "success": {
-          "text": "You leave Gloambridge before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave Gloambridge before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63789,7 +63848,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63815,11 +63874,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -63874,7 +63928,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Cleverness wins hearts—and makes enemies who feel outplayed. And after you pressed your suit hard, this is where you let it turn to scandal, and carry the consequences home.",
+    "prompt": "Cleverness wins hearts—and makes enemies who feel outplayed. And after you pressed your suit hard, this is where you let it turn to scandal, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -63895,7 +63949,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63930,7 +63984,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -63956,11 +64010,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -63991,7 +64040,7 @@
           ]
         },
         "success": {
-          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64026,7 +64075,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64052,11 +64101,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -64111,7 +64155,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "A bold courtship ends loudly, one way or another. And after you proved your steadiness, this is where you bind it into a vow, and carry the consequences home.",
+    "prompt": "A bold courtship ends loudly, one way or another. And after you proved your steadiness, this is where you bind it into a vow, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -64132,7 +64176,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64167,7 +64211,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64193,11 +64237,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -64228,7 +64267,7 @@
           ]
         },
         "success": {
-          "text": "You leave Gloambridge before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave Gloambridge before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64263,7 +64302,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64289,11 +64328,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -64348,7 +64382,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "A bold courtship ends loudly, one way or another. And after you proved your steadiness, this is where you let it turn to scandal, and carry the consequences home.",
+    "prompt": "A bold courtship ends loudly, one way or another. And after you proved your steadiness, this is where you let it turn to scandal, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Leave a mark",
@@ -64369,7 +64403,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64404,7 +64438,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64430,11 +64464,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -64465,7 +64494,7 @@
           ]
         },
         "success": {
-          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave Thornmere before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64500,7 +64529,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64526,11 +64555,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -64585,7 +64609,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "A bold courtship ends loudly, one way or another. And after you pressed your suit hard, this is where you bind it into a vow, and carry the consequences home.",
+    "prompt": "A bold courtship ends loudly, one way or another. And after you pressed your suit hard, this is where you bind it into a vow, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Claim the outcome",
@@ -64606,7 +64630,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64641,7 +64665,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64667,11 +64691,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -64702,7 +64721,7 @@
           ]
         },
         "success": {
-          "text": "You leave Widow's Market before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave Widow's Market before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64737,7 +64756,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64763,11 +64782,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -64822,7 +64836,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "A bold courtship ends loudly, one way or another. And after you pressed your suit hard, this is where you let it turn to scandal, and carry the consequences home.",
+    "prompt": "A bold courtship ends loudly, one way or another. And after you pressed your suit hard, this is where you let it turn to scandal, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -64843,7 +64857,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64878,7 +64892,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64904,11 +64918,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -64939,7 +64948,7 @@
           ]
         },
         "success": {
-          "text": "You leave Gloambridge before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave Gloambridge before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -64974,7 +64983,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65000,11 +65009,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -65059,7 +65063,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Mystery cannot last forever. Eventually you must be known. And after you proved your steadiness, this is where you bind it into a vow, and carry the consequences home.",
+    "prompt": "Mystery cannot last forever. Eventually you must be known. And after you proved your steadiness, this is where you bind it into a vow, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Let your name be read",
@@ -65080,7 +65084,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65115,7 +65119,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65141,11 +65145,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -65176,7 +65175,7 @@
           ]
         },
         "success": {
-          "text": "You leave High Valewyr before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave High Valewyr before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65211,7 +65210,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65237,11 +65236,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -65296,7 +65290,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Mystery cannot last forever. Eventually you must be known. And after you proved your steadiness, this is where you let it turn to scandal, and carry the consequences home.",
+    "prompt": "Mystery cannot last forever. Eventually you must be known. And after you proved your steadiness, this is where you let it turn to scandal, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Make them remember",
@@ -65317,7 +65311,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65352,7 +65346,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65378,11 +65372,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -65413,7 +65402,7 @@
           ]
         },
         "success": {
-          "text": "You leave Widow's Market before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave Widow's Market before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65448,7 +65437,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65474,11 +65463,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -65533,7 +65517,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Mystery cannot last forever. Eventually you must be known. And after you pressed your suit hard, this is where you bind it into a vow, and carry the consequences home.",
+    "prompt": "Mystery cannot last forever. Eventually you must be known. And after you pressed your suit hard, this is where you bind it into a vow, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Take the witness",
@@ -65554,7 +65538,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65589,7 +65573,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65615,11 +65599,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -65650,7 +65629,7 @@
           ]
         },
         "success": {
-          "text": "You leave High Valewyr before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave High Valewyr before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65685,7 +65664,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65711,11 +65690,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -65770,7 +65744,7 @@
         "id": "sl_ct_done"
       }
     ],
-    "prompt": "Mystery cannot last forever. Eventually you must be known. And after you pressed your suit hard, this is where you let it turn to scandal, and carry the consequences home.",
+    "prompt": "Mystery cannot last forever. Eventually you must be known. And after you pressed your suit hard, this is where you let it turn to scandal, and carry the consequences home. Now the household waits for the next proof: an heir, or the silence of an empty cradle.",
     "outcomes": [
       {
         "title": "Wear the fallout",
@@ -65791,7 +65765,7 @@
           ]
         },
         "success": {
-          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target.",
+          "text": "The story lands on you. In Crown, that can be protection—until it becomes a target. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65826,7 +65800,7 @@
           ]
         },
         "fail": {
-          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory.",
+          "text": "You step forward, but the room takes its due. You keep the result, not the clean victory. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65852,11 +65826,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
@@ -65887,7 +65856,7 @@
           ]
         },
         "success": {
-          "text": "You leave High Valewyr before the tale can sharpen. The consequence stands, but it doesn't wear your face.",
+          "text": "You leave High Valewyr before the tale can sharpen. The consequence stands, but it doesn't wear your face. Before the season turns, the line is secured: an heir is recorded.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65922,7 +65891,7 @@
           ]
         },
         "fail": {
-          "text": "You try to vanish, but private letters keep pace. Even silence has a price.",
+          "text": "You try to vanish, but private letters keep pace. Even silence has a price. The vows stand, but no child follows—only questions, and time.",
           "flags": [
             {
               "id": "sl_ct_done",
@@ -65948,11 +65917,6 @@
             {
               "id": "sl_ct_step3",
               "mode": "Remove"
-            }
-          ],
-          "special": [
-            {
-              "type": "CreateHeir"
             }
           ],
           "conditions": [
