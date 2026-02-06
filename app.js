@@ -2769,6 +2769,15 @@ function applySpecial(sp) {
       };
     }
 
+    case "CancelProspect": {
+      const p = state.family?.prospect;
+      if (p) {
+        log(`The match with ${p.given} ${p.family} collapses.`);
+      }
+      if (state.family) state.family.prospect = null;
+      return null;
+    }
+
     case "FinalizeMarriage": {
       const p = state.family.prospect;
       if (p) {
@@ -3142,19 +3151,13 @@ function renderCreationUI() {
 
   // Allocation grid
   allocGrid.innerHTML = "";
-  const startStats = getBackgroundStartStats(bg);
   const finalStats = computeFinalStats(bg);
-
-  // Keep helper labels in sync (if present)
-  const allocTotalEl = document.getElementById("allocTotal");
-  if (allocTotalEl) allocTotalEl.textContent = String(START_ALLOC_POINTS);
-  const statCapEl = document.getElementById("statCap");
-  if (statCapEl) statCapEl.textContent = String(STAT_CAP);
 
   for (const s of STATS) {
     const row = document.createElement("div");
     row.className = "allocRow";
 
+    const startStats = getBackgroundStartStats(bg);
     const base = startStats[s] ?? 0;
     const alloc = creation.alloc[s] ?? 0;
     const final = finalStats[s] ?? 0;
@@ -4793,8 +4796,7 @@ function updateStartButtonState() {
   if (!given || !family) {
     btnStart.textContent = "Enter your name";
   } else if (rem !== 0) {
-    if (rem > 0) btnStart.textContent = `Spend ${rem} point${rem === 1 ? "" : "s"}`;
-    else btnStart.textContent = `Refund ${Math.abs(rem)} point${Math.abs(rem) === 1 ? "" : "s"}`;
+    btnStart.textContent = `Spend ${rem} point${rem === 1 ? "" : "s"}`;
   } else if (picked !== 2) {
     btnStart.textContent = "Pick 2 traits";
   } else {
@@ -4805,6 +4807,14 @@ function updateStartButtonState() {
 function traitById(id) {
   return TRAITS.find(t => t.id === id) || null;
 }
+
+function defaultStats() {
+  return Object.fromEntries(STATS.map(s => [s, 0]));
+}
+function defaultRes() {
+  return Object.fromEntries(RES.map(r => [r, 0]));
+}
+
 
 function getBackgroundStartStats(bg) {
   const raw = bg?.startStats ?? bg?.stats ?? {};
@@ -4838,12 +4848,6 @@ function getBackgroundStartStats(bg) {
   return out;
 }
 
-function defaultStats() {
-  return Object.fromEntries(STATS.map(s => [s, 0]));
-}
-function defaultRes() {
-  return Object.fromEntries(RES.map(r => [r, 0]));
-}
 
 function computeFinalStats(bg) {
   const base = deepCopy(getBackgroundStartStats(bg)) ?? defaultStats();
