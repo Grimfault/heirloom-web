@@ -683,6 +683,7 @@ const setBootMsg = (msg) => { if (bootMsg) bootMsg.textContent = msg || ""; };
 
 const START_ALLOC_POINTS = 5;
 const STAT_CAP = 10;
+const BASELINE_STAT = 1;
 const STAT_SCALE = STAT_CAP / 5; // 2.0 when STAT_CAP is 10
 const DIFF_SCALE = STAT_SCALE; // keep outcome diffs 1–5 but scale internally
 const MORTALITY_RESOLVE_MULT = 1; // 10 Resolve should equal old 5 Resolve mitigation
@@ -3153,22 +3154,28 @@ function renderCreationUI() {
 
   // Allocation grid
   allocGrid.innerHTML = "";
+  const startStats = normalizedBgStartStats(bg);
+  const bgBonus = normalizedBgBonusStats(bg);
   const finalStats = computeFinalStats(bg);
 
   for (const s of STATS) {
     const row = document.createElement("div");
     row.className = "allocRow";
 
-    const startStats = normalizedBgStartStats(bg);
-      const base = startStats[s] ?? 0;
+    const baseTotal = startStats[s] ?? BASELINE_STAT;
+    const bgB = bgBonus[s] ?? 0;
     const alloc = creation.alloc[s] ?? 0;
     const final = finalStats[s] ?? 0;
+
+    const allocLabel = (alloc >= 0) ? `+${alloc}` : `${alloc}`;
+    const bgLabel = (bgB >= 0) ? `+${bgB}` : `${bgB}`;
 
     row.innerHTML = `
       <div class="allocStat">${s}</div>
       <div class="allocNums">
-        <span class="badge">Base ${base}</span>
-        <span class="badge">+${alloc}</span>
+        <span class="badge">Base ${BASELINE_STAT}</span>
+        <span class="badge">BG ${bgLabel}</span>
+        <span class="badge">${allocLabel}</span>
         <span class="badge">= ${final}</span>
       </div>
       <div class="allocBtns">
@@ -3183,17 +3190,19 @@ function renderCreationUI() {
         const delta = Number(btn.getAttribute("data-delta"));
 
         if (delta > 0 && pointsRemaining() <= 0) return;
-        if (delta < 0 && (creation.alloc[stat] ?? 0) <= 0) return;
 
-        // prevent exceeding cap (based on base+alloc before trait mods)
-        const baseVal = startStats[stat] ?? 0;
-        const nextAlloc = (creation.alloc[stat] ?? 0) + delta;
-        const capped = clamp(baseVal + nextAlloc, 0, STAT_CAP);
+        const baseVal = startStats[stat] ?? BASELINE_STAT;
+        const curAlloc = (creation.alloc[stat] ?? 0);
+        const nextAlloc = curAlloc + delta;
 
-        // if cap prevents the increase, just stop
-        if (delta > 0 && capped === STAT_CAP && (baseVal + (creation.alloc[stat] ?? 0)) >= STAT_CAP) return;
+        // Allow lowering stats down to 0 total (min 0).
+        const minAlloc = -baseVal;
+        if (delta < 0 && nextAlloc < minAlloc) return;
 
-        creation.alloc[stat] = Math.max(0, nextAlloc);
+        // Prevent exceeding cap (based on base+alloc before trait mods).
+        if (baseVal + nextAlloc > STAT_CAP) return;
+
+        creation.alloc[stat] = nextAlloc;
         renderCreationUI();
       });
     });
@@ -4817,22 +4826,45 @@ function defaultStats() {
 // Normalize background starting stats for the current stat system.
 // - If STAT_CAP is 10 but background stats were authored on the old 0–5 scale, scale them up by STAT_SCALE.
 // - Then lower the baseline by 1 (min 0), per tuning request (reduces easy maxing).
-function normalizedBgStartStats(bg) {
+function normalizedBgBonusStats(bg) {
+  // Background stats can be authored two ways:
+  // 1) "Totals" with BASELINE_STAT baked in (common in our JSON: lots of 1s)
+  // 2) Pure "bonuses" where 0 = no bonus
+  //
+  // We normalize to *bonus over BASELINE_STAT* on the current stat system.
   const raw = deepCopy(bg?.startStats ?? bg?.stats) ?? defaultStats();
   const out = defaultStats();
-  for (const s of STATS) out[s] = (raw[s] ?? 0);
 
-  if (STAT_CAP === 10) {
-    const max = Math.max(...STATS.map(s => out[s] ?? 0));
-    if (max <= 5) {
-      for (const s of STATS) out[s] = clamp(Math.round((out[s] ?? 0) * STAT_SCALE), 0, STAT_CAP);
-    }
-    // Lower baseline to reduce trivial cap-stacking.
-    for (const s of STATS) out[s] = clamp((out[s] ?? 0) - 1, 0, STAT_CAP);
+  const vals = STATS.map(s => raw[s]).filter(v => typeof v === "number");
+  const max = vals.length ? Math.max(...vals) : 0;
+
+  // If background stats look like they've already been scaled to 0–10, unscale them back to 0–5-ish
+  // before converting to bonuses. This prevents accidental double-scaling.
+  const assumeScaled = (STAT_CAP === 10 && max > 5);
+
+  // Heuristic: if any stat is explicitly 0, treat the set as bonuses (0 = no bonus).
+  const authoredAsBonuses = vals.some(v => v === 0);
+
+  for (const s of STATS) {
+    let v = raw[s];
+    if (typeof v !== "number") v = authoredAsBonuses ? 0 : BASELINE_STAT;
+    if (assumeScaled) v = Math.round(v / STAT_SCALE);
+
+    const bonus = authoredAsBonuses ? v : (v - BASELINE_STAT);
+    out[s] = bonus;
   }
-
   return out;
 }
+
+// Normalize background starting stats for the current stat system.
+// We want *display/base* to start at BASELINE_STAT and backgrounds to add bonuses on top.
+function normalizedBgStartStats(bg) {
+  const bonus = normalizedBgBonusStats(bg);
+  const base = defaultStats();
+  for (const s of STATS) base[s] = clamp(BASELINE_STAT + (bonus[s] ?? 0), 0, STAT_CAP);
+  return base;
+}
+
 function defaultRes() {
   return Object.fromEntries(RES.map(r => [r, 0]));
 }
