@@ -639,3 +639,45 @@ button:disabled, .btn:disabled { opacity: .65; }
   letter-spacing: 0.4px;
 }
 .menuActions { display:flex; flex-direction:column; gap:10px; margin-top: 10px; }
+
+
+/* --- Card legibility chips --- */
+.cardchips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:8px;
+}
+.chip{
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid rgba(42,49,66,0.9);
+  background: rgba(15,17,21,0.35);
+  color: var(--muted);
+  line-height: 1.4;
+}
+.chipGood{
+  color: var(--good);
+  border-color: rgba(98,211,107,0.35);
+}
+.chipBad{
+  color: var(--bad);
+  border-color: rgba(255,107,107,0.35);
+}
+.chipWild{
+  color: var(--accent);
+  border-color: rgba(122,168,255,0.35);
+}
+
+/* --- Upgrade preview --- */
+.upgradePreview{
+  margin-top:6px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.upgradePreview b{
+  color: var(--text);
+  font-weight: 700;
+}
