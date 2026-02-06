@@ -250,8 +250,6 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
 
 .backdrop {
   position: fixed; inset: 0;
-  /* Ensure modals sit above the sticky topbar/header */
-  z-index: 1000;
   background: rgba(0,0,0,0.6);
   display:flex; align-items:center; justify-content:center;
   padding: 12px;
@@ -262,9 +260,6 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
-  /* Prevent long modals from running off-screen */
-  max-height: calc(100vh - 24px);
-  overflow: auto;
 }
 
 /* ---- Run Economy + Clarity pass ---- */
