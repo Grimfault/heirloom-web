@@ -648,6 +648,8 @@ const btnDebugPickEvent = document.getElementById("btnDebugPickEvent");
 const charNameInput = document.getElementById("charName");
 const familyNameInput = document.getElementById("familyName");
 const allocRemainingEl = document.getElementById("allocRemaining");
+const allocTotalEl = document.getElementById("allocTotal");
+const statCapHintEl = document.getElementById("statCapHint");
 const allocGrid = document.getElementById("allocGrid");
 const traitsListEl = document.getElementById("traitsList");
 
@@ -679,47 +681,97 @@ const logEl = document.getElementById("log");
 const bootMsg = document.getElementById("bootMsg");
 const setBootMsg = (msg) => { if (bootMsg) bootMsg.textContent = msg || ""; };
 
-const START_ALLOC_POINTS = 4;
-const STAT_CAP = 5;
+const START_ALLOC_POINTS = 5;
+const STAT_CAP = 10;
+const STAT_SCALE = STAT_CAP / 5; // 2.0 when STAT_CAP is 10
+const DIFF_SCALE = STAT_SCALE; // keep outcome diffs 1–5 but scale internally
+const MORTALITY_RESOLVE_MULT = 1; // 10 Resolve should equal old 5 Resolve mitigation
+
+function ensureStatScale() {
+  if (STAT_CAP !== 10) return;
+  if (!state?.stats) return;
+  if (state._statScale === STAT_CAP) return;
+
+  const maxStat = Math.max(...STATS.map(s => state.stats[s] ?? 0));
+  // Old saves top out at 5; scale them up so they play the same under the new system.
+  if (maxStat <= 5) {
+    for (const s of STATS) {
+      state.stats[s] = clamp((state.stats[s] ?? 0) * STAT_SCALE, 0, STAT_CAP);
+    }
+  }
+  state._statScale = STAT_CAP;
+}
 
 const STARTING_AGE = 16;
 const MAX_MARRIAGE_AGE = 45;
 
 const TRAITS = [
-  // Stat + resource starters (simple, always useful)
-  { id: "brawny",        name: "Hard-Marched",        desc: "You know how to carry weight and keep moving. Start with +1 Might and +1 Supplies.",     statMods: { Might: 1 },     resMods: { Supplies: 1 } },
-  { id: "bookish",       name: "Ink-Stained",       desc: "Letters open doors before you ever arrive. Start with +1 Wit and +1 Influence.",     statMods: { Wit: 1 },       resMods: { Influence: 1 } },
-  { id: "silver_tongue", name: "Court-Polished", desc: "You speak like someone meant to be heard. Start with +1 Gravitas and +1 Renown.",   statMods: { Gravitas: 1 },  resMods: { Renown: 1 } },
-  { id: "shadow_eyed",   name: "Night-Soft",   desc: "You notice the exits—and who watches them. Start with +1 Guile and +1 Secrets.",     statMods: { Guile: 1 },     resMods: { Secrets: 1 } },
-  { id: "stubborn",      name: "Stone-Set",      desc: "When you refuse to bend, people remember. Start with +1 Resolve and +1 Renown.",   statMods: { Resolve: 1 },   resMods: { Renown: 1 } },
+  // All traits are balanced to: net +2 stat points and +3 resource points (Coin: +2 = 1 point).
+  // Some traits include a stat tradeoff (negative stat) but still net to +2 stats overall.
 
-  // Resource starters (bigger pile in one lane)
-  { id: "thrifty",       name: "Ledgerwise",       desc: "You keep your accounts tight and your purse tighter. Start with +3 Coin.",                      resMods: { Coin: 3 } },
-  { id: "packer",        name: "Road-Provisioned",        desc: "You travel as if winter is always one hill away. Start with +3 Supplies.",                  resMods: { Supplies: 3 } },
-  { id: "well_connected",name: "Patron's Thread",desc: "Someone important still answers your messages. Start with +2 Influence.",                 resMods: { Influence: 2 } },
-  { id: "known_face",    name: "Known at Market",    desc: "Your name has been repeated often enough to stick. Start with +2 Renown.",                    resMods: { Renown: 2 } },
-  { id: "quiet_sins",    name: "Sealed Correspondence",    desc: "You know which truths are worth keeping. Start with +2 Secrets.",                   resMods: { Secrets: 2 } },
+  { id: "road_hardened", name: "Road Hardened", desc: "Start with +1 Resolve, +1 Might, +2 Supplies, and +2 Coin.",
+    statMods: { Resolve: 1, Might: 1 }, resMods: { Supplies: 2, Coin: 2 } },
 
-  // Mixed, flavorful starters
-  { id: "streetwise",    name: "Marrowgate Sharp",    desc: "You can read a street like a ledger. Start with +1 Guile and +1 Coin.",         statMods: { Guile: 1 },     resMods: { Coin: 1 } },
-  { id: "devout",        name: "Green Candle Oath",        desc: "The Synod favors those who keep vigil. Start with +1 Resolve and +1 Influence.",  statMods: { Resolve: 1 },   resMods: { Influence: 1 } },
+  { id: "court_polish", name: "Court Polish", desc: "Start with +1 Gravitas, +1 Wit, +2 Influence, and +1 Renown.",
+    statMods: { Gravitas: 1, Wit: 1 }, resMods: { Influence: 2, Renown: 1 } },
 
-  // Mixed blessings (strong upside, immediate complication)
-  { id: "debt_ridden",   name: "Signed in Red Ink",   desc: "A friendly loan is still a leash. Start with +4 Coin, but gain In Debt (Minor).",
-    resMods: { Coin: 4 },
-    addConditions: [{ id: "In Debt", severity: "Minor" }]
-  },
-  { id: "notorious",     name: "Marked by Rumor",     desc: "People whisper your name—and not always kindly. Start with +1 Renown and +1 Secrets, but gain Marked (Minor).",
-    resMods: { Renown: 1, Secrets: 1 },
-    addConditions: [{ id: "Marked", severity: "Minor" }]
-  },
+  { id: "ledgerwise", name: "Ledgerwise", desc: "Start with +1 Wit, +1 Guile, +4 Coin, and +1 Influence.",
+    statMods: { Wit: 1, Guile: 1 }, resMods: { Coin: 4, Influence: 1 } },
 
-  // Oathbound is a mixed blessing (locks some options later, but gives leverage now)
-  { id: "oathbound",     name: "Ring-Law Sworn",     desc: "Your word carries weight, and it will cost you. Start with +1 Influence and gain Oathbound (Minor).",
-    resMods: { Influence: 1 },
-    addConditions: [{ id: "Oathbound", severity: "Minor" }]
-  }
+  { id: "alley_instinct", name: "Alley Instinct", desc: "Start with +1 Guile, +1 Resolve, +2 Secrets, and +1 Supplies.",
+    statMods: { Guile: 1, Resolve: 1 }, resMods: { Secrets: 2, Supplies: 1 } },
+
+  { id: "oath_temper", name: "Oath Temper", desc: "Start with +1 Resolve, +1 Gravitas, +1 Renown, +1 Influence, and +1 Supplies.",
+    statMods: { Resolve: 1, Gravitas: 1 }, resMods: { Renown: 1, Influence: 1, Supplies: 1 } },
+
+  { id: "candle_calm", name: "Candle Calm", desc: "Start with +2 Resolve, +1 Influence, +1 Supplies, and +1 Secrets.",
+    statMods: { Resolve: 2 }, resMods: { Influence: 1, Supplies: 1, Secrets: 1 } },
+
+  { id: "caravan_born", name: "Caravan Born", desc: "Start with +1 Wit, +1 Resolve, +2 Supplies, and +2 Coin.",
+    statMods: { Wit: 1, Resolve: 1 }, resMods: { Supplies: 2, Coin: 2 } },
+
+  { id: "ink_scholar", name: "Ink Scholar", desc: "Start with +2 Wit, +1 Secrets, +1 Influence, and +2 Coin.",
+    statMods: { Wit: 2 }, resMods: { Secrets: 1, Influence: 1, Coin: 2 } },
+
+  { id: "hard_bargain", name: "Hard Bargain", desc: "Start with +1 Gravitas, +1 Guile, +4 Coin, and +1 Influence.",
+    statMods: { Gravitas: 1, Guile: 1 }, resMods: { Coin: 4, Influence: 1 } },
+
+  { id: "whisper_network", name: "Whisper Network", desc: "Start with +1 Guile, +1 Wit, +2 Secrets, and +1 Influence.",
+    statMods: { Guile: 1, Wit: 1 }, resMods: { Secrets: 2, Influence: 1 } },
+
+  { id: "river_sense", name: "River Sense", desc: "Start with +1 Wit, +1 Gravitas, +2 Influence, and +2 Coin.",
+    statMods: { Wit: 1, Gravitas: 1 }, resMods: { Influence: 2, Coin: 2 } },
+
+  { id: "stern_mercy", name: "Stern Mercy", desc: "Start with +1 Resolve, +1 Gravitas, +1 Influence, +1 Supplies, and +2 Coin.",
+    statMods: { Resolve: 1, Gravitas: 1 }, resMods: { Influence: 1, Supplies: 1, Coin: 2 } },
+
+  { id: "quiet_name", name: "Quiet Name", desc: "Start with +1 Resolve, +1 Wit, +2 Renown, and +1 Supplies.",
+    statMods: { Resolve: 1, Wit: 1 }, resMods: { Renown: 2, Supplies: 1 } },
+
+  { id: "field_medic", name: "Field Medic", desc: "Start with +1 Resolve, +1 Wit, +2 Supplies, and +1 Influence.",
+    statMods: { Resolve: 1, Wit: 1 }, resMods: { Supplies: 2, Influence: 1 } },
+
+  // ---- Tradeoff traits (include a -1 stat, but still net +2 stats) ----
+  { id: "fiery_charm", name: "Fiery Charm", desc: "Start with +2 Might, +1 Gravitas, -1 Resolve, +2 Renown, and +2 Coin.",
+    statMods: { Might: 2, Gravitas: 1, Resolve: -1 }, resMods: { Renown: 2, Coin: 2 } },
+
+  { id: "suspicious_mind", name: "Suspicious Mind", desc: "Start with +2 Guile, +1 Wit, -1 Gravitas, +2 Secrets, and +2 Coin.",
+    statMods: { Guile: 2, Wit: 1, Gravitas: -1 }, resMods: { Secrets: 2, Coin: 2 } },
+
+  { id: "scholar_blindspot", name: "Scholar Blindspot", desc: "Start with +2 Wit, +1 Resolve, -1 Might, +2 Influence, and +1 Supplies.",
+    statMods: { Wit: 2, Resolve: 1, Might: -1 }, resMods: { Influence: 2, Supplies: 1 } },
+
+  { id: "masked_motive", name: "Masked Motive", desc: "Start with +2 Gravitas, +1 Guile, -1 Wit, +1 Influence, +1 Secrets, and +2 Coin.",
+    statMods: { Gravitas: 2, Guile: 1, Wit: -1 }, resMods: { Influence: 1, Secrets: 1, Coin: 2 } },
+
+  { id: "stone_stubborn", name: "Stone Stubborn", desc: "Start with +2 Resolve, +1 Might, -1 Guile, +2 Supplies, and +1 Renown.",
+    statMods: { Resolve: 2, Might: 1, Guile: -1 }, resMods: { Supplies: 2, Renown: 1 } },
+
+  { id: "reckless_rider", name: "Reckless Rider", desc: "Start with +2 Might, +1 Guile, -1 Resolve, +1 Supplies, and +4 Coin.",
+    statMods: { Might: 2, Guile: 1, Resolve: -1 }, resMods: { Supplies: 1, Coin: 4 } }
 ];
+
+
 
 
 const HEIR_NAMES = [
@@ -835,10 +887,10 @@ function difficultyProfileForEvent(ev, opts = {}) {
 
   // Baselines (before age ramp).
   let prof;
-  if (kind === "general") prof = { base: 58, statMult: 8, diffMult: 10 };
-  else if (kind === "faction") prof = { base: 56, statMult: 8, diffMult: 11 };
-  else if (kind === "major") prof = { base: 52, statMult: 8, diffMult: 12 };
-  else prof = { base: 56, statMult: 8, diffMult: 11 };
+  if (kind === "general") prof = { base: 58, statMult: 4, diffMult: (10 / DIFF_SCALE) };
+  else if (kind === "faction") prof = { base: 56, statMult: 4, diffMult: (11 / DIFF_SCALE) };
+  else if (kind === "major") prof = { base: 52, statMult: 4, diffMult: (12 / DIFF_SCALE) };
+  else prof = { base: 56, statMult: 4, diffMult: (11 / DIFF_SCALE) };
 
   // Gentle late-game ramp: every ~10 years after 25, tighten odds a bit.
   const age = state?.age ?? 16;
@@ -853,7 +905,8 @@ function computeChanceParts(outcome, committedCids, opts = {}) {
   const majorBeat = Boolean(opts.majorBeat ?? (typeof isMajorEventNow === "function" ? isMajorEventNow() : false));
 
   const statVal = state.stats[outcome.stat] ?? 0;
-  const diff = outcome.diff ?? 3;
+  const diffRating = outcome.diff ?? 3;
+  const diff = diffRating * DIFF_SCALE;
 
   const cardBonus = (committedCids ?? []).reduce((sum, cid) => {
     const c = DATA.cardsById[cid];
@@ -879,6 +932,7 @@ function computeChanceParts(outcome, committedCids, opts = {}) {
     prof,
     statVal,
     diff,
+    diffRating,
     cardBonus,
     gapPenalty,
     condMod,
@@ -1191,7 +1245,6 @@ function applyTrade(trade) {
 
   log(`Opportunity: Traded ${trade.give.amount} ${trade.give.resource} for ${trade.get.amount} ${trade.get.resource}.`);
 }
-
 
 function openOpportunityModal({ onDone } = {}) {
   const trades = buildOpportunityTrades();
@@ -1823,7 +1876,7 @@ function conditionMortalityBonus(cond) {
 function computeMortalityChance() {
   let chance = baseMortalityByAge(state.age);
   for (const c of state.conditions) chance += conditionMortalityBonus(c);
-  chance -= (2 * (state.stats.Resolve ?? 0));
+  chance -= (MORTALITY_RESOLVE_MULT * (state.stats.Resolve ?? 0));
   return Math.max(0, chance);
 }
 
@@ -1905,7 +1958,11 @@ function checkRequirement(req) {
 
   if (t === "MinStat") {
     const v = state.stats[req.stat] ?? 0;
-    return v >= (req.min ?? 0);
+    let need = (req.min ?? 0);
+    // Content is authored on the old 0–5 scale; internally we now use 0–10.
+    // Double any <=5 thresholds unless the requirement opts out via { unscaled: true }.
+    if (STAT_CAP === 10 && !req.unscaled && need <= 5) need = need * STAT_SCALE;
+    return v >= need;
   }
   if (t === "MinResource") {
     const v = state.res[req.resource] ?? 0;
@@ -1946,10 +2003,10 @@ function unmetReasons(requirements) {
         reasons.push(`Blocked by ${req.id}${req.severity && req.severity !== "Any" ? ` (${req.severity})` : ""}`);
         break;
       case "HasFlag":
-        reasons.push(`Requires flag: ${req.id}`);
+        reasons.push(`Locked: your earlier choices didn't open this path.`);
         break;
       case "NotFlag":
-        reasons.push(`Blocked by flag: ${req.id}`);
+        reasons.push(`Locked: your earlier choices closed this path.`);
         break;
       case "AgeRange":
         reasons.push(`Requires age ${req.min}–${req.max}`);
@@ -2155,20 +2212,38 @@ function normalizeStarterDeck(deckIds) {
 }
 
 
+function ensureDeckIntegrity(reason = "") {
+  if (!state) return;
+
+  state.drawPile = Array.isArray(state.drawPile) ? state.drawPile : [];
+  state.discardPile = Array.isArray(state.discardPile) ? state.discardPile : [];
+  state.masterDeck = Array.isArray(state.masterDeck) ? state.masterDeck : [];
+
+  // If masterDeck is missing, rebuild from whatever cards exist.
+  if (state.masterDeck.length === 0) {
+    const combined = [...state.drawPile, ...state.discardPile];
+    if (combined.length) state.masterDeck = [...combined];
+  }
+
+  // If both piles are empty but we have a master deck, refill draw pile.
+  if (state.drawPile.length === 0 && state.discardPile.length === 0 && state.masterDeck.length) {
+    state.drawPile = shuffle([...state.masterDeck]);
+    state.discardPile = [];
+    if (reason) console.warn("Deck integrity refill:", reason);
+  }
+}
+
+
 function drawHand(n) {
+  ensureDeckIntegrity("drawHand:start");
   hand = [];
   for (let i = 0; i < n; i++) {
     if (state.drawPile.length === 0) {
       state.drawPile = shuffle(state.discardPile);
       state.discardPile = [];
 
-      // Safety: if both piles are empty (e.g., after rerolls/debug picks),
-      // rebuild from the master deck so the run can't softlock.
-      if (state.drawPile.length === 0 && Array.isArray(state.masterDeck) && state.masterDeck.length) {
-        state.drawPile = shuffle([...state.masterDeck]);
-        state.discardPile = [];
-      }
-
+      // If both piles are empty, rebuild from masterDeck.
+      ensureDeckIntegrity("drawHand:reshuffle-empty");
       if (state.drawPile.length === 0) break;
     }
     const cid = state.drawPile.pop();
@@ -2179,13 +2254,11 @@ function drawHand(n) {
 
 function drawOneCardIntoHand() {
   if (!state) return null;
+  ensureDeckIntegrity("drawOneCard:start");
   if (state.drawPile.length === 0) {
     state.drawPile = shuffle(state.discardPile);
     state.discardPile = [];
-    if (state.drawPile.length === 0 && Array.isArray(state.masterDeck) && state.masterDeck.length) {
-      state.drawPile = shuffle([...state.masterDeck]);
-      state.discardPile = [];
-    }
+    ensureDeckIntegrity("drawOneCard:reshuffle-empty");
     if (state.drawPile.length === 0) return null;
   }
   const cid = state.drawPile.pop();
@@ -2637,14 +2710,30 @@ function openChildModal(onConfirm) {
 }
 
 function runPostActionsSequentially(actions, done) {
+  // Post-actions frequently open follow-up modals (heirs, spouses, etc.).
+  // If any post-action throws, we MUST continue so the run can't softlock
+  // with an empty hand / disabled buttons.
   const list = (actions ?? []).filter(fn => typeof fn === "function");
   let i = 0;
+
   const step = () => {
     if (i >= list.length) return done?.();
     const fn = list[i++];
-    fn(step);
+    try {
+      fn(step);
+    } catch (e) {
+      console.error("Post-action error (skipping):", e);
+      // Keep going; never block progression.
+      step();
+    }
   };
-  step();
+
+  try {
+    step();
+  } catch (e) {
+    console.error("Post-action runner error:", e);
+    done?.();
+  }
 }
 
 function applySpecial(sp) {
@@ -2681,6 +2770,7 @@ function applySpecial(sp) {
         });
       };
     }
+
 
     case "ClearProspect": {
       // Used by storyline outcomes to end a courtship attempt cleanly.
@@ -3058,6 +3148,8 @@ function renderCreationUI() {
 
   // Remaining points
   allocRemainingEl.textContent = String(pointsRemaining());
+  if (allocTotalEl) allocTotalEl.textContent = String(START_ALLOC_POINTS);
+  if (statCapHintEl) statCapHintEl.textContent = String(STAT_CAP);
 
   // Allocation grid
   allocGrid.innerHTML = "";
@@ -3067,7 +3159,7 @@ function renderCreationUI() {
     const row = document.createElement("div");
     row.className = "allocRow";
 
-    const startStats = bg.startStats ?? bg.stats ?? {};
+    const startStats = normalizedBgStartStats(bg);
       const base = startStats[s] ?? 0;
     const alloc = creation.alloc[s] ?? 0;
     const final = finalStats[s] ?? 0;
@@ -4376,13 +4468,56 @@ function resolveSelectedOutcome() {
     conditions,
     locked: false,
     onClose: () => {
-      runPostActionsSequentially(postActions, () => {
-        if (wasMajor) {
-          openDraftModal(() => finishEvent(evJustResolved));
-        } else {
+      const safeFinish = () => {
+        // Absolutely never allow an exception here to strand the player
+        // on the same event with an empty hand.
+        try {
           finishEvent(evJustResolved);
+        } catch (e) {
+          console.error("finishEvent crashed (emergency unlock):", e);
+          // Emergency unlock + fallback event.
+          resolvingOutcome = false;
+          btnNewEvent.disabled = false;
+          btnDebugPickEvent.disabled = false;
+          try {
+            beginEvent(makeFallbackEvent("finishEvent error"));
+          } catch {}
         }
-      });
+      };
+
+      const afterPost = () => {
+        if (wasMajor) {
+          // Draft modal is optional but must never block progression.
+          let advanced = false;
+          const done = () => {
+            if (advanced) return;
+            advanced = true;
+            safeFinish();
+          };
+          try {
+            openDraftModal(() => done());
+          } catch (e) {
+            console.error("Draft modal error (skipping draft):", e);
+            done();
+          }
+
+          // Ultra-defensive: if for any reason the draft modal didn't actually open,
+          // don't strand the run.
+          if (modalBackdrop.classList.contains("hidden")) {
+            console.warn("Draft modal did not open; advancing to avoid softlock.");
+            done();
+          }
+        } else {
+          safeFinish();
+        }
+      };
+
+      try {
+        runPostActionsSequentially(postActions, afterPost);
+      } catch (e) {
+        console.error("Post-action chain failed (skipping):", e);
+        afterPost();
+      }
     }
   });
 }
@@ -4524,7 +4659,7 @@ function proceedSuccession(primary) {
   state.heirFocus = primary.focus ?? null;
 
   if (state.heirFocus) {
-    state.stats[state.heirFocus] = clamp((state.stats[state.heirFocus] ?? 0) + 1, 0, 5);
+    state.stats[state.heirFocus] = clamp((state.stats[state.heirFocus] ?? 0) + 1, 0, STAT_CAP);
   }
 
   // Reset per-life pacing.
@@ -4678,12 +4813,32 @@ function traitById(id) {
 function defaultStats() {
   return Object.fromEntries(STATS.map(s => [s, 0]));
 }
+
+// Normalize background starting stats for the current stat system.
+// - If STAT_CAP is 10 but background stats were authored on the old 0–5 scale, scale them up by STAT_SCALE.
+// - Then lower the baseline by 1 (min 0), per tuning request (reduces easy maxing).
+function normalizedBgStartStats(bg) {
+  const raw = deepCopy(bg?.startStats ?? bg?.stats) ?? defaultStats();
+  const out = defaultStats();
+  for (const s of STATS) out[s] = (raw[s] ?? 0);
+
+  if (STAT_CAP === 10) {
+    const max = Math.max(...STATS.map(s => out[s] ?? 0));
+    if (max <= 5) {
+      for (const s of STATS) out[s] = clamp(Math.round((out[s] ?? 0) * STAT_SCALE), 0, STAT_CAP);
+    }
+    // Lower baseline to reduce trivial cap-stacking.
+    for (const s of STATS) out[s] = clamp((out[s] ?? 0) - 1, 0, STAT_CAP);
+  }
+
+  return out;
+}
 function defaultRes() {
   return Object.fromEntries(RES.map(r => [r, 0]));
 }
 
 function computeFinalStats(bg) {
-  const base = deepCopy(bg.startStats ?? bg.stats) ?? defaultStats();
+  const base = normalizedBgStartStats(bg);
 
   for (const s of STATS) {
     base[s] = clamp((base[s] ?? 0) + (creation.alloc[s] ?? 0), 0, STAT_CAP);
@@ -4816,6 +4971,7 @@ function startRunFromBuilder(bg, givenName, familyName) {
     traits: Array.from(creation.traits),
 
     stats: finalStats,
+    _statScale: STAT_CAP,
     res: finalRes,
     conditions: startConds,
 
@@ -4881,6 +5037,8 @@ async function boot() {
       state.drawPile = shuffle([...state.masterDeck]);
       state.discardPile = [];
     }
+
+    ensureStatScale();
 
     showGame();
     logEl.textContent = "";
