@@ -739,6 +739,9 @@ const legacyBigEl = document.getElementById("legacyBig");
 const legacyBranchesEl = document.getElementById("legacyBranches");
 
 const bgSelect = document.getElementById("bgSelect");
+const bgStyleField = document.getElementById("bgStyleField");
+const bgStyleSelect = document.getElementById("bgStyleSelect");
+const bgStyleHint = document.getElementById("bgStyleHint");
 const btnStart = document.getElementById("btnStart");
 const btnReset = document.getElementById("btnReset");
 const btnResolve = document.getElementById("btnResolve");
@@ -775,6 +778,7 @@ const slot1 = document.getElementById("slot1");
 const slot2 = document.getElementById("slot2");
 
 const chanceLine = document.getElementById("chanceLine");
+const pairBonusLine = document.getElementById("pairBonusLine");
 const chanceBreakdown = document.getElementById("chanceBreakdown");
 const logEl = document.getElementById("log");
 
@@ -1001,6 +1005,55 @@ function difficultyProfileForEvent(ev, opts = {}) {
   return prof;
 }
 
+
+function computePairBonus(ev, outcome, committedCids) {
+  if (!ev || !outcome) return null;
+  if (!Array.isArray(committedCids) || committedCids.length !== 2) return null;
+
+  const c1 = DATA.cardsById[committedCids[0]];
+  const c2 = DATA.cardsById[committedCids[1]];
+  if (!c1 || !c2) return null;
+  if (isWildCard(c1) || isWildCard(c2)) return null;
+
+  const d1 = c1.discipline;
+  const d2 = c2.discipline;
+  const ctx = ev.context;
+
+  const mkRes = (resource, amount) => ({ resources: [{ resource, amount }] });
+
+  const pairs = [
+    { a: "Seal",  b: "Quill",  contexts: ["Court","Lore"],        chance: 5, label: "Pair Bonus: Seal + Quill (+5%)" },
+    { a: "Steel", b: "Hearth", contexts: ["Strife","Journey"],    chance: 5, label: "Pair Bonus: Steel + Hearth (+5%)" },
+    { a: "Veil",  b: "Quill",  contexts: ["Scheme","Lore"],       onSuccess: mkRes("Secrets", 1), label: "Pair Bonus: Veil + Quill (+1 Secrets on success)" },
+    { a: "Veil",  b: "Seal",   contexts: ["Court","Scheme"],      onSuccess: mkRes("Influence", 1), label: "Pair Bonus: Veil + Seal (+1 Influence on success)" },
+    { a: "Quill", b: "Hearth", contexts: null,                    mortalityDelta: -1, label: "Pair Bonus: Quill + Hearth (−1% mortality this event)" },
+    { a: "Steel", b: "Veil",   contexts: ["Strife","Scheme"],     onSuccess: mkRes("Renown", 1), label: "Pair Bonus: Steel + Veil (+1 Renown on success)" },
+  ];
+
+  const match = (p) => {
+    const ok = (d1 === p.a && d2 === p.b) || (d1 === p.b && d2 === p.a);
+    if (!ok) return false;
+    if (p.contexts && !p.contexts.includes(ctx)) return false;
+    return true;
+  };
+
+  for (const p of pairs) {
+    if (!match(p)) continue;
+    return {
+      label: p.label,
+      chanceBonus: p.chance ?? 0,
+      onSuccessBundle: p.onSuccess ?? null,
+      mortalityDelta: p.mortalityDelta ?? 0
+    };
+  }
+
+  if (d1 === d2) {
+    return { label: `Pair Bonus: ${d1} + ${d2} (+3%)`, chanceBonus: 3, onSuccessBundle: null, mortalityDelta: 0 };
+  }
+
+  return null;
+}
+
 function computeChanceParts(outcome, committedCids, opts = {}) {
   const ev = opts.ev ?? currentEvent;
   const majorBeat = Boolean(opts.majorBeat ?? (typeof isMajorEventNow === "function" ? isMajorEventNow() : false));
@@ -1023,8 +1076,9 @@ function computeChanceParts(outcome, committedCids, opts = {}) {
   const gapPenalty = gap * 2;
 
   const condMod = conditionChanceModifier(ev, outcome, committedCids);
+  const pairBonus = computePairBonus(ev, outcome, committedCids);
 
-  const raw = prof.base + (statVal * prof.statMult) + cardBonus - (diff * prof.diffMult) - gapPenalty + condMod;
+  const raw = prof.base + (statVal * prof.statMult) + cardBonus + (pairBonus?.chanceBonus ?? 0) - (diff * prof.diffMult) - gapPenalty + condMod;
   const chance = clamp(raw, 5, 95);
 
   return {
@@ -1037,6 +1091,7 @@ function computeChanceParts(outcome, committedCids, opts = {}) {
     cardBonus,
     gapPenalty,
     condMod,
+    pairBonus,
     majorBeat
   };
 }
@@ -1619,6 +1674,7 @@ function openOpportunityModal({ onDone } = {}) {
 
 let creation = {
   bgId: null,
+  styleId: null,
   alloc: Object.fromEntries(STATS.map(s => [s, 0])),
   traits: new Set()
 };
@@ -2026,9 +2082,17 @@ async function loadAllData() {
 
   // Minimal validation (helps catch typos early)
   for (const bg of DATA.backgrounds) {
-    const deckIds = expandDeck(bg.deck);
-    for (const cid of deckIds) {
-      if (!DATA.cardsById[cid]) console.warn(`Background ${bg.id} references missing cardId: ${cid}`);
+    const groups = [];
+    if (bgHasStyles(bg)) {
+      groups.push(expandDeck(bg.coreDeck));
+      for (const st of (bg.styles ?? [])) groups.push(expandDeck(st.deck));
+    } else {
+      groups.push(expandDeck(bg.deck));
+    }
+    for (const deckIds of groups) {
+      for (const cid of deckIds) {
+        if (!DATA.cardsById[cid]) console.warn(`Background ${bg.id} references missing cardId: ${cid}`);
+      }
     }
   }
   for (const ev of DATA.events) {
@@ -2261,6 +2325,19 @@ function openDraftModal(onPicked) {
   openModal("Draft Reward", wrap, { locked: true });
 }
 
+
+function starterDeckIdsFromBackground(bg, styleId = null) {
+  if (!bg) return [];
+  if (bgHasStyles(bg)) {
+    const core = expandDeck(bg.coreDeck);
+    const styles = bg.styles ?? [];
+    const chosen = styles.find(s => s.id === styleId) || styles[0] || null;
+    const styleDeck = chosen ? expandDeck(chosen.deck) : [];
+    return [...core, ...styleDeck];
+  }
+  return expandDeck(bg.deck);
+}
+
 function expandDeck(deckField) {
   // supports:
   // - ["id","id"...]
@@ -2313,6 +2390,34 @@ function normalizeStarterDeck(deckIds) {
 }
 
 
+
+function heldOutCounts() {
+  const counts = {};
+  const add = (cid) => {
+    if (!cid) return;
+    counts[cid] = (counts[cid] ?? 0) + 1;
+  };
+  if (state?.bankedCardId) add(state.bankedCardId);
+  for (const cid of (state?.pendingBankCids ?? [])) add(cid);
+  for (const ex of (state?.exhaustedCards ?? [])) add(ex?.cid);
+  return counts;
+}
+
+function removeHeldOutFromPile(pile, counts) {
+  if (!Array.isArray(pile)) return [];
+  if (!counts) return pile;
+  const left = { ...counts };
+  const out = [];
+  for (const cid of pile) {
+    if (left[cid] && left[cid] > 0) {
+      left[cid] -= 1;
+      continue;
+    }
+    out.push(cid);
+  }
+  return out;
+}
+
 function ensureDeckIntegrity(reason = "") {
   if (!state) return;
 
@@ -2320,24 +2425,43 @@ function ensureDeckIntegrity(reason = "") {
   state.discardPile = Array.isArray(state.discardPile) ? state.discardPile : [];
   state.masterDeck = Array.isArray(state.masterDeck) ? state.masterDeck : [];
 
-  // If masterDeck is missing, rebuild from whatever cards exist.
-  if (state.masterDeck.length === 0) {
-    const combined = [...state.drawPile, ...state.discardPile];
-    if (combined.length) state.masterDeck = [...combined];
+  state.pendingBankCids = Array.isArray(state.pendingBankCids) ? state.pendingBankCids : [];
+  state.exhaustedCards = Array.isArray(state.exhaustedCards) ? state.exhaustedCards : [];
+
+  const held = heldOutCounts();
+
+  // Remove held-out instances that somehow ended up back in piles (prevents duplication).
+  if (held && Object.keys(held).length) {
+    state.drawPile = removeHeldOutFromPile(state.drawPile, held);
+    state.discardPile = removeHeldOutFromPile(state.discardPile, held);
   }
 
-  // If both piles are empty but we have a master deck, refill draw pile.
+  // If masterDeck is missing, rebuild from whatever cards exist (plus held-out).
+  if (state.masterDeck.length === 0) {
+    const combined = [...state.drawPile, ...state.discardPile];
+    const heldCards = [];
+    if (state.bankedCardId) heldCards.push(state.bankedCardId);
+    for (const cid of (state.pendingBankCids ?? [])) heldCards.push(cid);
+    for (const ex of (state.exhaustedCards ?? [])) if (ex?.cid) heldCards.push(ex.cid);
+    const rebuilt = [...combined, ...heldCards];
+    if (rebuilt.length) state.masterDeck = [...rebuilt];
+  }
+
+  // If both piles are empty but we have a master deck, refill draw pile (excluding held-out copies).
   if (state.drawPile.length === 0 && state.discardPile.length === 0 && state.masterDeck.length) {
-    state.drawPile = shuffle([...state.masterDeck]);
+    const pool = removeHeldOutFromPile([...state.masterDeck], held);
+    state.drawPile = shuffle([...pool]);
     state.discardPile = [];
     if (reason) console.warn("Deck integrity refill:", reason);
   }
 }
 
 
-function drawHand(n) {
+
+function drawIntoHand(n) {
+  if (!state) return;
   ensureDeckIntegrity("drawHand:start");
-  hand = [];
+
   for (let i = 0; i < n; i++) {
     if (state.drawPile.length === 0) {
       state.drawPile = shuffle(state.discardPile);
@@ -2351,6 +2475,12 @@ function drawHand(n) {
     hand.push({ iid: nextHandIid++, cid });
   }
 }
+
+function drawHand(n) {
+  hand = [];
+  drawIntoHand(n);
+}
+
 
 
 function drawOneCardIntoHand() {
@@ -2367,6 +2497,54 @@ function drawOneCardIntoHand() {
   hand.push(entry);
   return entry;
 }
+function getCardExhaustTurns(cid) {
+  const c = DATA.cardsById[cid];
+  if (!c) return 0;
+  const lvlData = getCardLevelData(c);
+
+  // Support either exhaustTurns (events) or exhaustYears (years); 2 events per year.
+  const t = (lvlData?.exhaustTurns ?? c.exhaustTurns);
+  if (Number.isFinite(t) && t > 0) return Math.floor(t);
+
+  const y = (lvlData?.exhaustYears ?? c.exhaustYears);
+  if (Number.isFinite(y) && y > 0) return Math.floor(y) * 2;
+
+  // Keyword-style flag: Exhaust (defaults to 5 years / 10 events)
+  if (lvlData?.exhaust || c.exhaust) return 10;
+
+  return 0;
+}
+
+function exhaustCardInstance(cid, turns) {
+  if (!state) return;
+  state.exhaustedCards = Array.isArray(state.exhaustedCards) ? state.exhaustedCards : [];
+  const returnAt = (state.runEventIndex ?? 0) + Math.max(1, turns);
+  state.exhaustedCards.push({ cid, returnAt });
+}
+
+function tickExhaustedCardsAfterEvent() {
+  if (!state) return;
+  state.exhaustedCards = Array.isArray(state.exhaustedCards) ? state.exhaustedCards : [];
+  if (!state.exhaustedCards.length) return;
+
+  const idx = state.runEventIndex ?? 0;
+  const keep = [];
+  const returning = [];
+  for (const ex of state.exhaustedCards) {
+    if (!ex?.cid) continue;
+    if ((ex.returnAt ?? 0) <= idx) returning.push(ex.cid);
+    else keep.push(ex);
+  }
+  state.exhaustedCards = keep;
+
+  if (returning.length) {
+    for (const cid of returning) state.discardPile.push(cid);
+    const names = returning.map(cid => DATA.cardsById[cid]?.name ?? cid).join(", ");
+    log(`⟲ Exhaust ends: ${names} returns to your deck.`);
+  }
+}
+
+
 
 function playWildCard(iid) {
   if (resolvingOutcome) return;
@@ -3295,6 +3473,7 @@ function renderCreationUI() {
   if (!bg) return;
 
   creation.bgId = bg.id;
+  populateStyleSelectForBg(bg);
 
   // Remaining points
   allocRemainingEl.textContent = String(pointsRemaining());
@@ -3662,6 +3841,7 @@ function renderChance() {
   if (selectedOutcomeIndex == null) {
     chanceLine.textContent = "Select an outcome.";
     chanceBreakdown.textContent = "";
+    if (pairBonusLine) pairBonusLine.textContent = "";
     chanceLine.classList.remove("clickable");
     return;
   }
@@ -3671,6 +3851,7 @@ function renderChance() {
   const o = currentEvent.outcomes[selectedOutcomeIndex];
   const parts = computeChanceParts(o, committedCardIds(), { ev: currentEvent, majorBeat: isMajorEventNow() });
   const chance = Math.round(parts.chance);
+  if (pairBonusLine) pairBonusLine.textContent = parts.pairBonus?.label ?? "";
 
   const cls = (chance >= 60) ? "good" : (chance <= 35) ? "bad" : "";
   const band = chanceBand(chance);
@@ -3685,6 +3866,7 @@ function renderChance() {
   const statPart = Math.round(parts.statVal * parts.prof.statMult);
   const cards = Math.round(parts.cardBonus);
   const diffPart = Math.round(parts.diff * parts.prof.diffMult);
+  const pairPart = Math.round(parts.pairBonus?.chanceBonus ?? 0);
   const gapPart = Math.round(parts.gapPenalty);
   const condPart = Math.round(parts.condMod);
 
@@ -3692,6 +3874,7 @@ function renderChance() {
   bits.push(`Base ${base}`);
   bits.push(`+ Stat ${statPart}`);
   if (cards) bits.push(`+ Cards ${cards}`);
+  if (pairPart) bits.push(`+ Pair ${pairPart}`);
   bits.push(`− Diff ${diffPart}`);
   if (gapPart) bits.push(`− Gap ${gapPart}`);
   if (condPart) bits.push(`${condPart > 0 ? "+" : "−"} Conditions ${Math.abs(condPart)}`);
@@ -4326,7 +4509,16 @@ function beginEvent(ev) {
   showChanceDetails = false;
   currentEvent = ev;
 
-  drawHand(handSizeForEvent(ev));
+  const handSize = handSizeForEvent(ev);
+  hand = [];
+  if (state?.bankedCardId) {
+    const bankCid = state.bankedCardId;
+    state.bankedCardId = null;
+    hand.push({ iid: nextHandIid++, cid: bankCid });
+    drawIntoHand(Math.max(0, handSize - 1));
+  } else {
+    drawIntoHand(handSize);
+  }
   renderAll();
   log(`\n=== ${ev.name} (${ev.context}) ===`);
 }
@@ -4359,6 +4551,7 @@ function advanceTime() {
 
   // Timers tick on completed events.
   tickConditionsAfterEvent();
+  tickExhaustedCardsAfterEvent();
 
   state.seasonIndex = 1 - state.seasonIndex;
   if (state.seasonIndex === 0) {
@@ -4462,6 +4655,87 @@ function mitigateFailCondition(change, ev, outcome, committedCids, opts = {}) {
   return change;
 }
 
+
+function maybeOfferBankCard(onDone) {
+  if (!state) { onDone?.(); return; }
+
+  state.pendingBankCids = Array.isArray(state.pendingBankCids) ? state.pendingBankCids : [];
+  if (!state.pendingBankCids.length) { onDone?.(); return; }
+
+  // Guardrail: if something already banked (shouldn't happen), just discard pending.
+  if (state.bankedCardId) {
+    for (const cid of state.pendingBankCids) state.discardPile.push(cid);
+    state.pendingBankCids = [];
+    saveState();
+    onDone?.();
+    return;
+  }
+
+  const pending = [...state.pendingBankCids];
+
+  const wrap = document.createElement("div");
+  const head = document.createElement("div");
+  head.className = "muted";
+  head.style.marginBottom = "8px";
+  head.textContent = "Bank 1 card for next event (optional).";
+  wrap.appendChild(head);
+
+  const list = document.createElement("div");
+  list.className = "outcomes";
+
+  const choose = (cidOrNull) => {
+    const chosen = cidOrNull || null;
+    if (chosen) state.bankedCardId = chosen;
+
+    let bankedName = null;
+    let bankedTaken = false;
+
+    for (const cid of pending) {
+      if (chosen && cid === chosen && !bankedTaken) {
+        bankedTaken = true;
+        bankedName = DATA.cardsById[cid]?.name ?? cid;
+        continue;
+      }
+      state.discardPile.push(cid);
+    }
+
+    state.pendingBankCids = [];
+    if (chosen) log(`🗃 Banked for next event: ${bankedName ?? chosen}.`);
+    saveState();
+
+    modalLocked = false;
+    closeModal();
+    onDone?.();
+  };
+
+  for (let i = 0; i < pending.length; i++) {
+    const cid = pending[i];
+    const c = DATA.cardsById[cid];
+    if (!c) continue;
+
+    const b = document.createElement("button");
+    b.className = "btn ghost";
+    b.textContent = `${c.name} (${c.discipline})`;
+    b.addEventListener("click", () => choose(cid));
+    list.appendChild(b);
+  }
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+
+  const skip = document.createElement("button");
+  skip.className = "btn";
+  skip.textContent = "Don't bank";
+  skip.addEventListener("click", () => choose(null));
+
+  actions.appendChild(skip);
+  wrap.appendChild(list);
+  wrap.appendChild(document.createElement("div")).className = "spacer";
+  wrap.appendChild(actions);
+
+  openModal("Bank a Card", wrap, { locked: true });
+}
+
 function resolveSelectedOutcome() {
   if (resolvingOutcome) return;
   if (selectedOutcomeIndex == null) return;
@@ -4472,11 +4746,13 @@ function resolveSelectedOutcome() {
   btnDebugPickEvent.disabled = true;
 
   const o = currentEvent.outcomes[selectedOutcomeIndex];
+  const committedCids = committedCardIds();
+  const pair = computePairBonus(currentEvent, o, committedCids);
 
   const evJustResolved = currentEvent;
 
   // Compute success chance
-  const chance = computeChance(o, committedCardIds());
+  const chance = computeChance(o, committedCids);
   const roll = rInt(1, 100);
   const success = roll <= chance;
 
@@ -4491,8 +4767,31 @@ function resolveSelectedOutcome() {
   const attemptBundle = attemptCosts.length ? { resources: attemptCosts } : null;
   if (attemptBundle) postActions.push(...applyBundle(attemptBundle));
 
-  // Exhaust the hand: all drawn cards go to discard after the event.
-  for (const entry of hand) state.discardPile.push(entry.cid);
+  // Discard committed cards now; unplayed cards become eligible for banking.
+  const handSnapshot = Array.isArray(hand) ? [...hand] : [];
+  const committedIids = new Set(committed);
+
+  const exhaustNotes = [];
+  for (const entry of handSnapshot) {
+    if (!committedIids.has(entry.iid)) continue;
+    const cid = entry.cid;
+    const turns = getCardExhaustTurns(cid);
+    if (turns > 0) {
+      exhaustCardInstance(cid, turns);
+      const years = Math.round(turns / 2);
+      const nm = DATA.cardsById[cid]?.name ?? cid;
+      exhaustNotes.push(`Exhausted: ${nm} (returns in ~${years} years)`);
+    } else {
+      state.discardPile.push(cid);
+    }
+  }
+
+  state.pendingBankCids = [];
+  for (const entry of handSnapshot) {
+    if (committedIids.has(entry.iid)) continue;
+    state.pendingBankCids.push(entry.cid);
+  }
+
   hand = [];
 
   // Mortality tracking (before any new conditions this event adds)
@@ -4501,13 +4800,13 @@ function resolveSelectedOutcome() {
   // Apply outcome effects
 
   if (success) {
-    const cardBundle = bundleFromCommittedCards(committedCardIds(), "onSuccess");
+    const cardBundle = bundleFromCommittedCards(committedCids, "onSuccess");
     const merged = mergeBundles(o.success, cardBundle);
     postActions.push(...applyBundle(merged));
     bundleForSummary = merged;
     log(`SUCCESS (${roll} ≤ ${chance}) → ${o.title}`);
   } else {
-    const partial = committedCardIds().some(cid => {
+    const partial = committedCids.some(cid => {
       const c = DATA.cardsById[cid];
       return c ? Boolean(getCardLevelData(c).partialOnFail) : false;
     });
@@ -4536,16 +4835,16 @@ function resolveSelectedOutcome() {
         : "You don’t quite get what you wanted, but you salvage something.";
 
       let partialBundle = { text: partialTxt, resources: halfResources, conditions: softenedConds };
-      partialBundle = mitigateFailBundle(partialBundle, currentEvent, o, committedCardIds(), { isPartial: true });
+      partialBundle = mitigateFailBundle(partialBundle, currentEvent, o, committedCids, { isPartial: true });
 
-      const cardBundle = bundleFromCommittedCards(committedCardIds(), "onFailure");
+      const cardBundle = bundleFromCommittedCards(committedCids, "onFailure");
 
       const merged = mergeBundles(partialBundle, cardBundle);
       postActions.push(...applyBundle(merged));
       bundleForSummary = merged;
     } else {
-      const failBundle = mitigateFailBundle(o.fail, currentEvent, o, committedCardIds());
-      const cardBundle = bundleFromCommittedCards(committedCardIds(), "onFailure");
+      const failBundle = mitigateFailBundle(o.fail, currentEvent, o, committedCids);
+      const cardBundle = bundleFromCommittedCards(committedCids, "onFailure");
       const merged = mergeBundles(failBundle, cardBundle);
       postActions.push(...applyBundle(merged));
       bundleForSummary = merged;
@@ -4579,7 +4878,8 @@ function resolveSelectedOutcome() {
   if (gainedSevere && hadSevereAlready) mortalityTriggered = true;
 
   if (mortalityTriggered) {
-    const mChance = computeMortalityChance();
+    let mChance = computeMortalityChance();
+    mChance = clamp(mChance + (pair?.mortalityDelta ?? 0), 0, 99);
     const mRoll = rInt(1, 100);
     log(`Mortality Check: ${mChance}% (roll ${mRoll})`);
     if (mRoll <= mChance) {
@@ -4689,11 +4989,20 @@ function resolveSelectedOutcome() {
         }
       };
 
+      const go = () => {
+        try {
+          runPostActionsSequentially(postActions, afterPost);
+        } catch (e) {
+          console.error("Post-action chain failed (skipping):", e);
+          afterPost();
+        }
+      };
+
       try {
-        runPostActionsSequentially(postActions, afterPost);
+        maybeOfferBankCard(go);
       } catch (e) {
-        console.error("Post-action chain failed (skipping):", e);
-        afterPost();
+        console.error(e);
+        go();
       }
     }
   });
@@ -4910,7 +5219,7 @@ btnStart.addEventListener("click", () => {
     return;
   }
 
-  startRunFromBuilder(bg, given, family);
+  startRunFromBuilder(bg, given, family, creation.styleId);
 });
 
 if (btnLegacy) {
@@ -5081,6 +5390,7 @@ function computeStartingConditions() {
 
 function resetCreation() {
   creation.bgId = bgSelect.value || null;
+  creation.styleId = null;
   creation.alloc = Object.fromEntries(STATS.map(s => [s, 0]));
   creation.traits = new Set();
 }
@@ -5111,6 +5421,55 @@ bgSelect.addEventListener("change", () => {
 
 
 
+function bgHasStyles(bg) {
+  return Boolean(bg && Array.isArray(bg.styles) && bg.styles.length && bg.coreDeck);
+}
+
+function populateStyleSelectForBg(bg) {
+  if (!bgStyleField || !bgStyleSelect) return;
+
+  if (!bgHasStyles(bg)) {
+    bgStyleField.classList.add("hidden");
+    bgStyleSelect.innerHTML = "";
+    if (bgStyleHint) bgStyleHint.textContent = "";
+    creation.styleId = null;
+    return;
+  }
+
+  bgStyleField.classList.remove("hidden");
+  bgStyleSelect.innerHTML = "";
+
+  for (const st of (bg.styles ?? [])) {
+    const opt = document.createElement("option");
+    opt.value = st.id;
+    opt.textContent = st.name;
+    bgStyleSelect.appendChild(opt);
+  }
+
+  const preferred = creation.styleId;
+  const exists = preferred && (bg.styles ?? []).some(s => s.id === preferred);
+  const chosen = exists ? preferred : (bg.styles[0]?.id ?? null);
+  if (chosen) bgStyleSelect.value = chosen;
+  creation.styleId = chosen;
+
+  const stObj = (bg.styles ?? []).find(s => s.id === chosen) ?? null;
+  if (bgStyleHint) bgStyleHint.textContent = stObj?.desc ?? "";
+}
+
+if (bgStyleSelect) {
+  bgStyleSelect.addEventListener("change", () => {
+    const bg = DATA.backgroundsById[bgSelect.value];
+    if (!bgHasStyles(bg)) return;
+    creation.styleId = bgStyleSelect.value || null;
+    const stObj = (bg.styles ?? []).find(s => s.id === creation.styleId) ?? null;
+    if (bgStyleHint) bgStyleHint.textContent = stObj?.desc ?? "";
+    updateStartButtonState();
+  });
+}
+
+
+
+
 function showLoadingUI(isLoading) {
   btnStart.disabled = isLoading;
   btnNewEvent.disabled = isLoading;
@@ -5122,7 +5481,7 @@ function showLoadingUI(isLoading) {
   if (!isLoading) updateStartButtonState();
 }
 
-function startRunFromBuilder(bg, givenName, familyName) {
+function startRunFromBuilder(bg, givenName, familyName, styleId = null) {
   const deckIds = expandDeck(bg.deck);
   const validDeck = deckIds.filter(cid => DATA.cardsById[cid]);
   const starterDeck = normalizeStarterDeck(validDeck);
@@ -5162,6 +5521,13 @@ function startRunFromBuilder(bg, givenName, familyName) {
     scrip: 0,
     cardLevels: {},
     lifetimeEvents: 0,
+
+
+    // Hand planning + future systems
+    bankedCardId: null,
+    pendingBankCids: [],
+    exhaustedCards: [],
+
 
     // IMPORTANT: no heir focus until you actually have an heir
     heirFocus: null,
