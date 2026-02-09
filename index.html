@@ -66,10 +66,10 @@
 <select id="bgSelect"></select>
 <div class="hint" id="bootMsg" style="margin-top:8px;"></div>
 </div>
-<div class="field hidden" id="bgStyleField">
-<label for="bgStyleSelect">Style</label>
-<select id="bgStyleSelect"></select>
-<div class="hint" id="bgStyleHint"></div>
+<div class="field" id="bgStyleField" style="margin-top:10px; display:none;">
+  <label for="bgStyleSelect">Choose a style</label>
+  <select id="bgStyleSelect"></select>
+  <div class="hint" id="bgStyleHint" style="margin-top:6px;"></div>
 </div>
 </section>
 <!-- Stats -->
@@ -160,7 +160,7 @@
 <div class="row space">
 <div>
 <div class="chance" id="chanceLine">Select an outcome.</div>
-<div class="muted" id="pairBonusLine"></div>
+<div class="muted small" id="pairBonusLine"></div>
 <div class="muted" id="chanceBreakdown"></div>
 </div>
 <button class="btn primary" disabled="" id="btnResolve">Resolve</button>
@@ -186,6 +186,6 @@
       Tip: commit cards that match both the event context and the outcome’s allowed disciplines.
     </footer>
 </div>
-<script defer="" src="app.js"></script>
+<script defer="" src="app_p2.js"></script>
 </body>
 </html>
