@@ -66,6 +66,11 @@
 <select id="bgSelect"></select>
 <div class="hint" id="bootMsg" style="margin-top:8px;"></div>
 </div>
+<div class="field hidden" id="bgStyleField">
+<label for="bgStyleSelect">Style</label>
+<select id="bgStyleSelect"></select>
+<div class="hint" id="bgStyleHint"></div>
+</div>
 </section>
 <!-- Stats -->
 <section class="create-section">
@@ -155,6 +160,7 @@
 <div class="row space">
 <div>
 <div class="chance" id="chanceLine">Select an outcome.</div>
+<div class="muted" id="pairBonusLine"></div>
 <div class="muted" id="chanceBreakdown"></div>
 </div>
 <button class="btn primary" disabled="" id="btnResolve">Resolve</button>
