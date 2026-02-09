@@ -185,51 +185,123 @@
       "Secrets": 0
     },
     "coreDeck": [
-      "public_speech",
-      "formal_audience",
-      "invoke_patronage",
-      "read_the_room",
-      "hold_fast",
-      "shared_fire"
+      {
+        "cardId": "public_speech",
+        "count": 1
+      },
+      {
+        "cardId": "formal_audience",
+        "count": 1
+      },
+      {
+        "cardId": "invoke_patronage",
+        "count": 1
+      },
+      {
+        "cardId": "read_the_room",
+        "count": 1
+      },
+      {
+        "cardId": "hold_fast",
+        "count": 1
+      },
+      {
+        "cardId": "shared_fire",
+        "count": 1
+      }
     ],
     "styles": [
       {
         "id": "patron",
         "name": "Patron",
-        "desc": "Leverage favors and formal petitions to bend courts.",
+        "desc": "Court leverage, contracts, and polished petitions.",
         "deck": [
-          "treaty_language",
-          "scribe_a_petition",
-          "studied_ledger",
-          "oath_of_service",
-          "stubborn_refusal",
-          "keen_observation"
+          {
+            "cardId": "treaty_language",
+            "count": 1
+          },
+          {
+            "cardId": "scribe_a_petition",
+            "count": 1
+          },
+          {
+            "cardId": "studied_ledger",
+            "count": 1
+          },
+          {
+            "cardId": "oath_of_service",
+            "count": 1
+          },
+          {
+            "cardId": "dignified_refusal",
+            "count": 1
+          },
+          {
+            "cardId": "keen_observation",
+            "count": 1
+          }
         ]
       },
       {
         "id": "schemer",
         "name": "Schemer",
-        "desc": "Quiet influence, misdirection, and ugly leverage.",
+        "desc": "Quiet influence, planted blame, and vanishing acts.",
         "deck": [
-          "silent_entry",
-          "blackmail_whisper",
-          "turn_the_blame",
-          "misdirection",
-          "vanish_into_crowd",
-          "studied_ledger"
+          {
+            "cardId": "silent_entry",
+            "count": 1
+          },
+          {
+            "cardId": "blackmail_whisper",
+            "count": 1
+          },
+          {
+            "cardId": "turn_the_blame",
+            "count": 1
+          },
+          {
+            "cardId": "misdirection",
+            "count": 1
+          },
+          {
+            "cardId": "vanish_into_crowd",
+            "count": 1
+          },
+          {
+            "cardId": "studied_ledger",
+            "count": 1
+          }
         ]
       },
       {
         "id": "tourney",
         "name": "Tourney",
-        "desc": "Steel-backed prestige: win respect the loud way.",
+        "desc": "Steel polish and public glory\u2014win clean, or win loud.",
         "deck": [
-          "forward_strike",
-          "shieldwall",
-          "iron_discipline",
-          "weapon_mastery",
-          "steady_breath",
-          "oath_of_service"
+          {
+            "cardId": "forward_strike",
+            "count": 1
+          },
+          {
+            "cardId": "shieldwall",
+            "count": 1
+          },
+          {
+            "cardId": "iron_discipline",
+            "count": 1
+          },
+          {
+            "cardId": "weapon_mastery",
+            "count": 1
+          },
+          {
+            "cardId": "steady_breath",
+            "count": 1
+          },
+          {
+            "cardId": "oath_of_service",
+            "count": 1
+          }
         ]
       }
     ]
