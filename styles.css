@@ -251,7 +251,10 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
 .backdrop {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.6);
-  display:flex; align-items:center; justify-content:center;
+  display:flex;
+  /* Keep modals usable when content is tall (e.g., Upgrade Cards list). */
+  align-items:flex-start;
+  justify-content:center;
   padding: 12px;
 }
 .modal {
@@ -260,6 +263,16 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
+  /* Allow the body area to scroll instead of the whole page getting trapped. */
+  max-height: calc(100vh - 24px);
+  display: flex;
+  flex-direction: column;
+}
+
+#modalBody {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding-right: 4px;
 }
 
 /* ---- Run Economy + Clarity pass ---- */
