@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Heirloom (Prototype)</title>
-<link href="styles.css?v=8.1" rel="stylesheet"/>
+<link href="styles.css?v=8.2" rel="stylesheet"/>
 </head>
 <body>
 <div class="app" id="app">
@@ -65,6 +65,12 @@
 <label for="bgSelect">Choose your origin</label>
 <select id="bgSelect"></select>
 <div class="hint" id="bootMsg" style="margin-top:8px;"></div>
+
+<div class="field" id="bgStyleField" style="margin-top:10px; display:none;">
+  <label for="bgStyleSelect">Style</label>
+  <select id="bgStyleSelect"></select>
+  <div class="hint" id="bgStyleHint" style="margin-top:6px;"></div>
+</div>
 </div>
 </section>
 <!-- Stats -->
@@ -156,6 +162,7 @@
 <div>
 <div class="chance" id="chanceLine">Select an outcome.</div>
 <div class="muted" id="chanceBreakdown"></div>
+<div class="muted small" id="pairBonusLine"></div>
 </div>
 <button class="btn primary" disabled="" id="btnResolve">Resolve</button>
 </div>
