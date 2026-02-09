@@ -987,11 +987,12 @@ function difficultyProfileForEvent(ev, opts = {}) {
   const kind = majorBeat ? "major" : (ev.kind ?? "general"); // later: "major", "faction"
 
   // Baselines (before age ramp).
+  // Design doc target: Base 50% + (Stat * 8%) - (Diff * 10%), with higher-stakes events tuned downward.
   let prof;
-  if (kind === "general") prof = { base: 58, statMult: 4, diffMult: (10 / DIFF_SCALE) };
-  else if (kind === "faction") prof = { base: 56, statMult: 4, diffMult: (11 / DIFF_SCALE) };
-  else if (kind === "major") prof = { base: 52, statMult: 4, diffMult: (12 / DIFF_SCALE) };
-  else prof = { base: 56, statMult: 4, diffMult: (11 / DIFF_SCALE) };
+  if (kind === "general") prof = { base: 50, statMult: 4, diffMult: (10 / DIFF_SCALE) };
+  else if (kind === "faction") prof = { base: 48, statMult: 4, diffMult: (11 / DIFF_SCALE) };
+  else if (kind === "major") prof = { base: 44, statMult: 4, diffMult: (12 / DIFF_SCALE) };
+  else prof = { base: 48, statMult: 4, diffMult: (11 / DIFF_SCALE) };
 
   // Gentle late-game ramp: every ~10 years after 25, tighten odds a bit.
   const age = state?.age ?? 16;
@@ -5693,7 +5694,13 @@ openResultModal = function(opts) {
     bgStyleSelect.value = chosen;
     creation.bgStyleId = chosen;
 
-    if (bgStyleHint) bgStyleHint.textContent = "Core 6 + Style 6 (12 cards).";
+    const styleObj = styles.find(s => s.id === chosen) || styles[0];
+    const desc = String(styleObj?.desc ?? "").trim();
+    if (bgStyleHint) {
+      bgStyleHint.textContent = desc
+        ? `${desc} (Core 6 + Style 6)`
+        : "Core 6 + Style 6 (12 cards).";
+    }
   }
 
   function starterDeckFromBackground(bg, styleId) {
