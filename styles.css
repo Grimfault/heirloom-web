@@ -254,16 +254,26 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
 .backdrop {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.6);
-  display:flex; align-items:flex-start; justify-content:center;
-  padding: 18px 12px;
-  overflow: auto;
+  display:flex; align-items:center; justify-content:center;
+  padding: 12px;
+  overflow: hidden;
 }
 .modal {
   width: min(820px, 100%);
+  max-height: calc(100vh - 24px);
   background: #0f131c;
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#modalBody {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding-top: 8px;
 }
 
 /* ---- Run Economy + Clarity pass ---- */
