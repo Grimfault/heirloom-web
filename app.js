@@ -982,22 +982,28 @@ function hasHeir() {
   return (state?.family?.heirs?.length ?? 0) > 0;
 }
 function difficultyProfileForEvent(ev, opts = {}) {
-  // Tuned so "general" events don't become trivial once stats climb.
-  // "majorBeat" lets 5-year milestones feel tougher even if the event JSON is still kind:"general".
-  const majorBeat = Boolean(opts.majorBeat);
-  const kind = majorBeat ? "major" : (ev.kind ?? "general"); // later: "major", "faction"
+  // Middle-ground tuning:
+  // - General events: still easiest, but not free.
+  // - Faction/story: modestly tighter.
+  // - Major: noticeably tighter.
+  // Legacy should matter, but early lives shouldn't feel doomed.
+  const kind = classifyEventKind(ev, opts);
 
-  // Baselines (before age ramp).
   let prof;
-  if (kind === "general") prof = { base: 54, statMult: 3, diffMult: (12 / DIFF_SCALE) };
-  else if (kind === "faction") prof = { base: 52, statMult: 3, diffMult: (13 / DIFF_SCALE) };
-  else if (kind === "major") prof = { base: 48, statMult: 3, diffMult: (14 / DIFF_SCALE) };
-  else prof = { base: 52, statMult: 3, diffMult: (13 / DIFF_SCALE) };
+  if (kind === "general") prof = { base: 60, statMult: 4, diffMult: (9 / DIFF_SCALE) };
+  else if (kind === "faction") prof = { base: 58, statMult: 4, diffMult: (10 / DIFF_SCALE) };
+  else if (kind === "major") prof = { base: 54, statMult: 4, diffMult: (11 / DIFF_SCALE) };
+  else prof = { base: 58, statMult: 4, diffMult: (10 / DIFF_SCALE) };
 
-  // Gentle late-game ramp: every ~10 years after 25, tighten odds a bit.
+  // Gentle late-game ramp: every ~10 years after 25, tighten a *little*.
+  // (Previously this was too aggressive.)
   const age = state?.age ?? 16;
   const ageRamp = Math.max(0, Math.floor((age - 25) / 10)); // 0 at 25–34, 1 at 35–44, etc.
-  prof = { ...prof, base: prof.base - (ageRamp * 1), diffMult: prof.diffMult + (ageRamp * 0.5) };
+  prof = {
+    ...prof,
+    base: prof.base - (ageRamp * 1),
+    diffMult: prof.diffMult + (ageRamp * 0.25)
+  };
 
   return prof;
 }
@@ -1021,7 +1027,7 @@ function computeChanceParts(outcome, committedCids, opts = {}) {
   // Extra "gap pressure" so difficulty above your stat is meaningfully scary,
   // even if the base math is generous.
   const gap = Math.max(0, diff - statVal);
-  const gapPenalty = gap * 3;
+  const gapPenalty = gap * 2;
 
   const condMod = conditionChanceModifier(ev, outcome, committedCids);
 
@@ -3263,6 +3269,11 @@ function openModal(title, bodyEl, opts = {}) {
   modalBody.innerHTML = "";
   modalBody.appendChild(bodyEl);
 
+  // Ensure tall modals never 'lose' the header off-screen.
+  modalBody.scrollTop = 0;
+  // Prevent background scroll while a modal is open.
+  document.body.style.overflow = "hidden";
+
   modalLocked = Boolean(opts.locked);
   btnModalClose.style.display = modalLocked ? "none" : "";
 
@@ -3277,6 +3288,7 @@ function closeModal() {
 
   modalBackdrop.classList.add("hidden");
   modalLocked = false;
+  document.body.style.overflow = "";
   btnModalClose.style.display = "";
 
   // NEW: fire once, then clear so it can't stack
