@@ -981,28 +981,52 @@ function hasSpouse() {
 function hasHeir() {
   return (state?.family?.heirs?.length ?? 0) > 0;
 }
+
+// Classify events for difficulty tuning.
+// Keeps "general" as the baseline, makes story/faction beats a touch tighter,
+// and treats major beats as the most dangerous.
+function classifyEventKind(ev, opts = {}) {
+  if (!ev) return "general";
+
+  // Forced major beat (e.g., age milestone) should always read as major difficulty.
+  if (opts.majorBeat) return "major";
+
+  const kRaw = (ev.kind ?? "").toString().toLowerCase();
+  if (kRaw === "major") return "major";
+  if (kRaw && kRaw !== "general") return kRaw; // allow future kinds like "faction" etc.
+
+  // Storyline steps should be a little tighter than general events.
+  try {
+    if (typeof isStoryEvent === "function" && isStoryEvent(ev)) return "faction";
+  } catch {}
+
+  return "general";
+}
+
 function difficultyProfileForEvent(ev, opts = {}) {
   // Middle-ground tuning:
   // - General events: still easiest, but not free.
   // - Faction/story: modestly tighter.
   // - Major: noticeably tighter.
   // Legacy should matter, but early lives shouldn't feel doomed.
+  
   const kind = classifyEventKind(ev, opts);
 
+  // Target: general events feel approachable with one good card,
+  // but "story/faction" beats and majors remain meaningfully risky.
   let prof;
-  if (kind === "general") prof = { base: 60, statMult: 4, diffMult: (9 / DIFF_SCALE) };
-  else if (kind === "faction") prof = { base: 58, statMult: 4, diffMult: (10 / DIFF_SCALE) };
-  else if (kind === "major") prof = { base: 54, statMult: 4, diffMult: (11 / DIFF_SCALE) };
-  else prof = { base: 58, statMult: 4, diffMult: (10 / DIFF_SCALE) };
+  if (kind === "general") prof = { base: 62, statMult: 4, diffMult: (8 / DIFF_SCALE) };
+  else if (kind === "faction") prof = { base: 60, statMult: 4, diffMult: (9 / DIFF_SCALE) };
+  else if (kind === "major") prof = { base: 56, statMult: 4, diffMult: (10 / DIFF_SCALE) };
+  else prof = { base: 60, statMult: 4, diffMult: (9 / DIFF_SCALE) };
 
-  // Gentle late-game ramp: every ~10 years after 25, tighten a *little*.
-  // (Previously this was too aggressive.)
+  // Gentle late-game ramp: start tightening after ~35.
   const age = state?.age ?? 16;
-  const ageRamp = Math.max(0, Math.floor((age - 25) / 10)); // 0 at 25–34, 1 at 35–44, etc.
+  const ageRamp = Math.max(0, Math.floor((age - 35) / 10)); // 0 at 16–34, 1 at 35–44, etc.
   prof = {
     ...prof,
     base: prof.base - (ageRamp * 1),
-    diffMult: prof.diffMult + (ageRamp * 0.25)
+    diffMult: prof.diffMult + (ageRamp * 0.20)
   };
 
   return prof;
@@ -1027,7 +1051,7 @@ function computeChanceParts(outcome, committedCids, opts = {}) {
   // Extra "gap pressure" so difficulty above your stat is meaningfully scary,
   // even if the base math is generous.
   const gap = Math.max(0, diff - statVal);
-  const gapPenalty = gap * 2;
+  const gapPenalty = gap * 1.5;
 
   const condMod = conditionChanceModifier(ev, outcome, committedCids);
 
@@ -5688,7 +5712,19 @@ openResultModal = function(opts) {
     return Boolean(bg?.coreDeck && bgStyles(bg).length);
   }
 
-  function syncBgStyleUI(bg) {
+  
+function inferStyleDesc(label) {
+  const s = (label ?? "").toString().toLowerCase();
+  if (!s) return "";
+  if (s.includes("patron")) return "Courtly leverage: favors, Influence, and polished Seal/Quill lines.";
+  if (s.includes("scheme") || s.includes("schemer")) return "Quiet knives: Secrets, Veil plays, and scandal control.";
+  if (s.includes("tourney") || s.includes("tournament")) return "Steel-forward: Strife, Renown, and physical edge.";
+  if (s.includes("pilgrim") || s.includes("vigil")) return "Endurance and mercy: Hearth/Quill, recovery, and hard choices.";
+  if (s.includes("outlaw") || s.includes("shadow")) return "Underworld angles: Veil/Steel, heat, and high-risk shortcuts.";
+  return "A themed 6-card variant that shifts your early options and event solutions.";
+}
+
+function syncBgStyleUI(bg) {
     if (!bgStyleField || !bgStyleSelect) return;
 
     if (!bgHasStyles(bg)) {
@@ -5719,7 +5755,10 @@ openResultModal = function(opts) {
     creation.bgStyleId = chosen;
 
     const curStyle = styles.find(s => s.id === chosen);
-    if (bgStyleHint) bgStyleHint.textContent = (curStyle?.desc ? curStyle.desc : "Core 6 + Style 6 (12 cards).");
+        if (bgStyleHint) {
+      const desc = (curStyle?.desc ? curStyle.desc : inferStyleDesc(curStyle?.name || curStyle?.id));
+      bgStyleHint.textContent = desc || "Core 6 + Style 6 (12 cards).";
+    }
   }
 
   function starterDeckFromBackground(bg, styleId) {
