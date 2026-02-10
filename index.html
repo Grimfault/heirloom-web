@@ -65,13 +65,14 @@
 <label for="bgSelect">Choose your origin</label>
 <select id="bgSelect"></select>
 <div class="hint" id="bootMsg" style="margin-top:8px;"></div>
+</div>
 
 <div class="field" id="bgStyleField" style="margin-top:10px; display:none;">
-  <label for="bgStyleSelect">Style</label>
+  <label for="bgStyleSelect">Choose a style</label>
   <select id="bgStyleSelect"></select>
   <div class="hint" id="bgStyleHint" style="margin-top:6px;"></div>
 </div>
-</div>
+
 </section>
 <!-- Stats -->
 <section class="create-section">
@@ -161,10 +162,13 @@
 <div class="row space">
 <div>
 <div class="chance" id="chanceLine">Select an outcome.</div>
-<div class="muted" id="chanceBreakdown"></div>
 <div class="muted small" id="pairBonusLine"></div>
+<div class="muted" id="chanceBreakdown"></div>
 </div>
+<div class="row" style="gap:8px;">
+<button class="btn ghost" disabled="" id="btnChanceMath">Math</button>
 <button class="btn primary" disabled="" id="btnResolve">Resolve</button>
+</div>
 </div>
 </section>
 <section class="card">
