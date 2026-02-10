@@ -776,6 +776,7 @@ const slot2 = document.getElementById("slot2");
 
 const chanceLine = document.getElementById("chanceLine");
 const chanceBreakdown = document.getElementById("chanceBreakdown");
+const btnChanceMath = document.getElementById("btnChanceMath");
 const logEl = document.getElementById("log");
 
 const bootMsg = document.getElementById("bootMsg");
@@ -987,17 +988,16 @@ function difficultyProfileForEvent(ev, opts = {}) {
   const kind = majorBeat ? "major" : (ev.kind ?? "general"); // later: "major", "faction"
 
   // Baselines (before age ramp).
-  // Design doc target: Base 50% + (Stat * 8%) - (Diff * 10%), with higher-stakes events tuned downward.
   let prof;
-  if (kind === "general") prof = { base: 50, statMult: 4, diffMult: (10 / DIFF_SCALE) };
-  else if (kind === "faction") prof = { base: 48, statMult: 4, diffMult: (11 / DIFF_SCALE) };
-  else if (kind === "major") prof = { base: 44, statMult: 4, diffMult: (12 / DIFF_SCALE) };
-  else prof = { base: 48, statMult: 4, diffMult: (11 / DIFF_SCALE) };
+  if (kind === "general") prof = { base: 54, statMult: 3, diffMult: (12 / DIFF_SCALE) };
+  else if (kind === "faction") prof = { base: 52, statMult: 3, diffMult: (13 / DIFF_SCALE) };
+  else if (kind === "major") prof = { base: 48, statMult: 3, diffMult: (14 / DIFF_SCALE) };
+  else prof = { base: 52, statMult: 3, diffMult: (13 / DIFF_SCALE) };
 
   // Gentle late-game ramp: every ~10 years after 25, tighten odds a bit.
   const age = state?.age ?? 16;
   const ageRamp = Math.max(0, Math.floor((age - 25) / 10)); // 0 at 25–34, 1 at 35–44, etc.
-  prof = { ...prof, base: prof.base - (ageRamp * 1), diffMult: prof.diffMult + ageRamp };
+  prof = { ...prof, base: prof.base - (ageRamp * 1), diffMult: prof.diffMult + (ageRamp * 0.5) };
 
   return prof;
 }
@@ -1021,7 +1021,7 @@ function computeChanceParts(outcome, committedCids, opts = {}) {
   // Extra "gap pressure" so difficulty above your stat is meaningfully scary,
   // even if the base math is generous.
   const gap = Math.max(0, diff - statVal);
-  const gapPenalty = gap * 2;
+  const gapPenalty = gap * 3;
 
   const condMod = conditionChanceModifier(ev, outcome, committedCids);
 
@@ -3659,6 +3659,11 @@ function renderHand() {
 
 function renderChance() {
   btnResolve.disabled = (selectedOutcomeIndex == null);
+  if (btnChanceMath) {
+    const hasSel = (selectedOutcomeIndex != null);
+    btnChanceMath.disabled = !hasSel;
+    btnChanceMath.textContent = hasSel ? (showChanceDetails ? "Hide math" : "Math") : "Math";
+  }
 
   if (selectedOutcomeIndex == null) {
     chanceLine.textContent = "Select an outcome.";
@@ -3675,7 +3680,7 @@ function renderChance() {
 
   const cls = (chance >= 60) ? "good" : (chance <= 35) ? "bad" : "";
   const band = chanceBand(chance);
-  chanceLine.innerHTML = `Chance: <span class="${cls}">${band}</span> <span class="muted">(${chance}%)</span> <span class="muted tapHint">tap</span>`;
+  chanceLine.innerHTML = `Chance: <span class="${cls}">${band}</span> <span class="muted">(${chance}%)</span>`;
 
   if (!showChanceDetails) {
     chanceBreakdown.textContent = "";
@@ -4934,6 +4939,13 @@ familyNameInput.addEventListener("input", () => updateStartButtonState());
 
 
 btnResolve.addEventListener("click", () => resolveSelectedOutcome());
+if (btnChanceMath) {
+  btnChanceMath.addEventListener("click", () => {
+    if (selectedOutcomeIndex == null) return;
+    showChanceDetails = !showChanceDetails;
+    renderChance();
+  });
+}
 chanceLine.addEventListener("click", () => {
   if (selectedOutcomeIndex == null) return;
   showChanceDetails = !showChanceDetails;
@@ -5694,13 +5706,8 @@ openResultModal = function(opts) {
     bgStyleSelect.value = chosen;
     creation.bgStyleId = chosen;
 
-    const styleObj = styles.find(s => s.id === chosen) || styles[0];
-    const desc = String(styleObj?.desc ?? "").trim();
-    if (bgStyleHint) {
-      bgStyleHint.textContent = desc
-        ? `${desc} (Core 6 + Style 6)`
-        : "Core 6 + Style 6 (12 cards).";
-    }
+    const curStyle = styles.find(s => s.id === chosen);
+    if (bgStyleHint) bgStyleHint.textContent = (curStyle?.desc ? curStyle.desc : "Core 6 + Style 6 (12 cards).");
   }
 
   function starterDeckFromBackground(bg, styleId) {
@@ -5890,38 +5897,26 @@ openResultModal = function(opts) {
   }
 
   const __origComputeChanceParts = computeChanceParts;
-  computeChanceParts = function(outcome, committedCids) {
-    // fall back to original if anything goes wrong
+  computeChanceParts = function(outcome, committedCids, opts = {}) {
+    const parts = __origComputeChanceParts(outcome, committedCids, opts);
+
+    // Pair bonuses are small and only apply when 2 legal cards are committed.
+    // Apply as an additive % bonus to the underlying roll chance.
     try {
-      const o = outcome;
-      const stat = state.stats[o.stat] ?? 0;
-      const difficulty = o.diff ?? 0;
+      const ev = opts.ev ?? currentEvent;
       const cards = Array.isArray(committedCids) ? committedCids : [];
-      const cardBonus = cards.reduce((sum, cid) => sum + (getCardLevelData(DATA.cardsById[cid]).bonus ?? 0), 0);
-      const legacyBonus = legacyContextChanceBonus(currentEvent) || 0;
-      const pair = computePairBonus(currentEvent, o, cards);
+      const pair = computePairBonus(ev, outcome, cards);
       const pairChance = pair?.chanceBonus ?? 0;
 
-      const base = 50;
-      const statBonus = stat * 8;
-      const diffPenalty = difficulty * 10;
-      const raw = base + statBonus + cardBonus + legacyBonus + pairChance;
-      const chance = clamp(raw - diffPenalty, 5, 95);
+      parts.pairBonus = pairChance;
+      parts.pairLabel = pair?.label ?? "";
 
-      return {
-        base,
-        statBonus,
-        cardBonus,
-        legacyBonus,
-        pairBonus: pairChance,
-        difficultyPenalty: -diffPenalty,
-        raw,
-        chance,
-        pairLabel: pair?.label ?? ""
-      };
-    } catch (e) {
-      return __origComputeChanceParts(outcome, committedCids);
-    }
+      if (typeof parts.raw !== "number") parts.raw = Number(parts.chance ?? 0);
+      parts.raw = (parts.raw ?? 0) + pairChance;
+      parts.chance = clamp(parts.raw, 5, 95);
+    } catch {}
+
+    return parts;
   };
 
   const __origRenderChance = renderChance;
