@@ -44,6 +44,9 @@ body {
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
 }
 h2, h3 { margin: 0 0 8px 0; }
 .muted { color: var(--muted); font-size: 13px; }
@@ -251,11 +254,9 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
 .backdrop {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.6);
-  display:flex;
-  /* Keep modals usable when content is tall (e.g., Upgrade Cards list). */
-  align-items:flex-start;
-  justify-content:center;
-  padding: 12px;
+  display:flex; align-items:flex-start; justify-content:center;
+  padding: 18px 12px;
+  overflow: auto;
 }
 .modal {
   width: min(820px, 100%);
@@ -263,16 +264,6 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
-  /* Allow the body area to scroll instead of the whole page getting trapped. */
-  max-height: calc(100vh - 24px);
-  display: flex;
-  flex-direction: column;
-}
-
-#modalBody {
-  flex: 1 1 auto;
-  overflow: auto;
-  padding-right: 4px;
 }
 
 /* ---- Run Economy + Clarity pass ---- */
@@ -678,4 +669,11 @@ button:disabled, .btn:disabled { opacity: .65; }
 .upgradePreview b{
   color: var(--text);
   font-weight: 700;
+}
+
+
+#modalBody {
+  overflow: auto;
+  padding-right: 6px;
+  flex: 1;
 }
