@@ -14,14 +14,6 @@
         "partialOnFail": false,
         "onSuccess": {},
         "onFailure": {}
-      },
-      {
-        "level": 2,
-        "bonus": 12,
-        "partialOnFail": false,
-        "onSuccess": {},
-        "onFailure": {},
-        "exhaustYears": 5
       }
     ],
     "flavor": "A clean opening, delivered without hesitation."
@@ -83,7 +75,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Feet blister; pride doesn\u2019t."
+    "flavor": "Feet blister; pride doesn’t."
   },
   {
     "id": "cornered_beast",
@@ -110,7 +102,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "When there\u2019s no room to flee, you bite back."
+    "flavor": "When there’s no room to flee, you bite back."
   },
   {
     "id": "crushing_blow",
@@ -242,7 +234,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Numbers don\u2019t lie\u2014people do."
+    "flavor": "Numbers don’t lie—people do."
   },
   {
     "id": "keen_observation",
@@ -289,7 +281,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Let them spring the trap\u2014on your terms."
+    "flavor": "Let them spring the trap—on your terms."
   },
   {
     "id": "forensic_reading",
@@ -402,7 +394,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "A purse is easiest to lift before it\u2019s missed."
+    "flavor": "A purse is easiest to lift before it’s missed."
   },
   {
     "id": "silent_entry",
@@ -422,7 +414,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Locks aren\u2019t promises. They\u2019re suggestions."
+    "flavor": "Locks aren’t promises. They’re suggestions."
   },
   {
     "id": "misdirection",
@@ -467,21 +459,6 @@
           ]
         },
         "onFailure": {}
-      },
-      {
-        "level": 2,
-        "bonus": 16,
-        "partialOnFail": false,
-        "onSuccess": {
-          "resources": [
-            {
-              "resource": "Influence",
-              "amount": 1
-            }
-          ]
-        },
-        "onFailure": {},
-        "exhaustYears": 5
       }
     ],
     "flavor": "A secret is leverage if you know where to press."
@@ -594,14 +571,6 @@
         "partialOnFail": false,
         "onSuccess": {},
         "onFailure": {}
-      },
-      {
-        "level": 2,
-        "bonus": 10,
-        "partialOnFail": false,
-        "onSuccess": {},
-        "onFailure": {},
-        "exhaustYears": 5
       }
     ],
     "flavor": "You drop a name and watch the room adjust."
@@ -651,7 +620,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Act certain; they\u2019ll do the rest for you."
+    "flavor": "Act certain; they’ll do the rest for you."
   },
   {
     "id": "oath_of_service",
@@ -671,7 +640,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "You trade freedom for protection\u2014carefully."
+    "flavor": "You trade freedom for protection—carefully."
   },
   {
     "id": "turn_the_blame",
@@ -787,7 +756,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "The dark doesn\u2019t scare you. You\u2019ve met it before."
+    "flavor": "The dark doesn’t scare you. You’ve met it before."
   },
   {
     "id": "steady_breath",
@@ -1005,7 +974,7 @@
       "Lore"
     ],
     "rarity": "Uncommon",
-    "flavor": "If it\u2019s cleaned now, it won\u2019t fester later.",
+    "flavor": "If it’s cleaned now, it won’t fester later.",
     "levels": [
       {
         "level": 1,
@@ -1067,7 +1036,7 @@
       "Lore"
     ],
     "rarity": "Rare",
-    "flavor": "Light makes liars careful\u2014and friends braver.",
+    "flavor": "Light makes liars careful—and friends braver.",
     "levels": [
       {
         "level": 1,
@@ -1085,5 +1054,839 @@
         }
       }
     ]
+  },
+  {
+    "id": "squire_practice_lances",
+    "name": "Practice Lances",
+    "discipline": "Steel",
+    "contexts": [
+      "Strife",
+      "Court"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "Bruises teach faster than sermons."
+  },
+  {
+    "id": "squire_house_colors",
+    "name": "House Colors",
+    "discipline": "Seal",
+    "contexts": [
+      "Court"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "A banner speaks before you do."
+  },
+  {
+    "id": "squire_gatehouse_ruse",
+    "name": "Gatehouse Ruse",
+    "discipline": "Veil",
+    "contexts": [
+      "Journey",
+      "Scheme"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "A borrowed seal. A confident nod. A door that opens."
+  },
+  {
+    "id": "ledger_clerk_red_ink_audit",
+    "name": "Red Ink Audit",
+    "discipline": "Quill",
+    "contexts": [
+      "Court",
+      "Scheme"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "Numbers don't lie—people do."
+  },
+  {
+    "id": "ledger_clerk_margin_gloss",
+    "name": "Margin Gloss",
+    "discipline": "Quill",
+    "contexts": [
+      "Lore"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "The truth is often written sideways."
+  },
+  {
+    "id": "ledger_clerk_cook_the_books",
+    "name": "Cook the Books",
+    "discipline": "Veil",
+    "contexts": [
+      "Scheme",
+      "Court"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "If the ledger won't balance, make it."
+  },
+  {
+    "id": "street_urchin_light_fingers",
+    "name": "Light Fingers",
+    "discipline": "Veil",
+    "contexts": [
+      "Scheme",
+      "Journey"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "You never touch a purse the same way twice."
+  },
+  {
+    "id": "street_urchin_keyhole_listener",
+    "name": "Keyhole Listener",
+    "discipline": "Veil",
+    "contexts": [
+      "Scheme",
+      "Court"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "Walls gossip. You just happen to be there."
+  },
+  {
+    "id": "street_urchin_gutter_swing",
+    "name": "Gutter Swing",
+    "discipline": "Steel",
+    "contexts": [
+      "Strife",
+      "Scheme"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "A bottle, a brick, a lesson learned the hard way."
+  },
+  {
+    "id": "minor_noble_house_charter",
+    "name": "House Charter",
+    "discipline": "Seal",
+    "contexts": [
+      "Court",
+      "Lore"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "A signature that turns favors into law."
+  },
+  {
+    "id": "minor_noble_veiled_promise",
+    "name": "Veiled Promise",
+    "discipline": "Veil",
+    "contexts": [
+      "Court",
+      "Scheme"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "Half a truth, perfectly placed."
+  },
+  {
+    "id": "minor_noble_heralds_favor",
+    "name": "Herald's Favor",
+    "discipline": "Steel",
+    "contexts": [
+      "Strife",
+      "Court"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "The crowd leans your way before the first strike."
+  },
+  {
+    "id": "pilgrim_wanderer_reliquary_clue",
+    "name": "Reliquary Clue",
+    "discipline": "Quill",
+    "contexts": [
+      "Lore",
+      "Journey"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "A map of saints and shortcuts."
+  },
+  {
+    "id": "pilgrim_wanderer_hidden_ford",
+    "name": "Hidden Ford",
+    "discipline": "Quill",
+    "contexts": [
+      "Journey"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "A river is kinder when you know its habits."
+  },
+  {
+    "id": "pilgrim_wanderer_hospice_candle",
+    "name": "Hospice Candle",
+    "discipline": "Hearth",
+    "contexts": [
+      "Court",
+      "Journey",
+      "Lore"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 14,
+        "partialOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "A steady flame in a sickroom buys another day."
+  },
+  {
+    "id": "novice_triage_orders",
+    "name": "Triage Orders",
+    "discipline": "Hearth",
+    "contexts": [
+      "Court",
+      "Journey"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "First stop the bleeding. Then ask names."
+  },
+  {
+    "id": "novice_ledger_of_the_dead",
+    "name": "Ledger of the Dead",
+    "discipline": "Quill",
+    "contexts": [
+      "Lore",
+      "Court"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "The missing names are the loudest."
+  },
+  {
+    "id": "novice_relic_escort",
+    "name": "Relic Escort",
+    "discipline": "Seal",
+    "contexts": [
+      "Journey",
+      "Strife"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "Guard the vessel. Ignore the whispers."
+  },
+  {
+    "id": "guild_factor_inside_rate",
+    "name": "Inside Rate",
+    "discipline": "Seal",
+    "contexts": [
+      "Court",
+      "Scheme"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "A discount offered in private, collected in public."
+  },
+  {
+    "id": "guild_factor_collections",
+    "name": "Collections",
+    "discipline": "Steel",
+    "contexts": [
+      "Strife",
+      "Scheme"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "Debt has a sound. It's your boots on the stair."
+  },
+  {
+    "id": "guild_factor_quiet_cargo",
+    "name": "Quiet Cargo",
+    "discipline": "Veil",
+    "contexts": [
+      "Journey",
+      "Scheme"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "Nothing to declare—nothing you can prove."
+  },
+  {
+    "id": "outlaw_highway_toll",
+    "name": "Highway Toll",
+    "discipline": "Steel",
+    "contexts": [
+      "Journey",
+      "Strife"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "Pay in silver or pay in blood."
+  },
+  {
+    "id": "outlaw_night_contract",
+    "name": "Night Contract",
+    "discipline": "Veil",
+    "contexts": [
+      "Scheme"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "A promise made where witnesses don't breathe."
+  },
+  {
+    "id": "outlaw_pardon_petition",
+    "name": "Pardon Petition",
+    "discipline": "Seal",
+    "contexts": [
+      "Court"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "A clean name costs more than coin."
+  },
+  {
+    "id": "hedge_knight_contract_blade",
+    "name": "Contract Blade",
+    "discipline": "Seal",
+    "contexts": [
+      "Court",
+      "Strife"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "A signature on parchment, a sword at your back."
+  },
+  {
+    "id": "hedge_knight_knights_vow",
+    "name": "Knight's Vow",
+    "discipline": "Hearth",
+    "contexts": [
+      "Court",
+      "Strife"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "Hold your chin up. Let them choke on it."
+  },
+  {
+    "id": "hedge_knight_salted_iron",
+    "name": "Salted Iron",
+    "discipline": "Steel",
+    "contexts": [
+      "Lore",
+      "Strife"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Marked",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "Old remedies. Old fears. Sometimes both work."
+  },
+  {
+    "id": "caravan_scout_trail_markers",
+    "name": "Trail Markers",
+    "discipline": "Quill",
+    "contexts": [
+      "Journey"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "Stones turned the right way save whole caravans."
+  },
+  {
+    "id": "caravan_scout_shade_pact",
+    "name": "Shade Pact",
+    "discipline": "Hearth",
+    "contexts": [
+      "Journey"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "Share water. Share silence. Survive."
+  },
+  {
+    "id": "caravan_scout_sealed_dispatch",
+    "name": "Sealed Dispatch",
+    "discipline": "Seal",
+    "contexts": [
+      "Court",
+      "Journey"
+    ],
+    "rarity": "Uncommon",
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 15,
+        "partialOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {},
+        "onPlay": {}
+      }
+    ],
+    "flavor": "A message carried clean is power delivered."
   }
 ]
