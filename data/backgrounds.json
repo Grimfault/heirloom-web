@@ -53,6 +53,127 @@
         "cardId": "oath_of_service",
         "count": 1
       }
+    ],
+    "coreDeck": [
+      {
+        "cardId": "forward_strike",
+        "count": 1
+      },
+      {
+        "cardId": "shieldwall",
+        "count": 1
+      },
+      {
+        "cardId": "iron_discipline",
+        "count": 1
+      },
+      {
+        "cardId": "hold_fast",
+        "count": 1
+      },
+      {
+        "cardId": "read_the_room",
+        "count": 1
+      },
+      {
+        "cardId": "oath_of_service",
+        "count": 1
+      }
+    ],
+    "styles": [
+      {
+        "id": "tourney",
+        "name": "Tourney",
+        "desc": "Steel polish and public glory—win clean, or win loud.",
+        "deck": [
+          {
+            "cardId": "crushing_blow",
+            "count": 1
+          },
+          {
+            "cardId": "steady_breath",
+            "count": 1
+          },
+          {
+            "cardId": "public_speech",
+            "count": 1
+          },
+          {
+            "cardId": "weapon_mastery",
+            "count": 1
+          },
+          {
+            "cardId": "hard_march",
+            "count": 1
+          },
+          {
+            "cardId": "squire_practice_lances",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "court_ward",
+        "name": "Court Ward",
+        "desc": "Etiquette, banners, and obligations—earn a name before you earn a title.",
+        "deck": [
+          {
+            "cardId": "formal_audience",
+            "count": 1
+          },
+          {
+            "cardId": "invoke_patronage",
+            "count": 1
+          },
+          {
+            "cardId": "treaty_language",
+            "count": 1
+          },
+          {
+            "cardId": "keen_observation",
+            "count": 1
+          },
+          {
+            "cardId": "shared_fire",
+            "count": 1
+          },
+          {
+            "cardId": "squire_house_colors",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "prowler",
+        "name": "Prowler",
+        "desc": "Shortcut loyalties and midnight errands; the keep has doors that aren’t on maps.",
+        "deck": [
+          {
+            "cardId": "false_papers",
+            "count": 1
+          },
+          {
+            "cardId": "silent_entry",
+            "count": 1
+          },
+          {
+            "cardId": "misdirection",
+            "count": 1
+          },
+          {
+            "cardId": "night_watch",
+            "count": 1
+          },
+          {
+            "cardId": "map_the_way",
+            "count": 1
+          },
+          {
+            "cardId": "squire_gatehouse_ruse",
+            "count": 1
+          }
+        ]
+      }
     ]
   },
   {
@@ -108,6 +229,127 @@
       {
         "cardId": "hold_fast",
         "count": 1
+      }
+    ],
+    "coreDeck": [
+      {
+        "cardId": "studied_ledger",
+        "count": 1
+      },
+      {
+        "cardId": "keen_observation",
+        "count": 1
+      },
+      {
+        "cardId": "read_the_room",
+        "count": 1
+      },
+      {
+        "cardId": "scribe_a_petition",
+        "count": 1
+      },
+      {
+        "cardId": "formal_audience",
+        "count": 1
+      },
+      {
+        "cardId": "hold_fast",
+        "count": 1
+      }
+    ],
+    "styles": [
+      {
+        "id": "auditor",
+        "name": "Auditor",
+        "desc": "Audit trails, contract traps, and polite pressure—make the numbers obey.",
+        "deck": [
+          {
+            "cardId": "treaty_language",
+            "count": 1
+          },
+          {
+            "cardId": "invoke_patronage",
+            "count": 1
+          },
+          {
+            "cardId": "public_speech",
+            "count": 1
+          },
+          {
+            "cardId": "seal_of_authority",
+            "count": 1
+          },
+          {
+            "cardId": "counterplan",
+            "count": 1
+          },
+          {
+            "cardId": "ledger_clerk_red_ink_audit",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "archivist",
+        "name": "Archivist",
+        "desc": "Field notes, missing pages, and quiet discoveries—knowledge as leverage.",
+        "deck": [
+          {
+            "cardId": "field_notes",
+            "count": 1
+          },
+          {
+            "cardId": "forensic_reading",
+            "count": 1
+          },
+          {
+            "cardId": "map_the_way",
+            "count": 1
+          },
+          {
+            "cardId": "pilgrims_patience",
+            "count": 1
+          },
+          {
+            "cardId": "cold_comfort",
+            "count": 1
+          },
+          {
+            "cardId": "ledger_clerk_margin_gloss",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "fixer",
+        "name": "Fixer",
+        "desc": "Favors in the dark, blame in the right hands—keep the books ‘clean.’",
+        "deck": [
+          {
+            "cardId": "turn_the_blame",
+            "count": 1
+          },
+          {
+            "cardId": "blackmail_whisper",
+            "count": 1
+          },
+          {
+            "cardId": "silent_entry",
+            "count": 1
+          },
+          {
+            "cardId": "misdirection",
+            "count": 1
+          },
+          {
+            "cardId": "false_papers",
+            "count": 1
+          },
+          {
+            "cardId": "ledger_clerk_cook_the_books",
+            "count": 1
+          }
+        ]
       }
     ]
   },
@@ -165,6 +407,127 @@
         "cardId": "hold_fast",
         "count": 1
       }
+    ],
+    "coreDeck": [
+      {
+        "cardId": "cutpurse",
+        "count": 1
+      },
+      {
+        "cardId": "silent_entry",
+        "count": 1
+      },
+      {
+        "cardId": "misdirection",
+        "count": 1
+      },
+      {
+        "cardId": "night_watch",
+        "count": 1
+      },
+      {
+        "cardId": "map_the_way",
+        "count": 1
+      },
+      {
+        "cardId": "hold_fast",
+        "count": 1
+      }
+    ],
+    "styles": [
+      {
+        "id": "pickpocket",
+        "name": "Pickpocket",
+        "desc": "Fast hands and faster exits—turn crowds into coin.",
+        "deck": [
+          {
+            "cardId": "false_papers",
+            "count": 1
+          },
+          {
+            "cardId": "vanish_into_crowd",
+            "count": 1
+          },
+          {
+            "cardId": "shadow_contact",
+            "count": 1
+          },
+          {
+            "cardId": "studied_ledger",
+            "count": 1
+          },
+          {
+            "cardId": "hard_march",
+            "count": 1
+          },
+          {
+            "cardId": "street_urchin_light_fingers",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "spyling",
+        "name": "Spyling",
+        "desc": "Secrets first, money second—learn what people whisper when they think you’re gone.",
+        "deck": [
+          {
+            "cardId": "blackmail_whisper",
+            "count": 1
+          },
+          {
+            "cardId": "counterplan",
+            "count": 1
+          },
+          {
+            "cardId": "read_the_room",
+            "count": 1
+          },
+          {
+            "cardId": "forensic_reading",
+            "count": 1
+          },
+          {
+            "cardId": "turn_the_blame",
+            "count": 1
+          },
+          {
+            "cardId": "street_urchin_keyhole_listener",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "scrapper",
+        "name": "Scrapper",
+        "desc": "A tough kid with a harder swing—win space, win respect.",
+        "deck": [
+          {
+            "cardId": "forward_strike",
+            "count": 1
+          },
+          {
+            "cardId": "cornered_beast",
+            "count": 1
+          },
+          {
+            "cardId": "crushing_blow",
+            "count": 1
+          },
+          {
+            "cardId": "steady_breath",
+            "count": 1
+          },
+          {
+            "cardId": "shared_fire",
+            "count": 1
+          },
+          {
+            "cardId": "street_urchin_gutter_swing",
+            "count": 1
+          }
+        ]
+      }
     ]
   },
   {
@@ -184,6 +547,48 @@
       "Influence": 1,
       "Secrets": 0
     },
+    "deck": [
+      {
+        "cardId": "public_speech",
+        "count": 2
+      },
+      {
+        "cardId": "invoke_patronage",
+        "count": 2
+      },
+      {
+        "cardId": "seal_of_authority",
+        "count": 1
+      },
+      {
+        "cardId": "treaty_language",
+        "count": 1
+      },
+      {
+        "cardId": "formal_audience",
+        "count": 1
+      },
+      {
+        "cardId": "turn_the_blame",
+        "count": 1
+      },
+      {
+        "cardId": "dignified_refusal",
+        "count": 1
+      },
+      {
+        "cardId": "read_the_room",
+        "count": 1
+      },
+      {
+        "cardId": "shared_fire",
+        "count": 1
+      },
+      {
+        "cardId": "hold_fast",
+        "count": 1
+      }
+    ],
     "coreDeck": [
       {
         "cardId": "public_speech",
@@ -233,11 +638,11 @@
             "count": 1
           },
           {
-            "cardId": "dignified_refusal",
+            "cardId": "stubborn_refusal",
             "count": 1
           },
           {
-            "cardId": "keen_observation",
+            "cardId": "minor_noble_house_charter",
             "count": 1
           }
         ]
@@ -268,7 +673,7 @@
             "count": 1
           },
           {
-            "cardId": "studied_ledger",
+            "cardId": "minor_noble_veiled_promise",
             "count": 1
           }
         ]
@@ -276,7 +681,7 @@
       {
         "id": "tourney",
         "name": "Tourney",
-        "desc": "Steel polish and public glory\u2014win clean, or win loud.",
+        "desc": "Steel polish and public glory—win clean, or win loud.",
         "deck": [
           {
             "cardId": "forward_strike",
@@ -299,7 +704,7 @@
             "count": 1
           },
           {
-            "cardId": "oath_of_service",
+            "cardId": "minor_noble_heralds_favor",
             "count": 1
           }
         ]
@@ -356,6 +761,127 @@
         "cardId": "iron_discipline",
         "count": 1
       }
+    ],
+    "coreDeck": [
+      {
+        "cardId": "pilgrims_patience",
+        "count": 1
+      },
+      {
+        "cardId": "map_the_way",
+        "count": 1
+      },
+      {
+        "cardId": "shared_fire",
+        "count": 1
+      },
+      {
+        "cardId": "hold_fast",
+        "count": 1
+      },
+      {
+        "cardId": "hard_march",
+        "count": 1
+      },
+      {
+        "cardId": "steady_breath",
+        "count": 1
+      }
+    ],
+    "styles": [
+      {
+        "id": "wayfarer",
+        "name": "Wayfarer",
+        "desc": "Road sense, quick shelters, and the discipline to keep moving.",
+        "deck": [
+          {
+            "cardId": "night_watch",
+            "count": 1
+          },
+          {
+            "cardId": "iron_discipline",
+            "count": 1
+          },
+          {
+            "cardId": "keen_observation",
+            "count": 1
+          },
+          {
+            "cardId": "false_papers",
+            "count": 1
+          },
+          {
+            "cardId": "field_notes",
+            "count": 1
+          },
+          {
+            "cardId": "pilgrim_wanderer_hidden_ford",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "relic_seeker",
+        "name": "Relic-Seeker",
+        "desc": "Chase old witnesses and older rules—relics have trails.",
+        "deck": [
+          {
+            "cardId": "field_notes",
+            "count": 1
+          },
+          {
+            "cardId": "forensic_reading",
+            "count": 1
+          },
+          {
+            "cardId": "treaty_language",
+            "count": 1
+          },
+          {
+            "cardId": "weapon_mastery",
+            "count": 1
+          },
+          {
+            "cardId": "cold_comfort",
+            "count": 1
+          },
+          {
+            "cardId": "pilgrim_wanderer_reliquary_clue",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "merciful",
+        "name": "Merciful",
+        "desc": "Mercy as a craft: tend wounds, steady fear, and survive the season.",
+        "deck": [
+          {
+            "cardId": "clean_bandage",
+            "count": 1
+          },
+          {
+            "cardId": "quiet_prayer",
+            "count": 1
+          },
+          {
+            "cardId": "unyielding_will",
+            "count": 1
+          },
+          {
+            "cardId": "stubborn_refusal",
+            "count": 1
+          },
+          {
+            "cardId": "cold_comfort",
+            "count": 1
+          },
+          {
+            "cardId": "pilgrim_wanderer_hospice_candle",
+            "count": 1
+          }
+        ]
+      }
     ]
   },
   {
@@ -409,12 +935,133 @@
         "count": 1,
         "cardId": "shared_fire"
       }
+    ],
+    "coreDeck": [
+      {
+        "cardId": "read_the_room",
+        "count": 1
+      },
+      {
+        "cardId": "field_notes",
+        "count": 1
+      },
+      {
+        "cardId": "pilgrims_patience",
+        "count": 1
+      },
+      {
+        "cardId": "hold_fast",
+        "count": 1
+      },
+      {
+        "cardId": "scribe_a_petition",
+        "count": 1
+      },
+      {
+        "cardId": "shared_fire",
+        "count": 1
+      }
+    ],
+    "styles": [
+      {
+        "id": "hospitaller",
+        "name": "Hospitaller",
+        "desc": "Heal first, argue later—turn crisis into calm.",
+        "deck": [
+          {
+            "cardId": "clean_bandage",
+            "count": 1
+          },
+          {
+            "cardId": "quiet_prayer",
+            "count": 1
+          },
+          {
+            "cardId": "cold_comfort",
+            "count": 1
+          },
+          {
+            "cardId": "unyielding_will",
+            "count": 1
+          },
+          {
+            "cardId": "stubborn_refusal",
+            "count": 1
+          },
+          {
+            "cardId": "novice_triage_orders",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "candlekeeper",
+        "name": "Candlekeeper",
+        "desc": "Records, rituals, and the truths people leave behind.",
+        "deck": [
+          {
+            "cardId": "forensic_reading",
+            "count": 1
+          },
+          {
+            "cardId": "keen_observation",
+            "count": 1
+          },
+          {
+            "cardId": "studied_ledger",
+            "count": 1
+          },
+          {
+            "cardId": "treaty_language",
+            "count": 1
+          },
+          {
+            "cardId": "counterplan",
+            "count": 1
+          },
+          {
+            "cardId": "novice_ledger_of_the_dead",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "vigilant",
+        "name": "Vigilant",
+        "desc": "Escort duties and hard choices—protect the witness-object.",
+        "deck": [
+          {
+            "cardId": "weapon_mastery",
+            "count": 1
+          },
+          {
+            "cardId": "shieldwall",
+            "count": 1
+          },
+          {
+            "cardId": "iron_discipline",
+            "count": 1
+          },
+          {
+            "cardId": "night_watch",
+            "count": 1
+          },
+          {
+            "cardId": "oath_of_service",
+            "count": 1
+          },
+          {
+            "cardId": "novice_relic_escort",
+            "count": 1
+          }
+        ]
+      }
     ]
   },
   {
     "id": "guild_factor",
     "name": "Guild Factor",
-    "desc": "Ledger, leverage, and long memories\u2014coin moves faster than steel.",
+    "desc": "Ledger, leverage, and long memories—coin moves faster than steel.",
     "stats": {
       "Might": 1,
       "Wit": 3,
@@ -469,6 +1116,127 @@
       {
         "count": 1,
         "cardId": "hold_fast"
+      }
+    ],
+    "coreDeck": [
+      {
+        "cardId": "studied_ledger",
+        "count": 1
+      },
+      {
+        "cardId": "invoke_patronage",
+        "count": 1
+      },
+      {
+        "cardId": "formal_audience",
+        "count": 1
+      },
+      {
+        "cardId": "treaty_language",
+        "count": 1
+      },
+      {
+        "cardId": "read_the_room",
+        "count": 1
+      },
+      {
+        "cardId": "hold_fast",
+        "count": 1
+      }
+    ],
+    "styles": [
+      {
+        "id": "broker",
+        "name": "Broker",
+        "desc": "Deals, petitions, and leverage—win without drawing steel.",
+        "deck": [
+          {
+            "cardId": "counterplan",
+            "count": 1
+          },
+          {
+            "cardId": "public_speech",
+            "count": 1
+          },
+          {
+            "cardId": "scribe_a_petition",
+            "count": 1
+          },
+          {
+            "cardId": "keen_observation",
+            "count": 1
+          },
+          {
+            "cardId": "seal_of_authority",
+            "count": 1
+          },
+          {
+            "cardId": "guild_factor_inside_rate",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "enforcer",
+        "name": "Enforcer",
+        "desc": "Contracts backed by boots—collect what’s owed.",
+        "deck": [
+          {
+            "cardId": "turn_the_blame",
+            "count": 1
+          },
+          {
+            "cardId": "blackmail_whisper",
+            "count": 1
+          },
+          {
+            "cardId": "misdirection",
+            "count": 1
+          },
+          {
+            "cardId": "crushing_blow",
+            "count": 1
+          },
+          {
+            "cardId": "shieldwall",
+            "count": 1
+          },
+          {
+            "cardId": "guild_factor_collections",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "smuggler",
+        "name": "Smuggler",
+        "desc": "Quiet routes, quiet cargo—profit lives between borders.",
+        "deck": [
+          {
+            "cardId": "false_papers",
+            "count": 1
+          },
+          {
+            "cardId": "cutpurse",
+            "count": 1
+          },
+          {
+            "cardId": "shadow_contact",
+            "count": 1
+          },
+          {
+            "cardId": "vanish_into_crowd",
+            "count": 1
+          },
+          {
+            "cardId": "hard_march",
+            "count": 1
+          },
+          {
+            "cardId": "guild_factor_quiet_cargo",
+            "count": 1
+          }
+        ]
       }
     ]
   },
@@ -526,6 +1294,127 @@
       {
         "count": 1,
         "cardId": "hold_fast"
+      }
+    ],
+    "coreDeck": [
+      {
+        "cardId": "cutpurse",
+        "count": 1
+      },
+      {
+        "cardId": "false_papers",
+        "count": 1
+      },
+      {
+        "cardId": "silent_entry",
+        "count": 1
+      },
+      {
+        "cardId": "misdirection",
+        "count": 1
+      },
+      {
+        "cardId": "forward_strike",
+        "count": 1
+      },
+      {
+        "cardId": "hard_march",
+        "count": 1
+      }
+    ],
+    "styles": [
+      {
+        "id": "bandit",
+        "name": "Bandit",
+        "desc": "Bold robberies and quick retreats—take what the road offers.",
+        "deck": [
+          {
+            "cardId": "cornered_beast",
+            "count": 1
+          },
+          {
+            "cardId": "crushing_blow",
+            "count": 1
+          },
+          {
+            "cardId": "steady_breath",
+            "count": 1
+          },
+          {
+            "cardId": "night_watch",
+            "count": 1
+          },
+          {
+            "cardId": "hold_fast",
+            "count": 1
+          },
+          {
+            "cardId": "outlaw_highway_toll",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "shadow",
+        "name": "Shadow",
+        "desc": "Blackmail, contacts, and clean disappearances—crime with finesse.",
+        "deck": [
+          {
+            "cardId": "blackmail_whisper",
+            "count": 1
+          },
+          {
+            "cardId": "shadow_contact",
+            "count": 1
+          },
+          {
+            "cardId": "vanish_into_crowd",
+            "count": 1
+          },
+          {
+            "cardId": "turn_the_blame",
+            "count": 1
+          },
+          {
+            "cardId": "counterplan",
+            "count": 1
+          },
+          {
+            "cardId": "outlaw_night_contract",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "pardoned",
+        "name": "Pardoned",
+        "desc": "Play at legitimacy—oaths, speeches, and a chance to be forgiven.",
+        "deck": [
+          {
+            "cardId": "oath_of_service",
+            "count": 1
+          },
+          {
+            "cardId": "public_speech",
+            "count": 1
+          },
+          {
+            "cardId": "seal_of_authority",
+            "count": 1
+          },
+          {
+            "cardId": "unyielding_will",
+            "count": 1
+          },
+          {
+            "cardId": "shared_fire",
+            "count": 1
+          },
+          {
+            "cardId": "outlaw_pardon_petition",
+            "count": 1
+          }
+        ]
       }
     ]
   },
@@ -588,12 +1477,133 @@
         "count": 1,
         "cardId": "steady_breath"
       }
+    ],
+    "coreDeck": [
+      {
+        "cardId": "forward_strike",
+        "count": 1
+      },
+      {
+        "cardId": "shieldwall",
+        "count": 1
+      },
+      {
+        "cardId": "iron_discipline",
+        "count": 1
+      },
+      {
+        "cardId": "weapon_mastery",
+        "count": 1
+      },
+      {
+        "cardId": "hold_fast",
+        "count": 1
+      },
+      {
+        "cardId": "hard_march",
+        "count": 1
+      }
+    ],
+    "styles": [
+      {
+        "id": "mercenary",
+        "name": "Mercenary",
+        "desc": "Fight for pay, live by contract—keep your blade rented.",
+        "deck": [
+          {
+            "cardId": "crushing_blow",
+            "count": 1
+          },
+          {
+            "cardId": "cornered_beast",
+            "count": 1
+          },
+          {
+            "cardId": "cutpurse",
+            "count": 1
+          },
+          {
+            "cardId": "seal_of_authority",
+            "count": 1
+          },
+          {
+            "cardId": "night_watch",
+            "count": 1
+          },
+          {
+            "cardId": "hedge_knight_contract_blade",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "chivalric",
+        "name": "Chivalric",
+        "desc": "Honor as armor—win clean and stand tall afterward.",
+        "deck": [
+          {
+            "cardId": "public_speech",
+            "count": 1
+          },
+          {
+            "cardId": "oath_of_service",
+            "count": 1
+          },
+          {
+            "cardId": "formal_audience",
+            "count": 1
+          },
+          {
+            "cardId": "dignified_refusal",
+            "count": 1
+          },
+          {
+            "cardId": "unyielding_will",
+            "count": 1
+          },
+          {
+            "cardId": "hedge_knight_knights_vow",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "lorebound",
+        "name": "Lorebound",
+        "desc": "Hunt rumors and strange witnesses—steel with a scholar’s eye.",
+        "deck": [
+          {
+            "cardId": "field_notes",
+            "count": 1
+          },
+          {
+            "cardId": "forensic_reading",
+            "count": 1
+          },
+          {
+            "cardId": "pilgrims_patience",
+            "count": 1
+          },
+          {
+            "cardId": "cold_comfort",
+            "count": 1
+          },
+          {
+            "cardId": "treaty_language",
+            "count": 1
+          },
+          {
+            "cardId": "hedge_knight_salted_iron",
+            "count": 1
+          }
+        ]
+      }
     ]
   },
   {
     "id": "caravan_scout",
     "name": "Caravan Scout",
-    "desc": "Roads, weather, and strangers: you can read them all\u2014mostly.",
+    "desc": "Roads, weather, and strangers: you can read them all—mostly.",
     "stats": {
       "Might": 3,
       "Wit": 3,
@@ -648,6 +1658,127 @@
       {
         "count": 1,
         "cardId": "hold_fast"
+      }
+    ],
+    "coreDeck": [
+      {
+        "cardId": "hard_march",
+        "count": 1
+      },
+      {
+        "cardId": "map_the_way",
+        "count": 1
+      },
+      {
+        "cardId": "keen_observation",
+        "count": 1
+      },
+      {
+        "cardId": "night_watch",
+        "count": 1
+      },
+      {
+        "cardId": "steady_breath",
+        "count": 1
+      },
+      {
+        "cardId": "shared_fire",
+        "count": 1
+      }
+    ],
+    "styles": [
+      {
+        "id": "pathfinder",
+        "name": "Pathfinder",
+        "desc": "Maps, landmarks, and knowing when to turn back.",
+        "deck": [
+          {
+            "cardId": "field_notes",
+            "count": 1
+          },
+          {
+            "cardId": "pilgrims_patience",
+            "count": 1
+          },
+          {
+            "cardId": "hold_fast",
+            "count": 1
+          },
+          {
+            "cardId": "false_papers",
+            "count": 1
+          },
+          {
+            "cardId": "vanish_into_crowd",
+            "count": 1
+          },
+          {
+            "cardId": "caravan_scout_trail_markers",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "sandrunner",
+        "name": "Sandrunner",
+        "desc": "Endurance, rationing, and the will to keep moving.",
+        "deck": [
+          {
+            "cardId": "iron_discipline",
+            "count": 1
+          },
+          {
+            "cardId": "unyielding_will",
+            "count": 1
+          },
+          {
+            "cardId": "spare_rations",
+            "count": 1
+          },
+          {
+            "cardId": "hold_fast",
+            "count": 1
+          },
+          {
+            "cardId": "quiet_prayer",
+            "count": 1
+          },
+          {
+            "cardId": "caravan_scout_shade_pact",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": "courier",
+        "name": "Courier",
+        "desc": "Carry words that matter—arrive on time and leave an impression.",
+        "deck": [
+          {
+            "cardId": "public_speech",
+            "count": 1
+          },
+          {
+            "cardId": "formal_audience",
+            "count": 1
+          },
+          {
+            "cardId": "oath_of_service",
+            "count": 1
+          },
+          {
+            "cardId": "seal_of_authority",
+            "count": 1
+          },
+          {
+            "cardId": "read_the_room",
+            "count": 1
+          },
+          {
+            "cardId": "caravan_scout_sealed_dispatch",
+            "count": 1
+          }
+        ]
       }
     ]
   }
