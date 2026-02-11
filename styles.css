@@ -726,3 +726,31 @@ button:disabled, .btn:disabled { opacity: .65; }
     bottom: 0;
   }
 }
+
+/* ================================
+   Heirloom Fix: Start Screen footer overlap (v2)
+   Root cause:
+   The generic .card has max-height: 86vh. With default overflow: visible,
+   content that exceeds max-height doesn't contribute to document height.
+   That prevents the page from scrolling far enough and makes the sticky
+   .create-footer cover the last content (traits list / name field).
+
+   Fix:
+   - Remove the max-height cap on the Start Screen card so it can contribute
+     to page height normally.
+   - Remove the inner scrollbar on the Start Screen traits grid so the last
+     row can't sit behind the sticky footer.
+   (Overrides only; nothing removed.)
+   ================================ */
+
+#startScreen.card { max-height: none; }
+
+/* Let the page scroll naturally; avoid nested scrolling here */
+#startScreen .traitsGrid {
+  max-height: none;
+  overflow: visible;
+  padding-right: 0;
+}
+
+/* Keep footer above content visually */
+#startScreen .create-footer { z-index: 20; }
