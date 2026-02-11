@@ -689,3 +689,18 @@ button:disabled, .btn:disabled { opacity: .65; }
   padding-right: 6px;
   flex: 1;
 }
+
+/* === Mobile safe-area + sticky footer overlap fix ===
+   Keeps the sticky footer/buttons visible without covering form fields.
+   Applies only on the Run Creation screen.
+*/
+@media (max-width: 700px) {
+  .create {
+    /* Extra scroll room so the last section isn't hidden behind the sticky footer */
+    padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+  }
+  .create-footer {
+    /* Respect iOS home indicator */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
