@@ -680,8 +680,8 @@
       },
       {
         "id": "tourney",
-        "name": "Tourney",
-        "desc": "Steel polish and public glory—win clean, or win loud.",
+        "name": "Grand Tourney",
+        "desc": "Heralds, wagers, and patronage—turn the lists into leverage.",
         "deck": [
           {
             "cardId": "forward_strike",
