@@ -689,19 +689,40 @@ button:disabled, .btn:disabled { opacity: .65; }
   padding-right: 6px;
   flex: 1;
 }
-/* Sticky footer overlap + traits nested scroll fix (additive override) */
-.create{
-  padding-bottom:140px; /* fallback */
-  padding-bottom:calc(140px + constant(safe-area-inset-bottom)); /* older iOS */
-  padding-bottom:calc(140px + env(safe-area-inset-bottom, 0px));
+
+
+/* ================================
+   Heirloom Patch: Start Screen Footer Overlap Fix
+   - Ensures sticky .create-footer does not cover form content
+   - Works on desktop + mobile (iOS safe-area aware)
+   Additive only.
+   ================================ */
+
+:root{
+  --createFooterPad: 140px; /* reserve space for Begin/Back + legacy line */
 }
-.create-footer{
-  padding-bottom:10px; /* fallback */
-  padding-bottom:calc(10px + constant(safe-area-inset-bottom)); /* older iOS */
-  padding-bottom:calc(10px + env(safe-area-inset-bottom, 0px));
+
+/* Give the creation content enough bottom space to scroll past the sticky footer */
+#startScreen .create{
+  padding-bottom: calc(var(--createFooterPad) + env(safe-area-inset-bottom));
 }
-.traitsGrid{
-  max-height:none;
-  overflow:visible;
-  padding-right:0;
+
+/* Ensure the sticky footer sits above content and respects safe-area */
+#startScreen .create-footer{
+  z-index: 5;
+  padding-bottom: env(safe-area-inset-bottom);
+  backdrop-filter: blur(6px);
+}
+
+/* The traits list is its own scroll area; add internal bottom padding so last rows aren't hidden */
+#startScreen .traitsGrid{
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom));
+}
+
+/* If the browser supports dynamic viewport units, use them for more stable sticky behavior */
+@supports (height: 100dvh){
+  #startScreen .create-footer{
+    bottom: 0;
+  }
 }
