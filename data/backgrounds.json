@@ -83,7 +83,7 @@
     "styles": [
       {
         "id": "tourney",
-        "name": "Tourney",
+        "name": "Lancer",
         "desc": "Steel polish and public glory—win clean, or win loud.",
         "deck": [
           {
@@ -322,7 +322,7 @@
       },
       {
         "id": "fixer",
-        "name": "Fixer",
+        "name": "Quiet Hand",
         "desc": "Favors in the dark, blame in the right hands—keep the books ‘clean.’",
         "deck": [
           {
@@ -437,7 +437,7 @@
     "styles": [
       {
         "id": "pickpocket",
-        "name": "Pickpocket",
+        "name": "Cutpurse",
         "desc": "Fast hands and faster exits—turn crowds into coin.",
         "deck": [
           {
@@ -680,7 +680,7 @@
       },
       {
         "id": "tourney",
-        "name": "Grand Tourney",
+        "name": "Herald",
         "desc": "Heralds, wagers, and patronage—turn the lists into leverage.",
         "deck": [
           {
@@ -822,7 +822,7 @@
       },
       {
         "id": "relic_seeker",
-        "name": "Relic-Seeker",
+        "name": "Relic Seeker",
         "desc": "Chase old witnesses and older rules—relics have trails.",
         "deck": [
           {
@@ -853,7 +853,7 @@
       },
       {
         "id": "merciful",
-        "name": "Merciful",
+        "name": "Mercy Hand",
         "desc": "Mercy as a craft: tend wounds, steady fear, and survive the season.",
         "deck": [
           {
@@ -1387,7 +1387,7 @@
       },
       {
         "id": "pardoned",
-        "name": "Pardoned",
+        "name": "Penitent",
         "desc": "Play at legitimacy—oaths, speeches, and a chance to be forgiven.",
         "deck": [
           {
@@ -1538,7 +1538,7 @@
       },
       {
         "id": "chivalric",
-        "name": "Chivalric",
+        "name": "Oathsworn",
         "desc": "Honor as armor—win clean and stand tall afterward.",
         "deck": [
           {
