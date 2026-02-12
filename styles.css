@@ -1,24 +1,138 @@
-:root {
-  --bg: #0f1115;
-  --card: #171a21;
-  --card2: #1e2230;
-  --text: #e9eef5;
-  --muted: #aab3c2;
-  --line: #2a3142;
+/* =========================================================
+   Heirloom Visual System — "Candlelit Ledger" (Ink-forward)
+   - Default: Ink (dark) with warm candle/brass accents
+   - Optional: Candle (light) parchment mode
+   Toggle by setting: <html data-theme="ink"> or "candle"
+   ========================================================= */
+
+:root{
+  color-scheme: dark;
+
+  /* Base typography */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  --font-serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+
+  /* Core palette (INK / dark) */
+  --bg: #0f0d0a;
+  --card: #171311;
+  --card2: #1f1916;
+  --panel: #120f0d;          /* inputs, modal */
+  --btnBg: #15110f;
+
+  --text: #f3efe7;
+  --muted: #c2b5a6;
+
+  --line: #352a22;
   --good: #62d36b;
   --bad: #ff6b6b;
-  --warn: #f3c969;
-  --accent: #7aa8ff;
+  --warn: #e8c275;
+
+  /* Brass / candle accent */
+  --accent: #d6a55a;
   --danger: #ff4d4d;
+
+  /* On-color text */
+  --onAccent: #120f0d;
+  --onDanger: #120f0d;
+
+  /* Soft fills & borders (theme-aware) */
+  --shade0: rgba(0,0,0,0.14);
+  --shade1: rgba(0,0,0,0.18);
+  --shade2: rgba(0,0,0,0.12);
+  --shadeCard: rgba(0,0,0,0.20);
+  --shade3: rgba(0,0,0,0.25);
+
+  --washBorder: rgba(255,255,255,0.10);
+  --washBorderStrong: rgba(255,255,255,0.14);
+  --washBorderHover: rgba(255,255,255,0.18);
+
+  --washBg: rgba(255,255,255,0.03);
+  --washBg2: rgba(255,255,255,0.02);
+  --washBgHover: rgba(255,255,255,0.04);
+  --washBgSelected: rgba(255,255,255,0.05);
+
+  --accentSoft: rgba(214,165,90,0.14);
+  --accentGlow1: rgba(214,165,90,0.55);
+  --accentGlow2: rgba(214,165,90,0.22);
+
+  /* Wild / rare accents (subtle, ink-forward) */
+  --wild: rgba(187,166,255,0.95);
+  --wildBorder: rgba(187,166,255,0.55);
+  --rareBorder: rgba(232,194,117,0.65);
+
+  /* Topbar glass */
+  --topbarA: rgba(15,13,10,0.96);
+  --topbarB: rgba(15,13,10,0.76);
+  --topbarBorder: rgba(53,42,34,0.70);
+}
+
+/* CANDLE / light parchment */
+html[data-theme="candle"]{
+  color-scheme: light;
+
+  --bg: #f6efe4;
+  --card: #fff7ea;
+  --card2: #f2e6d6;
+  --panel: #fffaf1;
+  --btnBg: #fffaf1;
+
+  --text: #1b1510;
+  --muted: #5a4f45;
+
+  --line: #d9c9b6;
+  --good: #1f8f45;
+  --bad: #c12f2f;
+  --warn: #a66b2f;
+
+  /* Slightly darker brass for readability on light */
+  --accent: #8f5b24;
+  --danger: #c12f2f;
+
+  --onAccent: #fffaf1;
+  --onDanger: #fffaf1;
+
+  --shade0: rgba(0,0,0,0.03);
+  --shade1: rgba(0,0,0,0.04);
+  --shade2: rgba(0,0,0,0.03);
+  --shadeCard: rgba(0,0,0,0.03);
+  --shade3: rgba(0,0,0,0.06);
+
+  --washBorder: rgba(0,0,0,0.10);
+  --washBorderStrong: rgba(0,0,0,0.14);
+  --washBorderHover: rgba(0,0,0,0.18);
+
+  --washBg: rgba(0,0,0,0.03);
+  --washBg2: rgba(0,0,0,0.02);
+  --washBgHover: rgba(0,0,0,0.04);
+  --washBgSelected: rgba(0,0,0,0.05);
+
+  --accentSoft: rgba(143,91,36,0.12);
+  --accentGlow1: rgba(143,91,36,0.55);
+  --accentGlow2: rgba(143,91,36,0.18);
+
+  --wild: rgba(96,70,156,0.95);
+  --wildBorder: rgba(96,70,156,0.45);
+  --rareBorder: rgba(143,91,36,0.55);
+
+  --topbarA: rgba(246,239,228,0.96);
+  --topbarB: rgba(246,239,228,0.76);
+  --topbarBorder: rgba(217,201,182,0.90);
 }
 
 * { box-sizing: border-box; }
 body {
   margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  font-family: var(--font-sans);
   background: var(--bg);
   color: var(--text);
 }
+
+/* Type hierarchy */
+h1, h2, h3, .title, .menuTitle, .event-name, .status {
+  font-family: var(--font-serif);
+  letter-spacing: 0.2px;
+}
+
 
 .app { max-width: 820px; margin: 0 auto; padding: 12px; }
 .topbar {
@@ -30,9 +144,9 @@ body {
   align-items:center;
   gap:12px;
   padding: 10px 6px;
-  background: linear-gradient(180deg, rgba(15,17,21,0.96), rgba(15,17,21,0.76));
+  background: linear-gradient(180deg, var(--topbarA), var(--topbarB));
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(42,49,66,0.7);
+  border-bottom: 1px solid var(--topbarBorder);
 }
 .title { font-weight: 800; font-size: 20px; }
 .subtitle { color: var(--muted); font-size: 12px; }
@@ -63,7 +177,7 @@ select {
   padding:10px;
   border-radius: 10px;
   border: 1px solid var(--line);
-  background: #0f131c;
+  background: var(--panel);
   color: var(--text);
 }
 
@@ -72,7 +186,7 @@ input {
   padding:10px;
   border-radius: 10px;
   border: 1px solid var(--line);
-  background: #0f131c;
+  background: var(--panel);
   color: var(--text);
 }
 input::placeholder { color: #7b869a; }
@@ -87,7 +201,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
-  background: rgba(0,0,0,0.14);
+  background: var(--shade0);
 }
 
 .section-title { display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom: 8px; }
@@ -123,13 +237,13 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
 .pill.show { display:inline-flex; }
 
 .badge .arrow, .arrow {
-  color: #59d36a;
+  color: var(--good);
   font-weight: 700;
 }
 
 .btn {
   border: 1px solid var(--line);
-  background: #101521;
+  background: var(--btnBg);
   color: var(--text);
   padding: 10px 12px;
   border-radius: 12px;
@@ -137,8 +251,8 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   cursor: pointer;
 }
 .btn.small { padding: 6px 10px; border-radius: 10px; font-size: 12px; }
-.btn.primary { background: var(--accent); color: #0a0d14; border-color: transparent; }
-.btn.danger { background: var(--danger); color: #0a0d14; border-color: transparent; }
+.btn.primary { background: var(--accent); color: var(--onAccent); border-color: transparent; }
+.btn.danger { background: var(--danger); color: var(--onDanger); border-color: transparent; }
 .btn.ghost { background: transparent; }
 .btn:disabled { opacity: .45; cursor: not-allowed; }
 
@@ -147,7 +261,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 12px;
-  background: rgba(0,0,0,0.18);
+  background: var(--shade1);
   cursor: pointer;
 }
 .outcome.selected { outline: 2px solid var(--accent); }
@@ -165,7 +279,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   padding: 12px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: rgba(0,0,0,0.18);
+  background: var(--shade1);
 }
 .allocStat { font-weight: 900; min-width: 86px; }
 .allocNums { display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-start; }
@@ -194,7 +308,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 12px;
-  background: rgba(0,0,0,0.18);
+  background: var(--shade1);
   cursor: pointer;
 }
 
@@ -217,7 +331,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border-radius: 10px;
   padding: 8px;
   margin: -8px;
-  background: rgba(122,168,255,0.08);
+  background: var(--accentSoft);
 }
 
 .slots { display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin: 10px 0; }
@@ -233,7 +347,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 12px;
-  background: rgba(0,0,0,0.20);
+  background: var(--shadeCard);
   cursor: pointer;
 }
 .cardbtn.disabled { opacity: .45; cursor: not-allowed; }
@@ -263,7 +377,7 @@ inset: 0;
 .modal {
   width: min(820px, 100%);
   max-height: calc(100vh - 24px);
-  background: #0f131c;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
@@ -306,13 +420,13 @@ inset: 0;
   padding: 4px 8px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: rgba(0,0,0,0.18);
+  background: var(--shade1);
   font-size: 12px;
   color: var(--muted);
 }
 .chip.disc {
   color: var(--text);
-  border-color: rgba(122, 168, 255, 0.35);
+  border-color: var(--accentGlow2);
 }
 .chip.warn {
   color: var(--warn);
@@ -346,8 +460,8 @@ inset: 0;
 .arrows.muted { color: var(--muted); }
 
 .cardbtn.playable {
-  border-color: rgba(122, 168, 255, 0.55);
-  box-shadow: 0 0 0 1px rgba(122, 168, 255, 0.25), 0 0 18px rgba(122, 168, 255, 0.18);
+  border-color: var(--accentGlow1);
+  box-shadow: 0 0 0 1px var(--accentGlow2), 0 0 18px var(--accentGlow2);
 }
 .cardbtn.dim {
   opacity: .38;
@@ -385,10 +499,10 @@ inset: 0;
 
 /* --- Outcome focus panel / compact list --- */
 .outcomeFocus{
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--washBorder);
   border-radius: 14px;
   padding: 14px;
-  background: rgba(255,255,255,0.03);
+  background: var(--washBg);
   margin-bottom: 12px;
 }
 .focusTitle{ font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
@@ -406,10 +520,10 @@ inset: 0;
 
 .resultRow{ margin-top: 10px; }
 .resultCol{
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--washBorder);
   border-radius: 12px;
   padding: 10px;
-  background: rgba(0,0,0,0.12);
+  background: var(--shade2);
 }
 .resultLabel{
   font-size: 0.85rem;
@@ -426,12 +540,12 @@ inset: 0;
   gap: 8px;
 }
 .resultPill{
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid var(--washBorderStrong);
   border-radius: 999px;
   padding: 5px 10px;
   font-size: 0.85rem;
   line-height: 1;
-  background: rgba(255,255,255,0.02);
+  background: var(--washBg2);
 }
 .resultPill.good{ border-color: rgba(134,239,172,0.35); }
 .resultPill.bad{ border-color: rgba(248,113,113,0.35); }
@@ -442,18 +556,18 @@ inset: 0;
 }
 .outcomeItem{
   text-align: left;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--washBorder);
   border-radius: 14px;
   padding: 12px 14px;
-  background: rgba(255,255,255,0.02);
+  background: var(--washBg2);
   cursor: pointer;
 }
 .outcomeItem:hover{
-  background: rgba(255,255,255,0.04);
+  background: var(--washBgHover);
 }
 .outcomeItem.selected{
-  border-color: rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.05);
+  border-color: var(--washBorderHover);
+  background: var(--washBgSelected);
 }
 .outcomeItem.disabled{
   opacity: 0.55;
@@ -485,7 +599,7 @@ inset: 0;
 
 .outcomeItem.disabled{
   opacity: 0.78;
-  background: rgba(255,255,255,0.03);
+  background: var(--washBg);
 }
 .outcomeItem.disabled .outcomeItemTitle { color: rgba(233,238,245,0.86); }
 .outcomeItem.disabled .outcomeItemMeta { color: rgba(170,179,194,0.98); }
@@ -496,7 +610,6 @@ inset: 0;
 
 /* Buttons on bright fills: improve contrast */
 .btn.primary, .btn.danger{
-  color: #0f1115; /* slightly lighter than pure black */
   text-shadow: 0 1px 0 rgba(255,255,255,0.15);
 }
 
@@ -521,17 +634,17 @@ inset: 0;
 .cardbtn[data-rarity="Rare"] .rarityPips { opacity: 1; }
 
 .cardbtn[data-rarity="Uncommon"]{
-  border-color: rgba(120,170,255,.55);
-  box-shadow: 0 0 0 1px rgba(120,170,255,.20), 0 12px 32px rgba(0,0,0,.18);
+  border-color: var(--accentGlow1);
+  box-shadow: 0 0 0 1px var(--accentGlow2), 0 12px 32px rgba(0,0,0,.18);
 }
 
 .cardbtn[data-rarity="Rare"]{
-  border-color: rgba(255,214,128,.65);
-  box-shadow: 0 0 0 1px rgba(255,214,128,.18), 0 14px 38px rgba(0,0,0,.20);
+  border-color: var(--rareBorder);
+  box-shadow: 0 0 0 1px rgba(232,194,117,0.18), 0 14px 38px rgba(0,0,0,.20);
 }
 
 .cardbtn[data-rarity="Rare"] .rarityPips{
-  color: rgba(255,214,128,.95);
+  color: var(--warn);
 }
 
 .cardbtn[data-discipline="Wild"]{
@@ -539,7 +652,7 @@ inset: 0;
 }
 
 .cardbtn[data-discipline="Wild"] .rarityPips{
-  color: rgba(175,155,255,.95);
+  color: var(--wild);
 }
 
 
@@ -555,7 +668,7 @@ button:disabled, .btn:disabled { opacity: .65; }
 .rarityPips { letter-spacing: .08em; opacity: .9; }
 
 /* Wild cards: make dashed border more apparent */
-.cardbtn[data-discipline="Wild"] { border-style: dashed; border-color: rgba(122,168,255,.55); }
+.cardbtn[data-discipline="Wild"] { border-style: dashed; border-color: var(--wildBorder); }
 
 
 /* === Legacy tree === */
@@ -565,8 +678,8 @@ button:disabled, .btn:disabled { opacity: .65; }
 }
 
 .legacyNode {
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--washBorder);
+  background: var(--washBg);
   border-radius: 14px;
   padding: 12px;
 }
@@ -597,8 +710,8 @@ button:disabled, .btn:disabled { opacity: .65; }
 .legacyNode .rankPill {
   padding: 3px 8px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--washBorderStrong);
+  background: var(--shade3);
   font-size: 12px;
 }
 
@@ -615,8 +728,8 @@ button:disabled, .btn:disabled { opacity: .65; }
 }
 
 .legacyBranches .branchGroup {
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--washBorder);
+  background: var(--washBg2);
   border-radius: 14px;
   padding: 12px;
 }
@@ -667,8 +780,8 @@ button:disabled, .btn:disabled { opacity: .65; }
 }
 
 .chipWild{
-  color: var(--accent);
-  border-color: rgba(122,168,255,0.35);
+  color: var(--wild);
+  border-color: var(--wildBorder);
 }
 
 /* --- Upgrade preview --- */
@@ -758,267 +871,3 @@ button:disabled, .btn:disabled { opacity: .65; }
 
 /* Faction Standing */
 #standingLine { margin-top: 2px; }
-
-
-/* =========================================================
-   Heirloom Theme Patch: Candlelit Ledger (Ink-forward) + Light option
-   - Additive overrides only (no selectors removed)
-   - Default theme is Candlelit Dark (ink-forward)
-   - To enable light mode, set: <html data-theme="candlelit-light">
-   ========================================================= */
-
-/* --- Theme tokens (Ink-forward Candlelit Ledger) --- */
-:root{
-  /* Palette */
-  --bg:    #0B0A08;   /* soot */
-  --card:  #15110D;   /* dark vellum */
-  --card2: #1B1611;   /* deep leather */
-
-  --text:  #F2EBDD;   /* parchment */
-  --muted: #B9AE9D;   /* dust */
-  --line:  #3A2F24;   /* stitched seam */
-
-  /* Ink-forward: primary interactive accent */
-  --accent: #7FA2C8;  /* ink */
-  --brass:  #D2A85A;  /* prestige trim */
-
-  --good:   #7CCB8A;
-  --bad:    #E06C5F;
-  --warn:   #E2C06B;
-  --danger: #D9524A;
-
-  /* Surfaces / translucency (keeps light mode sane) */
-  --overlay:  rgba(0,0,0,0.18);
-  --overlay2: rgba(0,0,0,0.14);
-  --overlay3: rgba(0,0,0,0.20);
-
-  --softBorder: rgba(255,255,255,0.08);
-  --softFill:   rgba(255,255,255,0.03);
-  --softFill2:  rgba(255,255,255,0.02);
-
-  --fieldBg: #120D0A;
-  --modalBg: #120D0A;
-
-  /* Foreground on filled buttons */
-  --onAccent: #0B0A08;  /* ink is light in dark mode */
-  --onDanger: #0B0A08;
-
-  /* Focus ring */
-  --focusRing: rgba(127,162,200,.45);
-}
-
-/* Light mode companion (Sunlit Ledger) */
-:root[data-theme="candlelit-light"]{
-  --bg:    #F3EEE4;
-  --card:  #FFFFFF;
-  --card2: #FAF5EC;
-
-  --text:  #1F1A14;
-  --muted: #6B6258;
-  --line:  #D7CCBE;
-
-  --accent:#2F5FA8;   /* ink (deep) */
-  --brass: #B07D2B;   /* aged brass */
-
-  --good:  #2E8B57;
-  --bad:   #B1412E;
-  --warn:  #B8872E;
-  --danger:#9E2F25;
-
-  --overlay:  rgba(31,26,20,0.04);
-  --overlay2: rgba(31,26,20,0.03);
-  --overlay3: rgba(31,26,20,0.05);
-
-  --softBorder: rgba(0,0,0,0.10);
-  --softFill:   rgba(31,26,20,0.03);
-  --softFill2:  rgba(31,26,20,0.02);
-
-  --fieldBg: #FBF6EE;
-  --modalBg: #FFFFFF;
-
-  --onAccent: #F3EEE4; /* ink is dark in light mode */
-  --onDanger: #F3EEE4;
-
-  --focusRing: rgba(47,95,168,.30);
-}
-
-/* --- Typography (safe fallback if fonts aren't loaded yet) --- */
-body{
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-}
-.title, h2, h3, .menuTitle, .cardname, .outcome-title, .outcomeItemTitle, .focusTitle{
-  font-family: Cinzel, Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-  letter-spacing: 0.2px;
-}
-
-/* --- Topbar: warm soot gradient (replaces hardcoded #0f1115 rgba) --- */
-.topbar{
-  background: linear-gradient(180deg,
-    color-mix(in srgb, var(--bg) 96%, transparent),
-    color-mix(in srgb, var(--bg) 76%, transparent)
-  );
-  border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
-}
-
-/* --- Inputs / selects / modal surfaces --- */
-select, input{
-  background: var(--fieldBg);
-  border-color: var(--line);
-}
-input::placeholder{
-  color: color-mix(in srgb, var(--muted) 70%, transparent);
-}
-.modal{
-  background: var(--modalBg);
-}
-
-/* --- Unified “soft panel” surfaces (works in both themes) --- */
-.create-section,
-.outcome,
-.allocRow,
-.traitRow,
-.cardbtn{
-  background: var(--overlay);
-}
-.cardbtn{ background: var(--overlay3); }
-.outcomeFocus,
-.legacyNode,
-.legacyBranches .branchGroup{
-  border-color: var(--softBorder);
-  background: var(--softFill);
-}
-.resultCol{
-  border-color: var(--softBorder);
-  background: var(--overlay2);
-}
-.outcomeItem,
-.resultPill{
-  border-color: var(--softBorder);
-  background: var(--softFill2);
-}
-.outcomeItem:hover{
-  background: color-mix(in srgb, var(--softFill) 70%, transparent);
-}
-
-/* --- Buttons: Ink-forward primary, Brass as trim --- */
-.btn{
-  background: color-mix(in srgb, var(--bg) 70%, var(--card) 30%);
-  border-color: color-mix(in srgb, var(--line) 85%, transparent);
-}
-.btn.primary{
-  background: var(--accent);
-  color: var(--onAccent);
-  border-color: transparent;
-  text-shadow: none;
-}
-.btn.danger{
-  background: var(--danger);
-  color: var(--onDanger);
-  border-color: transparent;
-  text-shadow: none;
-}
-.btn.ghost{
-  background: transparent;
-}
-.btn:hover:not(:disabled){
-  filter: brightness(1.04);
-}
-.btn:active:not(:disabled){
-  transform: translateY(1px);
-}
-
-/* Optional “brass” button style if you ever add class="btn brass" */
-.btn.brass{
-  background: transparent;
-  border-color: color-mix(in srgb, var(--brass) 70%, transparent);
-  color: var(--brass);
-}
-
-/* --- Focus rings (keyboard friendly) --- */
-.btn:focus-visible,
-select:focus-visible,
-input:focus-visible,
-.outcomeItem:focus-visible,
-.cardbtn:focus-visible{
-  outline: 2px solid color-mix(in srgb, var(--accent) 85%, transparent);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px var(--focusRing);
-}
-
-/* --- Chips: discipline chips use ink; warnings use warn --- */
-.chip{
-  background: var(--overlay2);
-  border-color: color-mix(in srgb, var(--line) 75%, transparent);
-  color: var(--muted);
-}
-.chip.disc{
-  color: var(--text);
-  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
-}
-.chip.warn{
-  color: var(--warn);
-  border-color: color-mix(in srgb, var(--warn) 45%, transparent);
-}
-.chipWild{
-  color: var(--accent);
-  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-}
-
-/* --- Outcome selection + trait selection: ink-forward --- */
-.outcome.selected{
-  outline: 2px solid color-mix(in srgb, var(--accent) 85%, transparent);
-}
-.traitRow input:checked + div{
-  outline: 2px solid color-mix(in srgb, var(--accent) 85%, transparent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-}
-
-/* --- Card playable + rarity styling (swap gold -> brass) --- */
-.cardbtn.playable{
-  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent),
-    0 0 18px color-mix(in srgb, var(--accent) 18%, transparent);
-}
-
-.cardbtn[data-rarity="Uncommon"]{
-  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent),
-    0 12px 32px rgba(0,0,0,.18);
-}
-
-.cardbtn[data-rarity="Rare"]{
-  border-color: color-mix(in srgb, var(--brass) 65%, transparent);
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--brass) 18%, transparent),
-    0 14px 38px rgba(0,0,0,.20);
-}
-.cardbtn[data-rarity="Rare"] .rarityPips{
-  color: color-mix(in srgb, var(--brass) 90%, transparent);
-}
-
-/* Wild cards: keep dashed, but tie to ink */
-.cardbtn[data-discipline="Wild"]{
-  border-style: dashed;
-  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-}
-.cardbtn[data-discipline="Wild"] .rarityPips{
-  color: color-mix(in srgb, var(--accent) 90%, transparent);
-}
-
-/* --- Result labels: use tokens (remove hardcoded greens/reds) --- */
-.resultLabel.good{ color: var(--good); }
-.resultLabel.bad{ color: var(--bad); }
-
-/* --- Disabled/readability tweaks that were hardcoded for old palette --- */
-.outcomeItem.disabled .outcomeItemTitle{ color: color-mix(in srgb, var(--text) 86%, transparent); }
-.outcomeItem.disabled .outcomeItemMeta{ color: color-mix(in srgb, var(--muted) 98%, transparent); }
-
-/* --- Modal backdrop remains dark even in light mode (feels like “paper on desk”) --- */
-.backdrop{
-  background: rgba(0,0,0,0.60);
-}
-:root[data-theme="candlelit-light"] .backdrop{
-  background: rgba(0,0,0,0.45);
-}
