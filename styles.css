@@ -758,3 +758,267 @@ button:disabled, .btn:disabled { opacity: .65; }
 
 /* Faction Standing */
 #standingLine { margin-top: 2px; }
+
+
+/* =========================================================
+   Heirloom Theme Patch: Candlelit Ledger (Ink-forward) + Light option
+   - Additive overrides only (no selectors removed)
+   - Default theme is Candlelit Dark (ink-forward)
+   - To enable light mode, set: <html data-theme="candlelit-light">
+   ========================================================= */
+
+/* --- Theme tokens (Ink-forward Candlelit Ledger) --- */
+:root{
+  /* Palette */
+  --bg:    #0B0A08;   /* soot */
+  --card:  #15110D;   /* dark vellum */
+  --card2: #1B1611;   /* deep leather */
+
+  --text:  #F2EBDD;   /* parchment */
+  --muted: #B9AE9D;   /* dust */
+  --line:  #3A2F24;   /* stitched seam */
+
+  /* Ink-forward: primary interactive accent */
+  --accent: #7FA2C8;  /* ink */
+  --brass:  #D2A85A;  /* prestige trim */
+
+  --good:   #7CCB8A;
+  --bad:    #E06C5F;
+  --warn:   #E2C06B;
+  --danger: #D9524A;
+
+  /* Surfaces / translucency (keeps light mode sane) */
+  --overlay:  rgba(0,0,0,0.18);
+  --overlay2: rgba(0,0,0,0.14);
+  --overlay3: rgba(0,0,0,0.20);
+
+  --softBorder: rgba(255,255,255,0.08);
+  --softFill:   rgba(255,255,255,0.03);
+  --softFill2:  rgba(255,255,255,0.02);
+
+  --fieldBg: #120D0A;
+  --modalBg: #120D0A;
+
+  /* Foreground on filled buttons */
+  --onAccent: #0B0A08;  /* ink is light in dark mode */
+  --onDanger: #0B0A08;
+
+  /* Focus ring */
+  --focusRing: rgba(127,162,200,.45);
+}
+
+/* Light mode companion (Sunlit Ledger) */
+:root[data-theme="candlelit-light"]{
+  --bg:    #F3EEE4;
+  --card:  #FFFFFF;
+  --card2: #FAF5EC;
+
+  --text:  #1F1A14;
+  --muted: #6B6258;
+  --line:  #D7CCBE;
+
+  --accent:#2F5FA8;   /* ink (deep) */
+  --brass: #B07D2B;   /* aged brass */
+
+  --good:  #2E8B57;
+  --bad:   #B1412E;
+  --warn:  #B8872E;
+  --danger:#9E2F25;
+
+  --overlay:  rgba(31,26,20,0.04);
+  --overlay2: rgba(31,26,20,0.03);
+  --overlay3: rgba(31,26,20,0.05);
+
+  --softBorder: rgba(0,0,0,0.10);
+  --softFill:   rgba(31,26,20,0.03);
+  --softFill2:  rgba(31,26,20,0.02);
+
+  --fieldBg: #FBF6EE;
+  --modalBg: #FFFFFF;
+
+  --onAccent: #F3EEE4; /* ink is dark in light mode */
+  --onDanger: #F3EEE4;
+
+  --focusRing: rgba(47,95,168,.30);
+}
+
+/* --- Typography (safe fallback if fonts aren't loaded yet) --- */
+body{
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+}
+.title, h2, h3, .menuTitle, .cardname, .outcome-title, .outcomeItemTitle, .focusTitle{
+  font-family: Cinzel, Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  letter-spacing: 0.2px;
+}
+
+/* --- Topbar: warm soot gradient (replaces hardcoded #0f1115 rgba) --- */
+.topbar{
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--bg) 96%, transparent),
+    color-mix(in srgb, var(--bg) 76%, transparent)
+  );
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+}
+
+/* --- Inputs / selects / modal surfaces --- */
+select, input{
+  background: var(--fieldBg);
+  border-color: var(--line);
+}
+input::placeholder{
+  color: color-mix(in srgb, var(--muted) 70%, transparent);
+}
+.modal{
+  background: var(--modalBg);
+}
+
+/* --- Unified “soft panel” surfaces (works in both themes) --- */
+.create-section,
+.outcome,
+.allocRow,
+.traitRow,
+.cardbtn{
+  background: var(--overlay);
+}
+.cardbtn{ background: var(--overlay3); }
+.outcomeFocus,
+.legacyNode,
+.legacyBranches .branchGroup{
+  border-color: var(--softBorder);
+  background: var(--softFill);
+}
+.resultCol{
+  border-color: var(--softBorder);
+  background: var(--overlay2);
+}
+.outcomeItem,
+.resultPill{
+  border-color: var(--softBorder);
+  background: var(--softFill2);
+}
+.outcomeItem:hover{
+  background: color-mix(in srgb, var(--softFill) 70%, transparent);
+}
+
+/* --- Buttons: Ink-forward primary, Brass as trim --- */
+.btn{
+  background: color-mix(in srgb, var(--bg) 70%, var(--card) 30%);
+  border-color: color-mix(in srgb, var(--line) 85%, transparent);
+}
+.btn.primary{
+  background: var(--accent);
+  color: var(--onAccent);
+  border-color: transparent;
+  text-shadow: none;
+}
+.btn.danger{
+  background: var(--danger);
+  color: var(--onDanger);
+  border-color: transparent;
+  text-shadow: none;
+}
+.btn.ghost{
+  background: transparent;
+}
+.btn:hover:not(:disabled){
+  filter: brightness(1.04);
+}
+.btn:active:not(:disabled){
+  transform: translateY(1px);
+}
+
+/* Optional “brass” button style if you ever add class="btn brass" */
+.btn.brass{
+  background: transparent;
+  border-color: color-mix(in srgb, var(--brass) 70%, transparent);
+  color: var(--brass);
+}
+
+/* --- Focus rings (keyboard friendly) --- */
+.btn:focus-visible,
+select:focus-visible,
+input:focus-visible,
+.outcomeItem:focus-visible,
+.cardbtn:focus-visible{
+  outline: 2px solid color-mix(in srgb, var(--accent) 85%, transparent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focusRing);
+}
+
+/* --- Chips: discipline chips use ink; warnings use warn --- */
+.chip{
+  background: var(--overlay2);
+  border-color: color-mix(in srgb, var(--line) 75%, transparent);
+  color: var(--muted);
+}
+.chip.disc{
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.chip.warn{
+  color: var(--warn);
+  border-color: color-mix(in srgb, var(--warn) 45%, transparent);
+}
+.chipWild{
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* --- Outcome selection + trait selection: ink-forward --- */
+.outcome.selected{
+  outline: 2px solid color-mix(in srgb, var(--accent) 85%, transparent);
+}
+.traitRow input:checked + div{
+  outline: 2px solid color-mix(in srgb, var(--accent) 85%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+/* --- Card playable + rarity styling (swap gold -> brass) --- */
+.cardbtn.playable{
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent),
+    0 0 18px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.cardbtn[data-rarity="Uncommon"]{
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent),
+    0 12px 32px rgba(0,0,0,.18);
+}
+
+.cardbtn[data-rarity="Rare"]{
+  border-color: color-mix(in srgb, var(--brass) 65%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--brass) 18%, transparent),
+    0 14px 38px rgba(0,0,0,.20);
+}
+.cardbtn[data-rarity="Rare"] .rarityPips{
+  color: color-mix(in srgb, var(--brass) 90%, transparent);
+}
+
+/* Wild cards: keep dashed, but tie to ink */
+.cardbtn[data-discipline="Wild"]{
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.cardbtn[data-discipline="Wild"] .rarityPips{
+  color: color-mix(in srgb, var(--accent) 90%, transparent);
+}
+
+/* --- Result labels: use tokens (remove hardcoded greens/reds) --- */
+.resultLabel.good{ color: var(--good); }
+.resultLabel.bad{ color: var(--bad); }
+
+/* --- Disabled/readability tweaks that were hardcoded for old palette --- */
+.outcomeItem.disabled .outcomeItemTitle{ color: color-mix(in srgb, var(--text) 86%, transparent); }
+.outcomeItem.disabled .outcomeItemMeta{ color: color-mix(in srgb, var(--muted) 98%, transparent); }
+
+/* --- Modal backdrop remains dark even in light mode (feels like “paper on desk”) --- */
+.backdrop{
+  background: rgba(0,0,0,0.60);
+}
+:root[data-theme="candlelit-light"] .backdrop{
+  background: rgba(0,0,0,0.45);
+}
