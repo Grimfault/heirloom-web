@@ -254,7 +254,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
 .backdrop {
   position: fixed; 
   z-index: 1000;
-inset: 0;
+  inset: 0;
   background: rgba(0,0,0,0.6);
   display:flex; align-items:center; justify-content:center;
   padding: 12px;
