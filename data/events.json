@@ -163,7 +163,7 @@
           ]
         },
         "success": {
-          "text": "You don’t try to win, you try to last. You trade ground for seconds, and when you finally peel away, your pack is lighter but intact.",
+          "text": "You don’t try to win; you try to last. You trade ground for seconds, and when you finally peel away, your pack is lighter but intact.",
           "resources": [
             {
               "resource": "Supplies",
@@ -610,7 +610,7 @@
           ]
         },
         "success": {
-          "text": "You speak terms, you speak payment, and the captain nods like a merchant closing a bargain. Their soldiers fall in behind you with practiced quiet, and people notice you travel with teeth.",
+          "text": "You speak terms; you speak payment, and the captain nods like a merchant closing a bargain. Their soldiers fall in behind you with practiced quiet, and people notice you travel with teeth.",
           "resources": [
             {
               "resource": "Coin",
@@ -1309,7 +1309,7 @@
           ]
         },
         "success": {
-          "text": "You feed the papers to flame until only ash remains. You’ve chosen caution over leverage.",
+          "text": "You feed the papers to flame until only ash remains. You’ve chosen caution over advantage.",
           "resources": [
             {
               "resource": "Renown",
@@ -1348,7 +1348,7 @@
     "outcomes": [
       {
         "title": "Bid for the Prize",
-        "desc": "Spend coin to buy leverage, and accept that the room will remember your face.",
+        "desc": "Spend coin to buy advantage, and accept that the room will remember your face.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -1780,7 +1780,7 @@
         }
       },
       {
-        "title": "Listen for Leverage",
+        "title": "Listen for Advantage",
         "desc": "Eat little, listen much, and collect what others forget they’ve said.",
         "stat": "Guile",
         "diff": 3,
@@ -1878,7 +1878,7 @@
           ]
         },
         "success": {
-          "text": "You sip, you pace yourself, you step away when the room grows loud. While others spend themselves on bravado, you keep your mind intact.",
+          "text": "You sip; you pace yourself; you step away when the room grows loud. While others spend themselves on bravado, you keep your mind intact.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -1983,7 +1983,7 @@
           ]
         },
         "success": {
-          "text": "You listen, you pause, you let the crowd get impatient, and then you answer as if the solution was always obvious. The herald blinks, impressed despite themselves.",
+          "text": "You listen; you pause; you let the crowd get impatient, and then you answer as if the solution was always obvious. The herald blinks, impressed despite themselves.",
           "resources": [
             {
               "resource": "Renown",
@@ -2137,7 +2137,7 @@
           ]
         },
         "success": {
-          "text": "You pay without argument. The clerk’s disappointment is visible for a heartbeat, they hoped for leverage, not compliance.",
+          "text": "You pay without argument. The clerk’s disappointment is visible for a heartbeat; they’d hoped for advantage, not compliance.",
           "resources": [
             {
               "resource": "Coin",
@@ -2561,7 +2561,7 @@
           ]
         },
         "fail": {
-          "text": "You choose what looks like solid ground, and it isn’t. You backtrack, you detour, you slog.",
+          "text": "You choose what looks like solid ground, and it isn’t. You backtrack; you detour; you slog.",
           "resources": [
             {
               "resource": "Supplies",
@@ -2822,7 +2822,7 @@
           ]
         },
         "success": {
-          "text": "A satchel left unattended is an invitation, and you accept it with quiet hands. The map inside is better than you hoped: marked routes, private shortcuts, and a note about a patrol schedule that feels very much like leverage.",
+          "text": "A satchel left unattended is an invitation, and you accept it with quiet hands. The map inside is better than you hoped: marked routes, private shortcuts, and a note about a patrol schedule that feels very much like advantage.",
           "resources": [
             {
               "resource": "Secrets",
@@ -3697,7 +3697,7 @@
           ]
         },
         "success": {
-          "text": "You choose a stone and cut your sign into it with deliberate strokes. It’s not vandalism in your mind, it’s a claim: I stood here, I endured the feeling, I left something of myself behind.",
+          "text": "You choose a stone and cut your sign into it with deliberate strokes. It’s not vandalism in your mind, it’s a claim: I stood here; I endured the feeling; I left something of myself behind.",
           "resources": [
             {
               "resource": "Renown",
@@ -4205,7 +4205,7 @@
           ]
         },
         "fail": {
-          "text": "You strike, you wrestle, you scramble, and the beast makes contact in the way beasts do: sudden, total, indifferent. Pain flares as it catches you, and you escape only by giving ground and blood.",
+          "text": "You strike; you wrestle; you scramble, and the beast makes contact in the way beasts do: sudden, total, indifferent. Pain flares as it catches you, and you escape only by giving ground and blood.",
           "conditions": [
             {
               "id": "Wounded",
@@ -4584,7 +4584,7 @@
         }
       },
       {
-        "title": "Use Them for Leverage",
+        "title": "Use Them for Advantage",
         "desc": "A quiet threat can move a loud world.",
         "stat": "Gravitas",
         "diff": 3,
@@ -4639,7 +4639,7 @@
         ],
         "tags": [],
         "success": {
-          "text": "Dates, routes, payments, this is not romance. It’s logistics.",
+          "text": "Dates, routes, payments, this is not romance. It’s routes and coin.",
           "resources": [
             {
               "resource": "Secrets",
@@ -4668,7 +4668,7 @@
       },
       {
         "title": "Burn Them",
-        "desc": "Refuse the addiction of leverage.",
+        "desc": "Refuse the hunger for advantage.",
         "stat": "Resolve",
         "diff": 2,
         "allowed": [
@@ -5424,7 +5424,7 @@
       },
       {
         "title": "Profit in the Shadows",
-        "desc": "Sell your support twice and call it ‘strategy.’",
+        "desc": "Sell your support twice and call it ‘cunning.’",
         "stat": "Guile",
         "diff": 3,
         "allowed": [
@@ -5571,7 +5571,7 @@
           ]
         },
         "fail": {
-          "text": "You chase leads through dust and bureaucracy until your eyes ache. Everything is ‘missing,’ ‘misfiled,’ or ‘pending.’ Whether by incompetence or design, the truth stays buried.",
+          "text": "You chase leads through dust and clerkwork until your eyes ache. Everything is ‘missing,’ ‘misfiled,’ or ‘pending.’ Whether by incompetence or design, the truth stays buried.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -5953,7 +5953,7 @@
           ]
         },
         "success": {
-          "text": "You follow the small tells: who repeats the rumor, who corrects it, who waits to see your reaction. The trail leads to a petty faction’s leverage play, harmless on the surface, sharp beneath.",
+          "text": "You follow the small tells: who repeats the rumor, who corrects it, who waits to see your reaction. The trail leads to a petty faction’s advantage play, harmless on the surface, sharp beneath.",
           "resources": [
             {
               "resource": "Secrets",
@@ -6554,7 +6554,7 @@
           ]
         },
         "fail": {
-          "text": "The conversation drags. They dodge, you probe, they probe back.",
+          "text": "The conversation drags. They dodge, you probe; they probe back.",
           "conditions": [
             {
               "id": "Exhausted",
@@ -7342,7 +7342,7 @@
       },
       {
         "title": "Hide It Briefly",
-        "desc": "Keep it for a moment when you need leverage.",
+        "desc": "Keep it for a moment when you need advantage.",
         "stat": "Resolve",
         "diff": 3,
         "allowed": [
@@ -8391,7 +8391,7 @@
           ]
         },
         "success": {
-          "text": "You catch a name and a destination. It could be leverage.",
+          "text": "You catch a name and a destination. It could be advantage.",
           "resources": [
             {
               "resource": "Secrets",
@@ -9176,7 +9176,7 @@
           ]
         },
         "fail": {
-          "text": "The clerk looks offended, then interested. Your bribe becomes leverage.",
+          "text": "The clerk looks offended, then interested. Your bribe becomes advantage.",
           "resources": [
             {
               "resource": "Secrets",
@@ -10735,7 +10735,7 @@
           ]
         },
         "fail": {
-          "text": "They call you greedy in front of others. Your leverage evaporates.",
+          "text": "They call you greedy in front of others. Your advantage evaporates.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -11776,7 +11776,7 @@
       },
       {
         "title": "Use It to Move People",
-        "desc": "Omen as rhetoric. Fear as leverage.",
+        "desc": "Omen as rhetoric. Fear as advantage.",
         "stat": "Gravitas",
         "diff": 3,
         "allowed": [
@@ -11881,7 +11881,7 @@
     "outcomes": [
       {
         "title": "Choose the Strongest Alliance",
-        "desc": "Pick the match that brings the most leverage, and accept the obligations that follow.",
+        "desc": "Pick the match that brings the most advantage, and accept the obligations that follow.",
         "stat": "Gravitas",
         "diff": 3,
         "allowed": [
@@ -13330,7 +13330,7 @@
           ]
         },
         "success": {
-          "text": "Your outrage convinces the crowd. The blackmailer loses their leverage in the noise.",
+          "text": "Your outrage convinces the crowd. The blackmailer loses their advantage in the noise.",
           "resources": [
             {
               "resource": "Renown",
@@ -14748,7 +14748,7 @@
           ]
         },
         "success": {
-          "text": "You copy until your wrist aches, and in the ache, you realize you’re building a weapon no blade can match.",
+          "text": "You copy until your wrist aches, and in the ache; you realize you’re building a weapon no blade can match.",
           "resources": [
             {
               "resource": "Influence",
@@ -14825,7 +14825,7 @@
           ]
         },
         "success": {
-          "text": "You walk away with false papers and true leverage.",
+          "text": "You walk away with false papers and true advantage.",
           "resources": [
             {
               "resource": "Secrets",
@@ -15452,7 +15452,7 @@
           ]
         },
         "success": {
-          "text": "You win before the first strike lands. The satisfaction is sharp… and so is the leverage you’ve earned.",
+          "text": "You win before the first strike lands. The satisfaction is sharp… and so is the advantage you’ve earned.",
           "resources": [
             {
               "resource": "Secrets",
@@ -15687,7 +15687,7 @@
           "risks": []
         },
         "success": {
-          "text": "You make three copies: one for truth, one for leverage, one to vanish. It is not paranoia if it works.",
+          "text": "You make three copies: one for truth, one for advantage, one to vanish. It is not paranoia if it works.",
           "resources": [
             {
               "resource": "Secrets",
@@ -16058,7 +16058,7 @@
           ]
         },
         "success": {
-          "text": "You smile, you nod, and you walk away with leverage. The broker’s fear is better than their coin.",
+          "text": "You smile; you nod, and you walk away with advantage. The broker’s fear is better than their coin.",
           "resources": [
             {
               "resource": "Secrets",
@@ -17174,7 +17174,7 @@
     "prompt": "By now, your choices have consequences that arrive before you do. Friends have become obligations, rivals have become patterns, and a single decision can turn a nuisance into an enemy. In a banking city, a contract court clerk ‘misplaces’ a file on your desk. Inside are signatures, debts, and the kind of small scandal that ruins people who can’t afford it. You can close the file… or you can use it. Your earlier choices have brought you to this crossroads. What you do now hardens into habit, and into enemies.",
     "outcomes": [
       {
-        "title": "Leverage the Debts",
+        "title": "Advantage the Debts",
         "desc": "You pick a target and squeeze, quietly, patiently.",
         "stat": "Guile",
         "diff": 4,
@@ -18278,7 +18278,7 @@
       },
       {
         "title": "Spend the Coin Instead",
-        "desc": "Buy supplies, hire hands, and let logistics be your sword.",
+        "desc": "Buy supplies, hire hands, and let provisions and planning be your sword.",
         "stat": "Wit",
         "diff": 3,
         "allowed": [
@@ -21083,7 +21083,7 @@
         }
       },
       {
-        "title": "Listen for Leverage",
+        "title": "Listen for Advantage",
         "desc": "While others talk, you learn what they’re afraid of.",
         "stat": "Guile",
         "diff": 3,
@@ -24565,7 +24565,7 @@
         "tags": [],
         "requirements": [],
         "success": {
-          "text": "You bow, you speak, you swallow pride. The crowd finds it hard to hate someone who bleeds so openly.",
+          "text": "You bow; you speak; you swallow pride. The crowd finds it hard to hate someone who bleeds so openly.",
           "resources": [
             {
               "resource": "Renown",
@@ -26996,7 +26996,7 @@
           ]
         },
         "fail": {
-          "text": "You offer leverage and get laughed out of the lane. Illness doesn't respect negotiation.",
+          "text": "You offer advantage and get laughed out of the lane. Illness doesn't respect negotiation.",
           "conditions": [
             {
               "id": "Disgraced",
@@ -27384,7 +27384,7 @@
           ]
         },
         "success": {
-          "text": "You smile, you nod, you speak the right names. The watchman hesitates, and lets you through.",
+          "text": "You smile; you nod; you speak the right names. The watchman hesitates, and lets you through.",
           "resources": [
             {
               "resource": "Influence",
@@ -28766,7 +28766,7 @@
           }
         ],
         "success": {
-          "text": "You write, you carry, you observe, small tasks with sharp edges. The runner returns later with a receipt and a warning: \"Don't do this twice.\"",
+          "text": "You write; you carry; you observe, small tasks with sharp edges. The runner returns later with a receipt and a warning: \"Don't do this twice.\"",
           "conditions": [
             {
               "id": "In Debt",
@@ -29253,7 +29253,7 @@
           }
         ],
         "success": {
-          "text": "You kneel, you speak, you accept the sting. The crowd exhales.",
+          "text": "You kneel; you speak; you accept the sting. The crowd exhales.",
           "resources": [
             {
               "resource": "Coin",
@@ -30904,7 +30904,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in High Valewyr, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in High Valewyr, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_wc_step3",
@@ -31117,7 +31117,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Stag Court, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Stag Court, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_wc_step3",
@@ -31337,7 +31337,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Stag Court, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Stag Court, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_wc_step3",
@@ -31550,7 +31550,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Old Quays, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Old Quays, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_wc_step3",
@@ -31770,7 +31770,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Old Quays, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Old Quays, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_wc_step3",
@@ -31990,7 +31990,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Old Quays, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Old Quays, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_wc_step3",
@@ -32203,7 +32203,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Widow's Market, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Widow's Market, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_wc_step3",
@@ -32416,7 +32416,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in High Valewyr, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in High Valewyr, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_wc_step3",
@@ -32575,7 +32575,7 @@
     "outcomes": [
       {
         "title": "Stand in the light",
-        "desc": "Let the Stag Court attach your name to what happened in Widow's Market.",
+        "desc": "Let the Stag Court write your name beneath the account of what happened in Widow's Market.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -32805,7 +32805,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the Stag Court attach your name to what happened in Stag Court.",
+        "desc": "Let the Stag Court speak your name for what happened in Stag Court.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -33065,7 +33065,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the Stag Court attach your name to what happened in Stag Court.",
+        "desc": "Let the Stag Court tie your name to what happened in Stag Court.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -33295,7 +33295,7 @@
     "outcomes": [
       {
         "title": "Take the scar for a crown",
-        "desc": "Let the Stag Court attach your name to what happened in Stag Court.",
+        "desc": "Let the Stag Court put your name to what happened in Stag Court.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -33555,7 +33555,7 @@
     "outcomes": [
       {
         "title": "Claim the outcome",
-        "desc": "Let the Stag Court attach your name to what happened in High Valewyr.",
+        "desc": "Let the Stag Court tie your name to what happened in High Valewyr.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -33785,7 +33785,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the Stag Court attach your name to what happened in High Valewyr.",
+        "desc": "Let the Stag Court put your name to what happened in High Valewyr.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -34045,7 +34045,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the Stag Court attach your name to what happened in Old Quays.",
+        "desc": "Let the Stag Court write your name beneath the account of what happened in Old Quays.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -34275,7 +34275,7 @@
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the Stag Court attach your name to what happened in Black Mantle Offices.",
+        "desc": "Let the Stag Court speak your name for what happened in Black Mantle Offices.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -34536,7 +34536,7 @@
     "outcomes": [
       {
         "title": "Claim the outcome",
-        "desc": "Let the Stag Court attach your name to what happened in High Valewyr.",
+        "desc": "Let the Stag Court put your name to what happened in High Valewyr.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -34766,7 +34766,7 @@
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the Stag Court attach your name to what happened in Widow's Market.",
+        "desc": "Let the Stag Court put your name to what happened in Widow's Market.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -35026,7 +35026,7 @@
     "outcomes": [
       {
         "title": "Stand in the light",
-        "desc": "Let the Stag Court attach your name to what happened in Old Quays.",
+        "desc": "Let the Stag Court write your name beneath the account of what happened in Old Quays.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -35256,7 +35256,7 @@
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the Stag Court attach your name to what happened in Stag Court.",
+        "desc": "Let the Stag Court write your name beneath the account of what happened in Stag Court.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -35516,7 +35516,7 @@
     "outcomes": [
       {
         "title": "Take the witness",
-        "desc": "Let the Stag Court attach your name to what happened in High Valewyr.",
+        "desc": "Let the Stag Court speak your name for what happened in High Valewyr.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -35746,7 +35746,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the Stag Court attach your name to what happened in Black Mantle Offices.",
+        "desc": "Let the Stag Court tie your name to what happened in Black Mantle Offices.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -36007,7 +36007,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the Stag Court attach your name to what happened in Stag Court.",
+        "desc": "Let the Stag Court tie your name to what happened in Stag Court.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -36237,7 +36237,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the Stag Court attach your name to what happened in Stag Court.",
+        "desc": "Let the Stag Court speak your name for what happened in Stag Court.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -37804,7 +37804,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Marrowgate, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Marrowgate, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_mg_step3",
@@ -37975,7 +37975,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "Your guarantor’s smile is friendly, but their eyes are measuring. In the League, kindness is an invoice. You push for leverage, and the countinghouses listen.",
+    "prompt": "Your guarantor’s smile is friendly, but their eyes are measuring. In the League, kindness is an invoice. You push for advantage, and the countinghouses listen.",
     "outcomes": [
       {
         "title": "Put it in ink",
@@ -38034,7 +38034,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Gilderhaven, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Gilderhaven, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_mg_step3",
@@ -38257,7 +38257,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Contract Court, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Contract Court, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_mg_step3",
@@ -38428,7 +38428,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "The court clerk’s quill pauses over your name. You feel the weight of every clause you’ve ever ignored. You push for leverage, and the countinghouses listen.",
+    "prompt": "The court clerk’s quill pauses over your name. You feel the weight of every clause you’ve ever ignored. You push for advantage, and the countinghouses listen.",
     "outcomes": [
       {
         "title": "Seal it",
@@ -38487,7 +38487,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Marrowgate, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Marrowgate, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_mg_step3",
@@ -38717,7 +38717,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Marrowgate, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Marrowgate, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_mg_step3",
@@ -38881,7 +38881,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "A forged seal holds—until someone tests it. In the Marches, doubt is a solvent. You push for leverage, and the countinghouses listen.",
+    "prompt": "A forged seal holds—until someone tests it. In the Marches, doubt is a solvent. You push for advantage, and the countinghouses listen.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -38940,7 +38940,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Gilderhaven, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Gilderhaven, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_mg_step3",
@@ -39163,7 +39163,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Marrowgate, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Marrowgate, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_mg_step3",
@@ -39327,7 +39327,7 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "You’ve tried to step aside. The League steps after you, softly, with receipts. You push for leverage, and the countinghouses listen.",
+    "prompt": "You’ve tried to step aside. The League steps after you, softly, with receipts. You push for advantage, and the countinghouses listen.",
     "outcomes": [
       {
         "title": "Bind it",
@@ -39386,7 +39386,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Countinghouse, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Countinghouse, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_mg_step3",
@@ -39555,7 +39555,7 @@
     "outcomes": [
       {
         "title": "Stand in the light",
-        "desc": "Let the League attach your name to what happened in Gilderhaven.",
+        "desc": "Let the League write your name beneath the account of what happened in Gilderhaven.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -39781,7 +39781,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the League attach your name to what happened in Marrowgate.",
+        "desc": "Let the League put your name to what happened in Marrowgate.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -40003,11 +40003,11 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "A favor has terms. The last page is always the most expensive. And after you pushed for leverage, this is where you sign your name in blood and ink, and live with what the League remembers.",
+    "prompt": "A favor has terms. The last page is always the most expensive. And after you pushed for advantage, this is where you sign your name in blood and ink, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the League attach your name to what happened in Gilderhaven.",
+        "desc": "Let the League speak your name for what happened in Gilderhaven.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -40229,11 +40229,11 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "A favor has terms. The last page is always the most expensive. And after you pushed for leverage, this is where you burn the paper trail, and live with what the League remembers.",
+    "prompt": "A favor has terms. The last page is always the most expensive. And after you pushed for advantage, this is where you burn the paper trail, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the League attach your name to what happened in Countinghouse.",
+        "desc": "Let the League write your name beneath the account of what happened in Countinghouse.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -40459,7 +40459,7 @@
     "outcomes": [
       {
         "title": "Stand in the light",
-        "desc": "Let the League attach your name to what happened in Contract Court.",
+        "desc": "Let the League put your name to what happened in Contract Court.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -40712,7 +40712,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the League attach your name to what happened in Marrowgate.",
+        "desc": "Let the League write your name beneath the account of what happened in Marrowgate.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -40934,11 +40934,11 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "The record can be rewritten, but not erased. And after you pushed for leverage, this is where you sign your name in blood and ink, and live with what the League remembers.",
+    "prompt": "The record can be rewritten, but not erased. And after you pushed for advantage, this is where you sign your name in blood and ink, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the League attach your name to what happened in Contract Court.",
+        "desc": "Let the League write your name beneath the account of what happened in Contract Court.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -41187,11 +41187,11 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "The record can be rewritten, but not erased. And after you pushed for leverage, this is where you burn the paper trail, and live with what the League remembers.",
+    "prompt": "The record can be rewritten, but not erased. And after you pushed for advantage, this is where you burn the paper trail, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the League attach your name to what happened in Kestrelbank.",
+        "desc": "Let the League tie your name to what happened in Kestrelbank.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -41417,7 +41417,7 @@
     "outcomes": [
       {
         "title": "Take the witness",
-        "desc": "Let the League attach your name to what happened in Contract Court.",
+        "desc": "Let the League speak your name for what happened in Contract Court.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -41670,7 +41670,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the League attach your name to what happened in Contract Court.",
+        "desc": "Let the League write your name beneath the account of what happened in Contract Court.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -41919,11 +41919,11 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "A lie can carry you far—until it reaches someone who keeps better ledgers. And after you pushed for leverage, this is where you sign your name in blood and ink, and live with what the League remembers.",
+    "prompt": "A lie can carry you far—until it reaches someone who keeps better ledgers. And after you pushed for advantage, this is where you sign your name in blood and ink, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Take the witness",
-        "desc": "Let the League attach your name to what happened in Gilderhaven.",
+        "desc": "Let the League write your name beneath the account of what happened in Gilderhaven.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -42145,11 +42145,11 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "A lie can carry you far—until it reaches someone who keeps better ledgers. And after you pushed for leverage, this is where you burn the paper trail, and live with what the League remembers.",
+    "prompt": "A lie can carry you far—until it reaches someone who keeps better ledgers. And after you pushed for advantage, this is where you burn the paper trail, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the League attach your name to what happened in Countinghouse.",
+        "desc": "Let the League tie your name to what happened in Countinghouse.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -42375,7 +42375,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the League attach your name to what happened in Kestrelbank.",
+        "desc": "Let the League tie your name to what happened in Kestrelbank.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -42601,7 +42601,7 @@
     "outcomes": [
       {
         "title": "Take the scar for a crown",
-        "desc": "Let the League attach your name to what happened in Contract Court.",
+        "desc": "Let the League write your name beneath the account of what happened in Contract Court.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -42850,11 +42850,11 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "You can leave a city, but you can’t leave a contract that’s been filed. And after you pushed for leverage, this is where you sign your name in blood and ink, and live with what the League remembers.",
+    "prompt": "You can leave a city, but you can’t leave a contract that’s been filed. And after you pushed for advantage, this is where you sign your name in blood and ink, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Claim the outcome",
-        "desc": "Let the League attach your name to what happened in Gilderhaven.",
+        "desc": "Let the League tie your name to what happened in Gilderhaven.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -43076,11 +43076,11 @@
         "id": "sl_mg_done"
       }
     ],
-    "prompt": "You can leave a city, but you can’t leave a contract that’s been filed. And after you pushed for leverage, this is where you burn the paper trail, and live with what the League remembers.",
+    "prompt": "You can leave a city, but you can’t leave a contract that’s been filed. And after you pushed for advantage, this is where you burn the paper trail, and live with what the League remembers.",
     "outcomes": [
       {
         "title": "Take the scar for a crown",
-        "desc": "Let the League attach your name to what happened in Contract Court.",
+        "desc": "Let the League write your name beneath the account of what happened in Contract Court.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -44596,7 +44596,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Ring Hall, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Ring Hall, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_bo_step3",
@@ -44816,7 +44816,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Oathstone Plaza, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Oathstone Plaza, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_bo_step3",
@@ -45029,7 +45029,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Stonewold, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Stonewold, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_bo_step3",
@@ -45242,7 +45242,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Skarnhold, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Skarnhold, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_bo_step3",
@@ -45462,7 +45462,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Ring Hall, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Ring Hall, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_bo_step3",
@@ -45675,7 +45675,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Frostbarrow Pass, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Frostbarrow Pass, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_bo_step3",
@@ -45888,7 +45888,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Stonewold, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Stonewold, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_bo_step3",
@@ -46101,7 +46101,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Stonewold, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Stonewold, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_bo_step3",
@@ -46260,7 +46260,7 @@
     "outcomes": [
       {
         "title": "Claim the outcome",
-        "desc": "Let the clans attach your name to what happened in Ring Hall.",
+        "desc": "Let the clans speak your name for what happened in Ring Hall.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -46490,7 +46490,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the clans attach your name to what happened in Oathstone Plaza.",
+        "desc": "Let the clans speak your name for what happened in Oathstone Plaza.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -46720,7 +46720,7 @@
     "outcomes": [
       {
         "title": "Stand in the light",
-        "desc": "Let the clans attach your name to what happened in Frostbarrow Pass.",
+        "desc": "Let the clans speak your name for what happened in Frostbarrow Pass.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -46950,7 +46950,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the clans attach your name to what happened in Stonewold.",
+        "desc": "Let the clans tie your name to what happened in Stonewold.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -47180,7 +47180,7 @@
     "outcomes": [
       {
         "title": "Stand in the light",
-        "desc": "Let the clans attach your name to what happened in Frostbarrow Pass.",
+        "desc": "Let the clans put your name to what happened in Frostbarrow Pass.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -47410,7 +47410,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the clans attach your name to what happened in Frostbarrow Pass.",
+        "desc": "Let the clans put your name to what happened in Frostbarrow Pass.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -47640,7 +47640,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the clans attach your name to what happened in Frostbarrow Pass.",
+        "desc": "Let the clans write your name beneath the account of what happened in Frostbarrow Pass.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -47870,7 +47870,7 @@
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the clans attach your name to what happened in Ring Hall.",
+        "desc": "Let the clans put your name to what happened in Ring Hall.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -48100,7 +48100,7 @@
     "outcomes": [
       {
         "title": "Stand in the light",
-        "desc": "Let the clans attach your name to what happened in Stonewold.",
+        "desc": "Let the clans speak your name for what happened in Stonewold.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -48330,7 +48330,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the clans attach your name to what happened in Stonewold.",
+        "desc": "Let the clans put your name to what happened in Stonewold.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -48560,7 +48560,7 @@
     "outcomes": [
       {
         "title": "Take the witness",
-        "desc": "Let the clans attach your name to what happened in Stonewold.",
+        "desc": "Let the clans tie your name to what happened in Stonewold.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -48790,7 +48790,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the clans attach your name to what happened in Ring Hall.",
+        "desc": "Let the clans put your name to what happened in Ring Hall.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -49020,7 +49020,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the clans attach your name to what happened in Oathstone Plaza.",
+        "desc": "Let the clans write your name beneath the account of what happened in Oathstone Plaza.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -49250,7 +49250,7 @@
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the clans attach your name to what happened in Stonewold.",
+        "desc": "Let the clans tie your name to what happened in Stonewold.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -49480,7 +49480,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the clans attach your name to what happened in Skarnhold.",
+        "desc": "Let the clans speak your name for what happened in Skarnhold.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -49710,7 +49710,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the clans attach your name to what happened in Stonewold.",
+        "desc": "Let the clans put your name to what happened in Stonewold.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -51194,7 +51194,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Quarantine Wall, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Quarantine Wall, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_pa_step3",
@@ -51416,7 +51416,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Candlekeeper Hall, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Candlekeeper Hall, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_pa_step3",
@@ -51631,7 +51631,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Verdemont Abbey, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Verdemont Abbey, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_pa_step3",
@@ -51846,7 +51846,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Verdemont Abbey, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Verdemont Abbey, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_pa_step3",
@@ -52061,7 +52061,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Larkhallow, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Larkhallow, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_pa_step3",
@@ -52276,7 +52276,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Verdemont Abbey, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Verdemont Abbey, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_pa_step3",
@@ -52498,7 +52498,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Quarantine Wall, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Quarantine Wall, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_pa_step3",
@@ -52720,7 +52720,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Larkhallow, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Larkhallow, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_pa_step3",
@@ -52885,7 +52885,7 @@
     "outcomes": [
       {
         "title": "Claim the outcome",
-        "desc": "Let the Synod attach your name to what happened in Candlekeeper Hall.",
+        "desc": "Let the Synod write your name beneath the account of what happened in Candlekeeper Hall.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -53111,7 +53111,7 @@
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the Synod attach your name to what happened in Wrenfield.",
+        "desc": "Let the Synod put your name to what happened in Wrenfield.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -53337,7 +53337,7 @@
     "outcomes": [
       {
         "title": "Stand in the light",
-        "desc": "Let the Synod attach your name to what happened in Larkhallow.",
+        "desc": "Let the Synod write your name beneath the account of what happened in Larkhallow.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -53563,7 +53563,7 @@
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the Synod attach your name to what happened in Verdemont Abbey.",
+        "desc": "Let the Synod put your name to what happened in Verdemont Abbey.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -53789,7 +53789,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the Synod attach your name to what happened in Candlekeeper Hall.",
+        "desc": "Let the Synod tie your name to what happened in Candlekeeper Hall.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -54015,7 +54015,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the Synod attach your name to what happened in Candlekeeper Hall.",
+        "desc": "Let the Synod speak your name for what happened in Candlekeeper Hall.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -54241,7 +54241,7 @@
     "outcomes": [
       {
         "title": "Take the witness",
-        "desc": "Let the Synod attach your name to what happened in Larkhallow.",
+        "desc": "Let the Synod write your name beneath the account of what happened in Larkhallow.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -54467,7 +54467,7 @@
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the Synod attach your name to what happened in Candlekeeper Hall.",
+        "desc": "Let the Synod tie your name to what happened in Candlekeeper Hall.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -54693,7 +54693,7 @@
     "outcomes": [
       {
         "title": "Stand in the light",
-        "desc": "Let the Synod attach your name to what happened in Wrenfield.",
+        "desc": "Let the Synod put your name to what happened in Wrenfield.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -54919,7 +54919,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the Synod attach your name to what happened in Verdemont Abbey.",
+        "desc": "Let the Synod put your name to what happened in Verdemont Abbey.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -55145,7 +55145,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the Synod attach your name to what happened in Quarantine Wall.",
+        "desc": "Let the Synod write your name beneath the account of what happened in Quarantine Wall.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -55384,7 +55384,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the Synod attach your name to what happened in Wrenfield.",
+        "desc": "Let the Synod write your name beneath the account of what happened in Wrenfield.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -55610,7 +55610,7 @@
     "outcomes": [
       {
         "title": "Take the witness",
-        "desc": "Let the Synod attach your name to what happened in Candlekeeper Hall.",
+        "desc": "Let the Synod put your name to what happened in Candlekeeper Hall.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -55836,7 +55836,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the Synod attach your name to what happened in Quarantine Wall.",
+        "desc": "Let the Synod tie your name to what happened in Quarantine Wall.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -56075,7 +56075,7 @@
     "outcomes": [
       {
         "title": "Claim the outcome",
-        "desc": "Let the Synod attach your name to what happened in Wrenfield.",
+        "desc": "Let the Synod tie your name to what happened in Wrenfield.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -56301,7 +56301,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the Synod attach your name to what happened in Candlekeeper Hall.",
+        "desc": "Let the Synod write your name beneath the account of what happened in Candlekeeper Hall.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -57781,7 +57781,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Storm Port, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Storm Port, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_da_step3",
@@ -57995,7 +57995,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Drowned Monastery, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Drowned Monastery, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_da_step3",
@@ -58209,7 +58209,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Greyvault, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Greyvault, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_da_step3",
@@ -58423,7 +58423,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Greyvault, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Greyvault, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_da_step3",
@@ -58637,7 +58637,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Greyvault, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Greyvault, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_da_step3",
@@ -58858,7 +58858,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Thornmere, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Thornmere, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_da_step3",
@@ -59072,7 +59072,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Thornmere, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Thornmere, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_da_step3",
@@ -59286,7 +59286,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Drowned Monastery, but the ink smears. The leverage slips—just enough.",
+          "text": "You try to make it formal in Drowned Monastery, but the ink smears. The advantage slips—just enough.",
           "flags": [
             {
               "id": "sl_da_step3",
@@ -59446,7 +59446,7 @@
     "outcomes": [
       {
         "title": "Take the witness",
-        "desc": "Let the archives attach your name to what happened in Drowned Monastery.",
+        "desc": "Let the archives speak your name for what happened in Drowned Monastery.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -59673,7 +59673,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the archives attach your name to what happened in Greyvault.",
+        "desc": "Let the archives put your name to what happened in Greyvault.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -59918,7 +59918,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the archives attach your name to what happened in Thornmere.",
+        "desc": "Let the archives write your name beneath the account of what happened in Thornmere.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -60145,7 +60145,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the archives attach your name to what happened in Drowned Monastery.",
+        "desc": "Let the archives put your name to what happened in Drowned Monastery.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -60390,7 +60390,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the archives attach your name to what happened in Sable Coast.",
+        "desc": "Let the archives put your name to what happened in Sable Coast.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -60617,7 +60617,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the archives attach your name to what happened in Thornmere.",
+        "desc": "Let the archives speak your name for what happened in Thornmere.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -60862,7 +60862,7 @@
     "outcomes": [
       {
         "title": "Stand in the light",
-        "desc": "Let the archives attach your name to what happened in Storm Port.",
+        "desc": "Let the archives speak your name for what happened in Storm Port.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -61089,7 +61089,7 @@
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the archives attach your name to what happened in Sable Coast.",
+        "desc": "Let the archives speak your name for what happened in Sable Coast.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -61334,7 +61334,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the archives attach your name to what happened in Drowned Monastery.",
+        "desc": "Let the archives write your name beneath the account of what happened in Drowned Monastery.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -61561,7 +61561,7 @@
     "outcomes": [
       {
         "title": "Take the scar for a crown",
-        "desc": "Let the archives attach your name to what happened in Storm Port.",
+        "desc": "Let the archives tie your name to what happened in Storm Port.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -61806,7 +61806,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the archives attach your name to what happened in Storm Port.",
+        "desc": "Let the archives put your name to what happened in Storm Port.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -62033,7 +62033,7 @@
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the archives attach your name to what happened in Thornmere.",
+        "desc": "Let the archives put your name to what happened in Thornmere.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -62278,7 +62278,7 @@
     "outcomes": [
       {
         "title": "Take the witness",
-        "desc": "Let the archives attach your name to what happened in Drowned Monastery.",
+        "desc": "Let the archives write your name beneath the account of what happened in Drowned Monastery.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -62505,7 +62505,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the archives attach your name to what happened in Storm Port.",
+        "desc": "Let the archives put your name to what happened in Storm Port.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -62750,7 +62750,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the archives attach your name to what happened in Greyvault.",
+        "desc": "Let the archives write your name beneath the account of what happened in Greyvault.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -62977,7 +62977,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the archives attach your name to what happened in Thornmere.",
+        "desc": "Let the archives tie your name to what happened in Thornmere.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -64626,7 +64626,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in High Valewyr, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
+          "text": "You try to make it formal in High Valewyr, but the ink smears. The advantage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -64868,7 +64868,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Thornmere, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
+          "text": "You try to make it formal in Thornmere, but the ink smears. The advantage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -65117,7 +65117,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Widow's Market, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
+          "text": "You try to make it formal in Widow's Market, but the ink smears. The advantage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -65366,7 +65366,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Widow's Market, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
+          "text": "You try to make it formal in Widow's Market, but the ink smears. The advantage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -65615,7 +65615,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Thornmere, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
+          "text": "You try to make it formal in Thornmere, but the ink smears. The advantage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -65857,7 +65857,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Gloambridge, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
+          "text": "You try to make it formal in Gloambridge, but the ink smears. The advantage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -66106,7 +66106,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Gloambridge, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
+          "text": "You try to make it formal in Gloambridge, but the ink smears. The advantage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -66348,7 +66348,7 @@
           ]
         },
         "fail": {
-          "text": "You try to make it formal in Gloambridge, but the ink smears. The leverage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
+          "text": "You try to make it formal in Gloambridge, but the ink smears. The advantage slips—just enough. Vows are spoken anyway—real enough, but with a crack that people will pry at.",
           "flags": [
             {
               "id": "sl_ct_step3",
@@ -66542,7 +66542,7 @@
     "outcomes": [
       {
         "title": "Take the witness",
-        "desc": "Let the households attach your name to what happened in Thornmere.",
+        "desc": "Let the households tie your name to what happened in Thornmere.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -66784,7 +66784,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the households attach your name to what happened in High Valewyr.",
+        "desc": "Let the households put your name to what happened in High Valewyr.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -67026,7 +67026,7 @@
     "outcomes": [
       {
         "title": "Claim the outcome",
-        "desc": "Let the households attach your name to what happened in Thornmere.",
+        "desc": "Let the households write your name beneath the account of what happened in Thornmere.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -67268,7 +67268,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the households attach your name to what happened in Thornmere.",
+        "desc": "Let the households put your name to what happened in Thornmere.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -67510,7 +67510,7 @@
     "outcomes": [
       {
         "title": "Stand in the light",
-        "desc": "Let the households attach your name to what happened in Thornmere.",
+        "desc": "Let the households tie your name to what happened in Thornmere.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -67752,7 +67752,7 @@
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the households attach your name to what happened in Thornmere.",
+        "desc": "Let the households write your name beneath the account of what happened in Thornmere.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -67994,7 +67994,7 @@
     "outcomes": [
       {
         "title": "Claim the outcome",
-        "desc": "Let the households attach your name to what happened in Gloambridge.",
+        "desc": "Let the households write your name beneath the account of what happened in Gloambridge.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -68236,7 +68236,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the households attach your name to what happened in Thornmere.",
+        "desc": "Let the households tie your name to what happened in Thornmere.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -68478,7 +68478,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the households attach your name to what happened in Gloambridge.",
+        "desc": "Let the households tie your name to what happened in Gloambridge.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -68720,7 +68720,7 @@
     "outcomes": [
       {
         "title": "Leave a mark",
-        "desc": "Let the households attach your name to what happened in Thornmere.",
+        "desc": "Let the households put your name to what happened in Thornmere.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -68962,7 +68962,7 @@
     "outcomes": [
       {
         "title": "Claim the outcome",
-        "desc": "Let the households attach your name to what happened in Widow's Market.",
+        "desc": "Let the households put your name to what happened in Widow's Market.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -69204,7 +69204,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the households attach your name to what happened in Gloambridge.",
+        "desc": "Let the households write your name beneath the account of what happened in Gloambridge.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -69446,7 +69446,7 @@
     "outcomes": [
       {
         "title": "Let your name be read",
-        "desc": "Let the households attach your name to what happened in High Valewyr.",
+        "desc": "Let the households tie your name to what happened in High Valewyr.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -69688,7 +69688,7 @@
     "outcomes": [
       {
         "title": "Make them remember",
-        "desc": "Let the households attach your name to what happened in Widow's Market.",
+        "desc": "Let the households speak your name for what happened in Widow's Market.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -69930,7 +69930,7 @@
     "outcomes": [
       {
         "title": "Take the witness",
-        "desc": "Let the households attach your name to what happened in High Valewyr.",
+        "desc": "Let the households speak your name for what happened in High Valewyr.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
@@ -70172,7 +70172,7 @@
     "outcomes": [
       {
         "title": "Wear the fallout",
-        "desc": "Let the households attach your name to what happened in High Valewyr.",
+        "desc": "Let the households tie your name to what happened in High Valewyr.",
         "stat": "Gravitas",
         "diff": 2,
         "allowed": [
