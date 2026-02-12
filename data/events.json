@@ -28794,6 +28794,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -28888,6 +28894,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       },
@@ -28934,6 +28946,12 @@
             {
               "resource": "Secrets",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
             }
           ]
         },
@@ -29007,6 +29025,12 @@
               "resource": "Renown",
               "amount": 0
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -29045,7 +29069,10 @@
       "step": 1,
       "role": "hook",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_02_care",
@@ -29123,6 +29150,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
             }
           ]
         },
@@ -29227,6 +29260,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -29238,7 +29277,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_02_bold",
@@ -29316,6 +29358,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
             }
           ]
         },
@@ -29420,6 +29468,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -29431,7 +29485,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_02_shadow",
@@ -29509,6 +29566,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
             }
           ]
         },
@@ -29613,6 +29676,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -29624,7 +29693,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_02_refusal",
@@ -29702,6 +29774,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
             }
           ]
         },
@@ -29806,6 +29884,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -29817,7 +29901,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_03_care_steady",
@@ -29901,6 +29988,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -29925,7 +30018,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Exalted"
+          }
+        ]
       },
       {
         "title": "Scorch it",
@@ -29974,6 +30074,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -30004,6 +30110,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -30015,7 +30127,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_03_care_edge",
@@ -30099,6 +30214,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -30123,7 +30244,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Exalted"
+          }
+        ]
       },
       {
         "title": "Scorch it",
@@ -30172,6 +30300,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -30202,6 +30336,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -30213,7 +30353,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_03_bold_steady",
@@ -30297,6 +30440,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -30321,7 +30470,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Exalted"
+          }
+        ]
       },
       {
         "title": "Turn the knife",
@@ -30370,6 +30526,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -30400,6 +30562,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -30411,7 +30579,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_03_bold_edge",
@@ -30495,6 +30666,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -30519,7 +30696,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Exalted"
+          }
+        ]
       },
       {
         "title": "Scorch it",
@@ -30568,6 +30752,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -30598,6 +30788,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -30609,7 +30805,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_03_shadow_steady",
@@ -30693,6 +30892,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -30717,7 +30922,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Exalted"
+          }
+        ]
       },
       {
         "title": "Make an example",
@@ -30766,6 +30978,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -30796,6 +31014,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -30807,7 +31031,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_03_shadow_edge",
@@ -30891,6 +31118,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -30915,7 +31148,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Exalted"
+          }
+        ]
       },
       {
         "title": "Make an example",
@@ -30964,6 +31204,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -30994,6 +31240,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -31005,7 +31257,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_03_refusal_steady",
@@ -31089,6 +31344,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -31113,7 +31374,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Exalted"
+          }
+        ]
       },
       {
         "title": "Make an example",
@@ -31162,6 +31430,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -31192,6 +31466,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -31203,7 +31483,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_03_refusal_edge",
@@ -31287,6 +31570,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -31311,7 +31600,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Exalted"
+          }
+        ]
       },
       {
         "title": "Turn the knife",
@@ -31360,6 +31656,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -31390,6 +31692,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -31401,7 +31709,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_care_steady_commit",
@@ -31616,7 +31927,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_care_steady_burn",
@@ -31849,7 +32163,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_care_edge_commit",
@@ -32064,7 +32381,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_care_edge_burn",
@@ -32297,7 +32617,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_bold_steady_commit",
@@ -32512,7 +32835,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_bold_steady_burn",
@@ -32745,7 +33071,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_bold_edge_commit",
@@ -32960,7 +33289,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_bold_edge_burn",
@@ -33193,7 +33525,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_shadow_steady_commit",
@@ -33408,7 +33743,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_shadow_steady_burn",
@@ -33641,7 +33979,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_shadow_edge_commit",
@@ -33856,7 +34197,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_shadow_edge_burn",
@@ -34089,7 +34433,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_refusal_steady_commit",
@@ -34304,7 +34651,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_refusal_steady_burn",
@@ -34537,7 +34887,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_refusal_edge_commit",
@@ -34752,7 +35105,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_wc_04_refusal_edge_burn",
@@ -34985,7 +35341,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_mg_01_hook",
@@ -35054,6 +35413,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -35124,6 +35489,12 @@
             {
               "resource": "Secrets",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -35224,6 +35595,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       },
@@ -35269,6 +35646,12 @@
               "resource": "Supplies",
               "amount": 0
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -35307,7 +35690,10 @@
       "step": 1,
       "role": "hook",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_02_guarantor",
@@ -35385,6 +35771,12 @@
             {
               "resource": "Coin",
               "amount": 2
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -35489,6 +35881,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       }
@@ -35500,7 +35898,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_02_fineink",
@@ -35578,6 +35979,12 @@
             {
               "resource": "Coin",
               "amount": 2
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -35682,6 +36089,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       }
@@ -35693,7 +36106,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_02_forge",
@@ -35771,6 +36187,12 @@
             {
               "resource": "Coin",
               "amount": 2
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -35875,6 +36297,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       }
@@ -35886,7 +36314,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_02_walk",
@@ -35964,6 +36395,12 @@
             {
               "resource": "Coin",
               "amount": 2
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -36068,6 +36505,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       }
@@ -36079,7 +36522,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_03_guarantor_steady",
@@ -36162,6 +36608,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -36270,6 +36722,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       }
@@ -36281,7 +36739,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_03_guarantor_edge",
@@ -36364,6 +36825,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -36472,6 +36939,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       }
@@ -36483,7 +36956,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_03_fineink_steady",
@@ -36566,6 +37042,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -36674,6 +37156,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       }
@@ -36685,7 +37173,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_03_fineink_edge",
@@ -36768,6 +37259,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -36876,6 +37373,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       }
@@ -36887,7 +37390,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_03_forge_steady",
@@ -36970,6 +37476,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -37078,6 +37590,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       }
@@ -37089,7 +37607,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_03_forge_edge",
@@ -37172,6 +37693,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -37280,6 +37807,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       }
@@ -37291,7 +37824,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_03_walk_steady",
@@ -37374,6 +37910,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -37482,6 +38024,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       }
@@ -37493,7 +38041,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_03_walk_edge",
@@ -37576,6 +38127,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": 1
             }
           ]
         },
@@ -37684,6 +38241,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "league",
+              "steps": -1
+            }
           ]
         }
       }
@@ -37695,7 +38258,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_guarantor_steady_commit",
@@ -37906,7 +38472,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_guarantor_steady_burn",
@@ -38117,7 +38686,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_guarantor_edge_commit",
@@ -38328,7 +38900,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_guarantor_edge_burn",
@@ -38539,7 +39114,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_fineink_steady_commit",
@@ -38750,7 +39328,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_fineink_steady_burn",
@@ -38961,7 +39542,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_fineink_edge_commit",
@@ -39172,7 +39756,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_fineink_edge_burn",
@@ -39383,7 +39970,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_forge_steady_commit",
@@ -39594,7 +40184,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_forge_steady_burn",
@@ -39805,7 +40398,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_forge_edge_commit",
@@ -40016,7 +40612,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_forge_edge_burn",
@@ -40227,7 +40826,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_walk_steady_commit",
@@ -40438,7 +41040,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_walk_steady_burn",
@@ -40649,7 +41254,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_walk_edge_commit",
@@ -40860,7 +41468,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_mg_04_walk_edge_burn",
@@ -41071,7 +41682,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:league"
+    ]
   },
   {
     "id": "sl_bo_01_hook",
@@ -41139,6 +41753,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -41201,6 +41821,12 @@
             {
               "resource": "Secrets",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
             }
           ]
         },
@@ -41301,6 +41927,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       },
@@ -41346,6 +41978,12 @@
               "resource": "Supplies",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -41384,7 +42022,10 @@
       "step": 1,
       "role": "hook",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_02_witness",
@@ -41462,6 +42103,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
             }
           ]
         },
@@ -41566,6 +42213,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       }
@@ -41577,7 +42230,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_02_finewords",
@@ -41655,6 +42311,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
             }
           ]
         },
@@ -41759,6 +42421,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       }
@@ -41770,7 +42438,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_02_fee",
@@ -41848,6 +42519,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
             }
           ]
         },
@@ -41952,6 +42629,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       }
@@ -41963,7 +42646,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_02_refuse",
@@ -42041,6 +42727,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
             }
           ]
         },
@@ -42145,6 +42837,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       }
@@ -42156,7 +42854,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_03_witness_steady",
@@ -42240,6 +42941,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -42264,7 +42971,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "covenant",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Make an example",
@@ -42313,6 +43027,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -42343,6 +43063,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       }
@@ -42354,7 +43080,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_03_witness_edge",
@@ -42438,6 +43167,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -42462,7 +43197,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "covenant",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Break them",
@@ -42511,6 +43253,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -42541,6 +43289,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       }
@@ -42552,7 +43306,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_03_finewords_steady",
@@ -42636,6 +43393,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -42660,7 +43423,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "covenant",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Turn the knife",
@@ -42709,6 +43479,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -42739,6 +43515,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       }
@@ -42750,7 +43532,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_03_finewords_edge",
@@ -42834,6 +43619,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -42858,7 +43649,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "covenant",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Break them",
@@ -42907,6 +43705,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -42937,6 +43741,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       }
@@ -42948,7 +43758,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_03_fee_steady",
@@ -43032,6 +43845,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -43056,7 +43875,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "covenant",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Scorch it",
@@ -43105,6 +43931,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -43135,6 +43967,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       }
@@ -43146,7 +43984,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_03_fee_edge",
@@ -43230,6 +44071,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -43254,7 +44101,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "covenant",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Break them",
@@ -43303,6 +44157,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -43333,6 +44193,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       }
@@ -43344,7 +44210,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_03_refuse_steady",
@@ -43428,6 +44297,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -43452,7 +44327,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "covenant",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Scorch it",
@@ -43501,6 +44383,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -43531,6 +44419,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       }
@@ -43542,7 +44436,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_03_refuse_edge",
@@ -43626,6 +44523,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -43650,7 +44553,14 @@
               "durationEvents": 0
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "covenant",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Make an example",
@@ -43699,6 +44609,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -43729,6 +44645,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "covenant",
+              "steps": -1
+            }
           ]
         }
       }
@@ -43740,7 +44662,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_witness_steady_commit",
@@ -43955,7 +44880,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_witness_steady_burn",
@@ -44170,7 +45098,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_witness_edge_commit",
@@ -44385,7 +45316,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_witness_edge_burn",
@@ -44600,7 +45534,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_finewords_steady_commit",
@@ -44815,7 +45752,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_finewords_steady_burn",
@@ -45030,7 +45970,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_finewords_edge_commit",
@@ -45245,7 +46188,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_finewords_edge_burn",
@@ -45460,7 +46406,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_fee_steady_commit",
@@ -45675,7 +46624,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_fee_steady_burn",
@@ -45890,7 +46842,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_fee_edge_commit",
@@ -46105,7 +47060,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_fee_edge_burn",
@@ -46320,7 +47278,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_refuse_steady_commit",
@@ -46535,7 +47496,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_refuse_steady_burn",
@@ -46750,7 +47714,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_refuse_edge_commit",
@@ -46965,7 +47932,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_bo_04_refuse_edge_burn",
@@ -47180,7 +48150,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:covenant"
+    ]
   },
   {
     "id": "sl_pa_01_hook",
@@ -47405,6 +48378,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": -1
+            }
           ]
         }
       },
@@ -47488,7 +48467,10 @@
       "step": 1,
       "role": "hook",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_02_walk",
@@ -47566,6 +48548,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": 1
             }
           ]
         },
@@ -47679,7 +48667,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_02_distance",
@@ -47757,6 +48748,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": 1
             }
           ]
         },
@@ -47870,7 +48867,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_02_map",
@@ -47948,6 +48948,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": 1
             }
           ]
         },
@@ -48061,7 +49067,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_02_candle",
@@ -48139,6 +49148,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": 1
             }
           ]
         },
@@ -48252,7 +49267,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_03_walk_steady",
@@ -48331,6 +49349,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": 1
             }
           ]
         },
@@ -48435,6 +49459,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": -1
+            }
           ]
         }
       }
@@ -48446,7 +49476,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_03_walk_edge",
@@ -48525,6 +49558,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": 1
             }
           ]
         },
@@ -48629,6 +49668,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": -1
+            }
           ]
         }
       }
@@ -48640,7 +49685,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_03_distance_steady",
@@ -48720,6 +49768,12 @@
               "resource": "Renown",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -48823,6 +49877,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": -1
+            }
           ]
         }
       }
@@ -48834,7 +49894,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_03_distance_edge",
@@ -48913,6 +49976,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": 1
             }
           ]
         },
@@ -49017,6 +50086,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": -1
+            }
           ]
         }
       }
@@ -49028,7 +50103,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_03_map_steady",
@@ -49107,6 +50185,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": 1
             }
           ]
         },
@@ -49211,6 +50295,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": -1
+            }
           ]
         }
       }
@@ -49222,7 +50312,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_03_map_edge",
@@ -49301,6 +50394,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": 1
             }
           ]
         },
@@ -49405,6 +50504,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": -1
+            }
           ]
         }
       }
@@ -49416,7 +50521,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_03_candle_steady",
@@ -49495,6 +50603,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": 1
             }
           ]
         },
@@ -49599,6 +50713,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": -1
+            }
           ]
         }
       }
@@ -49610,7 +50730,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_03_candle_edge",
@@ -49689,6 +50812,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": 1
             }
           ]
         },
@@ -49793,6 +50922,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "synod",
+              "steps": -1
+            }
           ]
         }
       }
@@ -49804,7 +50939,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_walk_steady_commit",
@@ -50015,7 +51153,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_walk_steady_burn",
@@ -50226,7 +51367,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_walk_edge_commit",
@@ -50437,7 +51581,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_walk_edge_burn",
@@ -50648,7 +51795,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_distance_steady_commit",
@@ -50859,7 +52009,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_distance_steady_burn",
@@ -51070,7 +52223,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_distance_edge_commit",
@@ -51281,7 +52437,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_distance_edge_burn",
@@ -51492,7 +52651,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_map_steady_commit",
@@ -51703,7 +52865,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_map_steady_burn",
@@ -51914,7 +53079,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_map_edge_commit",
@@ -52125,7 +53293,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_map_edge_burn",
@@ -52336,7 +53507,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_candle_steady_commit",
@@ -52547,7 +53721,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_candle_steady_burn",
@@ -52758,7 +53935,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_candle_edge_commit",
@@ -52969,7 +54149,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_pa_04_candle_edge_burn",
@@ -53180,7 +54363,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:synod"
+    ]
   },
   {
     "id": "sl_da_01_hook",
@@ -53249,6 +54435,12 @@
               "resource": "Supplies",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -53312,6 +54504,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -53374,6 +54572,12 @@
             {
               "resource": "Secrets",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
             }
           ]
         },
@@ -53475,6 +54679,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -53486,7 +54696,10 @@
       "step": 1,
       "role": "hook",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_02_wayhouse",
@@ -53565,6 +54778,12 @@
             {
               "resource": "Supplies",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
             }
           ]
         },
@@ -53669,6 +54888,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -53680,7 +54905,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_02_fishers",
@@ -53759,6 +54987,12 @@
             {
               "resource": "Supplies",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
             }
           ]
         },
@@ -53863,6 +55097,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -53874,7 +55114,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_02_shore",
@@ -53953,6 +55196,12 @@
             {
               "resource": "Supplies",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
             }
           ]
         },
@@ -54057,6 +55306,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -54068,7 +55323,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_02_loot",
@@ -54147,6 +55405,12 @@
             {
               "resource": "Supplies",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
             }
           ]
         },
@@ -54251,6 +55515,12 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -54262,7 +55532,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_03_wayhouse_steady",
@@ -54347,6 +55620,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -54420,6 +55699,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -54450,6 +55735,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -54461,7 +55752,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_03_wayhouse_edge",
@@ -54546,6 +55840,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -54619,6 +55919,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -54649,6 +55955,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -54660,7 +55972,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_03_fishers_steady",
@@ -54745,6 +56060,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -54818,6 +56139,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -54848,6 +56175,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -54859,7 +56192,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_03_fishers_edge",
@@ -54944,6 +56280,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -55017,6 +56359,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -55047,6 +56395,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -55058,7 +56412,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_03_shore_steady",
@@ -55143,6 +56500,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -55216,6 +56579,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -55246,6 +56615,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -55257,7 +56632,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_03_shore_edge",
@@ -55342,6 +56720,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -55415,6 +56799,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -55445,6 +56835,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -55456,7 +56852,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_03_loot_steady",
@@ -55541,6 +56940,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -55614,6 +57019,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -55644,6 +57055,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -55655,7 +57072,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_03_loot_edge",
@@ -55740,6 +57160,12 @@
               "resource": "Influence",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -55813,6 +57239,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -55843,6 +57275,12 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "collegium",
+              "steps": -1
+            }
           ]
         }
       }
@@ -55854,7 +57292,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_wayhouse_steady_commit",
@@ -56066,7 +57507,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_wayhouse_steady_burn",
@@ -56296,7 +57740,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_wayhouse_edge_commit",
@@ -56508,7 +57955,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_wayhouse_edge_burn",
@@ -56738,7 +58188,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_fishers_steady_commit",
@@ -56950,7 +58403,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_fishers_steady_burn",
@@ -57180,7 +58636,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_fishers_edge_commit",
@@ -57392,7 +58851,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_fishers_edge_burn",
@@ -57622,7 +59084,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_shore_steady_commit",
@@ -57834,7 +59299,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_shore_steady_burn",
@@ -58064,7 +59532,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_shore_edge_commit",
@@ -58276,7 +59747,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_shore_edge_burn",
@@ -58506,7 +59980,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_loot_steady_commit",
@@ -58718,7 +60195,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_loot_steady_burn",
@@ -58948,7 +60428,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_loot_edge_commit",
@@ -59160,7 +60643,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_da_04_loot_edge_burn",
@@ -59390,7 +60876,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:collegium"
+    ]
   },
   {
     "id": "sl_ct_01_hook",
@@ -59693,6 +61182,12 @@
             {
               "type": "OfferProspect"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -59704,7 +61199,10 @@
       "step": 1,
       "role": "hook",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_02_gentle",
@@ -59782,6 +61280,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
             }
           ]
         },
@@ -59873,6 +61377,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -59926,7 +61436,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_02_clever",
@@ -60004,6 +61517,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
             }
           ]
         },
@@ -60095,6 +61614,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -60148,7 +61673,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_02_bold",
@@ -60226,6 +61754,12 @@
             {
               "resource": "Renown",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
             }
           ]
         },
@@ -60317,6 +61851,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -60370,7 +61910,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_02_mystery",
@@ -60448,6 +61991,12 @@
             {
               "resource": "Influence",
               "amount": 1
+            }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
             }
           ]
         },
@@ -60539,6 +62088,12 @@
               "resource": "Secrets",
               "amount": 1
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -60592,7 +62147,10 @@
       "step": 2,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_03_gentle_steady",
@@ -60677,6 +62235,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -60706,7 +62270,14 @@
               "type": "FinalizeMarriage"
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Make an example",
@@ -60795,6 +62366,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -60806,7 +62383,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_03_gentle_edge",
@@ -60891,6 +62471,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -60920,7 +62506,14 @@
               "type": "FinalizeMarriage"
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Turn the knife",
@@ -61009,6 +62602,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -61020,7 +62619,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_03_clever_steady",
@@ -61105,6 +62707,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -61134,7 +62742,14 @@
               "type": "FinalizeMarriage"
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Turn the knife",
@@ -61223,6 +62838,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -61234,7 +62855,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_03_clever_edge",
@@ -61319,6 +62943,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -61348,7 +62978,14 @@
               "type": "FinalizeMarriage"
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Make an example",
@@ -61437,6 +63074,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -61448,7 +63091,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_03_bold_steady",
@@ -61533,6 +63179,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -61562,7 +63214,14 @@
               "type": "FinalizeMarriage"
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Scorch it",
@@ -61651,6 +63310,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -61662,7 +63327,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_03_bold_edge",
@@ -61747,6 +63415,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -61776,7 +63450,14 @@
               "type": "FinalizeMarriage"
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Turn the knife",
@@ -61865,6 +63546,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -61876,7 +63563,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_03_mystery_steady",
@@ -61961,6 +63651,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -61990,7 +63686,14 @@
               "type": "FinalizeMarriage"
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Break them",
@@ -62079,6 +63782,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -62090,7 +63799,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_03_mystery_edge",
@@ -62175,6 +63887,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": 1
+            }
           ]
         },
         "fail": {
@@ -62204,7 +63922,14 @@
               "type": "FinalizeMarriage"
             }
           ]
-        }
+        },
+        "requirements": [
+          {
+            "type": "MinStanding",
+            "factionId": "crown",
+            "minTier": "Favored"
+          }
+        ]
       },
       {
         "title": "Scorch it",
@@ -62293,6 +64018,12 @@
             {
               "type": "FinalizeMarriage"
             }
+          ],
+          "standings": [
+            {
+              "factionId": "crown",
+              "steps": -1
+            }
           ]
         }
       }
@@ -62304,7 +64035,10 @@
       "step": 3,
       "role": "step",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_gentle_steady_commit",
@@ -62531,7 +64265,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_gentle_steady_burn",
@@ -62758,7 +64495,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_gentle_edge_commit",
@@ -62985,7 +64725,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_gentle_edge_burn",
@@ -63212,7 +64955,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_clever_steady_commit",
@@ -63439,7 +65185,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_clever_steady_burn",
@@ -63666,7 +65415,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_clever_edge_commit",
@@ -63893,7 +65645,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_clever_edge_burn",
@@ -64120,7 +65875,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_bold_steady_commit",
@@ -64347,7 +66105,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_bold_steady_burn",
@@ -64574,7 +66335,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_bold_edge_commit",
@@ -64801,7 +66565,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_bold_edge_burn",
@@ -65028,7 +66795,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_mystery_steady_commit",
@@ -65255,7 +67025,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_mystery_steady_burn",
@@ -65482,7 +67255,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_mystery_edge_commit",
@@ -65709,7 +67485,10 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   },
   {
     "id": "sl_ct_04_mystery_edge_burn",
@@ -65936,6 +67715,9 @@
       "step": 4,
       "role": "ending",
       "total": 4
-    }
+    },
+    "pools": [
+      "faction:crown"
+    ]
   }
 ]
