@@ -15,6 +15,57 @@
 */
 console.log("✅ app.js loaded");
 
+// ---------- Theme (Candlelit Ledger) ----------
+const THEME_KEY = "heirloom_theme";
+function getStoredTheme() {
+  try {
+    const t = localStorage.getItem(THEME_KEY);
+    return (t === "candle" || t === "ink") ? t : "ink";
+  } catch {
+    return "ink";
+  }
+}
+function applyTheme(theme) {
+  const t = (theme === "candle" || theme === "ink") ? theme : "ink";
+  document.documentElement.dataset.theme = t;
+
+  const label = (t === "ink") ? "Ink" : "Candle";
+  const menuLabel = (t === "ink") ? "Theme: Ink" : "Theme: Candle";
+
+  const btn = document.getElementById("btnTheme");
+  if (btn) btn.textContent = label;
+
+  const btnMenu = document.getElementById("btnThemeMenu");
+  if (btnMenu) btnMenu.textContent = menuLabel;
+
+  try { localStorage.setItem(THEME_KEY, t); } catch {}
+}
+function toggleTheme() {
+  const cur = (document.documentElement.dataset.theme === "candle") ? "candle" : "ink";
+  applyTheme(cur === "ink" ? "candle" : "ink");
+}
+function initThemeUI() {
+  // Respect any early <head> theme set; otherwise use localStorage default.
+  const existing = document.documentElement.dataset.theme;
+  const t = (existing === "candle" || existing === "ink") ? existing : getStoredTheme();
+  applyTheme(t);
+
+  const btn = document.getElementById("btnTheme");
+  if (btn && !btn.__heirloomBound) {
+    btn.addEventListener("click", toggleTheme);
+    btn.__heirloomBound = true;
+  }
+
+  const btnMenu = document.getElementById("btnThemeMenu");
+  if (btnMenu && !btnMenu.__heirloomBound) {
+    btnMenu.addEventListener("click", toggleTheme);
+    btnMenu.__heirloomBound = true;
+  }
+}
+
+initThemeUI();
+
+
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const rInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
