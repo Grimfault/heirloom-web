@@ -2022,7 +2022,7 @@
           ],
           "risks": [
             "Coin loss",
-            "InDebt (Minor)"
+            "In Debt (Minor)"
           ]
         },
         "success": {
@@ -2133,7 +2133,7 @@
           "gains": [],
           "risks": [
             "Coin loss",
-            "InDebt (Minor)"
+            "In Debt (Minor)"
           ]
         },
         "success": {
@@ -2177,7 +2177,7 @@
             "Influence"
           ],
           "risks": [
-            "InDebt (Minor)"
+            "In Debt (Minor)"
           ]
         },
         "success": {
@@ -3295,6 +3295,15 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Coin",
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
         }
       },
       {
@@ -3377,6 +3386,15 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
           ]
         }
       }
@@ -3996,6 +4014,15 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Relief from Wanted"
+          ],
+          "risks": [
+            "Wounded (Severe)"
+          ]
         }
       },
       {
@@ -4029,6 +4056,15 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Supplies"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
           ]
         }
       },
@@ -4067,6 +4103,15 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Minor)",
+            "Flag: pursued"
+          ]
         }
       },
       {
@@ -4096,6 +4141,14 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
           ]
         }
       }
@@ -4520,6 +4573,14 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
         }
       },
       {
@@ -4556,6 +4617,15 @@
               "durationEvents": 4
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Secrets"
+          ],
+          "risks": [
+            "Flag: court_scrutiny"
+          ]
         }
       },
       {
@@ -4585,6 +4655,14 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
           ]
         }
       },
@@ -4621,6 +4699,15 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Marked (Minor)"
           ]
         }
       }
@@ -4871,6 +4958,16 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Relief from Exhausted",
+            "Relief from Wanted",
+            "Flag: safehouse_grace"
+          ],
+          "risks": [
+            "Obligation (Minor)"
+          ]
         }
       },
       {
@@ -4900,6 +4997,14 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Minor)"
           ]
         }
       },
@@ -4940,6 +5045,15 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Coin",
+            "Flag: heat_cooled"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
         }
       },
       {
@@ -4969,6 +5083,14 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
           ]
         }
       }
@@ -5020,6 +5142,14 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
         }
       },
       {
@@ -5053,6 +5183,15 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Secrets"
+          ],
+          "risks": [
+            "Obligation (Minor)"
           ]
         }
       },
@@ -5088,6 +5227,15 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Coin",
+            "Supplies"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
         }
       },
       {
@@ -5117,6 +5265,14 @@
               "mode": "Add",
               "durationEvents": 4
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Flag: dock_heat"
           ]
         }
       }
@@ -5172,6 +5328,15 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Renown"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
         }
       },
       {
@@ -5201,6 +5366,14 @@
               "mode": "Add",
               "durationEvents": 4
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Flag: inheritance_grudge"
           ]
         }
       },
@@ -5237,6 +5410,15 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
           ]
         }
       },
@@ -5278,6 +5460,16 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Coin",
+            "Secrets"
+          ],
+          "risks": [
+            "Disgraced (Minor)",
+            "Wanted (Minor)"
           ]
         }
       }
@@ -5537,6 +5729,15 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Coin"
+          ],
+          "risks": [
+            "Obligation (Minor)"
+          ]
         }
       },
       {
@@ -5571,6 +5772,15 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Coin"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
         }
       },
       {
@@ -5602,6 +5812,14 @@
               "mode": "Add",
               "durationEvents": 4
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Flag: patron_scrutiny"
           ]
         }
       },
@@ -5638,6 +5856,15 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Influence cost",
+            "Disgraced (Severe)"
           ]
         }
       }
@@ -6106,7 +6333,8 @@
           ],
           "risks": [
             "Heavy Supplies loss"
-          ]
+          ],
+          "gains": []
         },
         "success": {
           "text": "You read the land the way you read a page, looking for the parts that repeat and the parts that lie. You find a longer route that stays lower and calmer.",
@@ -6446,7 +6674,8 @@
           ],
           "risks": [
             "Disgraced (Minor)"
-          ]
+          ],
+          "gains": []
         },
         "success": {
           "text": "You pay without drama and keep your eyes forward. The tollkeeper grins like a man who has won, but you keep your life uncomplicated.",
@@ -6832,6 +7061,16 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Coin cost",
+            "Coin loss",
+            "Exhausted (Minor)"
+          ]
         }
       },
       {
@@ -6862,6 +7101,14 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
         }
       },
       {
@@ -6891,6 +7138,14 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
           ]
         }
       },
@@ -6925,6 +7180,15 @@
               "mode": "Add",
               "durationEvents": 3
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Coin"
+          ],
+          "risks": [
+            "Flag: veteran_dislike"
           ]
         }
       }
@@ -6978,6 +7242,15 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Coin",
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
         }
       },
       {
@@ -7013,6 +7286,15 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Wounded (Minor)",
+            "Disgraced (Minor)"
+          ]
         }
       },
       {
@@ -7046,6 +7328,15 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Coin",
+            "Influence"
+          ],
+          "risks": [
+            "Obligation (Minor)"
           ]
         }
       },
@@ -7086,6 +7377,15 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Flag: hidden_cache"
+          ],
+          "risks": [
+            "Marked (Minor)"
+          ]
         }
       }
     ]
@@ -7119,7 +7419,7 @@
         "tags": [],
         "preview": {
           "gains": [
-            "Relief from InDebt",
+            "Relief from In Debt",
             "Influence"
           ],
           "risks": [
@@ -7170,7 +7470,7 @@
             "Relief from Disgraced"
           ],
           "risks": [
-            "InDebt (Minor)"
+            "In Debt (Minor)"
           ]
         },
         "success": {
@@ -7220,7 +7520,7 @@
         "preview": {
           "gains": [
             "Secrets",
-            "Relief from InDebt"
+            "Relief from In Debt"
           ],
           "risks": [
             "Wanted (Minor)"
@@ -7268,7 +7568,7 @@
             "Flag: delayed_fix"
           ],
           "risks": [
-            "InDebt (Severe)"
+            "In Debt (Severe)"
           ]
         },
         "success": {
@@ -10258,7 +10558,7 @@
           ]
         },
         "success": {
-          "text": "They listen. They learn.",
+          "text": "They fumble at first, then they brace, then they hold. By sundown, the line looks like it might survive.",
           "resources": [
             {
               "resource": "Influence",
@@ -11810,7 +12110,7 @@
           ]
         },
         "fail": {
-          "text": "You try. You fail.",
+          "text": "You keep to the regimen for a day or two, then life pries you loose. The bitterness goes cold, the rest gets stolen, and the illness takes its hold.",
           "conditions": [
             {
               "id": "Ill",
@@ -12106,9 +12406,10 @@
         "tags": [],
         "preview": {
           "gains": [
-            "Reset heat"
+            "Safety"
           ],
           "risks": [
+            "Wanted (Severe)",
             "Supplies loss"
           ]
         },
@@ -23060,6 +23361,17 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Safety"
+          ],
+          "risks": [
+            "Coin cost",
+            "Coin loss",
+            "Renown loss",
+            "Disgraced (Minor)"
+          ]
         }
       },
       {
@@ -23095,6 +23407,15 @@
               "resource": "Influence",
               "amount": -1
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Relief from In Debt"
+          ],
+          "risks": [
+            "Influence loss"
           ]
         }
       },
@@ -23138,6 +23459,16 @@
               "mode": "Upgrade",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Relief from In Debt"
+          ],
+          "risks": [
+            "Renown loss",
+            "In Debt (Upgrade)"
           ]
         }
       },
@@ -23185,6 +23516,16 @@
               "severity": "Minor",
               "durationEvents": 2
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Renown loss",
+            "Wanted (Severe)",
+            "Bruised (Minor)"
           ]
         }
       }
@@ -23256,6 +23597,16 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Coin",
+            "Remove In Debt"
+          ],
+          "risks": [
+            "Renown loss",
+            "Disgraced (Minor)"
+          ]
         }
       },
       {
@@ -23292,6 +23643,15 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Relief from In Debt"
+          ],
+          "risks": [
+            "Wanted (Minor)"
           ]
         }
       },
@@ -23332,6 +23692,16 @@
               "resource": "Renown",
               "amount": -1
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Coin",
+            "Relief from In Debt"
+          ],
+          "risks": [
+            "Influence cost",
+            "Renown loss"
           ]
         }
       },
@@ -23386,6 +23756,18 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Remove In Debt"
+          ],
+          "risks": [
+            "Coin loss",
+            "Renown loss",
+            "Wanted (Severe)",
+            "Disgraced (Severe)"
           ]
         }
       }
@@ -23457,6 +23839,16 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Coin",
+            "Relief from In Debt"
+          ],
+          "risks": [
+            "Renown loss",
+            "Wanted (Minor)"
+          ]
         }
       },
       {
@@ -23499,6 +23891,15 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Coin",
+            "Relief from In Debt"
+          ],
+          "risks": [
+            "Wanted (Severe)"
           ]
         }
       },
@@ -23550,6 +23951,17 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Coin",
+            "Secrets"
+          ],
+          "risks": [
+            "Renown loss",
+            "Disgraced (Minor)",
+            "Wanted (Severe)"
+          ]
         }
       },
       {
@@ -23592,6 +24004,16 @@
               "mode": "Upgrade",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Relief from In Debt"
+          ],
+          "risks": [
+            "Renown loss",
+            "In Debt (Upgrade)"
           ]
         }
       }
@@ -23657,6 +24079,15 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Relief from In Debt"
+          ],
+          "risks": [
+            "Coin cost",
+            "In Debt (Upgrade)"
+          ]
         }
       },
       {
@@ -23699,6 +24130,16 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Remove In Debt"
+          ],
+          "risks": [
+            "Renown loss",
+            "Disgraced (Minor)"
           ]
         }
       },
@@ -23749,6 +24190,17 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Relief from In Debt"
+          ],
+          "risks": [
+            "Coin cost",
+            "Coin loss",
+            "Disgraced (Severe)"
+          ]
         }
       },
       {
@@ -23798,6 +24250,17 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Relief from In Debt"
+          ],
+          "risks": [
+            "Renown loss",
+            "In Debt (Upgrade)",
+            "Disgraced (Severe)"
           ]
         }
       }
@@ -23878,6 +24341,18 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Remove In Debt"
+          ],
+          "risks": [
+            "Supplies cost",
+            "Supplies loss",
+            "Wanted (Minor)",
+            "Wanted (Severe)"
+          ]
         }
       },
       {
@@ -23924,6 +24399,17 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Remove In Debt"
+          ],
+          "risks": [
+            "Coin cost",
+            "Coin loss",
+            "Disgraced (Minor)"
           ]
         }
       },
@@ -23972,6 +24458,17 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Relief from In Debt"
+          ],
+          "risks": [
+            "Coin loss",
+            "Renown loss",
+            "In Debt (Upgrade)"
+          ]
         }
       },
       {
@@ -24016,6 +24513,16 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Remove In Debt"
+          ],
+          "risks": [
+            "Renown cost",
+            "Wanted (Severe)",
+            "Wounded (Severe)"
           ]
         }
       }
@@ -24080,6 +24587,15 @@
               "amount": -1
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Renown loss"
+          ]
         }
       },
       {
@@ -24123,6 +24639,16 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Renown loss",
+            "Disgraced (Upgrade)"
+          ]
         }
       },
       {
@@ -24159,6 +24685,15 @@
               "mode": "Upgrade",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Renown loss",
+            "Disgraced (Upgrade)"
           ]
         }
       },
@@ -24207,6 +24742,16 @@
               "severity": "Minor",
               "durationEvents": 2
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Renown loss",
+            "Wanted (Minor)",
+            "Bruised (Minor)"
           ]
         }
       }
@@ -24278,6 +24823,16 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Influence loss",
+            "Disgraced (Upgrade)"
+          ]
         }
       },
       {
@@ -24320,6 +24875,16 @@
               "mode": "Upgrade",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Remove Disgraced"
+          ],
+          "risks": [
+            "Renown loss",
+            "Disgraced (Upgrade)"
           ]
         }
       },
@@ -24370,6 +24935,17 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Coin cost",
+            "Renown loss",
+            "Disgraced (Severe)"
+          ]
         }
       },
       {
@@ -24417,6 +24993,16 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [],
+          "risks": [
+            "Renown cost",
+            "Supplies cost",
+            "Renown loss",
+            "Wanted (Minor)",
+            "Wanted (Severe)"
           ]
         }
       }
@@ -24481,6 +25067,15 @@
               "amount": -1
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Renown loss"
+          ]
         }
       },
       {
@@ -24511,6 +25106,14 @@
               "mode": "Upgrade",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Disgraced (Upgrade)"
           ]
         }
       },
@@ -24559,6 +25162,17 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Coin cost",
+            "Coin loss",
+            "Disgraced (Upgrade)"
+          ]
         }
       },
       {
@@ -24601,6 +25215,16 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Coin",
+            "Secrets"
+          ],
+          "risks": [
+            "Renown loss",
+            "Disgraced (Severe)"
           ]
         }
       }
@@ -24675,6 +25299,16 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Remove Disgraced"
+          ],
+          "risks": [
+            "Renown loss",
+            "Wounded (Severe)"
+          ]
         }
       },
       {
@@ -24711,6 +25345,15 @@
               "mode": "Upgrade",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Remove Disgraced"
+          ],
+          "risks": [
+            "Disgraced (Upgrade)"
           ]
         }
       },
@@ -24763,6 +25406,17 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Renown loss",
+            "Wanted (Minor)",
+            "Wanted (Severe)"
+          ]
         }
       },
       {
@@ -24793,6 +25447,14 @@
               "mode": "Upgrade",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Disgraced (Upgrade)"
           ]
         }
       }
@@ -24858,6 +25520,15 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Disgraced (Upgrade)"
+          ]
         }
       },
       {
@@ -24893,6 +25564,15 @@
               "resource": "Renown",
               "amount": -1
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Supplies cost",
+            "Renown loss"
           ]
         }
       },
@@ -24941,6 +25621,17 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Influence",
+            "Remove Disgraced"
+          ],
+          "risks": [
+            "Coin cost",
+            "Coin loss",
+            "Disgraced (Upgrade)"
+          ]
         }
       },
       {
@@ -24985,6 +25676,16 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Relief from Disgraced"
+          ],
+          "risks": [
+            "Renown loss",
+            "Disgraced (Severe)"
           ]
         }
       }
@@ -25036,6 +25737,13 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [],
+          "risks": [
+            "Bruised (Minor)",
+            "Wounded (Severe)"
+          ]
         }
       },
       {
@@ -25074,6 +25782,14 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [],
+          "risks": [
+            "Supplies cost",
+            "Bruised (Minor)",
+            "Exhausted (Minor)"
           ]
         }
       },
@@ -25115,6 +25831,13 @@
               "durationEvents": 2
             }
           ]
+        },
+        "preview": {
+          "gains": [],
+          "risks": [
+            "Supplies loss",
+            "Bruised (Minor)"
+          ]
         }
       },
       {
@@ -25155,6 +25878,15 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Bruised (Minor)",
+            "Wounded (Severe)"
           ]
         }
       }
@@ -25212,6 +25944,15 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Bruised (Minor)",
+            "Wounded (Severe)"
+          ]
         }
       },
       {
@@ -25251,6 +25992,14 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [],
+          "risks": [
+            "Renown loss",
+            "Bruised (Minor)",
+            "Disgraced (Minor)"
+          ]
         }
       },
       {
@@ -25289,6 +26038,15 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Bruised (Minor)",
+            "Exhausted (Minor)"
           ]
         }
       },
@@ -25346,6 +26104,17 @@
               "severity": "Minor",
               "durationEvents": 2
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Secrets"
+          ],
+          "risks": [
+            "Renown loss",
+            "Bruised (Minor)",
+            "Disgraced (Minor)"
           ]
         }
       }
@@ -25410,6 +26179,15 @@
               "amount": -1
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Remove Bruised"
+          ],
+          "risks": [
+            "Coin cost",
+            "Coin loss"
+          ]
         }
       },
       {
@@ -25441,6 +26219,14 @@
               "severity": "Minor"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Remove Bruised"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
         }
       },
       {
@@ -25471,6 +26257,14 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Remove Bruised"
+          ],
+          "risks": [
+            "Wounded (Severe)"
           ]
         }
       },
@@ -25507,6 +26301,15 @@
               "resource": "Renown",
               "amount": -1
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown",
+            "Relief from Bruised"
+          ],
+          "risks": [
+            "Renown loss"
           ]
         }
       }
@@ -25575,6 +26378,16 @@
               "amount": -1
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Remove Bruised",
+            "Relief from Exhausted"
+          ],
+          "risks": [
+            "Coin cost",
+            "Coin loss"
+          ]
         }
       },
       {
@@ -25605,6 +26418,14 @@
               "mode": "Add",
               "severity": "Minor"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Remove Bruised"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
           ]
         }
       },
@@ -25649,6 +26470,16 @@
               "severity": "Severe"
             }
           ]
+        },
+        "preview": {
+          "gains": [
+            "Remove Bruised"
+          ],
+          "risks": [
+            "Supplies cost",
+            "Supplies loss",
+            "Ill (Severe)"
+          ]
         }
       },
       {
@@ -25681,6 +26512,14 @@
               "mode": "Add",
               "severity": "Severe"
             }
+          ]
+        },
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Severe)"
           ]
         }
       }
@@ -26015,7 +26854,8 @@
           ],
           "costs": [
             "-2 Coin"
-          ]
+          ],
+          "risks": []
         },
         "requirements": [
           {
@@ -26130,7 +26970,8 @@
           ],
           "costs": [
             "-1 Secrets or -1 Influence"
-          ]
+          ],
+          "risks": []
         },
         "requirements": [
           {
@@ -26205,7 +27046,8 @@
           ],
           "costs": [
             "-1 Coin"
-          ]
+          ],
+          "risks": []
         },
         "requirements": [
           {
@@ -26691,7 +27533,8 @@
           ],
           "costs": [
             "-2 Coin"
-          ]
+          ],
+          "risks": []
         },
         "requirements": [
           {
@@ -26807,7 +27650,8 @@
           ],
           "costs": [
             "-1 Secrets"
-          ]
+          ],
+          "risks": []
         },
         "requirements": [
           {
@@ -26944,7 +27788,8 @@
           ],
           "costs": [
             "-3 Coin"
-          ]
+          ],
+          "risks": []
         },
         "requirements": [
           {
@@ -27500,7 +28345,8 @@
           ],
           "costs": [
             "-2 Coin"
-          ]
+          ],
+          "risks": []
         },
         "requirements": [
           {
@@ -27846,7 +28692,8 @@
           ],
           "gains": [
             "Downgrade In Debt"
-          ]
+          ],
+          "risks": []
         },
         "requirements": [
           {
@@ -28271,7 +29118,8 @@
           ],
           "costs": [
             "Coin"
-          ]
+          ],
+          "risks": []
         },
         "requirements": [
           {
@@ -28450,7 +29298,8 @@
           ],
           "costs": [
             "-2 Coin"
-          ]
+          ],
+          "risks": []
         },
         "requirements": [
           {
@@ -28573,7 +29422,8 @@
           ],
           "costs": [
             "-1 Supplies"
-          ]
+          ],
+          "risks": []
         },
         "requirements": [
           {
@@ -28628,7 +29478,8 @@
           ],
           "costs": [
             "-1 Coin"
-          ]
+          ],
+          "risks": []
         },
         "requirements": [
           {
