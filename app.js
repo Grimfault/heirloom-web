@@ -23,6 +23,16 @@ const deepCopy = (obj) => (obj == null ? null : JSON.parse(JSON.stringify(obj)))
 const MAJOR_AGES = new Set([20,25,30,35,40,45,50]);
 const SEASONS = ["Vernal", "Autumnal"];
 
+const DEFAULT_FACTIONS = [
+  { id: "crown", short: "Crown", name: "The Crown of Valewyr", defaultTier: "Neutral" },
+  { id: "league", short: "League", name: "The Marcher League", defaultTier: "Neutral" },
+  { id: "covenant", short: "Covenant", name: "The Iron Covenant", defaultTier: "Neutral" },
+  { id: "synod", short: "Synod", name: "The Verdant Synod", defaultTier: "Neutral" },
+  { id: "collegium", short: "Collegium", name: "The Grey Collegium", defaultTier: "Neutral" },
+  { id: "emirate", short: "Emirate", name: "The Ashen Emirate", defaultTier: "Neutral" }
+];
+
+
 const OPPORTUNITY_GAP_MIN = 4; // encounter appears every 4–6 completed events
 const OPPORTUNITY_GAP_MAX = 6;
 
@@ -2067,7 +2077,7 @@ async function loadAllData() {
   ensureThreeLevelCards(DATA.cards);
   DATA.events = events;
   DATA.backgrounds = backgrounds;
-  DATA.factions = Array.isArray(factions) ? factions : [];
+  DATA.factions = (Array.isArray(factions) && factions.length) ? factions : DEFAULT_FACTIONS;
   indexData();
   annotateEventSignals();
   DATA.storylineMetaById = null; // rebuilt lazily
@@ -5220,6 +5230,22 @@ function showLoadingUI(isLoading) {
   if (!isLoading) updateStartButtonState();
 }
 
+function normalizeStartStandings(val) {
+  if (!val) return {};
+  // Legacy array format: [{ factionId, tier }]
+  if (Array.isArray(val)) {
+    const out = {};
+    for (const s of val) {
+      if (!s || !s.factionId) continue;
+      out[String(s.factionId)] = String(s.tier ?? "Neutral");
+    }
+    return out;
+  }
+  // Map format: { crown: "Favored" }
+  if (typeof val === "object") return deepCopy(val);
+  return {};
+}
+
 function startRunFromBuilder(bg, givenName, familyName) {
   const deckIds = expandDeck(bg.deck);
   const validDeck = deckIds.filter(cid => DATA.cardsById[cid]);
@@ -5274,7 +5300,7 @@ function startRunFromBuilder(bg, givenName, familyName) {
     conditions: startConds,
 
     flags: {},
-    standings: deepCopy(bg.startStandings ?? bg.startStanding ?? {}),
+    standings: normalizeStartStandings(bg.startStandings ?? bg.startStanding),
     masterDeck: [...starterDeck],
     drawPile: shuffle([...starterDeck]),
     discardPile: []
