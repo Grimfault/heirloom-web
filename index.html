@@ -5,7 +5,17 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Heirloom (Prototype)</title>
-<link href="styles.css?v=8.2" rel="stylesheet"/>
+<script>
+(() => {
+  try {
+    const t = localStorage.getItem("heirloom_theme") || "ink";
+    document.documentElement.dataset.theme = (t === "candle" || t === "ink") ? t : "ink";
+  } catch (e) {
+    document.documentElement.dataset.theme = "ink";
+  }
+})();
+</script>
+<link href="styles.css?v=9.0" rel="stylesheet"/>
 </head>
 <body>
 <div class="app" id="app">
@@ -16,6 +26,7 @@
 </div>
 <div class="topbar-actions">
 <button class="btn ghost" disabled="" id="btnNewEvent">New Event</button>
+<button class="btn ghost" id="btnTheme" title="Theme">Ink</button>
 <button class="btn danger" id="btnReset">Reset</button>
 </div>
 </header>
@@ -26,8 +37,9 @@
     <h1 class="menuTitle">Heirloom</h1>
   </div>
   <div class="menuActions">
-    <button class="btn primary btn-wide" id="btnMenuStart">Start</button>
+<button class="btn primary btn-wide" id="btnMenuStart">Start</button>
     <button class="btn ghost btn-wide" id="btnLegacy">Upgrades</button>
+    <button class="btn ghost btn-wide" id="btnThemeMenu">Theme: Ink</button>
   </div>
 </section>
 
