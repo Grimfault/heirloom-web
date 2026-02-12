@@ -23,6 +23,26 @@ const deepCopy = (obj) => (obj == null ? null : JSON.parse(JSON.stringify(obj)))
 const MAJOR_AGES = new Set([20,25,30,35,40,45,50]);
 const SEASONS = ["Vernal", "Autumnal"];
 
+const DEFAULT_FACTIONS = [
+  { id: "crown", short: "Crown", name: "The Crown of Valewyr", defaultTier: "Neutral" },
+  { id: "league", short: "League", name: "The Marcher League", defaultTier: "Neutral" },
+  { id: "covenant", short: "Covenant", name: "The Iron Covenant", defaultTier: "Neutral" },
+  { id: "synod", short: "Synod", name: "The Verdant Synod", defaultTier: "Neutral" },
+  { id: "collegium", short: "Collegium", name: "The Grey Collegium", defaultTier: "Neutral" },
+  { id: "emirate", short: "Emirate", name: "The Ashen Emirate", defaultTier: "Neutral" }
+];
+
+function factionLabel(factionId, opts = {}) {
+  const short = opts.short ?? true;
+  const f = DATA?.factionsById?.[factionId];
+  if (!f) return String(factionId ?? "");
+  return String(short ? (f.short ?? f.name ?? factionId) : (f.name ?? f.short ?? factionId));
+}
+
+function getStandingTierSafe(factionId) {
+  return (state?.standings?.[factionId]) ?? (DATA?.factionsById?.[factionId]?.defaultTier) ?? "Neutral";
+}
+
 const OPPORTUNITY_GAP_MIN = 4; // encounter appears every 4–6 completed events
 const OPPORTUNITY_GAP_MAX = 6;
 
@@ -757,6 +777,7 @@ const statusLine = document.getElementById("statusLine");
 const statsLine = document.getElementById("statsLine");
 const resourceLine = document.getElementById("resourceLine");
 const conditionLine = document.getElementById("conditionLine");
+const standingLine = document.getElementById("standingLine");
 const majorPill = document.getElementById("majorPill");
 
 const eventName = document.getElementById("eventName");
@@ -1691,7 +1712,7 @@ function summarizeBundle(bundle) {
 
   for (const s of (bundle.standings ?? [])) {
     const steps = s.steps ?? 0;
-    if (steps !== 0) lines.push(`Standing ${s.factionId}: ${steps > 0 ? "+" : ""}${steps} tier(s)`);
+    if (steps !== 0) lines.push(`Standing ${factionLabel(s.factionId)}: ${steps > 0 ? "+" : ""}${steps} tier(s)`);
   }
 
   return lines;
@@ -1747,6 +1768,17 @@ function renderResultBadges(bundle) {
       pill.textContent = `${mode}: ${c.id}`;
     }
 
+    wrap.appendChild(pill);
+  }
+
+  // Standings
+  for (const s of (bundle.standings ?? [])) {
+    const steps = s.steps ?? 0;
+    if (!steps) continue;
+
+    const pill = document.createElement("span");
+    pill.className = "resultPill " + (steps > 0 ? "good" : "bad");
+    pill.textContent = `${steps > 0 ? "↑" : "↓"} ${Math.abs(steps)} ${factionLabel(s.factionId)} Standing`;
     wrap.appendChild(pill);
   }
 
@@ -2037,6 +2069,7 @@ function indexData() {
   DATA.cardsById = Object.fromEntries(DATA.cards.map(c => [c.id, c]));
   DATA.eventsById = Object.fromEntries(DATA.events.map(e => [e.id, e]));
   DATA.backgroundsById = Object.fromEntries(DATA.backgrounds.map(b => [b.id, b]));
+  DATA.factionsById = Object.fromEntries((DATA.factions ?? DEFAULT_FACTIONS).map(f => [f.id, f]));
 }
 
 async function loadAllData() {
@@ -2144,7 +2177,7 @@ function unmetReasons(requirements) {
         reasons.push(`Requires age ${req.min}–${req.max}`);
         break;
       case "MinStanding":
-        reasons.push(`Requires ${req.factionId} standing ≥ ${req.minTier}`);
+        reasons.push(`Requires ${factionLabel(req.factionId)} standing ≥ ${req.minTier}`);
         break;
       default:
         reasons.push(`Requirement unmet: ${req.type}`);
@@ -3900,6 +3933,12 @@ function poolBias(ev) {
     } else if (p.startsWith("flag:")) {
       const fid = p.slice(5);
       m *= hasFlag(fid) ? 2.0 : 0.7;
+    } else if (p.startsWith("faction:")) {
+      const factionId = p.slice(7);
+      const tier = getStandingTierSafe(factionId);
+      const idx = tierIndex(tier);
+      const mult = 1 + 0.35 * Math.abs(idx - 2); // Neutral=1.0, extremes lean harder into faction content
+      m *= mult;
     }
   }
   return m;
