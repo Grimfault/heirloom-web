@@ -888,3 +888,134 @@ button:disabled, .btn:disabled { opacity: .65; }
 .cardtype{ margin-top:4px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
 .cardbig{ margin-top:10px; align-items:flex-start; gap:12px; }
 .arrows{ min-width:40px; font-size:22px; }
+
+
+
+/* =========================================================
+   v2.1 UI Readability + "Hand of Cards" Fan + Bigger Icons
+   - Improves Candle mode separation
+   - Increases icon visibility
+   - Renders hand as a fanned row of cards (scrollable)
+   ========================================================= */
+
+/* --- Bigger + clearer pixel icons --- */
+.ico{
+  width: 24px !important;
+  height: 24px !important;
+  image-rendering: pixelated;
+  opacity: 1;
+  /* give thin pixel lines a crisp edge */
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,.35)) drop-shadow(0 0 2px rgba(0,0,0,.35));
+}
+
+.icoWrap{
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 999px;
+  border-width: 2px !important;
+}
+
+/* Stronger badge fills (tinted but dark enough for white icons) */
+.cardbtn .icoWrap-disc{
+  background: color-mix(in srgb, var(--badgeColor) 24%, rgba(0,0,0,0.80)) !important;
+  border-color: color-mix(in srgb, var(--badgeColor) 70%, rgba(0,0,0,0.20)) !important;
+}
+.icoWrap-ctx{
+  background: color-mix(in srgb, var(--ctxColor, var(--accent)) 24%, rgba(0,0,0,0.80)) !important;
+  border-color: color-mix(in srgb, var(--ctxColor, var(--accent)) 70%, rgba(0,0,0,0.20)) !important;
+}
+
+/* Candle mode: keep badges dark for contrast */
+:root[data-theme="candlelit-light"] .icoWrap{
+  background: rgba(0,0,0,0.82) !important;
+  border-color: rgba(0,0,0,0.30) !important;
+}
+
+/* Slightly larger scene row text to match bigger icons */
+.sceneText{ font-size: 1.02rem; }
+
+/* --- Candle mode separation (critical) --- */
+:root[data-theme="candlelit-light"] .card{
+  background: rgba(255,255,255,0.78) !important;
+  border-color: rgba(0,0,0,0.18) !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+:root[data-theme="candlelit-light"] .outcomeFocus{
+  background: rgba(255,255,255,0.85) !important;
+  border-color: rgba(0,0,0,0.16) !important;
+}
+
+:root[data-theme="candlelit-light"] .outcomeItem{
+  background: rgba(255,255,255,0.92) !important;
+  border-color: rgba(0,0,0,0.14) !important;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+}
+:root[data-theme="candlelit-light"] .outcomeItem:hover{
+  background: rgba(255,255,255,0.98) !important;
+  border-color: rgba(0,0,0,0.18) !important;
+}
+:root[data-theme="candlelit-light"] .outcomeItem.selected{
+  border-color: color-mix(in srgb, var(--accent) 45%, rgba(0,0,0,0.18)) !important;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+:root[data-theme="candlelit-light"] .resultCol{
+  background: rgba(255,255,255,0.70) !important;
+  border-color: rgba(0,0,0,0.12) !important;
+}
+
+/* Make dotted slot borders more visible in Candle */
+:root[data-theme="candlelit-light"] .slot{
+  border-color: rgba(0,0,0,0.20) !important;
+}
+
+/* --- "Hand of cards" fan layout --- */
+.hand.handFan{
+  display: flex !important;
+  align-items: flex-end;
+  gap: 0;
+  overflow-x: auto;
+  padding: 16px 22px 18px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.hand.handFan::-webkit-scrollbar{
+  height: 10px;
+}
+.hand.handFan::-webkit-scrollbar-thumb{
+  background: color-mix(in srgb, var(--line) 35%, transparent);
+  border-radius: 999px;
+}
+
+.hand.handFan .cardbtn{
+  flex: 0 0 320px;
+  max-width: 320px;
+  margin-left: -90px;              /* overlap, but not “covered up” */
+  scroll-snap-align: center;
+  position: relative;
+  z-index: var(--z, 1);
+  transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
+  transition: transform .10s ease, box-shadow .12s ease;
+}
+.hand.handFan .cardbtn:first-child{ margin-left: 0; }
+
+.hand.handFan .cardbtn:hover{
+  z-index: 9999;
+  transform: rotate(var(--rot, 0deg)) translateY(calc(var(--y, 0px) - 10px));
+}
+
+/* Selected/committed gets a small lift */
+.hand.handFan .cardbtn.committed,
+.hand.handFan .cardbtn.playable{
+  transform: rotate(var(--rot, 0deg)) translateY(calc(var(--y, 0px) - 6px));
+}
+
+/* Mobile: slightly narrower cards + less overlap */
+@media (max-width: 700px){
+  .hand.handFan .cardbtn{
+    flex-basis: 300px;
+    max-width: 300px;
+    margin-left: -84px;
+  }
+}
