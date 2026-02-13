@@ -2377,6 +2377,15 @@ function openDraftModal(onPicked) {
     div.tabIndex = 0;
     div.dataset.rarity = (c.rarity || "");
     div.dataset.discipline = (c.discipline || "");
+    // Fan layout variables (hand of cards)
+    const __n = hand.length;
+    const __mid = (__n - 1) / 2;
+    const __maxAngle = 10; // degrees
+    const __rot = (__mid > 0) ? (((__hi - __mid) / __mid) * __maxAngle) : 0;
+    const __y = Math.abs(__hi - __mid) * 6; // px
+    div.style.setProperty("--rot", __rot.toFixed(2) + "deg");
+    div.style.setProperty("--y", __y.toFixed(0) + "px");
+    div.style.setProperty("--z", (1000 + __hi).toString());
 
     div.innerHTML = `
       <div class="cardname">${c.name}</div>
@@ -3734,7 +3743,9 @@ function renderHand() {
   }
 
   handEl.innerHTML = "";
-  for (const entry of hand) {
+  handEl.classList.add("handFan");
+  for (let __hi = 0; __hi < hand.length; __hi++) {
+    const entry = hand[__hi];
     const cid = entry.cid;
     const c = DATA.cardsById[cid];
     if (!c) continue;
