@@ -762,133 +762,129 @@ button:disabled, .btn:disabled { opacity: .65; }
 
 
 /* =========================================================
-   Candlelit Ledger Theme (Ink-forward) + Light "Candle" mode
-   Toggle by setting: <html data-theme="candlelit-dark|candlelit-light">
+   Candlelit Ledger (Ink-forward) + Candle mode (Light)
+   Toggle by setting <html data-theme="candlelit-dark|candlelit-light">
    ========================================================= */
-
 :root[data-theme="candlelit-dark"]{
-  --bg:    #0B0A08;
-  --card:  #15110D;
-  --card2: #1B1611;
-
-  --text:  #F2EBDD;
-  --muted: #B9AE9D;
-  --line:  #3A2F24;
-
-  --accent:#7FA2C8; /* ink */
-  --brass: #D2A85A; /* prestige */
-
-  --good:  #7CCB8A;
-  --bad:   #E06C5F;
-  --warn:  #E2C06B;
-  --danger:#D9524A;
-
-  --fieldBg: #120D0A;
-  --modalBg: #120D0A;
-
-  --focusRing: rgba(127,162,200,.45);
-
-  --iconFilter: none;
+  --bg:#0B0A08; --card:#15110D; --card2:#1B1611;
+  --text:#F2EBDD; --muted:#B9AE9D; --line:#3A2F24;
+  --accent:#7FA2C8; --brass:#D2A85A;
+  --good:#7CCB8A; --bad:#E06C5F; --warn:#E2C06B; --danger:#D9524A;
+  --fieldBg:#120D0A; --focusRing: rgba(127,162,200,.45);
 }
-
 :root[data-theme="candlelit-light"]{
-  --bg:    #F3EEE4;
-  --card:  #FFFFFF;
-  --card2: #FAF5EC;
-
-  --text:  #1F1A14;
-  --muted: #6B6258;
-  --line:  #D7CCBE;
-
-  --accent:#2F5FA8; /* ink */
-  --brass: #B07D2B; /* aged brass */
-
-  --good:  #2E8B57;
-  --bad:   #B1412E;
-  --warn:  #B8872E;
-  --danger:#9E2F25;
-
-  --fieldBg: #FBF6EE;
-  --modalBg: #FFFFFF;
-
-  --focusRing: rgba(47,95,168,.30);
-
-  /* make white pixel icons visible on light backgrounds */
-  --iconFilter: invert(1) brightness(0.16) contrast(1.25);
+  --bg:#F3EEE4; --card:#FFFFFF; --card2:#FAF5EC;
+  --text:#1F1A14; --muted:#6B6258; --line:#CBBEAE;
+  --accent:#2F5FA8; --brass:#B07D2B;
+  --good:#2E8B57; --bad:#B1412E; --warn:#B8872E; --danger:#9E2F25;
+  --fieldBg:#FBF6EE; --focusRing: rgba(47,95,168,.28);
 }
-
-/* Apply warm topbar under both themes */
-:root[data-theme="candlelit-dark"] .topbar,
+:root[data-theme="candlelit-dark"] body,
+:root[data-theme="candlelit-light"] body{
+  background: var(--bg);
+  color: var(--text);
+}
+:root[data-theme="candlelit-light"] .card,
+:root[data-theme="candlelit-light"] .outcome,
+:root[data-theme="candlelit-light"] .outcomeFocus,
+:root[data-theme="candlelit-light"] .resultCol,
+:root[data-theme="candlelit-light"] .cardbtn{
+  border-color: color-mix(in srgb, var(--line) 92%, #000 8%);
+}
+:root[data-theme="candlelit-light"] .cardbtn,
+:root[data-theme="candlelit-light"] .outcome,
+:root[data-theme="candlelit-light"] .outcomeFocus{
+  background: rgba(255,255,255,0.72);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, 0 6px 18px rgba(0,0,0,0.06);
+}
 :root[data-theme="candlelit-light"] .topbar{
   background: linear-gradient(180deg,
-    color-mix(in srgb, var(--bg) 96%, transparent),
-    color-mix(in srgb, var(--bg) 76%, transparent)
+    color-mix(in srgb, var(--bg) 94%, transparent),
+    color-mix(in srgb, var(--bg) 72%, transparent)
   );
-  border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 90%, #000 10%);
 }
-
-/* Form fields use themed backgrounds */
-:root[data-theme="candlelit-dark"] select,
-:root[data-theme="candlelit-light"] select,
 :root[data-theme="candlelit-dark"] input,
-:root[data-theme="candlelit-light"] input{
+:root[data-theme="candlelit-dark"] select,
+:root[data-theme="candlelit-light"] input,
+:root[data-theme="candlelit-light"] select{
   background: var(--fieldBg);
+  border-color: var(--line);
+  color: var(--text);
 }
-
-
 
 /* =========================================================
-   Pixel Icons (Contexts + Disciplines)
+   Pixel Icon Badges (bigger + readable)
    ========================================================= */
+:root{
+  --disc-steel:#8A97B0; --disc-quill:#7FA2C8; --disc-veil:#A487E6; --disc-seal:#D2A85A; --disc-hearth:#D27A4A;
+  --ctx-strife:#C86B4C; --ctx-court:#B07D2B; --ctx-scheme:#A487E6; --ctx-journey:#5FA8A0; --ctx-lore:#7FA2C8;
+}
 .ico{
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  vertical-align: -3px;
-  margin-right: 6px;
+  width:18px; height:18px;
   image-rendering: pixelated;
-  filter: var(--iconFilter, none);
-  opacity: .95;
+  opacity: 1;
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,.25));
 }
-.ico.ico-sm{
-  width: 14px;
-  height: 14px;
-  margin-right: 5px;
-  vertical-align: -2px;
+.icoWrap{
+  width:28px; height:28px;
+  border-radius:999px;
+  display:inline-flex; align-items:center; justify-content:center;
+  margin-right:8px;
+  border:1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.35);
 }
+:root[data-theme="candlelit-light"] .icoWrap{
+  background: rgba(0,0,0,0.62);
+  border-color: rgba(0,0,0,0.25);
+}
+.cardbtn[data-discipline="Steel"]  { --badgeColor: var(--disc-steel); }
+.cardbtn[data-discipline="Quill"]  { --badgeColor: var(--disc-quill); }
+.cardbtn[data-discipline="Veil"]   { --badgeColor: var(--disc-veil); }
+.cardbtn[data-discipline="Seal"]   { --badgeColor: var(--disc-seal); }
+.cardbtn[data-discipline="Hearth"] { --badgeColor: var(--disc-hearth); }
+.cardbtn .icoWrap-disc{
+  background: color-mix(in srgb, var(--badgeColor) 28%, rgba(0,0,0,0.55));
+  border-color: color-mix(in srgb, var(--badgeColor) 65%, transparent);
+}
+:root[data-theme="candlelit-light"] .cardbtn .icoWrap-disc{
+  background: color-mix(in srgb, var(--badgeColor) 45%, rgba(0,0,0,0.72));
+  border-color: color-mix(in srgb, var(--badgeColor) 78%, rgba(0,0,0,0.25));
+}
+.sceneItem[data-ctx="Strife"]  { --ctxColor: var(--ctx-strife); }
+.sceneItem[data-ctx="Court"]   { --ctxColor: var(--ctx-court); }
+.sceneItem[data-ctx="Scheme"]  { --ctxColor: var(--ctx-scheme); }
+.sceneItem[data-ctx="Journey"] { --ctxColor: var(--ctx-journey); }
+.sceneItem[data-ctx="Lore"]    { --ctxColor: var(--ctx-lore); }
+.icoWrap-ctx{
+  background: color-mix(in srgb, var(--ctxColor, var(--accent)) 28%, rgba(0,0,0,0.55));
+  border-color: color-mix(in srgb, var(--ctxColor, var(--accent)) 65%, transparent);
+}
+:root[data-theme="candlelit-light"] .icoWrap-ctx{
+  background: color-mix(in srgb, var(--ctxColor, var(--accent)) 45%, rgba(0,0,0,0.72));
+  border-color: color-mix(in srgb, var(--ctxColor, var(--accent)) 78%, rgba(0,0,0,0.25));
+}
+.cardtype .discLabel{ display:inline-flex; align-items:center; }
+.cardtype .discText{ line-height:1; }
+.scene{ display:inline-flex; flex-wrap:wrap; align-items:center; gap:10px; }
+.sceneLabel{ color:var(--muted); font-weight:800; }
+.sceneItem{ display:inline-flex; align-items:center; }
+.sceneText{ font-weight:900; }
+.sceneSep{ color:var(--muted); font-weight:900; margin:0 -4px; }
+.sceneAny{ color:var(--muted); font-weight:900; text-transform:lowercase; }
+.cardSep{ color:var(--muted); font-weight:900; margin:0 6px; }
+.riderText{ color:var(--muted); font-weight:700; }
 
-.discLabel{
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
-}
-.discText{ line-height: 1; }
+#eventMeta{ display:flex; align-items:center; gap:8px; }
+#eventMeta .metaText{ color: var(--muted); }
 
-.scene{
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-}
-.sceneLabel{
-  color: var(--muted);
-  font-weight: 800;
-}
-.sceneItem{
-  display: inline-flex;
-  align-items: center;
-}
-.sceneText{
-  font-weight: 900;
-}
-.sceneSep{
-  color: var(--muted);
-  opacity: .9;
-  font-weight: 900;
-  margin: 0 2px;
-}
-.sceneAny{
-  color: var(--muted);
-  font-weight: 900;
-  text-transform: lowercase;
-}
+/* =========================================================
+   Hand layout: vertical (more readable)
+   ========================================================= */
+.hand{ grid-template-columns:1fr !important; gap:12px !important; }
+@media (min-width:700px){ .hand{ grid-template-columns:1fr !important; } }
+.cardbtn{ padding: 14px 14px; }
+.cardname{ font-size: 16px; }
+.cardtype{ margin-top:4px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+.cardbig{ margin-top:10px; align-items:flex-start; gap:12px; }
+.arrows{ min-width:40px; font-size:22px; }
