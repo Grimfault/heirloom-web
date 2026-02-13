@@ -777,37 +777,27 @@ function safeGetTheme() {
   } catch {}
   return null;
 }
-
-function safeSetTheme(v) {
-  try { localStorage.setItem(THEME_KEY, v); } catch {}
-}
-
+function safeSetTheme(v) { try { localStorage.setItem(THEME_KEY, v); } catch {} }
 function systemPrefTheme() {
-  try {
-    return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "candle" : "ink";
-  } catch {}
-  return "ink";
+  try { return (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "candle" : "ink"; }
+  catch { return "ink"; }
 }
-
 function applyTheme(mode) {
   const m = (mode === "candle") ? "candle" : "ink";
   document.documentElement.setAttribute("data-theme", m === "candle" ? "candlelit-light" : "candlelit-dark");
   safeSetTheme(m);
-
   const label = (m === "candle") ? "Theme: Candle" : "Theme: Ink";
-  if (typeof btnTheme !== "undefined" && btnTheme) btnTheme.textContent = label;
-  if (typeof btnMenuTheme !== "undefined" && btnMenuTheme) btnMenuTheme.textContent = label;
+  if (btnTheme) btnTheme.textContent = label;
+  if (btnMenuTheme) btnMenuTheme.textContent = label;
 }
-
 function toggleTheme() {
   const cur = safeGetTheme() || systemPrefTheme();
   applyTheme(cur === "candle" ? "ink" : "candle");
 }
-
 (function initTheme(){
   applyTheme(safeGetTheme() || systemPrefTheme());
-  if (typeof btnTheme !== "undefined" && btnTheme) btnTheme.addEventListener("click", toggleTheme);
-  if (typeof btnMenuTheme !== "undefined" && btnMenuTheme) btnMenuTheme.addEventListener("click", toggleTheme);
+  if (btnTheme) btnTheme.addEventListener("click", toggleTheme);
+  if (btnMenuTheme) btnMenuTheme.addEventListener("click", toggleTheme);
 })();
 
 
@@ -1317,6 +1307,55 @@ function hash32(str) {
   return (h >>> 0);
 }
 
+
+// ---------- Pixel Icons (Contexts + Disciplines) ----------
+const ICON_SRC = {
+  ctx: {
+    Strife: "icons/ctx_strife.png",
+    Court: "icons/ctx_court.png",
+    Scheme: "icons/ctx_scheme.png",
+    Journey: "icons/ctx_journey.png",
+    Lore: "icons/ctx_lore.png",
+  },
+  disc: {
+    Steel: "icons/disc_steel.png",
+    Quill: "icons/disc_quill.png",
+    Veil: "icons/disc_veil.png",
+    Seal: "icons/disc_seal.png",
+    Hearth: "icons/disc_hearth.png",
+    Wild: null,
+  }
+};
+
+function iconImg(src, cls) {
+  if (!src) return "";
+  return `<img class="${cls}" src="${src}" alt="" aria-hidden="true" onerror="this.style.display='none'">`;
+}
+
+function discBadgeHtml(disc) {
+  const src = ICON_SRC.disc[disc] || null;
+  if (!src) return `<span class="icoWrap icoWrap-disc" data-disc="${escapeHtml(disc)}"><span class="icoFallback">✦</span></span>`;
+  return `<span class="icoWrap icoWrap-disc" data-disc="${escapeHtml(disc)}">${iconImg(src, "ico ico-disc")}</span>`;
+}
+
+function ctxBadgeHtml(ctx) {
+  const src = ICON_SRC.ctx[ctx] || null;
+  if (!src) return "";
+  return `<span class="icoWrap icoWrap-ctx" data-ctx="${escapeHtml(ctx)}">${iconImg(src, "ico ico-ctx")}</span>`;
+}
+
+function sceneHtml(ctxs) {
+  const arr = (ctxs ?? []).filter(Boolean);
+  if (!arr.length) return `<span class="scene"><span class="sceneLabel">Scene:</span> <span class="sceneAny">any</span></span>`;
+  const parts = [];
+  for (let i = 0; i < arr.length; i++) {
+    const c = arr[i];
+    if (i) parts.push(`<span class="sceneSep">/</span>`);
+    parts.push(`<span class="sceneItem" data-ctx="${escapeHtml(c)}">${ctxBadgeHtml(c)}<span class="sceneText">${escapeHtml(c)}</span></span>`);
+  }
+  return `<span class="scene"><span class="sceneLabel">Scene:</span> ${parts.join(" ")}</span>`;
+}
+
 const CARD_FLAVOR = {
   Steel: [
     "Steel answers faster than doubt.",
@@ -1362,58 +1401,6 @@ function cardFlavor(c) {
 function cardSceneText(ctxs) {
   const arr = (ctxs ?? []).filter(Boolean);
   return arr.length ? `Scene: ${arr.join(" / ")}` : "Scene: any";
-}
-
-
-// ---------- Pixel Icons (Contexts + Disciplines) ----------
-const ICON_SRC = {
-  ctx: {
-    Strife: "icons/ctx_strife.png",
-    Court: "icons/ctx_court.png",
-    Scheme: "icons/ctx_scheme.png",
-    Journey: "icons/ctx_journey.png",
-    Lore: "icons/ctx_lore.png",
-  },
-  disc: {
-    Steel: "icons/disc_steel.png",
-    Quill: "icons/disc_quill.png",
-    Veil: "icons/disc_veil.png",
-    Seal: "icons/disc_seal.png",
-    Hearth: "icons/disc_hearth.png",
-    Wild: null,
-  }
-};
-
-function iconImg(src, cls) {
-  if (!src) return "";
-  // onerror hides missing assets without breaking rendering
-  return `<img class="${cls}" src="${src}" alt="" aria-hidden="true" onerror="this.style.display='none'">`;
-}
-
-function discIconHtml(disc) {
-  return iconImg((ICON_SRC.disc[disc] || null), "ico ico-disc");
-}
-
-function ctxIconHtml(ctx) {
-  return iconImg((ICON_SRC.ctx[ctx] || null), "ico ico-ctx ico-sm");
-}
-
-function cardSceneHtml(ctxs) {
-  const arr = (ctxs ?? []).filter(Boolean);
-  if (!arr.length) return `<span class="scene"><span class="sceneLabel">Scene:</span> <span class="sceneAny">any</span></span>`;
-  const parts = [];
-  for (let i = 0; i < arr.length; i++) {
-    const c = arr[i];
-    if (i) parts.push(`<span class="sceneSep">/</span>`);
-    parts.push(`<span class="sceneItem">${ctxIconHtml(c)}<span class="sceneText">${c}</span></span>`);
-  }
-  return `<span class="scene"><span class="sceneLabel">Scene:</span> ${parts.join(" ")}</span>`;
-}
-
-function cardScenesHtml(card) {
-  if (!card) return "";
-  if (isWildCard(card)) return `<span class="scene"><span class="sceneLabel">Scene:</span> <span class="sceneAny">any</span></span>`;
-  return cardSceneHtml(card.contexts);
 }
 
 
@@ -1637,7 +1624,7 @@ function openOpportunityModal({ onDone } = {}) {
       : (arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted");
 
     const riderText = cardRiderTextAt(card, lvlData);
-    const scenesText = cardScenesHtml(card);
+    const scenesText = cardScenesText(card);
     const line3 = isWild
       ? riderText
       : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""));
@@ -1706,7 +1693,7 @@ function openOpportunityModal({ onDone } = {}) {
       row.innerHTML = `
         <div class="upgradeInfo">
           <div class="upgradeName">${c.name}</div>
-          <div class="muted small">${rarity} • <span class="discLabel">${discIconHtml(c.discipline)}<span class="discText">${c.discipline}</span></span> • Level ${cur}${canUp ? ` → ${cur + 1}` : " (Max)"}</div>
+          <div class="muted small">${rarity} • ${c.discipline} • Level ${cur}${canUp ? ` → ${cur + 1}` : " (Max)"}</div>
 
           <div class="upgradeEffect">
             <div class="small"><span class="muted">Current:</span>
@@ -2382,7 +2369,7 @@ function openDraftModal(onPicked) {
     const arrowsClass = isWild ? "muted" : (arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted");
     const rarityMark = cardRarityMark(c);
     const riderText = cardRiderText(c);
-    const scenesText = cardScenesHtml(c);
+    const scenesText = cardScenesText(c);
     const line3 = isWild ? riderText : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""));
 
     const div = document.createElement("div");
@@ -2393,7 +2380,7 @@ function openDraftModal(onPicked) {
 
     div.innerHTML = `
       <div class="cardname">${c.name}</div>
-      <div class="cardtype"><span class="discLabel">${discIconHtml(c.discipline)}<span class="discText">${c.discipline}</span></span><span class="rarityPips">${rarityMark}</span></div>
+      <div class="cardtype"><span>${c.discipline}</span><span class="rarityPips">${rarityMark}</span></div>
 
       <div class="cardbig">
         <span class="arrows ${arrowsClass}">${arrowsText}</span>
@@ -3614,7 +3601,7 @@ function renderEvent() {
   if (currentEvent?.storyline?.id === "ct" && state.family.prospect) {
     meta += ` • Prospect: ${state.family.prospect.given} (${state.family.prospect.cultureName})`;
   }
-  eventMeta.textContent = meta;
+  eventMeta.innerHTML = `${ctxBadgeHtml(currentEvent.context)}<span class="metaText">${escapeHtml(meta)}</span>`;
   eventPrompt.textContent = currentEvent.prompt;
 }
 
@@ -3761,8 +3748,10 @@ function renderHand() {
     const arrowsClass = isWild ? "muted" : (arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted");
     const rarityMark = cardRarityMark(c);
     const riderText = cardRiderText(c);
-    const scenesText = cardScenesHtml(c);
-    const line3 = isWild ? riderText : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""))
+    const scenesHtml = isWild ? sceneHtml([]) : sceneHtml(c.contexts);
+    const riderHtml = riderText ? ` <span class="cardSep">•</span> <span class="riderText">${escapeHtml(riderText)}</span>` : "";
+    const partialHtml = lvlData.partialOnFail ? ` <span class="cardSep">•</span> <span class="riderText">partial on failure</span>` : "";
+    const line3 = `${scenesHtml}${riderHtml}${partialHtml}`
     let usabilityHtml = "";
     if (hasOutcome) {
       const d = cardUsabilityDetails(cid, selectedOutcomeIndex);
@@ -3790,7 +3779,7 @@ function renderHand() {
 
     div.innerHTML = `
       <div class="cardname">${c.name}</div>
-      <div class="cardtype"><span class="discLabel">${discIconHtml(c.discipline)}<span class="discText">${c.discipline}</span></span><span class="rarityPips">${rarityMark}</span></div>
+      <div class="cardtype"><span class="discLabel">${discBadgeHtml(c.discipline)}<span class="discText">${c.discipline}</span></span><span class="rarityPips">${rarityMark}</span></div>
 
       <div class="cardbig">
         <span class="arrows ${arrowsClass}">${arrowsText}</span>
