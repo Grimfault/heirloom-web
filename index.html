@@ -5,17 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Heirloom (Prototype)</title>
-<script>
-(() => {
-  try {
-    const t = localStorage.getItem("heirloom_theme") || "ink";
-    document.documentElement.dataset.theme = (t === "candle" || t === "ink") ? t : "ink";
-  } catch (e) {
-    document.documentElement.dataset.theme = "ink";
-  }
-})();
-</script>
-<link href="styles.css?v=9.0" rel="stylesheet"/>
+<link href="styles.css?v=8.2" rel="stylesheet"/>
 </head>
 <body>
 <div class="app" id="app">
@@ -26,7 +16,7 @@
 </div>
 <div class="topbar-actions">
 <button class="btn ghost" disabled="" id="btnNewEvent">New Event</button>
-<button class="btn ghost" id="btnTheme" title="Theme">Ink</button>
+<button class="btn ghost" id="btnTheme" title="Toggle theme">Theme: Ink</button>
 <button class="btn danger" id="btnReset">Reset</button>
 </div>
 </header>
@@ -37,9 +27,9 @@
     <h1 class="menuTitle">Heirloom</h1>
   </div>
   <div class="menuActions">
-<button class="btn primary btn-wide" id="btnMenuStart">Start</button>
+    <button class="btn primary btn-wide" id="btnMenuStart">Start</button>
     <button class="btn ghost btn-wide" id="btnLegacy">Upgrades</button>
-    <button class="btn ghost btn-wide" id="btnThemeMenu">Theme: Ink</button>
+    <button class="btn ghost btn-wide" id="btnMenuTheme">Theme: Ink</button>
   </div>
 </section>
 
@@ -133,8 +123,8 @@
 <div class="status" id="statusLine"></div>
 <div id="statsLine"></div>
 <div class="muted" id="resourceLine"></div>
-<div class="muted" id="standingLine"></div>
 <div class="muted" id="conditionLine"></div>
+<div class="muted" id="standingLine"></div>
 </div>
 <div class="pill" id="majorPill" title="Major Event">MAJOR</div>
 </div>
