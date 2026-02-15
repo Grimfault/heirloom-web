@@ -105,10 +105,10 @@ function ctxBadgeHtml(ctx) {
 function playableScenesHtml(card) {
   if (!card) return "";
   if (isWildCard(card)) {
-    return `<div class="scenesAny"><span class="pill any">Any scene</span></div>`;
+    return `<div class="scenesList"><span class="scenePill scenePillAny"><span class="scenePillText">Any scene</span></span></div>`;
   }
   const arr = (card.contexts || []).filter(Boolean);
-  if (!arr.length) return `<div class="scenesAny"><span class="pill any">Any scene</span></div>`;
+  if (!arr.length) return `<div class="scenesList"><span class="scenePill scenePillAny"><span class="scenePillText">Any scene</span></span></div>`;
 
   // Keep cards visually consistent: show up to 4 scenes, then a "+N more" pill
   const MAX = 4;
