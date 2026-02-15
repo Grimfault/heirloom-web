@@ -15,6 +15,107 @@
 */
 console.log("✅ app.js loaded");
 
+// ---------- Theme (Candlelit Ledger) ----------
+const THEME_KEY = "heirloom_theme";
+function getStoredTheme() {
+  try {
+    const t = localStorage.getItem(THEME_KEY);
+    return (t === "candle" || t === "ink") ? t : "ink";
+  } catch {
+    return "ink";
+  }
+}
+function applyTheme(theme) {
+  const t = (theme === "candle" || theme === "ink") ? theme : "ink";
+  document.documentElement.dataset.theme = t;
+
+  const label = (t === "ink") ? "Ink" : "Candle";
+  const menuLabel = (t === "ink") ? "Theme: Ink" : "Theme: Candle";
+
+  const btn = document.getElementById("btnTheme");
+  if (btn) btn.textContent = label;
+
+  const btnMenu = document.getElementById("btnThemeMenu");
+  if (btnMenu) btnMenu.textContent = menuLabel;
+
+  try { localStorage.setItem(THEME_KEY, t); } catch {}
+}
+function toggleTheme() {
+  const cur = (document.documentElement.dataset.theme === "candle") ? "candle" : "ink";
+  applyTheme(cur === "ink" ? "candle" : "ink");
+}
+function initThemeUI() {
+  // Respect any early <head> theme set; otherwise use localStorage default.
+  const existing = document.documentElement.dataset.theme;
+  const t = (existing === "candle" || existing === "ink") ? existing : getStoredTheme();
+  applyTheme(t);
+
+  const btn = document.getElementById("btnTheme");
+  if (btn && !btn.__heirloomBound) {
+    btn.addEventListener("click", toggleTheme);
+    btn.__heirloomBound = true;
+  }
+
+  const btnMenu = document.getElementById("btnThemeMenu");
+  if (btnMenu && !btnMenu.__heirloomBound) {
+    btnMenu.addEventListener("click", toggleTheme);
+    btnMenu.__heirloomBound = true;
+  }
+}
+
+initThemeUI();
+
+
+// ---------- Pixel Icon Helpers ----------
+const ICONS = {
+  ctx: {
+    Strife: "icons/ctx_strife.png",
+    Court: "icons/ctx_court.png",
+    Scheme: "icons/ctx_scheme.png",
+    Journey: "icons/ctx_journey.png",
+    Lore: "icons/ctx_lore.png",
+  },
+  disc: {
+    Steel: "icons/disc_steel.png",
+    Quill: "icons/disc_quill.png",
+    Veil: "icons/disc_veil.png",
+    Seal: "icons/disc_seal.png",
+    Hearth: "icons/disc_hearth.png",
+    Wild: null,
+  }
+};
+
+function iconImg(src, cls="icoImg") {
+  if (!src) return "";
+  return `<img class="${cls}" src="${src}" alt="" aria-hidden="true" onerror="this.style.display='none'">`;
+}
+
+function discBadgeHtml(disc) {
+  const d = disc || "Wild";
+  const src = (ICONS.disc[d] || null);
+  return `<span class="badge badge-disc" data-disc="${d}">${iconImg(src)}</span>`;
+}
+
+function ctxBadgeHtml(ctx) {
+  const c = ctx || "";
+  const src = (ICONS.ctx[c] || null);
+  return `<span class="badge badge-ctx" data-ctx="${c}">${iconImg(src)}</span>`;
+}
+
+function playableScenesHtml(card) {
+  if (!card) return "";
+  if (isWildCard(card)) {
+    return `<div class="scenesAny"><span class="pill any">Any scene</span></div>`;
+  }
+  const arr = (card.contexts || []).filter(Boolean);
+  if (!arr.length) return `<div class="scenesAny"><span class="pill any">Any scene</span></div>`;
+  return `<div class="scenesList">` + arr.map(c => (
+    `<span class="scenePill">${ctxBadgeHtml(c)}<span class="scenePillText">${c}</span></span>`
+  )).join("") + `</div>`;
+}
+
+
+
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const rInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -32,16 +133,6 @@ const DEFAULT_FACTIONS = [
   { id: "emirate", short: "Emirate", name: "The Ashen Emirate", defaultTier: "Neutral" }
 ];
 
-function factionLabel(factionId, opts = {}) {
-  const short = opts.short ?? true;
-  const f = DATA?.factionsById?.[factionId];
-  if (!f) return String(factionId ?? "");
-  return String(short ? (f.short ?? f.name ?? factionId) : (f.name ?? f.short ?? factionId));
-}
-
-function getStandingTierSafe(factionId) {
-  return (state?.standings?.[factionId]) ?? (DATA?.factionsById?.[factionId]?.defaultTier) ?? "Neutral";
-}
 
 const OPPORTUNITY_GAP_MIN = 4; // encounter appears every 4–6 completed events
 const OPPORTUNITY_GAP_MAX = 6;
@@ -735,9 +826,11 @@ let DATA = {
   cards: [],
   events: [],
   backgrounds: [],
+  factions: [],
   cardsById: {},
   eventsById: {},
-  backgroundsById: {}
+  backgroundsById: {},
+  factionsById: {}
 };
 
 // ---------- DOM ----------
@@ -761,45 +854,9 @@ const legacyBranchesEl = document.getElementById("legacyBranches");
 const bgSelect = document.getElementById("bgSelect");
 const btnStart = document.getElementById("btnStart");
 const btnReset = document.getElementById("btnReset");
-const btnTheme = document.getElementById("btnTheme");
-const btnMenuTheme = document.getElementById("btnMenuTheme");
 const btnResolve = document.getElementById("btnResolve");
 const btnNewEvent = document.getElementById("btnNewEvent");
 const btnDebugPickEvent = document.getElementById("btnDebugPickEvent");
-
-// ---------- Theme (Candlelit Ledger: Ink/Candle) ----------
-const THEME_KEY = "heirloom_theme"; // values: "ink" | "candle"
-
-function safeGetTheme() {
-  try {
-    const v = (localStorage.getItem(THEME_KEY) || "").toLowerCase();
-    if (v === "ink" || v === "candle") return v;
-  } catch {}
-  return null;
-}
-function safeSetTheme(v) { try { localStorage.setItem(THEME_KEY, v); } catch {} }
-function systemPrefTheme() {
-  try { return (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "candle" : "ink"; }
-  catch { return "ink"; }
-}
-function applyTheme(mode) {
-  const m = (mode === "candle") ? "candle" : "ink";
-  document.documentElement.setAttribute("data-theme", m === "candle" ? "candlelit-light" : "candlelit-dark");
-  safeSetTheme(m);
-  const label = (m === "candle") ? "Theme: Candle" : "Theme: Ink";
-  if (btnTheme) btnTheme.textContent = label;
-  if (btnMenuTheme) btnMenuTheme.textContent = label;
-}
-function toggleTheme() {
-  const cur = safeGetTheme() || systemPrefTheme();
-  applyTheme(cur === "candle" ? "ink" : "candle");
-}
-(function initTheme(){
-  applyTheme(safeGetTheme() || systemPrefTheme());
-  if (btnTheme) btnTheme.addEventListener("click", toggleTheme);
-  if (btnMenuTheme) btnMenuTheme.addEventListener("click", toggleTheme);
-})();
-
 
 const charNameInput = document.getElementById("charName");
 const familyNameInput = document.getElementById("familyName");
@@ -812,8 +869,8 @@ const traitsListEl = document.getElementById("traitsList");
 const statusLine = document.getElementById("statusLine");
 const statsLine = document.getElementById("statsLine");
 const resourceLine = document.getElementById("resourceLine");
-const conditionLine = document.getElementById("conditionLine");
 const standingLine = document.getElementById("standingLine");
+const conditionLine = document.getElementById("conditionLine");
 const majorPill = document.getElementById("majorPill");
 
 const eventName = document.getElementById("eventName");
@@ -1307,55 +1364,6 @@ function hash32(str) {
   return (h >>> 0);
 }
 
-
-// ---------- Pixel Icons (Contexts + Disciplines) ----------
-const ICON_SRC = {
-  ctx: {
-    Strife: "icons/ctx_strife.png",
-    Court: "icons/ctx_court.png",
-    Scheme: "icons/ctx_scheme.png",
-    Journey: "icons/ctx_journey.png",
-    Lore: "icons/ctx_lore.png",
-  },
-  disc: {
-    Steel: "icons/disc_steel.png",
-    Quill: "icons/disc_quill.png",
-    Veil: "icons/disc_veil.png",
-    Seal: "icons/disc_seal.png",
-    Hearth: "icons/disc_hearth.png",
-    Wild: null,
-  }
-};
-
-function iconImg(src, cls) {
-  if (!src) return "";
-  return `<img class="${cls}" src="${src}" alt="" aria-hidden="true" onerror="this.style.display='none'">`;
-}
-
-function discBadgeHtml(disc) {
-  const src = ICON_SRC.disc[disc] || null;
-  if (!src) return `<span class="icoWrap icoWrap-disc" data-disc="${escapeHtml(disc)}"><span class="icoFallback">✦</span></span>`;
-  return `<span class="icoWrap icoWrap-disc" data-disc="${escapeHtml(disc)}">${iconImg(src, "ico ico-disc")}</span>`;
-}
-
-function ctxBadgeHtml(ctx) {
-  const src = ICON_SRC.ctx[ctx] || null;
-  if (!src) return "";
-  return `<span class="icoWrap icoWrap-ctx" data-ctx="${escapeHtml(ctx)}">${iconImg(src, "ico ico-ctx")}</span>`;
-}
-
-function sceneHtml(ctxs) {
-  const arr = (ctxs ?? []).filter(Boolean);
-  if (!arr.length) return `<span class="scene"><span class="sceneLabel">Scene:</span> <span class="sceneAny">any</span></span>`;
-  const parts = [];
-  for (let i = 0; i < arr.length; i++) {
-    const c = arr[i];
-    if (i) parts.push(`<span class="sceneSep">/</span>`);
-    parts.push(`<span class="sceneItem" data-ctx="${escapeHtml(c)}">${ctxBadgeHtml(c)}<span class="sceneText">${escapeHtml(c)}</span></span>`);
-  }
-  return `<span class="scene"><span class="sceneLabel">Scene:</span> ${parts.join(" ")}</span>`;
-}
-
 const CARD_FLAVOR = {
   Steel: [
     "Steel answers faster than doubt.",
@@ -1797,7 +1805,7 @@ function summarizeBundle(bundle) {
 
   for (const s of (bundle.standings ?? [])) {
     const steps = s.steps ?? 0;
-    if (steps !== 0) lines.push(`Standing ${factionLabel(s.factionId)}: ${steps > 0 ? "+" : ""}${steps} tier(s)`);
+    if (steps !== 0) lines.push(`Standing ${s.factionId}: ${steps > 0 ? "+" : ""}${steps} tier(s)`);
   }
 
   return lines;
@@ -1856,14 +1864,14 @@ function renderResultBadges(bundle) {
     wrap.appendChild(pill);
   }
 
+
   // Standings
   for (const s of (bundle.standings ?? [])) {
     const steps = s.steps ?? 0;
     if (!steps) continue;
-
     const pill = document.createElement("span");
     pill.className = "resultPill " + (steps > 0 ? "good" : "bad");
-    pill.textContent = `${steps > 0 ? "↑" : "↓"} ${Math.abs(steps)} ${factionLabel(s.factionId)} Standing`;
+    pill.textContent = `${steps > 0 ? "↑" : "↓"} ${factionLabel(s.factionId)} ${Math.abs(steps)} tier`;
     wrap.appendChild(pill);
   }
 
@@ -2154,14 +2162,15 @@ function indexData() {
   DATA.cardsById = Object.fromEntries(DATA.cards.map(c => [c.id, c]));
   DATA.eventsById = Object.fromEntries(DATA.events.map(e => [e.id, e]));
   DATA.backgroundsById = Object.fromEntries(DATA.backgrounds.map(b => [b.id, b]));
-  DATA.factionsById = Object.fromEntries((DATA.factions ?? DEFAULT_FACTIONS).map(f => [f.id, f]));
+  DATA.factionsById = Object.fromEntries((DATA.factions ?? []).map(f => [f.id, f]));
 }
 
 async function loadAllData() {
-  const [cards, events, backgrounds] = await Promise.all([
+  const [cards, events, backgrounds, factions] = await Promise.all([
     fetchJsonAny(["./data/cards.json", "./cards.json"]),
     fetchJsonAny(["./data/events.json", "./events.json"]),
-    fetchJsonAny(["./data/backgrounds.json", "./backgrounds.json"])
+    fetchJsonAny(["./data/backgrounds.json", "./backgrounds.json"]),
+    fetchJsonAny(["./data/factions.json", "./factions.json"]).catch(() => ([]))
   ]);
 
   DATA.cards = cards;
@@ -2169,6 +2178,7 @@ async function loadAllData() {
   ensureThreeLevelCards(DATA.cards);
   DATA.events = events;
   DATA.backgrounds = backgrounds;
+  DATA.factions = (Array.isArray(factions) && factions.length) ? factions : DEFAULT_FACTIONS;
   indexData();
   annotateEventSignals();
   DATA.storylineMetaById = null; // rebuilt lazily
@@ -2189,6 +2199,11 @@ async function loadAllData() {
 }
 
 // ---------- Requirements ----------
+
+function factionLabel(fid) {
+  const f = DATA?.factionsById?.[fid];
+  return (f?.short || f?.name || fid);
+}
 function tierIndex(tier) {
   const i = TIERS.indexOf(tier);
   return i >= 0 ? i : 2; // default Neutral
@@ -2262,7 +2277,7 @@ function unmetReasons(requirements) {
         reasons.push(`Requires age ${req.min}–${req.max}`);
         break;
       case "MinStanding":
-        reasons.push(`Requires ${factionLabel(req.factionId)} standing ≥ ${req.minTier}`);
+        reasons.push(`Requires ${req.factionId} standing ≥ ${req.minTier}`);
         break;
       default:
         reasons.push(`Requirement unmet: ${req.type}`);
@@ -2377,23 +2392,6 @@ function openDraftModal(onPicked) {
     div.tabIndex = 0;
     div.dataset.rarity = (c.rarity || "");
     div.dataset.discipline = (c.discipline || "");
-    // Fan layout variables (hand of cards)
-    const __n = hand.length;
-    const __mid = (__n - 1) / 2;                 // can be fractional for even counts
-    const __maxAngle = 8;                         // degrees (subtle)
-    const __den = (__mid > 0) ? __mid : 1;
-    const __rot = (((__hi - __mid) / __den) * __maxAngle);
-
-    // Lift the center cards slightly, edges stay lower (feels like a real fan)
-    const __lift = Math.max(0, (__mid - Math.abs(__hi - __mid))) * 10; // px
-    const __y = -__lift; // negative moves up
-
-    // Center cards should visually sit "on top"
-    const __z = 2000 - Math.round(Math.abs(__hi - __mid) * 10);
-
-    div.style.setProperty("--rot", __rot.toFixed(2) + "deg");
-    div.style.setProperty("--y", __y.toFixed(0) + "px");
-    div.style.setProperty("--z", __z.toString());
 
     div.innerHTML = `
       <div class="cardname">${c.name}</div>
@@ -3603,6 +3601,15 @@ function renderStatus() {
     resourceLine.textContent =
     `Coin ${state.res.Coin} • Supplies ${state.res.Supplies} • Renown ${state.res.Renown} • Influence ${state.res.Influence} • Secrets ${state.res.Secrets} • Scrip ${state.scrip ?? 0} • Heirlooms ${META.heirlooms} • Legacy ${META.legacy}`;
 
+  if (standingLine) {
+    const ids = (DATA.factions ?? []).map(f => f.id);
+    const parts = ids.map(fid => {
+      const tier = state.standings?.[fid] ?? "Neutral";
+      return `${factionLabel(fid)} ${tier}`;
+    });
+    standingLine.textContent = `Standing: ${parts.join(" • ")}`;
+  }
+
   const condStr = state.conditions.length
     ? state.conditions.map(c => `${c.id} (${c.severity})`).join(", ")
     : "None";
@@ -3613,14 +3620,19 @@ function renderStatus() {
 
 function renderEvent() {
   eventName.textContent = currentEvent.name;
-    ensureFamilyState();
-  let meta = `Scene: ${currentEvent.context}`;
+  ensureFamilyState();
+
+  // Scene meta with icon
+  const parts = [];
+  parts.push(`<span class="eventScene">${ctxBadgeHtml(currentEvent.context)}<span class="eventSceneLabel">Scene:</span> <span class="eventSceneValue">${currentEvent.context}</span></span>`);
   if (currentEvent?.storyline?.id === "ct" && state.family.prospect) {
-    meta += ` • Prospect: ${state.family.prospect.given} (${state.family.prospect.cultureName})`;
+    parts.push(`<span class="eventProspect">Prospect: <span class="eventProspectValue">${state.family.prospect.given} (${state.family.prospect.cultureName})</span></span>`);
   }
-  eventMeta.innerHTML = `${ctxBadgeHtml(currentEvent.context)}<span class="metaText">${escapeHtml(meta)}</span>`;
+  eventMeta.innerHTML = parts.join(`<span class="metaSep"> • </span>`);
+
   eventPrompt.textContent = currentEvent.prompt;
 }
+
 
 
 function renderOutcomes() {
@@ -3751,9 +3763,7 @@ function renderHand() {
   }
 
   handEl.innerHTML = "";
-  handEl.classList.add("handFan");
-  for (let __hi = 0; __hi < hand.length; __hi++) {
-    const entry = hand[__hi];
+  for (const entry of hand) {
     const cid = entry.cid;
     const c = DATA.cardsById[cid];
     if (!c) continue;
@@ -3767,10 +3777,8 @@ function renderHand() {
     const arrowsClass = isWild ? "muted" : (arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted");
     const rarityMark = cardRarityMark(c);
     const riderText = cardRiderText(c);
-    const scenesHtml = isWild ? sceneHtml([]) : sceneHtml(c.contexts);
-    const riderHtml = riderText ? ` <span class="cardSep">•</span> <span class="riderText">${escapeHtml(riderText)}</span>` : "";
-    const partialHtml = lvlData.partialOnFail ? ` <span class="cardSep">•</span> <span class="riderText">partial on failure</span>` : "";
-    const line3 = `${scenesHtml}${riderHtml}${partialHtml}`
+    const scenesText = cardScenesText(c);
+    const line3 = isWild ? riderText : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""))
     let usabilityHtml = "";
     if (hasOutcome) {
       const d = cardUsabilityDetails(cid, selectedOutcomeIndex);
@@ -3797,18 +3805,47 @@ function renderHand() {
     div.dataset.discipline = (c.discipline || "");
 
     div.innerHTML = `
-      <div class="cardname">${c.name}</div>
-      <div class="cardtype"><span class="discLabel">${discBadgeHtml(c.discipline)}<span class="discText">${c.discipline}</span></span><span class="rarityPips">${rarityMark}</span></div>
+      <div class="cardHead">
+        <div class="cardHeadTop">
+          <div class="cardTitle">${c.name}</div>
+          <div class="cardRarity">${rarityMark}</div>
+        </div>
 
-      <div class="cardbig">
-        <span class="arrows ${arrowsClass}">${arrowsText}</span>
-        <span class="cardbigtext">${line3}</span>
+        <div class="cardHeadSub">
+          <div class="discRow">
+            ${discBadgeHtml(c.discipline)}
+            <div class="discTextBlock">
+              <div class="discName">${(c.discipline || "Wild").toUpperCase()}</div>
+              <div class="discBonus ${arrowsClass}">${isWild ? "WILD" : ("Bonus " + arrowsText)}</div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div class="cardRule"></div>
+
+      <div class="cardSection">
+        <div class="sectionLabel">Playable scenes</div>
+        ${playableScenesHtml(c)}
+      </div>
+
+      ${(!isWild && riderText) ? `
+        <div class="cardSection">
+          <div class="sectionLabel">Effect</div>
+          <div class="effectText">${riderText}${(lvlData.partialOnFail ? ` <span class="muted">• partial on failure</span>` : "")}</div>
+        </div>
+      ` : (isWild && riderText) ? `
+        <div class="cardSection">
+          <div class="sectionLabel">Effect</div>
+          <div class="effectText">${riderText}</div>
+        </div>
+      ` : ``}
 
       ${usabilityHtml}
 
-      <div class="cardflavor"><em>${cardFlavor(c)}</em></div>
+      <div class="cardFlavor"><em>${cardFlavor(c)}</em></div>
     `;
+
 
     div.addEventListener("click", () => {
       if (isWild) {
@@ -4039,12 +4076,24 @@ function poolBias(ev) {
     } else if (p.startsWith("flag:")) {
       const fid = p.slice(5);
       m *= hasFlag(fid) ? 2.0 : 0.7;
+
+    } else if (p.startsWith("factionHeat:")) {
+      const fid = p.slice("factionHeat:".length);
+      const tier = state.standings?.[fid] ?? "Neutral";
+      const score = tierIndex(tier) - tierIndex("Neutral"); // negative = heat
+      if (score < 0) {
+        // Wary/Hostile → retaliation content surges
+        m *= (1 + 0.9 * Math.abs(score));
+      } else {
+        // Friendly factions rarely send the hounds
+        m *= 0.45;
+      }
     } else if (p.startsWith("faction:")) {
-      const factionId = p.slice(7);
-      const tier = getStandingTierSafe(factionId);
-      const idx = tierIndex(tier);
-      const mult = 1 + 0.35 * Math.abs(idx - 2); // Neutral=1.0, extremes lean harder into faction content
-      m *= mult;
+      const fid = p.slice("faction:".length);
+      const tier = state.standings?.[fid] ?? "Neutral";
+      const score = tierIndex(tier) - tierIndex("Neutral");
+      if (score > 0) m *= (1 + 0.45 * score);      // Favored/Exalted → more faction content
+      else if (score < 0) m *= Math.max(0.35, (1 + 0.25 * score)); // Wary/Hostile → less "invitation" content
     }
   }
   return m;
@@ -5316,6 +5365,22 @@ function showLoadingUI(isLoading) {
   if (!isLoading) updateStartButtonState();
 }
 
+function normalizeStartStandings(val) {
+  if (!val) return {};
+  // Legacy array format: [{ factionId, tier }]
+  if (Array.isArray(val)) {
+    const out = {};
+    for (const s of val) {
+      if (!s || !s.factionId) continue;
+      out[String(s.factionId)] = String(s.tier ?? "Neutral");
+    }
+    return out;
+  }
+  // Map format: { crown: "Favored" }
+  if (typeof val === "object") return deepCopy(val);
+  return {};
+}
+
 function startRunFromBuilder(bg, givenName, familyName) {
   const deckIds = expandDeck(bg.deck);
   const validDeck = deckIds.filter(cid => DATA.cardsById[cid]);
@@ -5370,7 +5435,7 @@ function startRunFromBuilder(bg, givenName, familyName) {
     conditions: startConds,
 
     flags: {},
-    standings: {},
+    standings: normalizeStartStandings(bg.startStandings ?? bg.startStanding),
     masterDeck: [...starterDeck],
     drawPile: shuffle([...starterDeck]),
     discardPile: []
