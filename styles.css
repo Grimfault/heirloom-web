@@ -1,24 +1,138 @@
-:root {
-  --bg: #0f1115;
-  --card: #171a21;
-  --card2: #1e2230;
-  --text: #e9eef5;
-  --muted: #aab3c2;
-  --line: #2a3142;
+/* =========================================================
+   Heirloom Visual System — "Candlelit Ledger" (Ink-forward)
+   - Default: Ink (dark) with warm candle/brass accents
+   - Optional: Candle (light) parchment mode
+   Toggle by setting: <html data-theme="ink"> or "candle"
+   ========================================================= */
+
+:root{
+  color-scheme: dark;
+
+  /* Base typography */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  --font-serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+
+  /* Core palette (INK / dark) */
+  --bg: #0f0d0a;
+  --card: #171311;
+  --card2: #1f1916;
+  --panel: #120f0d;          /* inputs, modal */
+  --btnBg: #15110f;
+
+  --text: #f3efe7;
+  --muted: #c2b5a6;
+
+  --line: #352a22;
   --good: #62d36b;
   --bad: #ff6b6b;
-  --warn: #f3c969;
-  --accent: #7aa8ff;
+  --warn: #e8c275;
+
+  /* Brass / candle accent */
+  --accent: #d6a55a;
   --danger: #ff4d4d;
+
+  /* On-color text */
+  --onAccent: #120f0d;
+  --onDanger: #120f0d;
+
+  /* Soft fills & borders (theme-aware) */
+  --shade0: rgba(0,0,0,0.14);
+  --shade1: rgba(0,0,0,0.18);
+  --shade2: rgba(0,0,0,0.12);
+  --shadeCard: rgba(0,0,0,0.20);
+  --shade3: rgba(0,0,0,0.25);
+
+  --washBorder: rgba(255,255,255,0.10);
+  --washBorderStrong: rgba(255,255,255,0.14);
+  --washBorderHover: rgba(255,255,255,0.18);
+
+  --washBg: rgba(255,255,255,0.03);
+  --washBg2: rgba(255,255,255,0.02);
+  --washBgHover: rgba(255,255,255,0.04);
+  --washBgSelected: rgba(255,255,255,0.05);
+
+  --accentSoft: rgba(214,165,90,0.14);
+  --accentGlow1: rgba(214,165,90,0.55);
+  --accentGlow2: rgba(214,165,90,0.22);
+
+  /* Wild / rare accents (subtle, ink-forward) */
+  --wild: rgba(187,166,255,0.95);
+  --wildBorder: rgba(187,166,255,0.55);
+  --rareBorder: rgba(232,194,117,0.65);
+
+  /* Topbar glass */
+  --topbarA: rgba(15,13,10,0.96);
+  --topbarB: rgba(15,13,10,0.76);
+  --topbarBorder: rgba(53,42,34,0.70);
+}
+
+/* CANDLE / light parchment */
+html[data-theme="candle"]{
+  color-scheme: light;
+
+  --bg: #f6efe4;
+  --card: #fff7ea;
+  --card2: #f2e6d6;
+  --panel: #fffaf1;
+  --btnBg: #fffaf1;
+
+  --text: #1b1510;
+  --muted: #5a4f45;
+
+  --line: #d9c9b6;
+  --good: #1f8f45;
+  --bad: #c12f2f;
+  --warn: #a66b2f;
+
+  /* Slightly darker brass for readability on light */
+  --accent: #8f5b24;
+  --danger: #c12f2f;
+
+  --onAccent: #fffaf1;
+  --onDanger: #fffaf1;
+
+  --shade0: rgba(0,0,0,0.03);
+  --shade1: rgba(0,0,0,0.04);
+  --shade2: rgba(0,0,0,0.03);
+  --shadeCard: rgba(0,0,0,0.03);
+  --shade3: rgba(0,0,0,0.06);
+
+  --washBorder: rgba(0,0,0,0.10);
+  --washBorderStrong: rgba(0,0,0,0.14);
+  --washBorderHover: rgba(0,0,0,0.18);
+
+  --washBg: rgba(0,0,0,0.03);
+  --washBg2: rgba(0,0,0,0.02);
+  --washBgHover: rgba(0,0,0,0.04);
+  --washBgSelected: rgba(0,0,0,0.05);
+
+  --accentSoft: rgba(143,91,36,0.12);
+  --accentGlow1: rgba(143,91,36,0.55);
+  --accentGlow2: rgba(143,91,36,0.18);
+
+  --wild: rgba(96,70,156,0.95);
+  --wildBorder: rgba(96,70,156,0.45);
+  --rareBorder: rgba(143,91,36,0.55);
+
+  --topbarA: rgba(246,239,228,0.96);
+  --topbarB: rgba(246,239,228,0.76);
+  --topbarBorder: rgba(217,201,182,0.90);
 }
 
 * { box-sizing: border-box; }
 body {
   margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  font-family: var(--font-sans);
   background: var(--bg);
   color: var(--text);
 }
+
+/* Type hierarchy */
+h1, h2, h3, .title, .menuTitle, .event-name, .status {
+  font-family: var(--font-serif);
+  letter-spacing: 0.2px;
+}
+
 
 .app { max-width: 820px; margin: 0 auto; padding: 12px; }
 .topbar {
@@ -30,9 +144,9 @@ body {
   align-items:center;
   gap:12px;
   padding: 10px 6px;
-  background: linear-gradient(180deg, rgba(15,17,21,0.96), rgba(15,17,21,0.76));
+  background: linear-gradient(180deg, var(--topbarA), var(--topbarB));
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(42,49,66,0.7);
+  border-bottom: 1px solid var(--topbarBorder);
 }
 .title { font-weight: 800; font-size: 20px; }
 .subtitle { color: var(--muted); font-size: 12px; }
@@ -63,7 +177,7 @@ select {
   padding:10px;
   border-radius: 10px;
   border: 1px solid var(--line);
-  background: #0f131c;
+  background: var(--panel);
   color: var(--text);
 }
 
@@ -72,7 +186,7 @@ input {
   padding:10px;
   border-radius: 10px;
   border: 1px solid var(--line);
-  background: #0f131c;
+  background: var(--panel);
   color: var(--text);
 }
 input::placeholder { color: #7b869a; }
@@ -87,7 +201,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
-  background: rgba(0,0,0,0.14);
+  background: var(--shade0);
 }
 
 .section-title { display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom: 8px; }
@@ -123,13 +237,13 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
 .pill.show { display:inline-flex; }
 
 .badge .arrow, .arrow {
-  color: #59d36a;
+  color: var(--good);
   font-weight: 700;
 }
 
 .btn {
   border: 1px solid var(--line);
-  background: #101521;
+  background: var(--btnBg);
   color: var(--text);
   padding: 10px 12px;
   border-radius: 12px;
@@ -137,8 +251,8 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   cursor: pointer;
 }
 .btn.small { padding: 6px 10px; border-radius: 10px; font-size: 12px; }
-.btn.primary { background: var(--accent); color: #0a0d14; border-color: transparent; }
-.btn.danger { background: var(--danger); color: #0a0d14; border-color: transparent; }
+.btn.primary { background: var(--accent); color: var(--onAccent); border-color: transparent; }
+.btn.danger { background: var(--danger); color: var(--onDanger); border-color: transparent; }
 .btn.ghost { background: transparent; }
 .btn:disabled { opacity: .45; cursor: not-allowed; }
 
@@ -147,7 +261,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 12px;
-  background: rgba(0,0,0,0.18);
+  background: var(--shade1);
   cursor: pointer;
 }
 .outcome.selected { outline: 2px solid var(--accent); }
@@ -165,7 +279,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   padding: 12px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: rgba(0,0,0,0.18);
+  background: var(--shade1);
 }
 .allocStat { font-weight: 900; min-width: 86px; }
 .allocNums { display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-start; }
@@ -194,7 +308,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 12px;
-  background: rgba(0,0,0,0.18);
+  background: var(--shade1);
   cursor: pointer;
 }
 
@@ -217,7 +331,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border-radius: 10px;
   padding: 8px;
   margin: -8px;
-  background: rgba(122,168,255,0.08);
+  background: var(--accentSoft);
 }
 
 .slots { display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin: 10px 0; }
@@ -233,7 +347,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 12px;
-  background: rgba(0,0,0,0.20);
+  background: var(--shadeCard);
   cursor: pointer;
 }
 .cardbtn.disabled { opacity: .45; cursor: not-allowed; }
@@ -263,7 +377,7 @@ inset: 0;
 .modal {
   width: min(820px, 100%);
   max-height: calc(100vh - 24px);
-  background: #0f131c;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px;
@@ -306,13 +420,13 @@ inset: 0;
   padding: 4px 8px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: rgba(0,0,0,0.18);
+  background: var(--shade1);
   font-size: 12px;
   color: var(--muted);
 }
 .chip.disc {
   color: var(--text);
-  border-color: rgba(122, 168, 255, 0.35);
+  border-color: var(--accentGlow2);
 }
 .chip.warn {
   color: var(--warn);
@@ -346,8 +460,8 @@ inset: 0;
 .arrows.muted { color: var(--muted); }
 
 .cardbtn.playable {
-  border-color: rgba(122, 168, 255, 0.55);
-  box-shadow: 0 0 0 1px rgba(122, 168, 255, 0.25), 0 0 18px rgba(122, 168, 255, 0.18);
+  border-color: var(--accentGlow1);
+  box-shadow: 0 0 0 1px var(--accentGlow2), 0 0 18px var(--accentGlow2);
 }
 .cardbtn.dim {
   opacity: .38;
@@ -385,10 +499,10 @@ inset: 0;
 
 /* --- Outcome focus panel / compact list --- */
 .outcomeFocus{
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--washBorder);
   border-radius: 14px;
   padding: 14px;
-  background: rgba(255,255,255,0.03);
+  background: var(--washBg);
   margin-bottom: 12px;
 }
 .focusTitle{ font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
@@ -406,10 +520,10 @@ inset: 0;
 
 .resultRow{ margin-top: 10px; }
 .resultCol{
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--washBorder);
   border-radius: 12px;
   padding: 10px;
-  background: rgba(0,0,0,0.12);
+  background: var(--shade2);
 }
 .resultLabel{
   font-size: 0.85rem;
@@ -426,12 +540,12 @@ inset: 0;
   gap: 8px;
 }
 .resultPill{
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid var(--washBorderStrong);
   border-radius: 999px;
   padding: 5px 10px;
   font-size: 0.85rem;
   line-height: 1;
-  background: rgba(255,255,255,0.02);
+  background: var(--washBg2);
 }
 .resultPill.good{ border-color: rgba(134,239,172,0.35); }
 .resultPill.bad{ border-color: rgba(248,113,113,0.35); }
@@ -442,18 +556,18 @@ inset: 0;
 }
 .outcomeItem{
   text-align: left;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--washBorder);
   border-radius: 14px;
   padding: 12px 14px;
-  background: rgba(255,255,255,0.02);
+  background: var(--washBg2);
   cursor: pointer;
 }
 .outcomeItem:hover{
-  background: rgba(255,255,255,0.04);
+  background: var(--washBgHover);
 }
 .outcomeItem.selected{
-  border-color: rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.05);
+  border-color: var(--washBorderHover);
+  background: var(--washBgSelected);
 }
 .outcomeItem.disabled{
   opacity: 0.55;
@@ -485,7 +599,7 @@ inset: 0;
 
 .outcomeItem.disabled{
   opacity: 0.78;
-  background: rgba(255,255,255,0.03);
+  background: var(--washBg);
 }
 .outcomeItem.disabled .outcomeItemTitle { color: rgba(233,238,245,0.86); }
 .outcomeItem.disabled .outcomeItemMeta { color: rgba(170,179,194,0.98); }
@@ -496,7 +610,6 @@ inset: 0;
 
 /* Buttons on bright fills: improve contrast */
 .btn.primary, .btn.danger{
-  color: #0f1115; /* slightly lighter than pure black */
   text-shadow: 0 1px 0 rgba(255,255,255,0.15);
 }
 
@@ -521,17 +634,17 @@ inset: 0;
 .cardbtn[data-rarity="Rare"] .rarityPips { opacity: 1; }
 
 .cardbtn[data-rarity="Uncommon"]{
-  border-color: rgba(120,170,255,.55);
-  box-shadow: 0 0 0 1px rgba(120,170,255,.20), 0 12px 32px rgba(0,0,0,.18);
+  border-color: var(--accentGlow1);
+  box-shadow: 0 0 0 1px var(--accentGlow2), 0 12px 32px rgba(0,0,0,.18);
 }
 
 .cardbtn[data-rarity="Rare"]{
-  border-color: rgba(255,214,128,.65);
-  box-shadow: 0 0 0 1px rgba(255,214,128,.18), 0 14px 38px rgba(0,0,0,.20);
+  border-color: var(--rareBorder);
+  box-shadow: 0 0 0 1px rgba(232,194,117,0.18), 0 14px 38px rgba(0,0,0,.20);
 }
 
 .cardbtn[data-rarity="Rare"] .rarityPips{
-  color: rgba(255,214,128,.95);
+  color: var(--warn);
 }
 
 .cardbtn[data-discipline="Wild"]{
@@ -539,7 +652,7 @@ inset: 0;
 }
 
 .cardbtn[data-discipline="Wild"] .rarityPips{
-  color: rgba(175,155,255,.95);
+  color: var(--wild);
 }
 
 
@@ -555,7 +668,7 @@ button:disabled, .btn:disabled { opacity: .65; }
 .rarityPips { letter-spacing: .08em; opacity: .9; }
 
 /* Wild cards: make dashed border more apparent */
-.cardbtn[data-discipline="Wild"] { border-style: dashed; border-color: rgba(122,168,255,.55); }
+.cardbtn[data-discipline="Wild"] { border-style: dashed; border-color: var(--wildBorder); }
 
 
 /* === Legacy tree === */
@@ -565,8 +678,8 @@ button:disabled, .btn:disabled { opacity: .65; }
 }
 
 .legacyNode {
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--washBorder);
+  background: var(--washBg);
   border-radius: 14px;
   padding: 12px;
 }
@@ -597,8 +710,8 @@ button:disabled, .btn:disabled { opacity: .65; }
 .legacyNode .rankPill {
   padding: 3px 8px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--washBorderStrong);
+  background: var(--shade3);
   font-size: 12px;
 }
 
@@ -615,8 +728,8 @@ button:disabled, .btn:disabled { opacity: .65; }
 }
 
 .legacyBranches .branchGroup {
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--washBorder);
+  background: var(--washBg2);
   border-radius: 14px;
   padding: 12px;
 }
@@ -667,8 +780,8 @@ button:disabled, .btn:disabled { opacity: .65; }
 }
 
 .chipWild{
-  color: var(--accent);
-  border-color: rgba(122,168,255,0.35);
+  color: var(--wild);
+  border-color: var(--wildBorder);
 }
 
 /* --- Upgrade preview --- */
@@ -762,406 +875,233 @@ button:disabled, .btn:disabled { opacity: .65; }
 
 
 /* =========================================================
-   Candlelit Ledger (Ink-forward) + Candle mode (Light)
-   Toggle by setting <html data-theme="candlelit-dark|candlelit-light">
+   Card UI v5 — Portrait Hand Cards (No overlap)
+   Requirements:
+   - Portrait cards (real card feel), no overlap
+   - Header + rule + "Playable scenes" list
+   - Bigger pixel icons + matching badge circles
    ========================================================= */
-:root[data-theme="candlelit-dark"]{
-  --bg:#0B0A08; --card:#15110D; --card2:#1B1611;
-  --text:#F2EBDD; --muted:#B9AE9D; --line:#3A2F24;
-  --accent:#7FA2C8; --brass:#D2A85A;
-  --good:#7CCB8A; --bad:#E06C5F; --warn:#E2C06B; --danger:#D9524A;
-  --fieldBg:#120D0A; --focusRing: rgba(127,162,200,.45);
-}
-:root[data-theme="candlelit-light"]{
-  --bg:#F3EEE4; --card:#FFFFFF; --card2:#FAF5EC;
-  --text:#1F1A14; --muted:#6B6258; --line:#CBBEAE;
-  --accent:#2F5FA8; --brass:#B07D2B;
-  --good:#2E8B57; --bad:#B1412E; --warn:#B8872E; --danger:#9E2F25;
-  --fieldBg:#FBF6EE; --focusRing: rgba(47,95,168,.28);
-}
-:root[data-theme="candlelit-dark"] body,
-:root[data-theme="candlelit-light"] body{
-  background: var(--bg);
-  color: var(--text);
-}
-:root[data-theme="candlelit-light"] .card,
-:root[data-theme="candlelit-light"] .outcome,
-:root[data-theme="candlelit-light"] .outcomeFocus,
-:root[data-theme="candlelit-light"] .resultCol,
-:root[data-theme="candlelit-light"] .cardbtn{
-  border-color: color-mix(in srgb, var(--line) 92%, #000 8%);
-}
-:root[data-theme="candlelit-light"] .cardbtn,
-:root[data-theme="candlelit-light"] .outcome,
-:root[data-theme="candlelit-light"] .outcomeFocus{
-  background: rgba(255,255,255,0.72);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, 0 6px 18px rgba(0,0,0,0.06);
-}
-:root[data-theme="candlelit-light"] .topbar{
-  background: linear-gradient(180deg,
-    color-mix(in srgb, var(--bg) 94%, transparent),
-    color-mix(in srgb, var(--bg) 72%, transparent)
-  );
-  border-bottom: 1px solid color-mix(in srgb, var(--line) 90%, #000 10%);
-}
-:root[data-theme="candlelit-dark"] input,
-:root[data-theme="candlelit-dark"] select,
-:root[data-theme="candlelit-light"] input,
-:root[data-theme="candlelit-light"] select{
-  background: var(--fieldBg);
-  border-color: var(--line);
-  color: var(--text);
-}
 
-/* =========================================================
-   Pixel Icon Badges (bigger + readable)
-   ========================================================= */
+/* ---- Icon badge system ---- */
 :root{
-  --disc-steel:#8A97B0; --disc-quill:#7FA2C8; --disc-veil:#A487E6; --disc-seal:#D2A85A; --disc-hearth:#D27A4A;
-  --ctx-strife:#C86B4C; --ctx-court:#B07D2B; --ctx-scheme:#A487E6; --ctx-journey:#5FA8A0; --ctx-lore:#7FA2C8;
-}
-.ico{
-  width:18px; height:18px;
-  image-rendering: pixelated;
-  opacity: 1;
-  filter: drop-shadow(0 1px 0 rgba(0,0,0,.25));
-}
-.icoWrap{
-  width:28px; height:28px;
-  border-radius:999px;
-  display:inline-flex; align-items:center; justify-content:center;
-  margin-right:8px;
-  border:1px solid rgba(255,255,255,0.10);
-  background: rgba(0,0,0,0.35);
-}
-:root[data-theme="candlelit-light"] .icoWrap{
-  background: rgba(0,0,0,0.62);
-  border-color: rgba(0,0,0,0.25);
-}
-.cardbtn[data-discipline="Steel"]  { --badgeColor: var(--disc-steel); }
-.cardbtn[data-discipline="Quill"]  { --badgeColor: var(--disc-quill); }
-.cardbtn[data-discipline="Veil"]   { --badgeColor: var(--disc-veil); }
-.cardbtn[data-discipline="Seal"]   { --badgeColor: var(--disc-seal); }
-.cardbtn[data-discipline="Hearth"] { --badgeColor: var(--disc-hearth); }
-.cardbtn .icoWrap-disc{
-  background: color-mix(in srgb, var(--badgeColor) 28%, rgba(0,0,0,0.55));
-  border-color: color-mix(in srgb, var(--badgeColor) 65%, transparent);
-}
-:root[data-theme="candlelit-light"] .cardbtn .icoWrap-disc{
-  background: color-mix(in srgb, var(--badgeColor) 45%, rgba(0,0,0,0.72));
-  border-color: color-mix(in srgb, var(--badgeColor) 78%, rgba(0,0,0,0.25));
-}
-.sceneItem[data-ctx="Strife"]  { --ctxColor: var(--ctx-strife); }
-.sceneItem[data-ctx="Court"]   { --ctxColor: var(--ctx-court); }
-.sceneItem[data-ctx="Scheme"]  { --ctxColor: var(--ctx-scheme); }
-.sceneItem[data-ctx="Journey"] { --ctxColor: var(--ctx-journey); }
-.sceneItem[data-ctx="Lore"]    { --ctxColor: var(--ctx-lore); }
-.icoWrap-ctx{
-  background: color-mix(in srgb, var(--ctxColor, var(--accent)) 28%, rgba(0,0,0,0.55));
-  border-color: color-mix(in srgb, var(--ctxColor, var(--accent)) 65%, transparent);
-}
-:root[data-theme="candlelit-light"] .icoWrap-ctx{
-  background: color-mix(in srgb, var(--ctxColor, var(--accent)) 45%, rgba(0,0,0,0.72));
-  border-color: color-mix(in srgb, var(--ctxColor, var(--accent)) 78%, rgba(0,0,0,0.25));
-}
-.cardtype .discLabel{ display:inline-flex; align-items:center; }
-.cardtype .discText{ line-height:1; }
-.scene{ display:inline-flex; flex-wrap:wrap; align-items:center; gap:10px; }
-.sceneLabel{ color:var(--muted); font-weight:800; }
-.sceneItem{ display:inline-flex; align-items:center; }
-.sceneText{ font-weight:900; }
-.sceneSep{ color:var(--muted); font-weight:900; margin:0 -4px; }
-.sceneAny{ color:var(--muted); font-weight:900; text-transform:lowercase; }
-.cardSep{ color:var(--muted); font-weight:900; margin:0 6px; }
-.riderText{ color:var(--muted); font-weight:700; }
-
-#eventMeta{ display:flex; align-items:center; gap:8px; }
-#eventMeta .metaText{ color: var(--muted); }
-
-/* =========================================================
-   Hand layout: vertical (more readable)
-   ========================================================= */
-.hand{ grid-template-columns:1fr !important; gap:12px !important; }
-@media (min-width:700px){ .hand{ grid-template-columns:1fr !important; } }
-.cardbtn{ padding: 14px 14px; }
-.cardname{ font-size: 16px; }
-.cardtype{ margin-top:4px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
-.cardbig{ margin-top:10px; align-items:flex-start; gap:12px; }
-.arrows{ min-width:40px; font-size:22px; }
-
-
-
-/* =========================================================
-   v2.1 UI Readability + "Hand of Cards" Fan + Bigger Icons
-   - Improves Candle mode separation
-   - Increases icon visibility
-   - Renders hand as a fanned row of cards (scrollable)
-   ========================================================= */
-
-/* --- Bigger + clearer pixel icons --- */
-.ico{
-  width: 24px !important;
-  height: 24px !important;
-  image-rendering: pixelated;
-  opacity: 1;
-  /* give thin pixel lines a crisp edge */
-  filter: drop-shadow(0 1px 0 rgba(0,0,0,.35)) drop-shadow(0 0 2px rgba(0,0,0,.35));
-}
-
-.icoWrap{
-  width: 40px !important;
-  height: 40px !important;
-  border-radius: 999px;
-  border-width: 2px !important;
-}
-
-/* Stronger badge fills (tinted but dark enough for white icons) */
-.cardbtn .icoWrap-disc{
-  background: color-mix(in srgb, var(--badgeColor) 24%, rgba(0,0,0,0.80)) !important;
-  border-color: color-mix(in srgb, var(--badgeColor) 70%, rgba(0,0,0,0.20)) !important;
-}
-.icoWrap-ctx{
-  background: color-mix(in srgb, var(--ctxColor, var(--accent)) 24%, rgba(0,0,0,0.80)) !important;
-  border-color: color-mix(in srgb, var(--ctxColor, var(--accent)) 70%, rgba(0,0,0,0.20)) !important;
-}
-
-/* Candle mode: keep badges dark for contrast */
-:root[data-theme="candlelit-light"] .icoWrap{
-  background: rgba(0,0,0,0.82) !important;
-  border-color: rgba(0,0,0,0.30) !important;
-}
-
-/* Slightly larger scene row text to match bigger icons */
-.sceneText{ font-size: 1.02rem; }
-
-/* --- Candle mode separation (critical) --- */
-:root[data-theme="candlelit-light"] .card{
-  background: rgba(255,255,255,0.78) !important;
-  border-color: rgba(0,0,0,0.18) !important;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-}
-
-:root[data-theme="candlelit-light"] .outcomeFocus{
-  background: rgba(255,255,255,0.85) !important;
-  border-color: rgba(0,0,0,0.16) !important;
-}
-
-:root[data-theme="candlelit-light"] .outcomeItem{
-  background: rgba(255,255,255,0.92) !important;
-  border-color: rgba(0,0,0,0.14) !important;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.06);
-}
-:root[data-theme="candlelit-light"] .outcomeItem:hover{
-  background: rgba(255,255,255,0.98) !important;
-  border-color: rgba(0,0,0,0.18) !important;
-}
-:root[data-theme="candlelit-light"] .outcomeItem.selected{
-  border-color: color-mix(in srgb, var(--accent) 45%, rgba(0,0,0,0.18)) !important;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-}
-
-:root[data-theme="candlelit-light"] .resultCol{
-  background: rgba(255,255,255,0.70) !important;
-  border-color: rgba(0,0,0,0.12) !important;
-}
-
-/* Make dotted slot borders more visible in Candle */
-:root[data-theme="candlelit-light"] .slot{
-  border-color: rgba(0,0,0,0.20) !important;
-}
-
-/* --- "Hand of cards" fan layout --- */
-.hand.handFan{
-  display: flex !important;
-  align-items: flex-end;
-  gap: 0;
-  overflow-x: auto;
-  padding: 16px 22px 18px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-.hand.handFan::-webkit-scrollbar{
-  height: 10px;
-}
-.hand.handFan::-webkit-scrollbar-thumb{
-  background: color-mix(in srgb, var(--line) 35%, transparent);
-  border-radius: 999px;
-}
-
-.hand.handFan .cardbtn{
-  flex: 0 0 320px;
-  max-width: 320px;
-  margin-left: -90px;              /* overlap, but not “covered up” */
-  scroll-snap-align: center;
-  position: relative;
-  z-index: var(--z, 1);
-  transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
-  transition: transform .10s ease, box-shadow .12s ease;
-}
-.hand.handFan .cardbtn:first-child{ margin-left: 0; }
-
-.hand.handFan .cardbtn:hover{
-  z-index: 9999;
-  transform: rotate(var(--rot, 0deg)) translateY(calc(var(--y, 0px) - 10px));
-}
-
-/* Selected/committed gets a small lift */
-.hand.handFan .cardbtn.committed,
-.hand.handFan .cardbtn.playable{
-  transform: rotate(var(--rot, 0deg)) translateY(calc(var(--y, 0px) - 6px));
-}
-
-/* Mobile: slightly narrower cards + less overlap */
-@media (max-width: 700px){
-  .hand.handFan .cardbtn{
-    flex-basis: 300px;
-    max-width: 300px;
-    margin-left: -84px;
-  }
-}
-
-
-
-/* =========================================================
-   v4 Hand Fan Fixes + Icon Visibility + Candle Separators
-   ========================================================= */
-
-/* Discipline & Context palette (badge rings) */
-:root{
-  --discSteel:  #7FA2C8;
+  /* Discipline colors */
+  --discSteel:  #6FA0C8;
   --discQuill:  #D2A85A;
-  --discVeil:   #9A7BD6;
-  --discSeal:   #55B7B2;
-  --discHearth: #E08B5A;
+  --discVeil:   #B39DFF;
+  --discSeal:   #8FB6B0;
+  --discHearth: #E58A6A;
 
+  /* Scene/context colors */
   --ctxStrife:  #E06C5F;
   --ctxCourt:   #D2A85A;
-  --ctxScheme:  #9A7BD6;
+  --ctxScheme:  #B39DFF;
   --ctxJourney: #7CCB8A;
   --ctxLore:    #7FA2C8;
 }
 
-/* Map badge colors from data attributes */
-.icoWrap-disc[data-disc="Steel"]  { --badgeColor: var(--discSteel); }
-.icoWrap-disc[data-disc="Quill"]  { --badgeColor: var(--discQuill); }
-.icoWrap-disc[data-disc="Veil"]   { --badgeColor: var(--discVeil); }
-.icoWrap-disc[data-disc="Seal"]   { --badgeColor: var(--discSeal); }
-.icoWrap-disc[data-disc="Hearth"] { --badgeColor: var(--discHearth); }
-
-.icoWrap-ctx[data-ctx="Strife"]  { --ctxColor: var(--ctxStrife); }
-.icoWrap-ctx[data-ctx="Court"]   { --ctxColor: var(--ctxCourt); }
-.icoWrap-ctx[data-ctx="Scheme"]  { --ctxColor: var(--ctxScheme); }
-.icoWrap-ctx[data-ctx="Journey"] { --ctxColor: var(--ctxJourney); }
-.icoWrap-ctx[data-ctx="Lore"]    { --ctxColor: var(--ctxLore); }
-
-/* Bigger, clearer pixel icons */
-.ico{
-  width: 32px !important;
-  height: 32px !important;
-  image-rendering: pixelated;
-  opacity: 1;
-  filter: drop-shadow(0 1px 0 rgba(0,0,0,.45)) drop-shadow(0 0 2px rgba(0,0,0,.35));
-}
-.ico.ico-ctx{ width: 26px !important; height: 26px !important; }
-.ico.ico-sm{ width: 22px !important; height: 22px !important; }
-
-.icoWrap{
-  width: 52px !important;
-  height: 52px !important;
+.badge{
+  --badgeColor: var(--accent);
+  width: 46px;
+  height: 46px;
   border-radius: 999px;
-  border-width: 2px !important;
-  background: rgba(0,0,0,0.78) !important;
-  border-color: rgba(255,255,255,0.16) !important;
-}
-
-/* Tinted badges with strong contrast (works in both themes) */
-.icoWrap-disc{
-  background: color-mix(in srgb, var(--badgeColor, var(--accent)) 28%, rgba(0,0,0,0.82)) !important;
-  border-color: color-mix(in srgb, var(--badgeColor, var(--accent)) 70%, rgba(255,255,255,0.10)) !important;
-}
-.icoWrap-ctx{
-  background: color-mix(in srgb, var(--ctxColor, var(--accent)) 28%, rgba(0,0,0,0.82)) !important;
-  border-color: color-mix(in srgb, var(--ctxColor, var(--accent)) 70%, rgba(255,255,255,0.10)) !important;
-}
-
-/* Card header layout: stop weird spacing */
-.cardtype{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-.cardtype .discLabel{
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-}
-
-/* Candle mode: stronger section separation */
-:root[data-theme="candlelit-light"] .card{
-  background: rgba(255,255,255,0.82) !important;
-  border-color: rgba(0,0,0,0.18) !important;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-}
-:root[data-theme="candlelit-light"] .outcomeFocus,
-:root[data-theme="candlelit-light"] .resultCol{
-  background: rgba(255,255,255,0.88) !important;
-  border-color: rgba(0,0,0,0.16) !important;
-}
-:root[data-theme="candlelit-light"] .outcomeItem{
-  background: rgba(255,255,255,0.94) !important;
-  border-color: rgba(0,0,0,0.14) !important;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.06);
-}
-:root[data-theme="candlelit-light"] .outcomeItem + .outcomeItem{
-  margin-top: 10px; /* extra visual separation */
-}
-
-/* Hand fan: less overlap, correct stacking, no clipping */
-.hand.handFan{
-  display: flex !important;
   justify-content: center;
-  align-items: flex-end;
-  gap: 0;
-  overflow-x: auto;
-  overflow-y: visible;
-  padding: 18px 120px 26px; /* room so first/last aren’t clipped */
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  border: 2px solid color-mix(in srgb, var(--badgeColor) 70%, var(--line));
+  background: color-mix(in srgb, var(--badgeColor) 20%, rgba(0,0,0,0.86));
+  box-shadow: 0 6px 14px rgba(0,0,0,0.20);
+  flex: 0 0 auto;
+}
+html[data-theme="candle"] .badge{
+  /* keep dark backing in Candle so white pixels remain visible */
+  background: color-mix(in srgb, var(--badgeColor) 16%, rgba(0,0,0,0.90));
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
 }
 
-.hand.handFan .cardbtn{
-  flex: 0 0 340px;
-  max-width: 340px;
-  margin-left: -48px; /* overlap but not "covered up" */
-  scroll-snap-align: center;
+.badge img{
+  width: 30px;
+  height: 30px;
+  image-rendering: pixelated;
+  opacity: 1;
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,.35)) drop-shadow(0 0 2px rgba(0,0,0,.35));
+}
+
+/* Badge colors via data attrs */
+.badge-disc[data-disc="Steel"]{ --badgeColor: var(--discSteel); }
+.badge-disc[data-disc="Quill"]{ --badgeColor: var(--discQuill); }
+.badge-disc[data-disc="Veil"]{ --badgeColor: var(--discVeil); }
+.badge-disc[data-disc="Seal"]{ --badgeColor: var(--discSeal); }
+.badge-disc[data-disc="Hearth"]{ --badgeColor: var(--discHearth); }
+
+.badge-ctx[data-ctx="Strife"]{ --badgeColor: var(--ctxStrife); }
+.badge-ctx[data-ctx="Court"]{ --badgeColor: var(--ctxCourt); }
+.badge-ctx[data-ctx="Scheme"]{ --badgeColor: var(--ctxScheme); }
+.badge-ctx[data-ctx="Journey"]{ --badgeColor: var(--ctxJourney); }
+.badge-ctx[data-ctx="Lore"]{ --badgeColor: var(--ctxLore); }
+
+/* ---- Hand layout (no overlap) ---- */
+.hand{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 620px){
+  .hand{ grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 860px){
+  .hand{ grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* Portrait cards */
+.cardbtn{
+  background: linear-gradient(180deg, var(--card), var(--card2));
+  border: 1px solid var(--washBorderStrong);
+  border-radius: 18px;
+  padding: 14px 14px 12px;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   position: relative;
-  z-index: var(--z, 1);
-  transform-origin: 50% 118%;
-  transform: translateY(var(--y, 0px)) rotate(var(--rot, 0deg));
-  transition: transform .14s ease, box-shadow .14s ease;
-}
-.hand.handFan .cardbtn:first-child{ margin-left: 0; }
-
-.hand.handFan .cardbtn:hover{
-  z-index: 9999;
-  transform: translateY(calc(var(--y, 0px) - 14px)) rotate(var(--rot, 0deg));
 }
 
-/* selected/committed lift without breaking fan rotation */
-.hand.handFan .cardbtn.committed,
-.hand.handFan .cardbtn.playable{
-  transform: translateY(calc(var(--y, 0px) - 10px)) rotate(var(--rot, 0deg));
+html[data-theme="candle"] .cardbtn{
+  border-color: rgba(0,0,0,0.16);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
 }
 
-/* Mobile: smaller cards + less padding */
-@media (max-width: 700px){
-  .hand.handFan{
-    padding: 16px 70px 22px;
-  }
-  .hand.handFan .cardbtn{
-    flex-basis: 320px;
-    max-width: 320px;
-    margin-left: -44px;
-  }
+/* Existing states still apply */
+.cardbtn.dim{ opacity: .55; }
+.cardbtn.playable{ border-color: color-mix(in srgb, var(--accent) 55%, var(--washBorderStrong)); box-shadow: 0 0 0 2px var(--accentSoft); }
+.cardbtn.committed{ outline: none; box-shadow: 0 0 0 2px color-mix(in srgb, var(--good) 60%, transparent), 0 14px 30px rgba(0,0,0,0.22); }
+
+/* Header */
+.cardHeadTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+}
+.cardTitle{
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 1.08;
+  font-family: var(--font-serif);
+}
+.cardRarity{
+  font-size: 12px;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.cardHeadSub{ margin-top: 4px; }
+
+.discRow{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+}
+.discTextBlock{ display:flex; flex-direction:column; gap: 2px; }
+.discName{
+  font-size: 12px;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.discBonus{
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: .2px;
+}
+
+/* Divider line */
+.cardRule{
+  height: 1px;
+  background: color-mix(in srgb, var(--line) 70%, transparent);
+}
+
+/* Sections */
+.cardSection{ display:flex; flex-direction:column; gap: 8px; }
+.sectionLabel{
+  font-size: 12px;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.scenesList{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.scenePill{
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--washBorder);
+  background: var(--washBg);
+}
+html[data-theme="candle"] .scenePill{
+  border-color: rgba(0,0,0,0.14);
+  background: rgba(255,255,255,0.65);
+}
+.scenePillText{
+  font-weight: 900;
+}
+
+.pill.any{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px dashed var(--washBorderStrong);
+  background: var(--washBg2);
+  font-weight: 900;
+}
+html[data-theme="candle"] .pill.any{
+  background: rgba(255,255,255,0.70);
+  border-color: rgba(0,0,0,0.18);
+}
+
+.effectText{
+  color: var(--text);
+  line-height: 1.25;
+}
+
+/* Flavor sits at bottom */
+.cardFlavor{
+  margin-top: auto;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+/* ---- Event meta scene icon ---- */
+.eventScene{
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+}
+.eventSceneLabel{ color: var(--muted); font-weight: 800; }
+.eventSceneValue{ font-weight: 900; }
+.metaSep{ color: var(--muted); opacity: .9; padding: 0 6px; }
+
+/* ---- Candle mode: stronger separation overall (outcomes/cards) ---- */
+html[data-theme="candle"] .outcomeItem{
+  background: rgba(255,255,255,0.72);
+  border-color: rgba(0,0,0,0.18);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+}
+html[data-theme="candle"] .outcomeItem:hover{
+  background: rgba(255,255,255,0.92);
+  border-color: rgba(0,0,0,0.22);
+}
+html[data-theme="candle"] .outcomeFocus{
+  border-color: rgba(0,0,0,0.16);
+  background: rgba(255,255,255,0.66);
 }
