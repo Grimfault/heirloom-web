@@ -93,13 +93,13 @@ function iconImg(src, cls="icoImg") {
 function discBadgeHtml(disc) {
   const d = disc || "Wild";
   const src = (ICONS.disc[d] || null);
-  return `<span class="badge badge-disc" data-disc="${d}">${iconImg(src)}</span>`;
+  return `<span class="iconBadge iconBadge-disc" data-disc="${d}">${iconImg(src)}</span>`;
 }
 
 function ctxBadgeHtml(ctx) {
   const c = ctx || "";
   const src = (ICONS.ctx[c] || null);
-  return `<span class="badge badge-ctx" data-ctx="${c}">${iconImg(src)}</span>`;
+  return `<span class="iconBadge iconBadge-ctx" data-ctx="${c}">${iconImg(src)}</span>`;
 }
 
 function playableScenesHtml(card) {
@@ -109,9 +109,22 @@ function playableScenesHtml(card) {
   }
   const arr = (card.contexts || []).filter(Boolean);
   if (!arr.length) return `<div class="scenesAny"><span class="pill any">Any scene</span></div>`;
-  return `<div class="scenesList">` + arr.map(c => (
-    `<span class="scenePill">${ctxBadgeHtml(c)}<span class="scenePillText">${c}</span></span>`
-  )).join("") + `</div>`;
+
+  // Keep cards visually consistent: show up to 4 scenes, then a "+N more" pill
+  const MAX = 4;
+  const shown = arr.slice(0, MAX);
+  const hidden = arr.slice(MAX);
+
+  const pills = shown.map(ctx => {
+    return `<span class="scenePill">${ctxBadgeHtml(ctx)}<span class="scenePillText">${ctx}</span></span>`;
+  });
+
+  if (hidden.length) {
+    const title = `Also playable in: ${hidden.join(", ")}`;
+    pills.push(`<span class="scenePill scenePillMore" title="${title}"><span class="scenePillMoreText">+${hidden.length} more</span></span>`);
+  }
+
+  return `<div class="scenesList">${pills.join("")}</div>`;
 }
 
 
@@ -3824,6 +3837,8 @@ function renderHand() {
 
       <div class="cardRule"></div>
 
+      <div class="cardBody">
+
       <div class="cardSection">
         <div class="sectionLabel">Playable scenes</div>
         ${playableScenesHtml(c)}
@@ -3844,6 +3859,8 @@ function renderHand() {
       ${usabilityHtml}
 
       <div class="cardFlavor"><em>${cardFlavor(c)}</em></div>
+
+      </div>
     `;
 
 
