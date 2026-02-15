@@ -2379,13 +2379,21 @@ function openDraftModal(onPicked) {
     div.dataset.discipline = (c.discipline || "");
     // Fan layout variables (hand of cards)
     const __n = hand.length;
-    const __mid = (__n - 1) / 2;
-    const __maxAngle = 10; // degrees
-    const __rot = (__mid > 0) ? (((__hi - __mid) / __mid) * __maxAngle) : 0;
-    const __y = Math.abs(__hi - __mid) * 6; // px
+    const __mid = (__n - 1) / 2;                 // can be fractional for even counts
+    const __maxAngle = 8;                         // degrees (subtle)
+    const __den = (__mid > 0) ? __mid : 1;
+    const __rot = (((__hi - __mid) / __den) * __maxAngle);
+
+    // Lift the center cards slightly, edges stay lower (feels like a real fan)
+    const __lift = Math.max(0, (__mid - Math.abs(__hi - __mid))) * 10; // px
+    const __y = -__lift; // negative moves up
+
+    // Center cards should visually sit "on top"
+    const __z = 2000 - Math.round(Math.abs(__hi - __mid) * 10);
+
     div.style.setProperty("--rot", __rot.toFixed(2) + "deg");
     div.style.setProperty("--y", __y.toFixed(0) + "px");
-    div.style.setProperty("--z", (1000 + __hi).toString());
+    div.style.setProperty("--z", __z.toString());
 
     div.innerHTML = `
       <div class="cardname">${c.name}</div>
