@@ -339,9 +339,16 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
 .slot-label { color: var(--muted); font-size: 12px; margin-bottom: 6px; }
 .slot-card { font-weight: 700; }
 
-.hand { display:grid; grid-template-columns: 1fr; gap:10px; }
-@media (min-width: 700px) {
-  .hand { grid-template-columns: 1fr 1fr; }
+.hand{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 700px){
+  .hand{ grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 900px){
+  .hand{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 .cardbtn {
   border: 1px solid var(--line);
@@ -899,7 +906,7 @@ button:disabled, .btn:disabled { opacity: .65; }
   --ctxLore:    #7FA2C8;
 }
 
-.badge{
+.iconBadge{
   --badgeColor: var(--accent);
   width: 46px;
   height: 46px;
@@ -912,13 +919,13 @@ button:disabled, .btn:disabled { opacity: .65; }
   box-shadow: 0 6px 14px rgba(0,0,0,0.20);
   flex: 0 0 auto;
 }
-html[data-theme="candle"] .badge{
+html[data-theme="candle"] .iconBadge{
   /* keep dark backing in Candle so white pixels remain visible */
   background: color-mix(in srgb, var(--badgeColor) 16%, rgba(0,0,0,0.90));
   box-shadow: 0 8px 18px rgba(0,0,0,0.12);
 }
 
-.badge img{
+.iconBadge img{
   width: 30px;
   height: 30px;
   image-rendering: pixelated;
@@ -1104,4 +1111,159 @@ html[data-theme="candle"] .outcomeItem:hover{
 html[data-theme="candle"] .outcomeFocus{
   border-color: rgba(0,0,0,0.16);
   background: rgba(255,255,255,0.66);
+}
+
+
+/* =========================================================
+   v6 Hand Cards: portrait, stable height, no spill
+   ========================================================= */
+.cardbtn{
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+.cardHead{ flex: 0 0 auto; }
+.cardRule{ margin-top: 2px; margin-bottom: 2px; flex: 0 0 auto; }
+
+.cardBody{
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+
+/* Playable scenes area should not bloat card height */
+.scenesList{
+  max-height: 132px;
+  overflow: auto;
+  padding-right: 4px;
+}
+.scenesList::-webkit-scrollbar{ width: 10px; height: 10px; }
+.scenesList::-webkit-scrollbar-thumb{
+  background: color-mix(in srgb, var(--line) 35%, transparent);
+  border-radius: 999px;
+}
+
+/* Consistent pill sizing */
+.scenePill{
+  min-height: 52px;
+  padding: 2px 12px;
+}
+.scenePillText{ line-height: 1; }
+
+.scenePillMore{
+  justify-content: center;
+  gap: 0;
+  min-width: 120px;
+}
+.scenePillMoreText{
+  font-weight: 900;
+  color: var(--muted);
+}
+
+/* Make usability chips consistent height */
+.chip{
+  height: 28px;
+  padding: 0 10px;
+  line-height: 1;
+}
+
+/* Clamp flavor so long flavor doesn’t push layout */
+.cardFlavor{
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   v6 Icon badges: larger + clearer, scoped to iconBadge
+   ========================================================= */
+.iconBadge{
+  --badgeColor: var(--accent);
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid color-mix(in srgb, var(--badgeColor) 70%, var(--line));
+  background: color-mix(in srgb, var(--badgeColor) 20%, rgba(0,0,0,0.88));
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+  flex: 0 0 auto;
+}
+html[data-theme="candle"] .iconBadge{
+  background: color-mix(in srgb, var(--badgeColor) 16%, rgba(0,0,0,0.92));
+}
+
+.iconBadge img{
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+  opacity: 1;
+  filter:
+    drop-shadow(0 2px 0 rgba(0,0,0,0.55))
+    drop-shadow(0 0 3px rgba(0,0,0,0.55));
+}
+
+/* Event meta icons should be smaller than card icons */
+.eventScene .iconBadge{
+  width: 40px;
+  height: 40px;
+}
+.eventScene .iconBadge img{
+  width: 28px;
+  height: 28px;
+}
+
+/* Scene pills icon badge */
+.scenePill .iconBadge{
+  width: 48px;
+  height: 48px;
+}
+.scenePill .iconBadge img{
+  width: 34px;
+  height: 34px;
+}
+
+
+/* Color mapping for icon badges */
+.iconBadge-disc[data-disc="Steel"]  { --badgeColor: var(--discSteel); }
+.iconBadge-disc[data-disc="Quill"]  { --badgeColor: var(--discQuill); }
+.iconBadge-disc[data-disc="Veil"]   { --badgeColor: var(--discVeil); }
+.iconBadge-disc[data-disc="Seal"]   { --badgeColor: var(--discSeal); }
+.iconBadge-disc[data-disc="Hearth"] { --badgeColor: var(--discHearth); }
+
+.iconBadge-ctx[data-ctx="Strife"]  { --badgeColor: var(--ctxStrife); }
+.iconBadge-ctx[data-ctx="Court"]   { --badgeColor: var(--ctxCourt); }
+.iconBadge-ctx[data-ctx="Scheme"]  { --badgeColor: var(--ctxScheme); }
+.iconBadge-ctx[data-ctx="Journey"] { --badgeColor: var(--ctxJourney); }
+.iconBadge-ctx[data-ctx="Lore"]    { --badgeColor: var(--ctxLore); }
+
+
+/* =========================================================
+   Restore text badge pills (used in allocation UI, etc.)
+   ========================================================= */
+.badge{
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 12px;
+  line-height: 1.2;
+  background: var(--shade1, transparent);
+  color: var(--text);
+}
+
+
+/* Make generic pills consistent height */
+.pill{
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  line-height: 1;
 }
