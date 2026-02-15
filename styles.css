@@ -1019,3 +1019,149 @@ button:disabled, .btn:disabled { opacity: .65; }
     margin-left: -84px;
   }
 }
+
+
+
+/* =========================================================
+   v4 Hand Fan Fixes + Icon Visibility + Candle Separators
+   ========================================================= */
+
+/* Discipline & Context palette (badge rings) */
+:root{
+  --discSteel:  #7FA2C8;
+  --discQuill:  #D2A85A;
+  --discVeil:   #9A7BD6;
+  --discSeal:   #55B7B2;
+  --discHearth: #E08B5A;
+
+  --ctxStrife:  #E06C5F;
+  --ctxCourt:   #D2A85A;
+  --ctxScheme:  #9A7BD6;
+  --ctxJourney: #7CCB8A;
+  --ctxLore:    #7FA2C8;
+}
+
+/* Map badge colors from data attributes */
+.icoWrap-disc[data-disc="Steel"]  { --badgeColor: var(--discSteel); }
+.icoWrap-disc[data-disc="Quill"]  { --badgeColor: var(--discQuill); }
+.icoWrap-disc[data-disc="Veil"]   { --badgeColor: var(--discVeil); }
+.icoWrap-disc[data-disc="Seal"]   { --badgeColor: var(--discSeal); }
+.icoWrap-disc[data-disc="Hearth"] { --badgeColor: var(--discHearth); }
+
+.icoWrap-ctx[data-ctx="Strife"]  { --ctxColor: var(--ctxStrife); }
+.icoWrap-ctx[data-ctx="Court"]   { --ctxColor: var(--ctxCourt); }
+.icoWrap-ctx[data-ctx="Scheme"]  { --ctxColor: var(--ctxScheme); }
+.icoWrap-ctx[data-ctx="Journey"] { --ctxColor: var(--ctxJourney); }
+.icoWrap-ctx[data-ctx="Lore"]    { --ctxColor: var(--ctxLore); }
+
+/* Bigger, clearer pixel icons */
+.ico{
+  width: 32px !important;
+  height: 32px !important;
+  image-rendering: pixelated;
+  opacity: 1;
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,.45)) drop-shadow(0 0 2px rgba(0,0,0,.35));
+}
+.ico.ico-ctx{ width: 26px !important; height: 26px !important; }
+.ico.ico-sm{ width: 22px !important; height: 22px !important; }
+
+.icoWrap{
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 999px;
+  border-width: 2px !important;
+  background: rgba(0,0,0,0.78) !important;
+  border-color: rgba(255,255,255,0.16) !important;
+}
+
+/* Tinted badges with strong contrast (works in both themes) */
+.icoWrap-disc{
+  background: color-mix(in srgb, var(--badgeColor, var(--accent)) 28%, rgba(0,0,0,0.82)) !important;
+  border-color: color-mix(in srgb, var(--badgeColor, var(--accent)) 70%, rgba(255,255,255,0.10)) !important;
+}
+.icoWrap-ctx{
+  background: color-mix(in srgb, var(--ctxColor, var(--accent)) 28%, rgba(0,0,0,0.82)) !important;
+  border-color: color-mix(in srgb, var(--ctxColor, var(--accent)) 70%, rgba(255,255,255,0.10)) !important;
+}
+
+/* Card header layout: stop weird spacing */
+.cardtype{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.cardtype .discLabel{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Candle mode: stronger section separation */
+:root[data-theme="candlelit-light"] .card{
+  background: rgba(255,255,255,0.82) !important;
+  border-color: rgba(0,0,0,0.18) !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+:root[data-theme="candlelit-light"] .outcomeFocus,
+:root[data-theme="candlelit-light"] .resultCol{
+  background: rgba(255,255,255,0.88) !important;
+  border-color: rgba(0,0,0,0.16) !important;
+}
+:root[data-theme="candlelit-light"] .outcomeItem{
+  background: rgba(255,255,255,0.94) !important;
+  border-color: rgba(0,0,0,0.14) !important;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+}
+:root[data-theme="candlelit-light"] .outcomeItem + .outcomeItem{
+  margin-top: 10px; /* extra visual separation */
+}
+
+/* Hand fan: less overlap, correct stacking, no clipping */
+.hand.handFan{
+  display: flex !important;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 18px 120px 26px; /* room so first/last aren’t clipped */
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hand.handFan .cardbtn{
+  flex: 0 0 340px;
+  max-width: 340px;
+  margin-left: -48px; /* overlap but not "covered up" */
+  scroll-snap-align: center;
+  position: relative;
+  z-index: var(--z, 1);
+  transform-origin: 50% 118%;
+  transform: translateY(var(--y, 0px)) rotate(var(--rot, 0deg));
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+.hand.handFan .cardbtn:first-child{ margin-left: 0; }
+
+.hand.handFan .cardbtn:hover{
+  z-index: 9999;
+  transform: translateY(calc(var(--y, 0px) - 14px)) rotate(var(--rot, 0deg));
+}
+
+/* selected/committed lift without breaking fan rotation */
+.hand.handFan .cardbtn.committed,
+.hand.handFan .cardbtn.playable{
+  transform: translateY(calc(var(--y, 0px) - 10px)) rotate(var(--rot, 0deg));
+}
+
+/* Mobile: smaller cards + less padding */
+@media (max-width: 700px){
+  .hand.handFan{
+    padding: 16px 70px 22px;
+  }
+  .hand.handFan .cardbtn{
+    flex-basis: 320px;
+    max-width: 320px;
+    margin-left: -44px;
+  }
+}
