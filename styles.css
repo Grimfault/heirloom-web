@@ -1262,8 +1262,7 @@ html[data-theme="candle"] .iconBadge{
 /* Make generic pills consistent height */
 .pill{
   min-height: 28px;
-  /* Keep base pills hidden by default (see earlier .pill { display:none; }).
-     Only .pill.show (e.g., MAJOR) and specialized pills like .pill.any should display. */
+  display: inline-flex;
   align-items: center;
   padding: 0 10px;
   line-height: 1;
@@ -1392,3 +1391,83 @@ html, body { overflow-x: hidden; }
   background: rgba(0,0,0,0.86) !important;
   border-color: rgba(0,0,0,0.28) !important;
 }
+
+/* =========================================================
+   v7 Patch — Constrain PNG icon sizes (disc_* and ctx_*)
+   The JS emits .uiIconWrap/.uiIcon/.sceneToken.
+   Without these rules, icons render at their native pixel size.
+   ========================================================= */
+
+/* Generic wrapper used for discipline/context icons */
+.uiIconWrap{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex: 0 0 auto;
+  overflow:hidden;
+  /* sensible default (event header / misc) */
+  width: 34px;
+  height: 34px;
+}
+
+/* Discipline icon (bigger, used on cards) */
+.uiIconWrapDisc{
+  width: clamp(34px, 11vw, 54px);
+  height: clamp(34px, 11vw, 54px);
+}
+
+/* Context/scene icon (smaller) */
+.uiIconWrapCtx{
+  width: clamp(22px, 7vw, 32px);
+  height: clamp(22px, 7vw, 32px);
+}
+
+/* The PNG itself */
+img.uiIcon{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  /* hard cap in case a wrapper class is missed */
+  max-width: 54px;
+  max-height: 54px;
+}
+
+/* Compact scene tokens used in "Playable scenes" */
+.scenesIcons{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sceneToken{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--washBorderStrong);
+  background: var(--washBg);
+}
+
+.sceneTokenLabel{
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: .7px;
+  color: var(--text);
+  opacity: .92;
+}
+
+/* "ANY" token for wild cards */
+.sceneTokenAny{
+  border-color: color-mix(in srgb, var(--wildBorder) 60%, var(--washBorderStrong));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--wild) 18%, transparent);
+}
+
+/* If a UI icon appears inside an event line or smaller meta row, reduce it */
+.eventScene .uiIconWrap,
+.scenePill .uiIconWrap{
+  width: 26px;
+  height: 26px;
+}
+
