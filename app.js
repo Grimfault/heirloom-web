@@ -67,56 +67,65 @@ initThemeUI();
 
 
 // ---------- Pixel Icon Helpers ----------
-const ICON_VER = "20260216a";
-const BUILD_ID = "majorpill-fix-20260216a";
+const ICON_VER = "20260216b";
+const BUILD_ID = "icon+majorpill-fix-20260216b";
 try { console.info("[Heirloom]", BUILD_ID); } catch {}
 const icon = (p) => (p ? (p + "?v=" + ICON_VER) : null);
 
+// NOTE: Your repo ships these files (see /icons):
+//   Context: ctx_strife.png, ctx_court.png, ctx_scheme.png, ctx_journey.png, ctx_lore.png
+//   Discipline: disc_steel.png, disc_quill.png, disc_veil.png, disc_seal.png, disc_hearth.png
 const ICONS = {
   ctx: {
-    Strife: icon("icons/strife.png"),
-    Court:  icon("icons/court.png"),
-    Scheme: icon("icons/scheme.png"),
-    Journey:icon("icons/journey.png"),
-    Lore:   icon("icons/lore.png"),
+    Strife:  icon("icons/ctx_strife.png"),
+    Court:   icon("icons/ctx_court.png"),
+    Scheme:  icon("icons/ctx_scheme.png"),
+    Journey: icon("icons/ctx_journey.png"),
+    Lore:    icon("icons/ctx_lore.png"),
   },
   disc: {
-    Steel:  icon("icons/steel.png"),
-    Quill:  icon("icons/quill.png"),
-    Veil:   icon("icons/veil.png"),
-    Seal:   icon("icons/seal.png"),
-    Hearth: icon("icons/hearth.png"),
-    Wild: null,
+    Steel:  icon("icons/disc_steel.png"),
+    Quill:  icon("icons/disc_quill.png"),
+    Veil:   icon("icons/disc_veil.png"),
+    Seal:   icon("icons/disc_seal.png"),
+    Hearth: icon("icons/disc_hearth.png"),
+    Wild:   null,
   }
 };
 
-function iconImg(src, cls="icoImg") {
+function iconImg(src) {
   if (!src) return "";
-  return `<img class="${cls}" src="${src}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
+  return `<img src="${src}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
 }
 
 function discBadgeHtml(disc) {
-  const d = disc || "Wild";
+  const d = (disc || "Wild");
   const src = (ICONS.disc[d] || null);
-  // New icon set already includes its own circular border; keep wrapper only for sizing/layout.
-  return `<span class="uiIconWrap uiIconWrapDisc" data-disc="${d}">${iconImg(src, "uiIcon uiIconDisc")}</span>`;
+  if (src) {
+    return `<span class="iconBadge iconBadge-disc" data-disc="${d}">${iconImg(src)}</span>`;
+  }
+  // Wild fallback: keep layout stable even without a Wild PNG.
+  return `<span class="iconBadge iconBadge-disc" data-disc="${d}"><span style="font-weight:900;font-size:18px;line-height:1;color:var(--text);">★</span></span>`;
 }
 
 function ctxBadgeHtml(ctx) {
-  const c = ctx || "";
+  const c = (ctx || "");
   const src = (ICONS.ctx[c] || null);
-  return `<span class="uiIconWrap uiIconWrapCtx" data-ctx="${c}">${iconImg(src, "uiIcon uiIconCtx")}</span>`;
+  if (!src) {
+    return `<span class="iconBadge iconBadge-ctx" data-ctx="${c}"></span>`;
+  }
+  return `<span class="iconBadge iconBadge-ctx" data-ctx="${c}">${iconImg(src)}</span>`;
 }
 
 function playableScenesHtml(card) {
   if (!card) return "";
-  if (isWildCard(card)) {
-    return `<div class="scenesIcons"><span class="sceneToken sceneTokenAny"><span class="sceneTokenLabel">ANY</span></span></div>`;
-  }
+
+  const anyHtml = `<div class="scenesList"><span class="pill any">ANY</span></div>`;
+
+  if (isWildCard(card)) return anyHtml;
+
   const arr = (card.contexts || []).filter(Boolean);
-  if (!arr.length) {
-    return `<div class="scenesIcons"><span class="sceneToken sceneTokenAny"><span class="sceneTokenLabel">ANY</span></span></div>`;
-  }
+  if (!arr.length) return anyHtml;
 
   const ABBR = {
     Strife: "STR",
@@ -126,16 +135,12 @@ function playableScenesHtml(card) {
     Lore: "LOR",
   };
 
-  // Render all scenes (up to 5) in a compact row that reads on mobile.
-  const toks = arr.slice(0, 5).map(ctx => {
+  const pills = arr.slice(0, 5).map(ctx => {
     const ab = (ABBR[ctx] || String(ctx).slice(0, 3).toUpperCase());
-    return `<span class="sceneToken" title="${ctx}">
-      ${ctxBadgeHtml(ctx)}
-      <span class="sceneTokenLabel">${ab}</span>
-    </span>`;
+    return `<span class="scenePill" title="${ctx}">${ctxBadgeHtml(ctx)}<span class="scenePillText">${ab}</span></span>`;
   });
 
-  return `<div class="scenesIcons">${toks.join("")}</div>`;
+  return `<div class="scenesList">${pills.join("")}</div>`;
 }
 
 
