@@ -15,120 +15,6 @@
 */
 console.log("✅ app.js loaded");
 
-// ---------- Theme (Candlelit Ledger) ----------
-const THEME_KEY = "heirloom_theme";
-function getStoredTheme() {
-  try {
-    const t = localStorage.getItem(THEME_KEY);
-    return (t === "candle" || t === "ink") ? t : "ink";
-  } catch {
-    return "ink";
-  }
-}
-function applyTheme(theme) {
-  const t = (theme === "candle" || theme === "ink") ? theme : "ink";
-  document.documentElement.dataset.theme = t;
-
-  const label = (t === "ink") ? "Ink" : "Candle";
-  const menuLabel = (t === "ink") ? "Theme: Ink" : "Theme: Candle";
-
-  const btn = document.getElementById("btnTheme");
-  if (btn) btn.textContent = label;
-
-  const btnMenu = document.getElementById("btnThemeMenu");
-  if (btnMenu) btnMenu.textContent = menuLabel;
-
-  try { localStorage.setItem(THEME_KEY, t); } catch {}
-}
-function toggleTheme() {
-  const cur = (document.documentElement.dataset.theme === "candle") ? "candle" : "ink";
-  applyTheme(cur === "ink" ? "candle" : "ink");
-}
-function initThemeUI() {
-  // Respect any early <head> theme set; otherwise use localStorage default.
-  const existing = document.documentElement.dataset.theme;
-  const t = (existing === "candle" || existing === "ink") ? existing : getStoredTheme();
-  applyTheme(t);
-
-  const btn = document.getElementById("btnTheme");
-  if (btn && !btn.__heirloomBound) {
-    btn.addEventListener("click", toggleTheme);
-    btn.__heirloomBound = true;
-  }
-
-  const btnMenu = document.getElementById("btnThemeMenu");
-  if (btnMenu && !btnMenu.__heirloomBound) {
-    btnMenu.addEventListener("click", toggleTheme);
-    btnMenu.__heirloomBound = true;
-  }
-}
-
-initThemeUI();
-
-
-// ---------- Pixel Icon Helpers ----------
-const ICONS = {
-  ctx: {
-    Strife: "icons/ctx_strife.png",
-    Court: "icons/ctx_court.png",
-    Scheme: "icons/ctx_scheme.png",
-    Journey: "icons/ctx_journey.png",
-    Lore: "icons/ctx_lore.png",
-  },
-  disc: {
-    Steel: "icons/disc_steel.png",
-    Quill: "icons/disc_quill.png",
-    Veil: "icons/disc_veil.png",
-    Seal: "icons/disc_seal.png",
-    Hearth: "icons/disc_hearth.png",
-    Wild: null,
-  }
-};
-
-function iconImg(src, cls="icoImg") {
-  if (!src) return "";
-  return `<img class="${cls}" src="${src}" alt="" aria-hidden="true" onerror="this.style.display='none'">`;
-}
-
-function discBadgeHtml(disc) {
-  const d = disc || "Wild";
-  const src = (ICONS.disc[d] || null);
-  return `<span class="iconBadge iconBadge-disc" data-disc="${d}">${iconImg(src)}</span>`;
-}
-
-function ctxBadgeHtml(ctx) {
-  const c = ctx || "";
-  const src = (ICONS.ctx[c] || null);
-  return `<span class="iconBadge iconBadge-ctx" data-ctx="${c}">${iconImg(src)}</span>`;
-}
-
-function playableScenesHtml(card) {
-  if (!card) return "";
-  if (isWildCard(card)) {
-    return `<div class="scenesList"><span class="scenePill scenePillAny"><span class="scenePillText">Any scene</span></span></div>`;
-  }
-  const arr = (card.contexts || []).filter(Boolean);
-  if (!arr.length) return `<div class="scenesList"><span class="scenePill scenePillAny"><span class="scenePillText">Any scene</span></span></div>`;
-
-  // Keep cards visually consistent: show up to 4 scenes, then a "+N more" pill
-  const MAX = 4;
-  const shown = arr.slice(0, MAX);
-  const hidden = arr.slice(MAX);
-
-  const pills = shown.map(ctx => {
-    return `<span class="scenePill">${ctxBadgeHtml(ctx)}<span class="scenePillText">${ctx}</span></span>`;
-  });
-
-  if (hidden.length) {
-    const title = `Also playable in: ${hidden.join(", ")}`;
-    pills.push(`<span class="scenePill scenePillMore" title="${title}"><span class="scenePillMoreText">+${hidden.length} more</span></span>`);
-  }
-
-  return `<div class="scenesList">${pills.join("")}</div>`;
-}
-
-
-
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const rInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -1818,7 +1704,7 @@ function summarizeBundle(bundle) {
 
   for (const s of (bundle.standings ?? [])) {
     const steps = s.steps ?? 0;
-    if (steps !== 0) lines.push(`Standing ${s.factionId}: ${steps > 0 ? "+" : ""}${steps} tier(s)`);
+    if (steps !== 0) lines.push(`Standing ${factionLabel(s.factionId)}: ${steps > 0 ? "+" : ""}${steps} tier(s)`);
   }
 
   return lines;
@@ -2175,7 +2061,7 @@ function indexData() {
   DATA.cardsById = Object.fromEntries(DATA.cards.map(c => [c.id, c]));
   DATA.eventsById = Object.fromEntries(DATA.events.map(e => [e.id, e]));
   DATA.backgroundsById = Object.fromEntries(DATA.backgrounds.map(b => [b.id, b]));
-  DATA.factionsById = Object.fromEntries((DATA.factions ?? []).map(f => [f.id, f]));
+  DATA.factionsById = Object.fromEntries(((DATA.factions && DATA.factions.length) ? DATA.factions : DEFAULT_FACTIONS).map(f => [f.id, f]));
 }
 
 async function loadAllData() {
@@ -2213,10 +2099,17 @@ async function loadAllData() {
 
 // ---------- Requirements ----------
 
-function factionLabel(fid) {
-  const f = DATA?.factionsById?.[fid];
-  return (f?.short || f?.name || fid);
+function factionLabel(factionId, opts = {}) {
+  const short = opts.short ?? true;
+  const f = DATA?.factionsById?.[factionId];
+  if (!f) return String(factionId ?? "");
+  return String(short ? (f.short ?? f.name ?? factionId) : (f.name ?? f.short ?? factionId));
 }
+
+function getStandingTierSafe(factionId) {
+  return (state?.standings?.[factionId]) ?? (DATA?.factionsById?.[factionId]?.defaultTier) ?? "Neutral";
+}
+
 function tierIndex(tier) {
   const i = TIERS.indexOf(tier);
   return i >= 0 ? i : 2; // default Neutral
@@ -2290,7 +2183,7 @@ function unmetReasons(requirements) {
         reasons.push(`Requires age ${req.min}–${req.max}`);
         break;
       case "MinStanding":
-        reasons.push(`Requires ${req.factionId} standing ≥ ${req.minTier}`);
+        reasons.push(`Requires ${factionLabel(req.factionId)} standing ≥ ${req.minTier}`);
         break;
       default:
         reasons.push(`Requirement unmet: ${req.type}`);
@@ -3593,8 +3486,11 @@ function renderCreationUI() {
 
 
 function isMajorEventNow() {
-  const season = SEASONS[state.seasonIndex];
-  return (season === "Vernal" && MAJOR_AGES.has(state.age));
+  // Be robust to legacy saves where age/seasonIndex may be strings.
+  const age = Number(state?.age);
+  const seasonIndex = Number(state?.seasonIndex);
+  if (!Number.isFinite(age) || !Number.isFinite(seasonIndex)) return false;
+  return isMajorBeatAt(age, seasonIndex);
 }
 
 function renderStatus() {
@@ -3628,24 +3524,19 @@ function renderStatus() {
     : "None";
   conditionLine.textContent = `Conditions: ${condStr}`;
 
-  majorPill.classList.toggle("show", isMajorEventNow());
+  majorPill.classList.toggle("show", (currentEvent?.kind === "major"));
 }
 
 function renderEvent() {
   eventName.textContent = currentEvent.name;
-  ensureFamilyState();
-
-  // Scene meta with icon
-  const parts = [];
-  parts.push(`<span class="eventScene">${ctxBadgeHtml(currentEvent.context)}<span class="eventSceneLabel">Scene:</span> <span class="eventSceneValue">${currentEvent.context}</span></span>`);
+    ensureFamilyState();
+  let meta = `Scene: ${currentEvent.context}`;
   if (currentEvent?.storyline?.id === "ct" && state.family.prospect) {
-    parts.push(`<span class="eventProspect">Prospect: <span class="eventProspectValue">${state.family.prospect.given} (${state.family.prospect.cultureName})</span></span>`);
+    meta += ` • Prospect: ${state.family.prospect.given} (${state.family.prospect.cultureName})`;
   }
-  eventMeta.innerHTML = parts.join(`<span class="metaSep"> • </span>`);
-
+  eventMeta.textContent = meta;
   eventPrompt.textContent = currentEvent.prompt;
 }
-
 
 
 function renderOutcomes() {
@@ -3818,51 +3709,18 @@ function renderHand() {
     div.dataset.discipline = (c.discipline || "");
 
     div.innerHTML = `
-      <div class="cardHead">
-        <div class="cardHeadTop">
-          <div class="cardTitle">${c.name}</div>
-          <div class="cardRarity">${rarityMark}</div>
-        </div>
+      <div class="cardname">${c.name}</div>
+      <div class="cardtype"><span>${c.discipline}</span><span class="rarityPips">${rarityMark}</span></div>
 
-        <div class="cardHeadSub">
-          <div class="discRow">
-            ${discBadgeHtml(c.discipline)}
-            <div class="discTextBlock">
-              <div class="discName">${(c.discipline || "Wild").toUpperCase()}</div>
-              <div class="discBonus ${arrowsClass}">${isWild ? "WILD" : ("Bonus " + arrowsText)}</div>
-            </div>
-          </div>
-        </div>
+      <div class="cardbig">
+        <span class="arrows ${arrowsClass}">${arrowsText}</span>
+        <span class="cardbigtext">${line3}</span>
       </div>
-
-      <div class="cardRule"></div>
-
-      <div class="cardBody">
-
-      <div class="cardSection">
-        <div class="sectionLabel">Playable scenes</div>
-        ${playableScenesHtml(c)}
-      </div>
-
-      ${(!isWild && riderText) ? `
-        <div class="cardSection">
-          <div class="sectionLabel">Effect</div>
-          <div class="effectText">${riderText}${(lvlData.partialOnFail ? ` <span class="muted">• partial on failure</span>` : "")}</div>
-        </div>
-      ` : (isWild && riderText) ? `
-        <div class="cardSection">
-          <div class="sectionLabel">Effect</div>
-          <div class="effectText">${riderText}</div>
-        </div>
-      ` : ``}
 
       ${usabilityHtml}
 
-      <div class="cardFlavor"><em>${cardFlavor(c)}</em></div>
-
-      </div>
+      <div class="cardflavor"><em>${cardFlavor(c)}</em></div>
     `;
-
 
     div.addEventListener("click", () => {
       if (isWild) {
@@ -5382,22 +5240,6 @@ function showLoadingUI(isLoading) {
   if (!isLoading) updateStartButtonState();
 }
 
-function normalizeStartStandings(val) {
-  if (!val) return {};
-  // Legacy array format: [{ factionId, tier }]
-  if (Array.isArray(val)) {
-    const out = {};
-    for (const s of val) {
-      if (!s || !s.factionId) continue;
-      out[String(s.factionId)] = String(s.tier ?? "Neutral");
-    }
-    return out;
-  }
-  // Map format: { crown: "Favored" }
-  if (typeof val === "object") return deepCopy(val);
-  return {};
-}
-
 function startRunFromBuilder(bg, givenName, familyName) {
   const deckIds = expandDeck(bg.deck);
   const validDeck = deckIds.filter(cid => DATA.cardsById[cid]);
@@ -5452,7 +5294,7 @@ function startRunFromBuilder(bg, givenName, familyName) {
     conditions: startConds,
 
     flags: {},
-    standings: normalizeStartStandings(bg.startStandings ?? bg.startStanding),
+    standings: deepCopy(bg.startStandings ?? bg.startStanding ?? {}),
     masterDeck: [...starterDeck],
     drawPile: shuffle([...starterDeck]),
     discardPile: []
