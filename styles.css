@@ -1262,7 +1262,8 @@ html[data-theme="candle"] .iconBadge{
 /* Make generic pills consistent height */
 .pill{
   min-height: 28px;
-  display: inline-flex;
+  /* Keep base pills hidden by default (see earlier .pill { display:none; }).
+     Only .pill.show (e.g., MAJOR) and specialized pills like .pill.any should display. */
   align-items: center;
   padding: 0 10px;
   line-height: 1;
