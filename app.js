@@ -67,14 +67,11 @@ initThemeUI();
 
 
 // ---------- Pixel Icon Helpers ----------
-const ICON_VER = "20260216b";
-const BUILD_ID = "icon+majorpill-fix-20260216b";
+const ICON_VER = "20260216a";
+const BUILD_ID = "majorpill-fix-20260216a";
 try { console.info("[Heirloom]", BUILD_ID); } catch {}
 const icon = (p) => (p ? (p + "?v=" + ICON_VER) : null);
 
-// NOTE: Your repo ships these files (see /icons):
-//   Context: ctx_strife.png, ctx_court.png, ctx_scheme.png, ctx_journey.png, ctx_lore.png
-//   Discipline: disc_steel.png, disc_quill.png, disc_veil.png, disc_seal.png, disc_hearth.png
 const ICONS = {
   ctx: {
     Strife:  icon("icons/ctx_strife.png"),
@@ -89,43 +86,38 @@ const ICONS = {
     Veil:   icon("icons/disc_veil.png"),
     Seal:   icon("icons/disc_seal.png"),
     Hearth: icon("icons/disc_hearth.png"),
-    Wild:   null,
+    Wild:   icon("icons/disc_wild.png"),
   }
 };
 
-function iconImg(src) {
+
+function iconImg(src, cls="icoImg") {
   if (!src) return "";
-  return `<img src="${src}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
+  return `<img class="${cls}" src="${src}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
 }
 
 function discBadgeHtml(disc) {
-  const d = (disc || "Wild");
+  const d = disc || "Wild";
   const src = (ICONS.disc[d] || null);
-  if (src) {
-    return `<span class="iconBadge iconBadge-disc" data-disc="${d}">${iconImg(src)}</span>`;
-  }
-  // Wild fallback: keep layout stable even without a Wild PNG.
-  return `<span class="iconBadge iconBadge-disc" data-disc="${d}"><span style="font-weight:900;font-size:18px;line-height:1;color:var(--text);">★</span></span>`;
+  // New icon set already includes its own circular border; keep wrapper only for sizing/layout.
+  return `<span class="uiIconWrap uiIconWrapDisc" data-disc="${d}">${iconImg(src, "uiIcon uiIconDisc")}</span>`;
 }
 
 function ctxBadgeHtml(ctx) {
-  const c = (ctx || "");
+  const c = ctx || "";
   const src = (ICONS.ctx[c] || null);
-  if (!src) {
-    return `<span class="iconBadge iconBadge-ctx" data-ctx="${c}"></span>`;
-  }
-  return `<span class="iconBadge iconBadge-ctx" data-ctx="${c}">${iconImg(src)}</span>`;
+  return `<span class="uiIconWrap uiIconWrapCtx" data-ctx="${c}">${iconImg(src, "uiIcon uiIconCtx")}</span>`;
 }
 
 function playableScenesHtml(card) {
   if (!card) return "";
-
-  const anyHtml = `<div class="scenesList"><span class="pill any">ANY</span></div>`;
-
-  if (isWildCard(card)) return anyHtml;
-
+  if (isWildCard(card)) {
+    return `<div class="scenesIcons"><span class="sceneToken sceneTokenAny"><span class="sceneTokenLabel">ANY</span></span></div>`;
+  }
   const arr = (card.contexts || []).filter(Boolean);
-  if (!arr.length) return anyHtml;
+  if (!arr.length) {
+    return `<div class="scenesIcons"><span class="sceneToken sceneTokenAny"><span class="sceneTokenLabel">ANY</span></span></div>`;
+  }
 
   const ABBR = {
     Strife: "STR",
@@ -135,12 +127,16 @@ function playableScenesHtml(card) {
     Lore: "LOR",
   };
 
-  const pills = arr.slice(0, 5).map(ctx => {
+  // Render all scenes (up to 5) in a compact row that reads on mobile.
+  const toks = arr.slice(0, 5).map(ctx => {
     const ab = (ABBR[ctx] || String(ctx).slice(0, 3).toUpperCase());
-    return `<span class="scenePill" title="${ctx}">${ctxBadgeHtml(ctx)}<span class="scenePillText">${ab}</span></span>`;
+    return `<span class="sceneToken" title="${ctx}">
+      ${ctxBadgeHtml(ctx)}
+      <span class="sceneTokenLabel">${ab}</span>
+    </span>`;
   });
 
-  return `<div class="scenesList">${pills.join("")}</div>`;
+  return `<div class="scenesIcons">${toks.join("")}</div>`;
 }
 
 
