@@ -1470,4 +1470,10 @@ img.uiIcon{
   width: 26px;
   height: 26px;
 }
-
+/* =========================================================
+   Major Event pill visibility
+   - .pill is used elsewhere as a general inline-flex component.
+   - The MAJOR pill should be hidden unless JS toggles .show.
+   ========================================================= */
+#majorPill{ display: none; }
+#majorPill.show{ display: inline-flex; }
