@@ -13800,6 +13800,3685 @@
     ]
   },
   {
+    "id": "gev_076_first_blood_first_boast",
+    "name": "First Blood, First Boast",
+    "context": "Strife",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Youth",
+      "Reputation",
+      "Greenfold"
+    ],
+    "minAge": 16,
+    "maxAge": 25,
+    "prompt": "In a muddy yard behind the inns, young blades trade bruises and stories. The crowd loves a clean hit and a cleaner boast.",
+    "outcomes": [
+      {
+        "title": "Take the Bout",
+        "desc": "Win honestly. Let your arms speak for you.",
+        "stat": "Might",
+        "diff": 2,
+        "allowed": [
+          "Steel"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Bruised (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You land a solid strike and step back before it turns ugly. Someone remembers your name the next time courage is needed.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You misjudge the distance and catch a knee to the ribs. You laugh it off, but it hurts to breathe right.",
+          "conditions": [
+            {
+              "id": "Bruised",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Win with Footwork",
+        "desc": "Fight smart. Make their strength miss.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Steel"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You turn the bout into a lesson: angles, timing, patience. The crowd grumbles, then applauds when they realize you’ve won.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You overthink it. Your feet tangle, and you spend the rest of the match scrambling.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Throw the Match",
+        "desc": "Lose on purpose. Win somewhere else.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You take a dive at the right moment. A hand presses coin into yours, and nobody can prove anything.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "You sell it too hard. The crowd’s laughter turns sharp, and your opponent’s pride turns cruel.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Decline",
+        "desc": "Keep your hands clean and your breath steady.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Mockery"
+          ]
+        },
+        "success": {
+          "text": "You step away, drink water, and watch. You learn more about people than punches.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They jeer until you leave. The lesson is bitter, but it sticks.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_077_borrowed_horse",
+    "name": "Borrowed Horse",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Youth",
+      "Travel",
+      "Crownlands"
+    ],
+    "minAge": 16,
+    "maxAge": 25,
+    "prompt": "A stable yard offers temptation: a good horse, saddled and unattended, as if the world expects you to take it.",
+    "outcomes": [
+      {
+        "title": "Return it Unused",
+        "desc": "You came close. That’s enough.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": []
+        },
+        "success": {
+          "text": "You walk away. When the groom notices, he gives you a nod that feels like permission to grow into better choices.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You hesitate too long, and the groom assumes the worst. You leave with your dignity intact, but your name takes a small scratch.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Race the Road",
+        "desc": "Borrow the speed. Pay the world back later.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "The horse flies. You make good time, and the saddlebag’s spare rations become yours by accident.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "A rut, a stumble, a hard landing. The horse bolts and you hit the ground like a hammer drop.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Swap the Tack",
+        "desc": "Leave a different saddle. Make it a trade.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You leave something behind—just enough to confuse guilt with commerce. By the time anyone counts straps, you’re gone.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "The groom catches you by the bridle. ‘Thief,’ he says, loud enough to make it true.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Bargain with the Groom",
+        "desc": "Ask. Offer a service. Speak like you belong.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Coin cost"
+          ]
+        },
+        "success": {
+          "text": "You get a day’s loan in exchange for a promise and a small fee. It feels like adulthood: paying for what you want.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            },
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ]
+        },
+        "fail": {
+          "text": "He laughs you out of the yard. You leave empty-handed and a little angrier.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_078_senior_favor",
+    "name": "A Senior’s Favor",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Youth",
+      "Patronage",
+      "Court"
+    ],
+    "minAge": 16,
+    "maxAge": 25,
+    "prompt": "An older patron—knight, merchant, prior, or magistrate—watches you with an appraising calm. ‘Come,’ they say. ‘You have potential.’",
+    "outcomes": [
+      {
+        "title": "Accept the Mentorship",
+        "desc": "Say yes, and let the doors decide what you become.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Oathbound (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You bow, and your name enters someone else’s ledger of obligations. The world gets wider—and narrower—at the same time.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Oathbound",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You stumble over etiquette, and the offer cools. Not revoked—just postponed into ‘never.’",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Impress with Learning",
+        "desc": "Prove you’re more than a strong back and quick tongue.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You answer cleanly, ask sharper questions, and leave them smiling. Word travels faster than you do.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You push too hard, say too much, and expose how green you still are.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Use Them",
+        "desc": "Take the favor and twist it into leverage.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You learn what they want hidden, and you learn it quietly. A new thread of leverage sits in your pocket like a warm coin.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They realize what you’re doing. Their smile stays, but the room suddenly feels colder.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Keep Distance",
+        "desc": "Refuse politely. Keep your fate your own.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Opportunity loss"
+          ]
+        },
+        "success": {
+          "text": "You decline without insult. They respect it, even if they don’t invite you back.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You decline too bluntly. Pride answers pride, and you’re quietly marked as ‘difficult.’",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": -1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_079_moonlit_errand",
+    "name": "Moonlit Errand",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Youth",
+      "Letters",
+      "Night"
+    ],
+    "minAge": 16,
+    "maxAge": 25,
+    "prompt": "A sealed letter is pressed into your hand after dark. ‘No questions,’ the sender murmurs. ‘Just speed.’",
+    "outcomes": [
+      {
+        "title": "Deliver it Unopened",
+        "desc": "Do the job. Keep your conscience light.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": []
+        },
+        "success": {
+          "text": "You deliver the letter as given. A small purse follows, and you sleep easier for it.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "You arrive late, wet, and watched. They still pay you—less warmly.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Read the Seal",
+        "desc": "Crack it and learn what you’re carrying.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You skim the contents, reseal it clean, and carry on. You keep the knowledge like a blade hidden in cloth.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The wax doesn’t sit right. The recipient knows immediately, and so does everyone else in the room.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Lose it in the Dark",
+        "desc": "If it vanishes, it can’t ruin you.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Freedom"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "A splash, a stumble, and the letter is gone. You return with an apology too practiced to be true.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They don’t believe accidents at midnight. A runner shadows you for days, asking questions with a smile.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Switch Recipients",
+        "desc": "Deliver it to someone who will pay you better.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Scandalous",
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin",
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You trade allegiance for coin. The new recipient’s eyes glitter as they read.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 3
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You’re caught between two doors, both angry. In the end, neither side wants you breathing freely.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_080_upkeep_comes_due",
+    "name": "Upkeep Comes Due",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Responsibility",
+      "Ledger",
+      "Home"
+    ],
+    "minAge": 26,
+    "maxAge": 35,
+    "prompt": "A neat list becomes a heavy one: rent, retainers, dues, repairs. Adulthood is a ledger that always wants ink.",
+    "outcomes": [
+      {
+        "title": "Pay in Full",
+        "desc": "Settle it cleanly. Sleep without math.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Stability"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "You pay what’s owed. People stop watching your door.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You pay, but it stings. The rest of the season feels thinner.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -3
+            }
+          ]
+        }
+      },
+      {
+        "title": "Negotiate Terms",
+        "desc": "Find the clause that turns pressure into patience.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You shave the number down with polite, exact words. The world hates a clean argument, but it respects it.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your words land wrong. They hear ‘excuses’ where you meant ‘terms.’",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Borrow Quietly",
+        "desc": "Find coin now. Accept the shadow later.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "In Debt (Minor)"
+          ]
+        },
+        "success": {
+          "text": "A quiet lender advances you a purse with a smile that doesn’t reach his eyes.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 3
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "The lender wants something you won’t give. You leave with nothing but the sense you were measured and found soft.",
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Cut Corners",
+        "desc": "Skip repairs, short rations, delay wages.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Disgraced (Minor)",
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You stretch the season by force of will and smaller meals. It works, if you don’t look too closely at who suffers.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            },
+            {
+              "resource": "Supplies",
+              "amount": -1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The shortcuts show. People talk, and talk becomes reputation.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            },
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_081_childs_fever",
+    "name": "A Child’s Fever",
+    "context": "Hearth",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Family",
+      "Mercy",
+      "Synod"
+    ],
+    "minAge": 26,
+    "maxAge": 35,
+    "prompt": "A child in your household—your own or under your care—burns with fever. The night smells of herbs and worry.",
+    "outcomes": [
+      {
+        "title": "Call a Candlekeeper",
+        "desc": "Spend coin for care, and accept their questions.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "The healer comes, steady as a bell. The fever breaks before dawn, and the household breathes again.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They do what they can, but mercy is not guarantee. The fever lingers, and so does the fear.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Work the Remedies",
+        "desc": "Brew, cool, watch, and keep notes like a scholar.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Ill (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You pace the night with a bowl and a cloth. By morning, the worst passes. You keep the unused herbs for later.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You mix the wrong leaves, or too much. By dawn, you’re coughing in the same smoky air.",
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Pray and Keep Vigil",
+        "desc": "Endure the night without sleep, and beg the garden to spare you.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You stay awake, hands steady, voice low. Someone in the hospice network hears of it and remembers you kindly.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Dawn finds you hollow-eyed and shaking. The fever still burns, and now so does your temper.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Look Away",
+        "desc": "You have duties. You convince yourself that’s mercy.",
+        "stat": "Guile",
+        "diff": 2,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Disgraced (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You push the worry aside and handle business. The house survives, but something in you shifts and hardens.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "People see the absence. In a world of vows and witness, neglect becomes a public wound.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_082_debt_collector",
+    "name": "A Debt Collector",
+    "context": "Scheme",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Pressure",
+      "Coin",
+      "League Marches"
+    ],
+    "minAge": 26,
+    "maxAge": 35,
+    "prompt": "A polite stranger waits where you can’t avoid them. ‘A reminder,’ they say, as if reminders don’t cut.",
+    "outcomes": [
+      {
+        "title": "Pay Them",
+        "desc": "Coin is pain you can measure.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Relief"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "You pay. The stranger bows, and your name moves down the list.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You pay, but not enough. The stranger smiles anyway. That’s the worst part.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Stall with Paper",
+        "desc": "Contracts, receipts, excuses—make it a maze.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Time"
+          ],
+          "risks": [
+            "In Debt (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You bury them in terms and dates. They leave to fetch ‘clarification,’ which is another word for delay.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They know every trick. The conversation ends with a number and a deadline.",
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Threaten Them",
+        "desc": "Make it clear collecting from you costs more than it earns.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Freedom"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "They back off—this time. Their eyes promise that the next visit will bring friends.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They step into the street and call for witnesses. Suddenly, you’re the problem.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Disappear",
+        "desc": "Leave town for a season. Let the trail go cold.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You slip into the road’s noise. A week later, you’re a rumor instead of a target.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You move too late. They’re already waiting at the gatehouse.",
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            },
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_083_marriage_contract",
+    "name": "The Marriage Contract",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Family",
+      "Alliance",
+      "Court"
+    ],
+    "minAge": 26,
+    "maxAge": 35,
+    "prompt": "A contract is offered with soft words and hard clauses. Marriage, they insist, is just another kind of treaty.",
+    "outcomes": [
+      {
+        "title": "Sign for Advantage",
+        "desc": "Choose the terms that strengthen your house.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence",
+            "Renown"
+          ],
+          "risks": [
+            "Coin cost"
+          ]
+        },
+        "success": {
+          "text": "You find the clause that matters and make it yours. The witnesses nod, impressed despite themselves.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            },
+            {
+              "resource": "Renown",
+              "amount": 1
+            },
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You miss a buried term. Everyone smiles while you sign away something important.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Insist on Honor",
+        "desc": "Refuse tricks. Demand a clean vow.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Influence loss"
+          ]
+        },
+        "success": {
+          "text": "You hold the line. The contract is simpler when written like a promise instead of a snare.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They call you naive. The room tilts against you, and the offer grows colder.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Forge a Clause",
+        "desc": "Add a line that no one will notice until it matters.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Coin"
+          ],
+          "risks": [
+            "Disgraced (Severe)"
+          ]
+        },
+        "success": {
+          "text": "Your hand is steady. The ink dries. You’ve planted a future advantage like a thorn under velvet.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            },
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "A clerk catches the irregular stroke. The accusation is quiet, but the shame is not.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Refuse",
+        "desc": "Walk away from the treaty and its price.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Freedom"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You decline without burning bridges. Not every door must be entered.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 0
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your refusal is taken as insult. The rumor spreads before you reach the courtyard.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_084_apprentices_mistake",
+    "name": "The Apprentice’s Mistake",
+    "context": "Lore",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Mentorship",
+      "Work",
+      "Consequences"
+    ],
+    "minAge": 36,
+    "maxAge": 45,
+    "prompt": "Someone younger—an apprentice, page, or junior clerk—makes a mistake with real weight: a misfiled record, a spoiled batch, a miscounted payment.",
+    "outcomes": [
+      {
+        "title": "Cover for Them",
+        "desc": "Take the blame. Keep the kid standing.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You absorb the anger and smooth the edges. Later, the apprentice looks at you like you hung the moon.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The lie doesn’t hold. You’re both stained, and you feel older for it.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Teach the Lesson",
+        "desc": "Make the correction, and make it memorable.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You correct them in private, firmly. The work improves immediately, and others begin to seek your judgment.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You push too hard. They shut down, and you spend days repairing what you broke in them.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Fix the Record",
+        "desc": "Quietly repair the damage with careful study.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": []
+        },
+        "success": {
+          "text": "You find the missing line, the wrong sum, the swapped name. You also find who benefits from the confusion.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You chase the error in circles. By the time you find it, the day is gone and your patience with it.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Let Them Take the Fall",
+        "desc": "It’s their mistake. Let it be their scar.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You keep your hands clean and your mouth shut. The apprentice learns what power is—cold and precise.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "It looks like you set them up. People forgive cruelty sooner than cowardice.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_085_old_friend_new_knife",
+    "name": "Old Friend, New Knife",
+    "context": "Scheme",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Past",
+      "Intrigue",
+      "Greenfold"
+    ],
+    "minAge": 36,
+    "maxAge": 45,
+    "prompt": "An old friend finds you with a smile that doesn’t reach their eyes. ‘I need a favor,’ they say, like you still owe them for being young together.",
+    "outcomes": [
+      {
+        "title": "Help Them",
+        "desc": "Do the deed. Keep the bond alive.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin",
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You do what they ask and take your cut. The friendship remains—thinner, but sharper.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The job goes loud. Your friend vanishes, and your name stays behind.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Warn the Target",
+        "desc": "Turn the favor into protection.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You quietly redirect the blow. The target owes you, and owes are a kind of power.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your warning reaches the wrong ears. Now both sides call you untrustworthy.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Set a Trap",
+        "desc": "Catch your old friend in the act and end it.",
+        "stat": "Wit",
+        "diff": 4,
+        "allowed": [
+          "Quill",
+          "Veil"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You arrange witnesses, timing, and an exit. When the moment comes, the knife falls into your net.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The trap snaps back. You escape, but not cleanly.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Walk Away",
+        "desc": "Say no. Let the past rot elsewhere.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Peace"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You refuse and leave. Some debts are paid by not letting them be collected.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They follow you with words like hooks. You get free, but you don’t feel free.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_086_plague_ledger_request",
+    "name": "The Plague Ledger",
+    "context": "Lore",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Synod",
+      "Memory",
+      "Witness"
+    ],
+    "minAge": 36,
+    "maxAge": 45,
+    "prompt": "A Candlekeeper opens a thick book of names and dates. ‘We need witnesses,’ they say. ‘Not rumors.’",
+    "outcomes": [
+      {
+        "title": "Write True",
+        "desc": "Put names in ink, not in gossip.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": []
+        },
+        "success": {
+          "text": "You speak carefully and write what you know. The Candlekeeper thanks you like you’ve done something holy.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your memory slips. A family corrects you, loudly. The room grows suspicious of your ‘truth.’",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Hide a Name",
+        "desc": "Protect someone by erasing them.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "A name goes missing. A living person stays alive a little longer in the eyes of the law.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The Candlekeeper notices the hesitation. In a hospice, even silence has weight.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Pay for Burial",
+        "desc": "Turn coin into mercy. Make the dead matter.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "Your donation funds candles and clean shrouds. The Synod remembers patrons longer than it forgets sins.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You give what you can, but it’s not enough for what you’ve seen. The guilt sits with you.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Take the Vigil",
+        "desc": "Stay up all night and keep the ward quiet.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "In the hush, you overhear what grief makes people confess. You don’t interrupt.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "The night drains you. By morning, your hands shake too much to hold a cup steady.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_087_border_muster",
+    "name": "Border Muster",
+    "context": "Strife",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Duty",
+      "Levy",
+      "Crownlands"
+    ],
+    "minAge": 36,
+    "maxAge": 45,
+    "prompt": "A herald reads names at the keep gate. Your name is on the list. The border needs bodies, and duty rarely asks politely.",
+    "outcomes": [
+      {
+        "title": "Serve Honestly",
+        "desc": "Take the spear and stand the line.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You do your season and come home with scars people respect.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "A skirmish turns sharp. You come back limping and quieter.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            },
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Command the Line",
+        "desc": "Take charge. Make others move when you speak.",
+        "stat": "Gravitas",
+        "diff": 4,
+        "allowed": [
+          "Seal",
+          "Steel"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Influence",
+            "Renown"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "Your orders hold. When the dust settles, someone calls you ‘captain’ like it’s always been true.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            },
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You’re blamed for a mistake you didn’t make. The court loves a scapegoat almost as much as it loves a hero.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Slip the Muster",
+        "desc": "Disappearing is a skill like any other.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You vanish into the roads and return when the list is forgotten. You pay for the silence you need.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They catch you at the river crossing. Desertion is a word that follows you like dogs.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Make Yourself Useful",
+        "desc": "Handle supplies and messages instead of blades.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You keep the line fed and informed. It’s not glamorous, but it wins fights before they start.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            },
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A missed delivery becomes a shouted accusation. You work twice as hard to make up the loss.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_088_seat_at_the_table",
+    "name": "Seat at the Table",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Power",
+      "Council",
+      "Politics"
+    ],
+    "minAge": 46,
+    "maxAge": 55,
+    "prompt": "A minor council seat opens—guild hall, court chamber, abbey chapter, it hardly matters. The seat offers influence, and enemies.",
+    "outcomes": [
+      {
+        "title": "Take the Seat",
+        "desc": "Accept the power and the scrutiny.",
+        "stat": "Gravitas",
+        "diff": 4,
+        "allowed": [
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence",
+            "Renown"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You speak once, and the room quiets. The seat changes you the way a blade changes a hand: permanently.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 2
+            },
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You misread the room. One bad moment becomes the story they tell about you.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Bring Evidence",
+        "desc": "Arrive with documents instead of charm.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Secrets loss"
+          ]
+        },
+        "success": {
+          "text": "You lay down facts like stones. Even rivals hesitate to argue with ink.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 2
+            },
+            {
+              "resource": "Secrets",
+              "amount": -1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your evidence is dismissed as ‘convenient.’ Someone else controls the archive.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Buy the Vote",
+        "desc": "Offer what people actually obey: coin.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Coin loss",
+            "Disgraced (Severe)"
+          ]
+        },
+        "success": {
+          "text": "A few purses change hands. A few mouths change stories. The seat is yours, but it never feels clean.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Influence",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "Someone takes the coin and still votes against you. Worse: they tell everyone why.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Refuse with Grace",
+        "desc": "Step aside without surrendering respect.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Influence loss"
+          ]
+        },
+        "success": {
+          "text": "You decline like a choice, not a retreat. People remember restraint when they’re tired of climbers.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They interpret your refusal as weakness. The next petition you make meets closed doors.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": -1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_089_old_injury_flares",
+    "name": "An Old Injury Flares",
+    "context": "Hearth",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Aging",
+      "Health",
+      "Winter"
+    ],
+    "minAge": 46,
+    "maxAge": 55,
+    "prompt": "Cold weather finds old wounds. A scar aches like a warning, and you realize how long you’ve been carrying it.",
+    "outcomes": [
+      {
+        "title": "Rest and Recover",
+        "desc": "Listen to your body for once.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Relief"
+          ],
+          "risks": [
+            "Lost time"
+          ]
+        },
+        "success": {
+          "text": "You sleep, eat, and let the ache soften. It isn’t gone, but it stops shouting.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Downgrade"
+            },
+            {
+              "id": "Exhausted",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Rest turns into restlessness. The pain stays, and now you’re annoyed by it.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Seek a Healer",
+        "desc": "Pay for hands that know what to press and what to leave alone.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Health"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "The healer sets you right as best anyone can. You leave steadier than you arrived.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            },
+            {
+              "id": "Wounded",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "The remedy helps, but you pay in coin and fatigue. There’s no free repair at this age.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Ignore It",
+        "desc": "Push through. Prove you’re still the same person.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You force your body to obey. People see the grit and mistake it for invincibility.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Something tears. You bite back a cry and keep moving anyway, because pride is its own chain.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Drink for Numbness",
+        "desc": "Drown the ache and call it medicine.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Ill (Minor)",
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You learn what people say when you buy the next round. The pain dulls, and so does your judgment.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You wake to a headache and a rumor. Both spread fast.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            },
+            {
+              "id": "Ill",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_090_inheritance_petition",
+    "name": "Inheritance Petition",
+    "context": "Court",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Legacy",
+      "Law",
+      "Kin"
+    ],
+    "minAge": 46,
+    "maxAge": 55,
+    "prompt": "A distant cousin (or convenient stranger) arrives with papers and a practiced grief. They claim a share of what you’ve built.",
+    "outcomes": [
+      {
+        "title": "Prove the Line",
+        "desc": "Bring records, witnesses, and a steady voice.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You present your case with clean ink and cleaner memory. The petition collapses under its own weight.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The court drags it out, savoring the spectacle. Weeks vanish into hearings.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Pay Them Off",
+        "desc": "Offer coin now to avoid years of noise.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Peace"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "They take the purse and vanish. It feels like victory, and like being robbed.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -3
+            }
+          ]
+        },
+        "fail": {
+          "text": "They take the coin and keep the claim. Greed is not cured by feeding it.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Forge the Seal",
+        "desc": "Adjust the documents until they say what you need.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Severe)"
+          ]
+        },
+        "success": {
+          "text": "A flourish here, a date there—history becomes obedient. The court accepts the papers and moves on.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "The forgery is spotted. Worse, it’s read as confession.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Settle by Steel",
+        "desc": "Challenge them. Let courage decide what ink pretends to.",
+        "stat": "Might",
+        "diff": 4,
+        "allowed": [
+          "Steel"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You win the challenge, and the claimant’s eyes lose their shine. People love a decisive end.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "The fight goes wrong. Even if you ‘win,’ you don’t walk away the same.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_091_quiet_confessor",
+    "name": "The Quiet Confessor",
+    "context": "Scheme",
+    "kind": "general",
+    "weight": 2,
+    "tags": [
+      "Synod",
+      "Secrets",
+      "Mercy"
+    ],
+    "minAge": 46,
+    "maxAge": 55,
+    "prompt": "A Candlekeeper offers a private basin and a closed door. ‘Confession restores trust,’ they say. ‘Or it breaks it. Your choice.’",
+    "outcomes": [
+      {
+        "title": "Confess Truly",
+        "desc": "Speak the truth and accept its shape.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Relief"
+          ],
+          "risks": [
+            "Secrets loss"
+          ]
+        },
+        "success": {
+          "text": "You speak until your voice turns raw. The Candlekeeper listens without flinching. The weight shifts—still there, but carried differently.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You choke on the words. Half-truths land like lies.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Confess a Lie",
+        "desc": "Offer a story that protects the real one.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Marked (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You give them a believable sin and keep the ugly truth locked away. The Candlekeeper’s eyes linger on you a moment too long.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They hear the false note. Whether by training or instinct, they know you’ve poisoned the basin.",
+          "conditions": [
+            {
+              "id": "Marked",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Bribe for Silence",
+        "desc": "Turn mercy into transaction.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Coin loss",
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You pay, and the Candlekeeper says nothing. The silence feels purchased, not granted.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They refuse your coin, loudly enough for others to hear. The room smells suddenly like judgment.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Leave",
+        "desc": "Walk away from mercy you don’t trust.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Control"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You leave without drama. Not every basin is meant for you.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You leave, but the offered mercy haunts you all season.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_092_last_pilgrimage",
+    "name": "Last Pilgrimage",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Elder",
+      "Synod",
+      "Road"
+    ],
+    "minAge": 56,
+    "maxAge": 70,
+    "prompt": "You feel the years in your knees and in your silence. A small shrine calls to you—a last walk, a last candle, a last chance to be witnessed cleanly.",
+    "outcomes": [
+      {
+        "title": "Walk the Road",
+        "desc": "Go on foot. Earn every step.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Exhausted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You arrive tired but upright. The shrine keeper lights a candle for you and calls it ‘enough.’",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Halfway there, your body refuses. You finish the journey in pain and pride.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Hire a Cart",
+        "desc": "Pay for comfort. Keep strength for what matters.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Safety"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "You arrive with your lungs unburned. The shrine keeper doesn’t judge you for choosing to arrive whole.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "The cart breaks an axle in the mud. You push, curse, and pay twice for the same mile.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Take the Shortcut",
+        "desc": "Old paths still exist—if you dare them.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Wounded (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You take the hidden track and reach the shrine before dusk. You also learn which travelers use that path for darker reasons.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A loose stone, a bad step, and the world tilts. You crawl back to the road with blood on your sleeve.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Speak to the Relic",
+        "desc": "Ask for a sign. Accept whatever answer comes.",
+        "stat": "Wit",
+        "diff": 4,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Marked"
+          ],
+          "risks": [
+            "Cursed (Severe)"
+          ]
+        },
+        "success": {
+          "text": "The candle burns strange for a moment—blue, or green, or not at all. You leave with a quiet certainty you can’t explain.",
+          "conditions": [
+            {
+              "id": "Marked",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You feel something look back. The air turns heavy, and you carry that heaviness home.",
+          "conditions": [
+            {
+              "id": "Cursed",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_093_set_household_in_order",
+    "name": "Set the Household in Order",
+    "context": "Lore",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Elder",
+      "Legacy",
+      "Ledger"
+    ],
+    "minAge": 56,
+    "maxAge": 70,
+    "prompt": "Papers pile like snowdrifts: wills, debts, letters, favors owed and favors earned. If you die tomorrow, what story do the documents tell?",
+    "outcomes": [
+      {
+        "title": "Write a Clean Will",
+        "desc": "Make the truth simple enough to survive you.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Secrets loss"
+          ]
+        },
+        "success": {
+          "text": "You set the lines clearly. Even rivals respect a tidy ending.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            },
+            {
+              "resource": "Secrets",
+              "amount": -1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You forget a clause. Someone will ‘discover’ it later, and they won’t be kind about it.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Hide the Debts",
+        "desc": "If the heirs never see it, is it real?",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "In Debt (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You bury the uglier pages. The truth becomes harder to find, which is sometimes the same as gone.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "A clerk notices the missing entries. Now the debt has witnesses.",
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Give to the Poor",
+        "desc": "Turn wealth into mercy and let the Synod remember you.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "Your coin becomes bread, candles, clean water. The thanks you receive feels quieter than applause—and more honest.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Renown",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "You give, but the need is bottomless. The gesture is swallowed whole.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            },
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Burn Letters",
+        "desc": "End certain threads before they can be pulled.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Relief"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "The flame eats old names and older promises. You feel lighter, though you can’t say why.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Smoke draws attention. Someone asks what you’re so eager to forget.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_094_the_heirs_questions",
+    "name": "The Heir’s Questions",
+    "context": "Court",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Elder",
+      "Heir",
+      "Legacy"
+    ],
+    "minAge": 56,
+    "maxAge": 70,
+    "prompt": "Your heir watches you like a map. ‘Who hates us?’ they ask. ‘Who would help us? What should I fear?’",
+    "outcomes": [
+      {
+        "title": "Tell the Truth",
+        "desc": "Name the enemies. Name the debts. Name the friends who aren’t.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Secrets loss"
+          ]
+        },
+        "success": {
+          "text": "You speak plainly. The heir listens, and you see the first spark of competence behind their eyes.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            },
+            {
+              "resource": "Secrets",
+              "amount": -1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your details blur. The heir leaves with half-truths that will hurt later.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Teach Caution",
+        "desc": "Give principles, not names: always count exits, always read hands.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You teach them how to survive you. It’s a strange kind of love.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The talk turns into lecture. The heir nods, then ignores you the moment you look away.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Teach Ruthlessness",
+        "desc": "Power is a knife. Tell them not to drop it.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You show them where to press and when to smile. They learn quickly, which worries you more than it should.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your advice lands like poison. Someone hears part of it, and the rumor grows legs.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Teach Honor",
+        "desc": "Make them swear to something that will outlast you.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Oathbound (Minor)"
+          ]
+        },
+        "success": {
+          "text": "They take the vow seriously. For a moment, you believe the world can still be tended.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 2
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Oathbound",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "They agree too quickly. You’ve seen easy vows before, and you’ve seen how they end.",
+          "conditions": [
+            {
+              "id": "Oathbound",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "gev_095_weight_of_winter",
+    "name": "The Weight of Winter",
+    "context": "Hearth",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Elder",
+      "Scarcity",
+      "Winter"
+    ],
+    "minAge": 56,
+    "maxAge": 70,
+    "prompt": "A hard winter presses down: higher prices, colder rooms, quieter roads. Even the strong feel small under snow.",
+    "outcomes": [
+      {
+        "title": "Stock the Pantry",
+        "desc": "Plan ahead. Let numbers beat hunger.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "You buy early and store well. The household stays fed while others bargain with desperation.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Supplies",
+              "amount": 3
+            }
+          ]
+        },
+        "fail": {
+          "text": "The market spikes before you finish. You get some, but not enough for comfort.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            },
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Ration and Endure",
+        "desc": "Make do. Keep the hearth lit and the portions small.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Survival"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You tighten belts and keep tempers steady. No one likes it, but everyone makes it through.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        },
+        "fail": {
+          "text": "People grow sharp with hunger. The household frays at the edges.",
+          "conditions": [
+            {
+              "id": "Starving",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Take from Others",
+        "desc": "If you can’t buy it, seize it.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Steel"
+        ],
+        "tags": [
+          "Scandalous",
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Supplies",
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You raid a cart on a lonely road and tell yourself it was necessary. The pantry fills. So does your list of enemies.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 3
+            },
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A guard spots you. Winter law is harsh, and winter memory is long.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Call in Favors",
+        "desc": "Turn influence into food and warmth.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Influence loss"
+          ]
+        },
+        "success": {
+          "text": "A wagon arrives with a stamped note: paid, promised, remembered. Influence is just winter stored in other people’s barns.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": -1
+            },
+            {
+              "resource": "Supplies",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "The favors don’t come. People have their own winters to survive.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Starving",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
     "id": "knot1_01_briarwatch_choice",
     "name": "Fate Knot I: The Press at Briarwatch",
     "context": "Journey",
