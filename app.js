@@ -2700,6 +2700,11 @@ function cardLabel(cardId) {
 // ---------- Effects ----------
 function ensureStateMaps() {
   state.flags ??= {};      // { flagId: remainingEvents }
+  // Permanent background marker flag (used by bg-specific events)
+  if (state?.backgroundId) {
+    const bid = `bg_${state.backgroundId}`;
+    if (!Object.prototype.hasOwnProperty.call(state.flags, bid)) state.flags[bid] = 0;
+  }
   state.standings ??= {};  // { factionId: tier }
   state.history ??= { recentEvents: [], recentContexts: [], seen: {} };
 }
@@ -5472,6 +5477,9 @@ function startRunFromBuilder(bg, givenName, familyName) {
     drawPile: shuffle([...starterDeck]),
     discardPile: []
   };
+
+  // Background marker flag (used by bg-specific events)
+  state.flags[`bg_${bg.id}`] = 0;
 
   saveState();
   logEl.textContent = "";
