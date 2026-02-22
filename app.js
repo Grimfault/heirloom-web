@@ -851,10 +851,13 @@ let DATA = {
   events: [],
   backgrounds: [],
   factions: [],
+  ambitions: [],
+  ambitionsMeta: null,
   cardsById: {},
   eventsById: {},
   backgroundsById: {},
-  factionsById: {}
+  factionsById: {},
+  ambitionsById: {}
 };
 
 // ---------- DOM ----------
@@ -1227,49 +1230,61 @@ function conditionChanceModifier(ev, outcome, committedCids) {
   // General friction: death isn't the only cost of conditions.
   for (const c of (state.conditions ?? [])) {
     if (c.severity === "Minor") mod -= 1;
-    else if (c.severity === "Severe") mod -= 3;
+    else if (c.severity === "Severe") mod -= 2;
   }
 
   // Focused penalties
   const ill = conditionSeverity("Ill");
   if (ill) {
-    const p = (ill === "Severe") ? -10 : -6;
+    const p = (ill === "Severe") ? -8 : -5;
     if (ctx === "Journey" || ctx === "Lore" || stat === "Wit" || stat === "Resolve") mod += p;
-    else mod += (ill === "Severe") ? -6 : -3;
+    else mod += (ill === "Severe") ? -4 : -2;
   }
 
   const wounded = conditionSeverity("Wounded");
   if (wounded) {
-    const p = (wounded === "Severe") ? -12 : -6;
+    const p = (wounded === "Severe") ? -9 : -5;
     if (ctx === "Strife" || stat === "Might") mod += p;
-    else mod += (wounded === "Severe") ? -6 : -3;
+    else mod += (wounded === "Severe") ? -4 : -2;
   }
 
   const starving = conditionSeverity("Starving");
   if (starving) {
-    const p = (starving === "Severe") ? -12 : -6;
+    const p = (starving === "Severe") ? -8 : -5;
     if (ctx === "Journey" || ctx === "Strife" || stat === "Might" || stat === "Resolve") mod += p;
-    else mod += (starving === "Severe") ? -6 : -3;
+    else mod += (starving === "Severe") ? -4 : -2;
   }
 
   const disgraced = conditionSeverity("Disgraced");
   if (disgraced) {
-    const p = (disgraced === "Severe") ? -10 : -6;
+    const p = (disgraced === "Severe") ? -8 : -5;
     if (ctx === "Court" || stat === "Gravitas") mod += p;
-    else mod += (disgraced === "Severe") ? -5 : -2;
+    else mod += (disgraced === "Severe") ? -4 : -1;
   }
 
   const wanted = conditionSeverity("Wanted");
   if (wanted) {
-    const p = (wanted === "Severe") ? -14 : -9;
+    // Wanted is mostly about visibility + cover costs; keep the penalty present but not crushing.
+    const p = (wanted === "Severe") ? -5 : -3;
     if (ctx === "Court") mod += p;
-    else mod += (wanted === "Severe") ? -8 : -4;
+    else mod += (wanted === "Severe") ? -2 : -1;
   }
 
   if (hasCondition("In Debt")) {
-    // Debt is a constant drag; bigger when you're trying to do public / expensive things.
-    if (ctx === "Court" || ctx === "Journey") mod -= 2;
+    // Debt is a constant drag; sharper in Court and on the road.
+    if (ctx === "Court") mod -= 3;
+    else if (ctx === "Journey") mod -= 2;
+    else mod -= 1;
   }
+
+  
+  const exhausted = conditionSeverity("Exhausted");
+  if (exhausted) {
+    const p = (exhausted === "Severe") ? -6 : -4;
+    if (ctx === "Journey" || ctx === "Strife" || stat === "Might" || stat === "Resolve") mod += p;
+    else mod += (exhausted === "Severe") ? -3 : -2;
+  }
+
 
   if (hasCondition("Oathbound")) {
     const allowed = outcome?.allowed ?? [];
@@ -1789,7 +1804,9 @@ function openOpportunityModal({ onDone } = {}) {
 let creation = {
   bgId: null,
   alloc: Object.fromEntries(STATS.map(s => [s, 0])),
-  traits: new Set()
+  traits: new Set(),
+  ambitionId: null,
+  deferAmbition: true
 };
 
 function generateHeirNameChoices(n = 5) {
@@ -2136,8 +2153,8 @@ function loadState() {
 // ---------- Mortality ----------
 function baseMortalityByAge(age) {
   // Design doc alignment:
-  // 16–29: 1%, 30–39: 3%, 40–49: 6%, 50–59: 12%, 60+: 20%
-  if (age <= 29) return 1;
+  // 16–29: 2%, 30–39: 3%, 40–49: 6%, 50–59: 12%, 60+: 20%
+  if (age <= 29) return 2;
   if (age <= 39) return 3;
   if (age <= 49) return 6;
   if (age <= 59) return 12;
@@ -2154,11 +2171,17 @@ function conditionMortalityBonus(cond) {
   }
 }
 
-function computeMortalityChance() {
-  let chance = baseMortalityByAge(state.age);
-  for (const c of state.conditions) chance += conditionMortalityBonus(c);
-  chance -= (MORTALITY_RESOLVE_MULT * (state.stats.Resolve ?? 0));
-  return Math.max(0, chance);
+function computeMortalityChance(mitigation = 0) {
+  // Resolve should blunt condition-added risk, but not erase baseline age risk.
+  const base = baseMortalityByAge(state.age);
+  let bonus = 0;
+  for (const c of state.conditions) bonus += conditionMortalityBonus(c);
+
+  const resolve = (MORTALITY_RESOLVE_MULT * (state.stats.Resolve ?? 0));
+  const mit = Number.isFinite(mitigation) ? mitigation : 0;
+
+  bonus = Math.max(0, bonus - resolve - mit);
+  return Math.max(0, base + bonus);
 }
 
 // ---------- Data loading ----------
@@ -2187,14 +2210,29 @@ function indexData() {
   DATA.eventsById = Object.fromEntries(DATA.events.map(e => [e.id, e]));
   DATA.backgroundsById = Object.fromEntries(DATA.backgrounds.map(b => [b.id, b]));
   DATA.factionsById = Object.fromEntries((DATA.factions ?? []).map(f => [f.id, f]));
+  DATA.ambitionsById = Object.fromEntries((DATA.ambitions ?? []).map(a => [a.id, a]));
 }
 
+function normalizeAmbitionsJson(raw) {
+  if (!raw) return { meta: null, ambitions: [] };
+  if (Array.isArray(raw)) return { meta: null, ambitions: raw };
+  if (typeof raw === "object" && Array.isArray(raw.ambitions)) {
+    const meta = { version: raw.version ?? null, updated: raw.updated ?? null, notes: raw.notes ?? null };
+    return { meta, ambitions: raw.ambitions };
+  }
+  return { meta: null, ambitions: [] };
+}
+
+const AMBITION_SCRIP_ON_COMPLETE = 15;
+const AMBITION_LEGACY_ON_LIFE_END = 5;
+
 async function loadAllData() {
-  const [cards, events, backgrounds, factions] = await Promise.all([
+  const [cards, events, backgrounds, factions, ambitionsRaw] = await Promise.all([
     fetchJsonAny(["./data/cards.json", "./cards.json"]),
     fetchJsonAny(["./data/events.json", "./events.json"]),
     fetchJsonAny(["./data/backgrounds.json", "./backgrounds.json"]),
-    fetchJsonAny(["./data/factions.json", "./factions.json"]).catch(() => ([]))
+    fetchJsonAny(["./data/factions.json", "./factions.json"]).catch(() => ([])),
+    fetchJsonAny(["./data/ambitions.json", "./ambitions.json"]).catch(() => (null))
   ]);
 
   DATA.cards = cards;
@@ -2203,6 +2241,9 @@ async function loadAllData() {
   DATA.events = events;
   DATA.backgrounds = backgrounds;
   DATA.factions = (Array.isArray(factions) && factions.length) ? factions : DEFAULT_FACTIONS;
+  const ambNorm = normalizeAmbitionsJson(ambitionsRaw);
+  DATA.ambitionsMeta = ambNorm.meta;
+  DATA.ambitions = ambNorm.ambitions;
   indexData();
   annotateEventSignals();
   DATA.storylineMetaById = null; // rebuilt lazily
@@ -2219,6 +2260,13 @@ async function loadAllData() {
     if (n < 2 || n > 5) {
       console.warn(`Event ${ev.id} should have 2–5 outcomes (has ${n}).`);
     }
+  }
+
+  // Ambitions minimal validation
+  for (const a of (DATA.ambitions ?? [])) {
+    if (!a?.id) console.warn("Ambition missing id:", a);
+    const objs = a?.objectives ?? [];
+    if (!Array.isArray(objs) || objs.length < 2) console.warn(`Ambition ${a?.id} has too few objectives.`);
   }
 }
 
@@ -2588,10 +2636,11 @@ function handSizeForEvent(ev) {
   let n = 4;
 
   // Conditions should squeeze your options a bit, but not hard-lock you.
-  if (ev?.context === "Strife" && (hasCondition("Wounded") || hasCondition("Bruised"))) n = Math.min(n, 3);
-  if ((ev?.context === "Journey" || ev?.context === "Strife") && hasCondition("Starving")) n = Math.min(n, 3);
-  if ((ev?.context === "Journey" || ev?.context === "Lore") && hasCondition("Ill")) n = Math.min(n, 3);
-  if (ev?.context === "Court" && hasCondition("Wanted")) n = Math.min(n, 3);
+  if (ev?.context === "Strife" && (hasCondition("Wounded", "Severe") || hasCondition("Bruised"))) n = Math.min(n, 3);
+  if ((ev?.context === "Journey" || ev?.context === "Strife") && hasCondition("Starving", "Severe")) n = Math.min(n, 3);
+  if ((ev?.context === "Journey" || ev?.context === "Lore") && hasCondition("Ill", "Severe")) n = Math.min(n, 3);
+  if (ev?.context === "Court" && hasCondition("Wanted", "Severe")) n = Math.min(n, 3);
+  if (hasCondition("Exhausted", "Severe")) n = Math.min(n, 3);
 
   return n;
 }
@@ -2700,14 +2749,290 @@ function cardLabel(cardId) {
 // ---------- Effects ----------
 function ensureStateMaps() {
   state.flags ??= {};      // { flagId: remainingEvents }
-  // Permanent background marker flag (used by bg-specific events)
-  if (state?.backgroundId) {
-    const bid = `bg_${state.backgroundId}`;
-    if (!Object.prototype.hasOwnProperty.call(state.flags, bid)) state.flags[bid] = 0;
-  }
   state.standings ??= {};  // { factionId: tier }
   state.history ??= { recentEvents: [], recentContexts: [], seen: {} };
+
+  // Background marker flag: enables background-specific sprinkle events.
+  if (state?.backgroundId) {
+    const fid = `bg_${state.backgroundId}`;
+    if (!Object.prototype.hasOwnProperty.call(state.flags, fid)) state.flags[fid] = 0; // 0 = permanent
+  }
+
+  ensureLifeMetrics();
+  ensureAmbitionState();
 }
+
+
+function ensureLifeMetrics() {
+  if (!state) return;
+  state.metrics ??= {};
+  state.metrics.peakRes ??= {};
+  state.metrics.bestStanding ??= {};
+
+  // Initialize peaks from current state if missing
+  for (const k of RESOURCES) {
+    const cur = state.res?.[k] ?? 0;
+    const prev = state.metrics.peakRes?.[k];
+    if (!Number.isFinite(prev)) state.metrics.peakRes[k] = cur;
+  }
+
+  // Initialize best standing from current tiers
+  const factionIds = (DATA.factions ?? []).map(f => f.id);
+  for (const fid of factionIds) {
+    const curTier = state.standings?.[fid] ?? "Neutral";
+    const prevTier = state.metrics.bestStanding?.[fid];
+    if (!prevTier) state.metrics.bestStanding[fid] = curTier;
+  }
+}
+
+function ensureAmbitionState() {
+  if (!state) return;
+  state.ambition ??= {
+    id: null,
+    chosenAtAge: null,
+    completed: false,
+    completedAtAge: null,
+    provisional: false, // for ambitions with end-of-life-only objectives
+    objectivesDone: {}
+  };
+  state.ambition.objectivesDone ??= {};
+}
+
+function hasSpouse() {
+  return Boolean(state?.family?.spouse) || hasFlag("has_spouse");
+}
+function hasHeir() {
+  return (state?.family?.heirs?.length ?? 0) > 0 || hasFlag("has_heir");
+}
+
+function chooseAmbitionForLife(ambitionId, { chosenAtAge = null } = {}) {
+  ensureStateMaps();
+  const def = DATA.ambitionsById?.[ambitionId];
+  if (!def) return;
+
+  state.ambition.id = ambitionId;
+  state.ambition.chosenAtAge = chosenAtAge ?? state.age ?? STARTING_AGE;
+  state.ambition.completed = false;
+  state.ambition.completedAtAge = null;
+  state.ambition.provisional = false;
+  state.ambition.objectivesDone = {};
+
+  // Optional flag for future pool bias / debugging
+  state.flags[`amb_${ambitionId}`] = 0;
+
+  log(`Personal Ambition chosen: ${def.name}.`);
+  saveState();
+  renderAll();
+}
+
+function ambitionObjectiveIsLifeEndOnly(obj) {
+  // Heuristic: objectives about "end without X" should finalize at life end.
+  return obj?.type === "NotCondition";
+}
+
+function evaluateAmbitionObjectives(def, { timing = "anytime" } = {}) {
+  ensureStateMaps();
+  const out = [];
+  const objs = def?.objectives ?? [];
+
+  for (const obj of objs) {
+    const type = obj?.type;
+    const lifeEndOnly = ambitionObjectiveIsLifeEndOnly(obj);
+    const isLifeEndPass = (timing === "lifeEnd");
+
+    let done = false;
+    let current = null;
+    let target = null;
+
+    if (type === "PeakResourceAtLeast") {
+      const k = obj.resource;
+      current = state.metrics?.peakRes?.[k] ?? (state.res?.[k] ?? 0);
+      target = obj.amount ?? 0;
+      done = Number(current) >= Number(target);
+    } else if (type === "MinStanding") {
+      const fid = obj.factionId;
+      const cur = state.metrics?.bestStanding?.[fid] ?? (state.standings?.[fid] ?? "Neutral");
+      current = cur;
+      target = obj.minTier ?? "Neutral";
+      done = tierIndex(cur) >= tierIndex(target);
+    } else if (type === "AnyStandingAtLeast") {
+      const minTier = obj.minTier ?? "Neutral";
+      const fids = Array.isArray(obj.factionIds) && obj.factionIds.length
+        ? obj.factionIds
+        : (DATA.factions ?? []).map(f => f.id);
+
+      let best = null;
+      for (const fid of fids) {
+        const cur = state.metrics?.bestStanding?.[fid] ?? (state.standings?.[fid] ?? "Neutral");
+        if (best == null || tierIndex(cur) > tierIndex(best)) best = cur;
+      }
+      current = best ?? "Neutral";
+      target = minTier;
+      done = tierIndex(current) >= tierIndex(target);
+    } else if (type === "AnyFlagSet") {
+      const ids = obj.ids ?? [];
+      current = ids.filter(hasFlag).length;
+      target = 1;
+      done = ids.some(hasFlag);
+    } else if (type === "HasFlag") {
+      done = hasFlag(obj.id);
+    } else if (type === "HasSpouse") {
+      done = hasSpouse();
+    } else if (type === "HasHeir") {
+      done = hasHeir();
+    } else if (type === "NotCondition") {
+      const condId = obj.id;
+      done = !hasCondition(condId);
+    } else if (type === "AgeAtLeast") {
+      current = state.age ?? STARTING_AGE;
+      target = obj.age ?? STARTING_AGE;
+      done = Number(current) >= Number(target);
+    } else {
+      done = false;
+    }
+
+    // If it's lifeEndOnly and we are evaluating mid-life, treat it as "pending".
+    const countsForCompletion = !lifeEndOnly || isLifeEndPass;
+
+    out.push({
+      obj,
+      done,
+      countsForCompletion,
+      lifeEndOnly,
+      type,
+      current,
+      target
+    });
+  }
+
+  return out;
+}
+
+function ambitionProgressSummary(def, evals) {
+  const total = evals.length;
+  const doneNow = evals.filter(e => e.done).length;
+  const doneForCompletion = evals.filter(e => e.countsForCompletion && e.done).length;
+  const neededForCompletion = evals.filter(e => e.countsForCompletion).length;
+  const pendingLifeEnd = evals.some(e => e.lifeEndOnly);
+  return { total, doneNow, doneForCompletion, neededForCompletion, pendingLifeEnd };
+}
+
+function checkAmbitionProgress({ timing = "anytime", award = true } = {}) {
+  if (!state?.ambition?.id) return { changed: false, completedNow: false, provisionalNow: false };
+
+  const def = DATA.ambitionsById?.[state.ambition.id];
+  if (!def) return { changed: false, completedNow: false, provisionalNow: false };
+
+  const evals = evaluateAmbitionObjectives(def, { timing });
+  let changed = false;
+
+  // Mark objectivesDone for stable (non-lifeEndOnly) objectives once achieved.
+  for (const e of evals) {
+    const oid = e.obj?.id ?? null;
+    if (!oid) continue;
+
+    // For life-end-only objectives, only record at life end.
+    if (e.lifeEndOnly && timing !== "lifeEnd") continue;
+
+    if (e.done && !state.ambition.objectivesDone[oid]) {
+      state.ambition.objectivesDone[oid] = true;
+      changed = true;
+    }
+  }
+
+  const sum = ambitionProgressSummary(def, evals);
+
+  // Provisional completion (all non-lifeEnd objectives done)
+  const canBeProvisional = (sum.neededForCompletion > 0) && (sum.doneForCompletion >= sum.neededForCompletion);
+  let provisionalNow = false;
+  if (canBeProvisional && sum.pendingLifeEnd && !state.ambition.provisional) {
+    state.ambition.provisional = true;
+    provisionalNow = true;
+    changed = true;
+    log(`Ambition nearing completion: ${def.name}. Keep your hands clean until death.`);
+  }
+
+  // Final completion
+  let completedNow = false;
+  if (!state.ambition.completed) {
+    const allCountedDone = evals.every(e => !e.countsForCompletion || e.done);
+    const finalOk = sum.pendingLifeEnd ? (timing === "lifeEnd" && allCountedDone) : (canBeProvisional && allCountedDone);
+
+    if (finalOk) {
+      state.ambition.completed = true;
+      state.ambition.completedAtAge = state.age ?? null;
+      completedNow = true;
+      changed = true;
+
+      if (award) {
+        awardScrip(AMBITION_SCRIP_ON_COMPLETE, `Ambition Complete: ${def.name}`);
+      }
+      log(`✦ Ambition completed: ${def.name}. (+${AMBITION_SCRIP_ON_COMPLETE} Scrip now, +${AMBITION_LEGACY_ON_LIFE_END} Legacy at life end)`);
+    }
+  }
+
+  if (changed) {
+    saveState();
+    renderAll();
+  }
+
+  return { changed, completedNow, provisionalNow, def, evals };
+}
+
+function ambitionLegacyBonusAtLifeEnd() {
+  if (!state?.ambition?.id) return 0;
+
+  // If not completed, attempt a life-end evaluation (awards Scrip if it completes here).
+  if (!state.ambition.completed) {
+    checkAmbitionProgress({ timing: "lifeEnd", award: true });
+  }
+
+  return state.ambition.completed ? AMBITION_LEGACY_ON_LIFE_END : 0;
+}
+
+function ambitionTitle() {
+  const id = state?.ambition?.id;
+  if (!id) return null;
+  return DATA.ambitionsById?.[id]?.name ?? id;
+}
+
+function openAmbitionDetailsModal() {
+  if (!state?.ambition?.id) return;
+
+  const def = DATA.ambitionsById?.[state.ambition.id];
+  if (!def) return;
+
+  const evals = evaluateAmbitionObjectives(def, { timing: "anytime" });
+  const sum = ambitionProgressSummary(def, evals);
+
+  const wrap = document.createElement("div");
+  wrap.innerHTML = `
+    <p class="muted">${escapeHtml(def.desc ?? "")}</p>
+    <div class="spacer"></div>
+    <div class="muted small"><b>Progress:</b> ${sum.doneNow}/${sum.total}${sum.pendingLifeEnd ? " (some objectives finalize at life end)" : ""}</div>
+  `;
+
+  const ul = document.createElement("ul");
+  ul.style.marginLeft = "18px";
+  ul.style.marginTop = "10px";
+
+  for (const e of evals) {
+    const label = e.obj?.text ?? "";
+    const prefix = e.done ? "✅" : "⬜";
+    const suffix = (e.type === "PeakResourceAtLeast" && e.target != null) ? ` (${e.current}/${e.target})`
+      : (e.type === "AgeAtLeast" && e.target != null) ? ` (Age ${e.current}/${e.target})`
+      : "";
+    const note = (e.lifeEndOnly && !e.done) ? " (checked at death)" : "";
+    const li = document.createElement("li");
+    li.textContent = `${prefix} ${label}${suffix}${note}`;
+    ul.appendChild(li);
+  }
+
+  wrap.appendChild(ul);
+
+  openModal(`Ambition: ${def.name}`, wrap, { locked: false });
+}
+
 
 
 function hasFlag(id) {
@@ -2724,6 +3049,11 @@ function applyResourceDelta(d) {
   const before = state.res[k] ?? 0;
   const after = clamp(before + amt, 0, 99);
   state.res[k] = after;
+
+  // Update per-life peak tracking (ambitions)
+  ensureLifeMetrics();
+  const prevPeak = state.metrics.peakRes[k] ?? 0;
+  if (after > prevPeak) state.metrics.peakRes[k] = after;
 
   // Resource floor consequences (only when crossing from >0 to 0 due to a loss).
   // These don't kill you directly; they add pressure conditions.
@@ -2891,7 +3221,13 @@ function applyStandingDelta(s) {
   const cur = state.standings[s.factionId] ?? "Neutral";
   const idx = tierIndex(cur);
   const next = clamp(idx + (s.steps ?? 0), 0, TIERS.length - 1);
-  state.standings[s.factionId] = TIERS[next];
+  const nextTier = TIERS[next];
+  state.standings[s.factionId] = nextTier;
+
+  // Update per-life best standing (ambitions)
+  ensureLifeMetrics();
+  const prev = state.metrics.bestStanding[s.factionId] ?? "Hostile";
+  if (tierIndex(nextTier) > tierIndex(prev)) state.metrics.bestStanding[s.factionId] = nextTier;
 }
 
 function applyBundle(bundle) {
@@ -3214,13 +3550,15 @@ function tickConditionsAfterEvent() {
 function commitCapForEvent(ev) {
   let cap = 2;
 
-  if (hasCondition("Exhausted")) cap = Math.min(cap, 1);
+  const ex = conditionSeverity("Exhausted");
+  if (ex === "Severe") cap = Math.min(cap, 1);
+  else if (ex === "Minor" && (ev?.context === "Strife" || ev?.context === "Journey")) cap = Math.min(cap, 1);
 
   if (ev?.context === "Strife") {
-    if (hasCondition("Bruised") || hasCondition("Wounded") || hasCondition("Starving")) cap = Math.min(cap, 1);
+    if (hasCondition("Bruised") || hasCondition("Wounded") || hasCondition("Starving", "Severe")) cap = Math.min(cap, 1);
   }
   if (ev?.context === "Journey") {
-    if (hasCondition("Starving")) cap = Math.min(cap, 1);
+    if (hasCondition("Starving", "Severe")) cap = Math.min(cap, 1);
   }
   return cap;
 }
@@ -3253,16 +3591,20 @@ function outcomeConditionRules(ev, o) {
     reasons.push("Too wounded for a perilous fight");
   }
 
-  // Wanted: being seen in Court requires cover.
+  // Wanted: being seen in Court sometimes requires cover.
+  // Severe Wanted always requires cover; Minor Wanted only does when you court scandal.
   const wantedSev = conditionSeverity("Wanted");
   if (wantedSev && ev?.context === "Court") {
-    const haveSecrets = (state.res?.Secrets ?? 0) >= 1;
-    const haveInfluence = (state.res?.Influence ?? 0) >= 1;
-    if (!haveSecrets && !haveInfluence) {
-      reasons.push("Too visible while Wanted (need 1 Secrets or 1 Influence)");
-    } else {
-      // We'll spend Secrets first, otherwise Influence.
-      costs.push({ resource: haveSecrets ? "Secrets" : "Influence", amount: -1, label: "Keep your name off tongues" });
+    const needsCover = (wantedSev === "Severe") || (o.tags ?? []).includes("Scandalous");
+    if (needsCover) {
+      const haveSecrets = (state.res?.Secrets ?? 0) >= 1;
+      const haveInfluence = (state.res?.Influence ?? 0) >= 1;
+      if (!haveSecrets && !haveInfluence) {
+        reasons.push("Too visible while Wanted (need 1 Secrets or 1 Influence)");
+      } else {
+        // We'll spend Secrets first, otherwise Influence.
+        costs.push({ resource: haveSecrets ? "Secrets" : "Influence", amount: -1, label: "Keep your name off tongues" });
+      }
     }
   }
 
@@ -3369,14 +3711,31 @@ function applyPostEventConditionPressure(ev, outcome, success, isPartial, netDel
     else state.condMeta.wantedHeat = Math.max(0, state.condMeta.wantedHeat - 1);
   }
 
+
+  // Wanted cool-off: if you stay out of the public eye, the hunt can lose your trail.
+  if (hasCondition("Wanted")) {
+    if ((state.condMeta.wantedHeat ?? 0) <= 0) state.condMeta.wantedCool = (state.condMeta.wantedCool ?? 0) + 1;
+    else state.condMeta.wantedCool = 0;
+
+    if (state.condMeta.wantedCool >= 3) {
+      if (hasCondition("Wanted", "Severe")) {
+        post.conditions.push({ id: "Wanted", mode: "Downgrade" });
+      } else {
+        post.conditions.push({ id: "Wanted", mode: "Remove" });
+      }
+      state.condMeta.wantedCool = 0;
+      state.condMeta.wantedHeat = 0;
+    }
+  }
+
   return post;
 }
 function conditionBias(ev) {
   let m = 1;
 
   // Avoid Court when Wanted / severely Disgraced.
-  if (hasCondition("Wanted") && ev.context === "Court") m *= 0.35;
-  if (hasCondition("Disgraced", "Severe") && ev.context === "Court") m *= 0.55;
+  if (hasCondition("Wanted") && ev.context === "Court") m *= 0.60;
+  if (hasCondition("Disgraced", "Severe") && ev.context === "Court") m *= 0.75;
 
   // Pull matching condition packs.
   if (hasCondition("Ill") && (ev.tags ?? []).includes("Illness")) m *= 3.2;
@@ -3417,6 +3776,9 @@ function showStart() {
   elStart.classList.remove("hidden");
   elGame.classList.add("hidden");
   if (elLegacy) elLegacy.classList.add("hidden");
+
+  // Ensure the ambition picker UI exists on the builder.
+  ensureAmbitionBuilderSection();
 
   btnNewEvent.disabled = true;
   updateStartButtonState();
@@ -3603,6 +3965,10 @@ function renderCreationUI() {
     if (label) label.classList.toggle("disabled", shouldDisable);
   }
 
+  // Personal Ambition section
+  ensureAmbitionBuilderSection();
+  renderAmbitionBuilderUI(bg);
+
   // Keep the Begin button state in sync with the builder requirements
   updateStartButtonState();
 }
@@ -3632,6 +3998,9 @@ function renderStatus() {
 
     resourceLine.textContent =
     `Coin ${state.res.Coin} • Supplies ${state.res.Supplies} • Renown ${state.res.Renown} • Influence ${state.res.Influence} • Secrets ${state.res.Secrets} • Scrip ${state.scrip ?? 0} • Heirlooms ${META.heirlooms} • Legacy ${META.legacy}`;
+
+  ensureAmbitionLineEl();
+  renderAmbitionStatusLine();
 
   if (standingLine) {
     const ids = (DATA.factions ?? []).map(f => f.id);
@@ -3953,6 +4322,57 @@ function renderChance() {
 
   chanceBreakdown.textContent = bits.join(" ");
 }
+
+
+// ---------- Ambitions: in-run UI ----------
+let ambitionLineEl = null;
+
+function ensureAmbitionLineEl() {
+  if (ambitionLineEl) return;
+  const resource = document.getElementById("resourceLine");
+  if (!resource) return;
+  const parent = resource.parentElement;
+  if (!parent) return;
+
+  // Insert directly after resource line for readability.
+  const el = document.createElement("div");
+  el.className = "muted";
+  el.id = "ambitionLine";
+  el.style.cursor = "pointer";
+  el.style.userSelect = "none";
+  el.title = "Tap to view ambition details";
+  resource.insertAdjacentElement("afterend", el);
+
+  ambitionLineEl = el;
+  ambitionLineEl.addEventListener("click", () => {
+    if (!state?.ambition?.id) return;
+    openAmbitionDetailsModal();
+  });
+}
+
+function renderAmbitionStatusLine() {
+  if (!ambitionLineEl) return;
+  ensureStateMaps();
+
+  if (!state?.ambition?.id) {
+    ambitionLineEl.textContent = "Ambition: (none selected)";
+    return;
+  }
+
+  const def = DATA.ambitionsById?.[state.ambition.id];
+  if (!def) {
+    ambitionLineEl.textContent = `Ambition: ${state.ambition.id}`;
+    return;
+  }
+
+  const evals = evaluateAmbitionObjectives(def, { timing: "anytime" });
+  const sum = ambitionProgressSummary(def, evals);
+
+  const completed = state.ambition.completed ? " ✅" : "";
+  const pending = (!state.ambition.completed && sum.pendingLifeEnd && state.ambition.provisional) ? " (pending life end)" : "";
+  ambitionLineEl.textContent = `Ambition: ${def.name} — ${sum.doneNow}/${sum.total}${pending}${completed}`;
+}
+
 
 function renderAll() {
   renderStatus();
@@ -4526,6 +4946,13 @@ function makeFallbackEvent(reason = "") {
 function loadRandomEvent({ avoidIds = [] } = {}) {
   const majorBeat = isMajorEventNow();
   ensureStoryState();
+  ensureStateMaps();
+
+  // Force ambition selection at Age 20+ if it was deferred.
+  if (!state?.ambition?.id && (state?.age ?? 0) >= 20) {
+    openAmbitionPickerModal({ forced: true, mode: "run", onPick: () => loadRandomEvent({ avoidIds }) });
+    return;
+  }
 
   const avoid = Array.isArray(avoidIds) ? [...avoidIds] : [];
   if (currentEvent?.id && !avoid.includes(currentEvent.id)) avoid.push(currentEvent.id);
@@ -4840,7 +5267,20 @@ function resolveSelectedOutcome() {
 
   // Earn Scrip even if a mortality check kills you.
   awardScripForResolvedEvent(evJustResolved, wasMajor);
+
+  // Ambition progress check (may award +Scrip immediately)
+  const ambBeforeCompleted = Boolean(state?.ambition?.completed);
+  checkAmbitionProgress({ timing: "anytime", award: true });
+  const ambCompletedNow = (!ambBeforeCompleted && Boolean(state?.ambition?.completed));
+  if (ambCompletedNow) {
+    if (bundleForResult) {
+      bundleForResult.text = ((bundleForResult.text ?? "").trim() + `\n\n✦ Personal Ambition completed: ${ambitionTitle()}. (+${AMBITION_SCRIP_ON_COMPLETE} Scrip)`).trim();
+    }
+  }
   const perilous = (o.tags ?? []).includes("Perilous");
+  const violent = (o.tags ?? []).includes("Violent");
+  // Violence is risky even when an outcome isn't explicitly tagged Perilous.
+  // Make it matter most in earlier life, when baseline checks are otherwise rare.
 
   const severeAfter = state.conditions.filter(c => c.severity === "Severe").length;
   const gainedSevere = severeAfter > severeBefore;
@@ -4849,6 +5289,7 @@ function resolveSelectedOutcome() {
   let mortalityTriggered = false;
   if (wasMajor) mortalityTriggered = true;
   if (perilous) mortalityTriggered = true;
+  if (violent && (state.age < 40 || hasCondition("Wounded") || hasCondition("Ill"))) mortalityTriggered = true;
   if (gainedSevere && hadSevereAlready) mortalityTriggered = true;
 
   if (mortalityTriggered) {
@@ -4975,7 +5416,10 @@ function resolveSelectedOutcome() {
 // ---------- Succession ----------
 
 function openLifeEndModal(primary) {
-  const legacyGained = computeLegacyGain();
+  // Finalize ambitions that have end-of-life objectives
+  const ambLegacy = ambitionLegacyBonusAtLifeEnd();
+
+  const legacyGained = computeLegacyGain() + ambLegacy;
   META.legacy += legacyGained;
   saveMeta();
   const conds = (state.conditions ?? []).map(c => `${c.id} (${c.severity})`).join(", ") || "None";
@@ -4987,7 +5431,7 @@ function openLifeEndModal(primary) {
     <div class="resultGrid">
       <div class="resultBlock"><div class="muted small">Scrip gained</div><div class="big">+${SCRIP_ON_DEATH_BONUS}</div></div>
       <div class="resultBlock"><div class="muted small">Heirlooms gained</div><div class="big">+0</div></div>
-      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div></div>
+      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div>${ambLegacy ? `<div class="muted small">Includes +${AMBITION_LEGACY_ON_LIFE_END} from Ambition</div>` : ""}</div>
     </div>
     <div class="spacer"></div>
   `;
@@ -5021,7 +5465,8 @@ function openLifeEndModal(primary) {
 
 function openBloodlineEndModal() {
   const conds = (state.conditions ?? []).map(c => `${c.id} (${c.severity})`).join(", ") || "None";
-  const legacyGained = computeLegacyGain();
+  const ambLegacy = ambitionLegacyBonusAtLifeEnd();
+  const legacyGained = computeLegacyGain() + ambLegacy;
   META.legacy += legacyGained;
   saveMeta();
 
@@ -5031,7 +5476,7 @@ function openBloodlineEndModal() {
     <p class="muted">Final conditions: ${conds}</p>
     <div class="spacer"></div>
     <div class="resultGrid">
-      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div></div>
+      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div>${ambLegacy ? `<div class="muted small">Includes +${AMBITION_LEGACY_ON_LIFE_END} from Ambition</div>` : ""}</div>
       <div class="resultBlock"><div class="muted small">Scrip kept</div><div class="big">0</div><div class="muted small">Scrip upgrades are lost when a bloodline ends.</div></div>
       <div class="resultBlock"><div class="muted small">Heirlooms gained</div><div class="big">+0</div><div class="muted small">Scaffolding (future unlock currency).</div></div>
     </div>
@@ -5121,6 +5566,10 @@ function proceedSuccession(primary) {
   // Clear per-life flags (including storylines) so each ruler feels fresh.
   for (const k of Object.keys(state.flags ?? {})) {
     if (k.startsWith("sl_")) delete state.flags[k];
+    if (k.startsWith("knot")) delete state.flags[k];
+    if (k.startsWith("calling_")) delete state.flags[k];
+    if (k.startsWith("turning_")) delete state.flags[k];
+    if (k.startsWith("amb_")) delete state.flags[k];
   }
   // Clear spouse + children (new ruler must build their own line).
   // Also clear per-life family flags.
@@ -5133,6 +5582,11 @@ function proceedSuccession(primary) {
 
   // Clear spouse + children (new ruler must build their own line).
   state.family = { spouse: null, prospect: null, heirs: [] };
+
+  // Reset per-life ambition + metrics
+  state.ambition = { id: null, chosenAtAge: null, completed: false, completedAtAge: null, provisional: false, objectivesDone: {} };
+  state.metrics = { peakRes: {}, bestStanding: {} };
+  ensureLifeMetrics();
 
   log(`Heir takes over: ${state.charName} ${state.familyName}. Focus bonus: ${state.heirFocus ? `+1 ${state.heirFocus}` : "None"}. Heirs ruled so far: ${state.heirCount}.`);
   saveState();
@@ -5363,6 +5817,8 @@ function resetCreation() {
   creation.bgId = bgSelect.value || null;
   creation.alloc = Object.fromEntries(STATS.map(s => [s, 0]));
   creation.traits = new Set();
+  creation.ambitionId = null;
+  creation.deferAmbition = true;
 }
 
 function populateBackgroundSelect() {
@@ -5389,6 +5845,166 @@ bgSelect.addEventListener("change", () => {
   renderCreationUI();
 });
 
+
+
+
+// ---------- Ambitions: builder UI (pick at start or defer to Age 20) ----------
+let ambitionBuilderSection = null;
+let ambitionChosenLineEl = null;
+let btnChooseAmbition = null;
+let btnDeferAmbition = null;
+
+function ensureAmbitionBuilderSection() {
+  if (ambitionBuilderSection) return;
+  const startScreen = document.getElementById("startScreen");
+  if (!startScreen) return;
+
+  const createWrap = startScreen.querySelector(".create");
+  const footer = startScreen.querySelector(".create-footer");
+  if (!createWrap || !footer) return;
+
+  const sec = document.createElement("section");
+  sec.className = "create-section";
+  sec.id = "ambitionSection";
+  sec.innerHTML = `
+    <div class="section-title row space">
+      <div>
+        <h3>Personal Ambition</h3>
+        <div class="hint">Pick a goal for this ruler—or decide at age 20.</div>
+      </div>
+      <div class="hint" id="ambitionChosenLine"></div>
+    </div>
+    <div class="row" style="gap:8px; flex-wrap:wrap;">
+      <button class="btn ghost" id="btnChooseAmbition">Choose Ambition</button>
+      <button class="btn ghost" id="btnDeferAmbition">Decide at 20</button>
+    </div>
+    <div class="hint" style="margin-top:8px;">
+      Ambitions track <b>peak</b> progress (spending resources won’t erase progress). Completing an ambition grants <b>+15 Scrip</b> immediately and <b>+5 Legacy</b> at life end.
+    </div>
+  `;
+
+  createWrap.insertBefore(sec, footer);
+
+  ambitionBuilderSection = sec;
+  ambitionChosenLineEl = sec.querySelector("#ambitionChosenLine");
+  btnChooseAmbition = sec.querySelector("#btnChooseAmbition");
+  btnDeferAmbition = sec.querySelector("#btnDeferAmbition");
+
+  if (btnChooseAmbition && !btnChooseAmbition.__heirloomBound) {
+    btnChooseAmbition.addEventListener("click", () => openAmbitionPickerModal({ forced: false, mode: "builder" }));
+    btnChooseAmbition.__heirloomBound = true;
+  }
+  if (btnDeferAmbition && !btnDeferAmbition.__heirloomBound) {
+    btnDeferAmbition.addEventListener("click", () => {
+      creation.ambitionId = null;
+      creation.deferAmbition = true;
+      renderCreationUI();
+    });
+    btnDeferAmbition.__heirloomBound = true;
+  }
+}
+
+function renderAmbitionBuilderUI(bg) {
+  if (!ambitionBuilderSection) return;
+
+  const chosen = creation.deferAmbition
+    ? "Decide at 20"
+    : (creation.ambitionId ? (DATA.ambitionsById?.[creation.ambitionId]?.name ?? creation.ambitionId) : "Decide at 20");
+
+  if (ambitionChosenLineEl) ambitionChosenLineEl.innerHTML = `<b>${escapeHtml(chosen)}</b>`;
+
+  if (btnDeferAmbition) {
+    btnDeferAmbition.classList.toggle("primary", Boolean(creation.deferAmbition));
+    btnDeferAmbition.classList.toggle("ghost", !creation.deferAmbition);
+  }
+}
+
+// Offer selection: 3 recommended (by background) + 2 random
+function buildAmbitionOfferList(bgId, count = 5) {
+  const all = (DATA.ambitions ?? []).filter(a => a?.id);
+  if (!all.length) return [];
+
+  const rec = all.filter(a => (a.recommendedFor?.backgrounds ?? []).includes(bgId));
+  shuffle(rec);
+
+  const picks = [];
+  for (const a of rec) {
+    if (picks.length >= Math.min(3, count)) break;
+    picks.push(a);
+  }
+
+  const remaining = all.filter(a => !picks.some(p => p.id === a.id));
+  shuffle(remaining);
+  while (picks.length < count && remaining.length) picks.push(remaining.shift());
+
+  return picks.slice(0, count);
+}
+
+function ambitionObjectivesPreviewHtml(a) {
+  const objs = (a?.objectives ?? []).slice(0, 3);
+  if (!objs.length) return "";
+  const li = objs.map(o => `<li>${escapeHtml(o.text ?? "")}</li>`).join("");
+  return `<ul class="muted small" style="margin:6px 0 0 18px;">${li}</ul>`;
+}
+
+function openAmbitionPickerModal({ forced = false, mode = "builder", onPick = null } = {}) {
+  const bgId = (mode === "run" ? state?.backgroundId : creation?.bgId) ?? bgSelect?.value ?? null;
+  const offers = buildAmbitionOfferList(bgId, forced ? 6 : 5);
+
+  const wrap = document.createElement("div");
+  wrap.innerHTML = `<p class="muted">${forced ? "Choose an ambition before you face your Calling." : "Choose a personal ambition for this ruler."}</p>`;
+
+  const list = document.createElement("div");
+  list.style.display = "grid";
+  list.style.gap = "10px";
+
+  for (const a of offers) {
+    const card = document.createElement("div");
+    card.className = "choiceCard";
+    card.innerHTML = `
+      <div class="row space" style="align-items:flex-start; gap:10px;">
+        <div>
+          <div><b>${escapeHtml(a.name)}</b></div>
+          <div class="muted">${escapeHtml(a.desc ?? "")}</div>
+          ${ambitionObjectivesPreviewHtml(a)}
+        </div>
+        <button class="btn primary small">Select</button>
+      </div>
+    `;
+    card.querySelector("button").addEventListener("click", () => {
+      if (mode === "builder") {
+        creation.ambitionId = a.id;
+        creation.deferAmbition = false;
+        closeModal();
+        renderCreationUI();
+      } else {
+        chooseAmbitionForLife(a.id, { chosenAtAge: state?.age ?? STARTING_AGE });
+        closeModal();
+        onPick?.();
+        if (!onPick) loadRandomEvent();
+      }
+    });
+    list.appendChild(card);
+  }
+
+  wrap.appendChild(list);
+
+  if (!forced && mode === "builder") {
+    const defer = document.createElement("button");
+    defer.className = "btn ghost btn-wide";
+    defer.style.marginTop = "12px";
+    defer.textContent = "Decide at Age 20";
+    defer.addEventListener("click", () => {
+      creation.ambitionId = null;
+      creation.deferAmbition = true;
+      closeModal();
+      renderCreationUI();
+    });
+    wrap.appendChild(defer);
+  }
+
+  openModal("Choose an Ambition", wrap, { locked: forced });
+}
 
 
 function showLoadingUI(isLoading) {
@@ -5481,6 +6097,13 @@ function startRunFromBuilder(bg, givenName, familyName) {
   // Background marker flag (used by bg-specific events)
   state.flags[`bg_${bg.id}`] = 0;
 
+  // Per-life metrics + ambition
+  ensureStateMaps();
+  ensureLifeMetrics();
+  if (!creation.deferAmbition && creation.ambitionId) {
+    chooseAmbitionForLife(creation.ambitionId, { chosenAtAge: state.age });
+  }
+
   saveState();
   logEl.textContent = "";
   log(`Run begins as ${state.charName} ${state.familyName} (${bg.name}). Traits: ${state.traits.join(", ")}`);
@@ -5538,6 +6161,7 @@ async function boot() {
     }
 
     ensureStatScale();
+    ensureStateMaps();
 
     showGame();
     logEl.textContent = "";
