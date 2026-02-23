@@ -851,10 +851,13 @@ let DATA = {
   events: [],
   backgrounds: [],
   factions: [],
+  ambitions: [],
+  ambitionsMeta: null,
   cardsById: {},
   eventsById: {},
   backgroundsById: {},
-  factionsById: {}
+  factionsById: {},
+  ambitionsById: {}
 };
 
 // ---------- DOM ----------
@@ -1788,6 +1791,7 @@ function openOpportunityModal({ onDone } = {}) {
 
 let creation = {
   bgId: null,
+  ambitionId: null,
   alloc: Object.fromEntries(STATS.map(s => [s, 0])),
   traits: new Set()
 };
@@ -2180,6 +2184,37 @@ async function fetchJsonAny(paths) {
     }
   }
   throw (lastErr ?? new Error("Failed to load JSON"));
+}
+
+
+// ---------- Ambitions (Personal goals) ----------
+function normalizeAmbitionsJson(raw) {
+  const meta = {
+    enabled: false,
+    version: null,
+    updated: null,
+    notes: [],
+    objectiveTypes: null
+  };
+
+  if (!raw) return { meta, ambitions: [] };
+
+  // Allow the "just an array" legacy form: [{id,name,...}]
+  if (Array.isArray(raw)) {
+    meta.enabled = raw.length > 0;
+    return { meta, ambitions: raw };
+  }
+
+  if (typeof raw !== "object") return { meta, ambitions: [] };
+
+  meta.version = raw.version ?? null;
+  meta.updated = raw.updated ?? null;
+  meta.notes = Array.isArray(raw.notes) ? raw.notes : [];
+  meta.objectiveTypes = (raw.objectiveTypes && typeof raw.objectiveTypes === "object") ? raw.objectiveTypes : null;
+
+  const ambitions = Array.isArray(raw.ambitions) ? raw.ambitions : [];
+  meta.enabled = ambitions.length > 0;
+  return { meta, ambitions };
 }
 
 function indexData() {
@@ -3619,7 +3654,8 @@ function renderStatus() {
   const spouseStr = state.family.spouse ? ` • Spouse: ${state.family.spouse.given}` : "";
   const kids = state.family.heirs?.length ?? 0;
   const kidsStr = kids ? ` • Children: ${kids}` : "";
-  statusLine.textContent = `${who} • Age ${state.age} • ${season} • Heirs Ruled ${state.heirCount ?? 0}${spouseStr}${kidsStr}`;
+  const ambStr = state?.ambitionName ? ` • Ambition: ${state.ambitionName}` : "";
+  statusLine.textContent = `${who} • Age ${state.age} • ${season} • Heirs Ruled ${state.heirCount ?? 0}${spouseStr}${kidsStr}${ambStr}`;
 
   const hf = state.heirFocus ? ` (Heir Focus: ${state.heirFocus})` : "";
   statsLine.textContent =
@@ -5156,6 +5192,127 @@ if (btnStartBack) {
   });
 }
 
+
+function openAmbitionPickerModal(bg, onPick) {
+  const ambitions = Array.isArray(DATA.ambitions) ? DATA.ambitions : [];
+  if (!ambitions.length) {
+    onPick?.(null);
+    return;
+  }
+
+  let chosen = null;
+
+  const wrap = document.createElement("div");
+
+  const hint = document.createElement("p");
+  hint.className = "muted";
+  hint.textContent = "Choose a personal ambition for this life. You'll earn Scrip on completion and Legacy at life end if completed.";
+  wrap.appendChild(hint);
+
+  const grid = document.createElement("div");
+  grid.className = "hand";
+  wrap.appendChild(grid);
+
+  const recBg = bg?.id ? String(bg.id) : null;
+
+  const renderTile = (amb) => {
+    const tile = document.createElement("div");
+    tile.className = "cardbtn";
+    tile.tabIndex = 0;
+
+    const rec = recBg && Array.isArray(amb?.recommendedFor?.backgrounds) && amb.recommendedFor.backgrounds.includes(recBg);
+    const recTag = rec ? `<span class="chip disc">Recommended</span>` : "";
+
+    const objLines = (amb?.objectives ?? [])
+      .map(o => o?.text)
+      .filter(Boolean)
+      .slice(0, 4)
+      .map(t => `<div class="muted small">• ${escapeHtml(t)}</div>`)
+      .join("");
+
+    tile.innerHTML = `
+      <div class="row space" style="align-items:flex-start;">
+        <div>
+          <div class="cardname">${escapeHtml(amb?.name ?? amb?.id ?? "Ambition")}</div>
+          <div class="muted small" style="margin-top:4px;">${escapeHtml(amb?.desc ?? "")}</div>
+        </div>
+        ${recTag}
+      </div>
+      <div style="margin-top:8px;">${objLines}</div>
+    `;
+
+    const pickThis = () => {
+      chosen = amb;
+      // simple visual select
+      [...grid.children].forEach(x => x.classList.remove("committed"));
+      tile.classList.add("committed");
+      btnConfirm.disabled = false;
+    };
+
+    tile.addEventListener("click", pickThis);
+    tile.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") pickThis(); });
+
+    return tile;
+  };
+
+  for (const amb of ambitions) {
+    if (!amb?.id) continue;
+    grid.appendChild(renderTile(amb));
+  }
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+  actions.style.marginTop = "12px";
+
+  const btnSkip = document.createElement("button");
+  btnSkip.className = "btn ghost";
+  btnSkip.textContent = "Skip";
+  btnSkip.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onPick?.(null);
+  });
+
+  const btnConfirm = document.createElement("button");
+  btnConfirm.className = "btn";
+  btnConfirm.textContent = "Commit Ambition";
+  btnConfirm.disabled = true;
+  btnConfirm.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onPick?.(chosen);
+  });
+
+  actions.appendChild(btnSkip);
+  actions.appendChild(btnConfirm);
+  wrap.appendChild(actions);
+
+  openModal("Choose an Ambition", wrap, { locked: true });
+}
+
+function startRunWithOptionalAmbition(bg, given, family) {
+  openAmbitionPickerModal(bg, (amb) => {
+    // Store selection on creation (so it's visible even before we create state)
+    creation.ambitionId = amb?.id ?? null;
+
+    startRunWithOptionalAmbition(bg, given, family);
+
+    // Attach to state after run start (non-breaking if ambitions are missing)
+    try {
+      if (amb) {
+        state.ambitionId = amb.id;
+        state.ambitionName = amb.name ?? amb.id;
+      } else {
+        state.ambitionId = null;
+        state.ambitionName = null;
+      }
+      saveState();
+      renderAll();
+    } catch {}
+  });
+}
+
+
 btnStart.addEventListener("click", () => {
   const bg = DATA.backgroundsById[bgSelect.value];
   if (!bg) return;
@@ -5178,7 +5335,7 @@ btnStart.addEventListener("click", () => {
     return;
   }
 
-  startRunFromBuilder(bg, given, family);
+  startRunWithOptionalAmbition(bg, given, family);
 });
 
 if (btnLegacy) {
@@ -5356,6 +5513,7 @@ function computeStartingConditions() {
 
 function resetCreation() {
   creation.bgId = bgSelect.value || null;
+  creation.ambitionId = null;
   creation.alloc = Object.fromEntries(STATS.map(s => [s, 0]));
   creation.traits = new Set();
 }
