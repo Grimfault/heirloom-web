@@ -2205,6 +2205,40 @@ async function fetchJsonAny(paths) {
   throw (lastErr ?? new Error("Failed to load JSON"));
 }
 
+// Like fetchJsonAny, but returns which path succeeded.
+async function fetchJsonAnyWithInfo(paths) {
+  let lastErr = null;
+  for (const p of paths) {
+    try {
+      const data = await fetchJson(p);
+      return { data, path: p };
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw (lastErr ?? new Error("Failed to load JSON"));
+}
+
+async function fetchAmbitionsWithDebug() {
+  const paths = [
+    "./data/ambitions.json",
+    "/data/ambitions.json",
+    "data/ambitions.json",
+    "./ambitions.json",
+    "/ambitions.json"
+  ];
+  try {
+    const { data, path } = await fetchJsonAnyWithInfo(paths);
+    DATA.ambitionsLoad = { ok: true, path, error: null };
+    return data;
+  } catch (e) {
+    DATA.ambitionsLoad = { ok: false, path: null, error: String(e?.message ?? e) };
+    console.warn("Ambitions failed to load; using fallback ambitions.", e);
+    // Fallback keeps the game playable even if the host doesn't serve ambitions.json correctly.
+    return { version: "fallback", updated: null, notes: ["Fallback ambitions in app.js"], ambitions: FALLBACK_AMBITIONS };
+  }
+}
+
 function indexData() {
   DATA.cardsById = Object.fromEntries(DATA.cards.map(c => [c.id, c]));
   DATA.eventsById = Object.fromEntries(DATA.events.map(e => [e.id, e]));
@@ -2223,6 +2257,776 @@ function normalizeAmbitionsJson(raw) {
   return { meta: null, ambitions: [] };
 }
 
+// Fallback ambitions (used only if /data/ambitions.json fails to load)
+const FALLBACK_AMBITIONS = [
+  {
+    "id": "amb_make_a_name",
+    "name": "Make a Name",
+    "desc": "Become known beyond your station—through deed, leverage, or story. When people speak of you, it changes what doors open.",
+    "ui": {
+      "icon": "Renown"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "squire",
+        "hedge_knight",
+        "minor_noble"
+      ],
+      "callings": [
+        "calling_steel",
+        "calling_seal"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "renown_peak",
+        "type": "PeakResourceAtLeast",
+        "resource": "Renown",
+        "amount": 18,
+        "text": "Reach peak Renown 18+ in this life."
+      },
+      {
+        "id": "favored_any",
+        "type": "AnyStandingAtLeast",
+        "minTier": "Favored",
+        "text": "Reach Favored standing with any faction."
+      },
+      {
+        "id": "story_any_done",
+        "type": "AnyFlagSet",
+        "ids": [
+          "sl_bo_done",
+          "sl_mg_done",
+          "sl_wc_done",
+          "sl_pa_done",
+          "sl_da_done",
+          "sl_ct_done"
+        ],
+        "text": "Complete any storyline."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_fortunes_hand",
+    "name": "Fortune’s Hand",
+    "desc": "Accumulate real leverage: coin in the strongbox and influence in the right rooms.",
+    "ui": {
+      "icon": "Coin"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "ledger_clerk",
+        "guild_factor",
+        "minor_noble"
+      ],
+      "callings": [
+        "calling_quill",
+        "calling_seal"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "coin_peak",
+        "type": "PeakResourceAtLeast",
+        "resource": "Coin",
+        "amount": 25,
+        "text": "Reach peak Coin 25+ in this life."
+      },
+      {
+        "id": "influence_peak",
+        "type": "PeakResourceAtLeast",
+        "resource": "Influence",
+        "amount": 8,
+        "text": "Reach peak Influence 8+ in this life."
+      },
+      {
+        "id": "favored_trade_or_court",
+        "type": "AnyStandingAtLeast",
+        "minTier": "Favored",
+        "factionIds": [
+          "league",
+          "crown"
+        ],
+        "text": "Reach Favored with the League or the Crown."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_ledger_and_knife",
+    "name": "Ledger and the Knife",
+    "desc": "Win by numbers and nerves: keep your accounts clean enough to pass inspection, and your secrets sharp enough to cut.",
+    "ui": {
+      "icon": "Secrets"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "ledger_clerk",
+        "street_urchin",
+        "outlaw",
+        "guild_factor"
+      ],
+      "callings": [
+        "calling_quill",
+        "calling_veil"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "coin_peak_20",
+        "type": "PeakResourceAtLeast",
+        "resource": "Coin",
+        "amount": 20,
+        "text": "Reach peak Coin 20+ in this life."
+      },
+      {
+        "id": "secrets_peak_10",
+        "type": "PeakResourceAtLeast",
+        "resource": "Secrets",
+        "amount": 10,
+        "text": "Reach peak Secrets 10+ in this life."
+      },
+      {
+        "id": "sl_mg_done",
+        "type": "HasFlag",
+        "idRef": "sl_mg_done",
+        "text": "Complete The Merchant’s Gambit."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_shadow_crown",
+    "name": "Shadow Crown",
+    "desc": "Rule from the margins. When you cannot command openly, you command quietly.",
+    "ui": {
+      "icon": "Veil"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "outlaw",
+        "street_urchin"
+      ],
+      "callings": [
+        "calling_veil"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "secrets_peak_12",
+        "type": "PeakResourceAtLeast",
+        "resource": "Secrets",
+        "amount": 12,
+        "text": "Reach peak Secrets 12+ in this life."
+      },
+      {
+        "id": "league_favored",
+        "type": "MinStanding",
+        "factionId": "league",
+        "minTier": "Favored",
+        "text": "Reach Favored standing with the League."
+      },
+      {
+        "id": "mg_or_wc_done",
+        "type": "AnyFlagSet",
+        "ids": [
+          "sl_mg_done",
+          "sl_wc_done"
+        ],
+        "text": "Complete The Merchant’s Gambit or The Wolf Court."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_keeper_of_truth",
+    "name": "Keeper of Truth",
+    "desc": "Secure knowledge that outlives you—then decide whether it becomes a lantern or a weapon.",
+    "ui": {
+      "icon": "Quill"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "ledger_clerk",
+        "novice"
+      ],
+      "callings": [
+        "calling_quill"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "influence_peak_10",
+        "type": "PeakResourceAtLeast",
+        "resource": "Influence",
+        "amount": 10,
+        "text": "Reach peak Influence 10+ in this life."
+      },
+      {
+        "id": "collegium_favored",
+        "type": "MinStanding",
+        "factionId": "collegium",
+        "minTier": "Favored",
+        "text": "Reach Favored standing with the Collegium."
+      },
+      {
+        "id": "sl_da_done",
+        "type": "HasFlag",
+        "text": "Complete The Drowned Abbey."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_mercys_thread",
+    "name": "Mercy’s Thread",
+    "desc": "Hold people together when fear would tear them apart. Make mercy practical, and you’ll be remembered for it.",
+    "ui": {
+      "icon": "Hearth"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "novice",
+        "pilgrim_wanderer"
+      ],
+      "callings": [
+        "calling_hearth"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "supplies_peak_10",
+        "type": "PeakResourceAtLeast",
+        "resource": "Supplies",
+        "amount": 10,
+        "text": "Reach peak Supplies 10+ in this life."
+      },
+      {
+        "id": "synod_favored",
+        "type": "MinStanding",
+        "factionId": "synod",
+        "minTier": "Favored",
+        "text": "Reach Favored standing with the Synod."
+      },
+      {
+        "id": "sl_pa_done",
+        "type": "HasFlag",
+        "text": "Complete Pilgrimage of Ash."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_unbroken_ring",
+    "name": "The Unbroken Ring",
+    "desc": "Pay the price of an oath and keep paying it—until the world learns you do not bend.",
+    "ui": {
+      "icon": "Covenant"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "squire",
+        "hedge_knight"
+      ],
+      "callings": [
+        "calling_steel",
+        "calling_hearth"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "renown_peak_14",
+        "type": "PeakResourceAtLeast",
+        "resource": "Renown",
+        "amount": 14,
+        "text": "Reach peak Renown 14+ in this life."
+      },
+      {
+        "id": "covenant_favored",
+        "type": "MinStanding",
+        "factionId": "covenant",
+        "minTier": "Favored",
+        "text": "Reach Favored standing with the Iron Covenant."
+      },
+      {
+        "id": "sl_bo_done",
+        "type": "HasFlag",
+        "text": "Complete The Broken Oath."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_wolf_in_velvet",
+    "name": "A Wolf in Velvet",
+    "desc": "Survive court without becoming prey. Turn etiquette into a blade and scandal into a shield.",
+    "ui": {
+      "icon": "Seal"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "minor_noble",
+        "squire"
+      ],
+      "callings": [
+        "calling_seal"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "influence_peak_12",
+        "type": "PeakResourceAtLeast",
+        "resource": "Influence",
+        "amount": 12,
+        "text": "Reach peak Influence 12+ in this life."
+      },
+      {
+        "id": "crown_favored",
+        "type": "MinStanding",
+        "factionId": "crown",
+        "minTier": "Favored",
+        "text": "Reach Favored standing with the Crown."
+      },
+      {
+        "id": "sl_wc_done",
+        "type": "HasFlag",
+        "text": "Complete The Wolf Court."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_quiet_succession",
+    "name": "Quiet Succession",
+    "desc": "Build a household that can outlive a bad season: a spouse, an heir, and a name that doesn’t crumble under gossip.",
+    "ui": {
+      "icon": "Dynasty"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "minor_noble",
+        "novice",
+        "guild_factor"
+      ],
+      "callings": [
+        "calling_hearth",
+        "calling_seal"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "has_spouse",
+        "type": "HasSpouse",
+        "text": "Secure a spouse."
+      },
+      {
+        "id": "has_heir",
+        "type": "HasHeir",
+        "text": "Secure an heir."
+      },
+      {
+        "id": "Disgraced",
+        "type": "NotCondition",
+        "text": "End the life without the Disgraced condition."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_glass_road_prince",
+    "name": "Prince of the Glass Road",
+    "desc": "Make distance pay. Keep your people fed, your coffers heavy, and your route open no matter who complains.",
+    "ui": {
+      "icon": "Journey"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "caravan_scout",
+        "pilgrim_wanderer"
+      ],
+      "callings": [
+        "calling_steel",
+        "calling_veil"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "supplies_peak_14",
+        "type": "PeakResourceAtLeast",
+        "resource": "Supplies",
+        "amount": 14,
+        "text": "Reach peak Supplies 14+ in this life."
+      },
+      {
+        "id": "coin_peak_18",
+        "type": "PeakResourceAtLeast",
+        "resource": "Coin",
+        "amount": 18,
+        "text": "Reach peak Coin 18+ in this life."
+      },
+      {
+        "id": "emirate_neutral_plus",
+        "type": "MinStanding",
+        "factionId": "emirate",
+        "minTier": "Neutral",
+        "text": "Maintain Neutral-or-better standing with the Emirate."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_clean_ledger",
+    "name": "A Clean Ledger",
+    "desc": "Keep your accounts fat and your record clean. Wealth is easy; clean wealth is power.",
+    "ui": {
+      "icon": "Coin"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "ledger_clerk",
+        "guild_factor",
+        "minor_noble"
+      ],
+      "callings": [
+        "calling_quill",
+        "calling_seal"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "coin_peak_22",
+        "type": "PeakResourceAtLeast",
+        "resource": "Coin",
+        "amount": 22,
+        "text": "Reach peak Coin 22+ in this life."
+      },
+      {
+        "id": "influence_peak_10",
+        "type": "PeakResourceAtLeast",
+        "resource": "Influence",
+        "amount": 10,
+        "text": "Reach peak Influence 10+ in this life."
+      },
+      {
+        "id": "In Debt",
+        "type": "NotCondition",
+        "text": "End the life without the In Debt condition."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_bind_three_threads",
+    "name": "Bind the Three Threads",
+    "desc": "Keep court, contract, and mercy on your side at once. Balance is harder than conquest.",
+    "ui": {
+      "icon": "Influence"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "minor_noble",
+        "guild_factor",
+        "novice"
+      ],
+      "callings": [
+        "calling_seal",
+        "calling_quill",
+        "calling_hearth"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "crown_neutral",
+        "type": "MinStanding",
+        "factionId": "crown",
+        "minTier": "Neutral",
+        "text": "Maintain Neutral-or-better with the Crown."
+      },
+      {
+        "id": "league_neutral",
+        "type": "MinStanding",
+        "factionId": "league",
+        "minTier": "Neutral",
+        "text": "Maintain Neutral-or-better with the Marcher League."
+      },
+      {
+        "id": "synod_neutral",
+        "type": "MinStanding",
+        "factionId": "synod",
+        "minTier": "Neutral",
+        "text": "Maintain Neutral-or-better with the Verdant Synod."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_sound_body",
+    "name": "Sound Body, Steady Step",
+    "desc": "Outlast the hard years without letting violence or sickness write your epitaph.",
+    "ui": {
+      "icon": "Hearth"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "hedge_knight",
+        "caravan_scout",
+        "pilgrim_wanderer"
+      ],
+      "callings": [
+        "calling_hearth",
+        "calling_steel"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "age_45",
+        "type": "AgeAtLeast",
+        "age": 45,
+        "text": "Reach Age 45 in this life."
+      },
+      {
+        "id": "Wounded",
+        "type": "NotCondition",
+        "text": "End the life without the Wounded condition."
+      },
+      {
+        "id": "Ill",
+        "type": "NotCondition",
+        "text": "End the life without the Ill condition."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_black_mantles_notice",
+    "name": "Black Mantle’s Notice",
+    "desc": "Earn the Crown’s attention without becoming its quarry. Influence, not infamy.",
+    "ui": {
+      "icon": "Seal"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "minor_noble",
+        "squire",
+        "ledger_clerk"
+      ],
+      "callings": [
+        "calling_seal",
+        "calling_quill"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "influence_peak_14",
+        "type": "PeakResourceAtLeast",
+        "resource": "Influence",
+        "amount": 14,
+        "text": "Reach peak Influence 14+ in this life."
+      },
+      {
+        "id": "crown_favored",
+        "type": "MinStanding",
+        "factionId": "crown",
+        "minTier": "Favored",
+        "text": "Reach Favored standing with the Crown."
+      },
+      {
+        "id": "Wanted",
+        "type": "NotCondition",
+        "text": "End the life without the Wanted condition."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_promise_of_heirs",
+    "name": "A Promise of Heirs",
+    "desc": "Secure the household: a spouse, a child, and a courtship that doesn't collapse under pressure.",
+    "ui": {
+      "icon": "Dynasty"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "minor_noble",
+        "novice",
+        "guild_factor"
+      ],
+      "callings": [
+        "calling_hearth",
+        "calling_seal"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "has_spouse",
+        "type": "HasSpouse",
+        "text": "Secure a spouse."
+      },
+      {
+        "id": "has_heir",
+        "type": "HasHeir",
+        "text": "Secure an heir."
+      },
+      {
+        "id": "sl_ct_done",
+        "type": "HasFlag",
+        "text": "Complete the Courtship storyline."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  },
+  {
+    "id": "amb_clean_hands",
+    "name": "Clean Hands",
+    "desc": "Live in the open and leave fewer stains behind you than your rivals expected.",
+    "ui": {
+      "icon": "Resolve"
+    },
+    "recommendedFor": {
+      "backgrounds": [
+        "novice",
+        "pilgrim_wanderer",
+        "minor_noble"
+      ],
+      "callings": [
+        "calling_hearth",
+        "calling_seal"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "Wanted",
+        "type": "NotCondition",
+        "text": "End the life without the Wanted condition."
+      },
+      {
+        "id": "In Debt",
+        "type": "NotCondition",
+        "text": "End the life without the In Debt condition."
+      },
+      {
+        "id": "Disgraced",
+        "type": "NotCondition",
+        "text": "End the life without the Disgraced condition."
+      }
+    ],
+    "rewards": {
+      "onComplete": {
+        "Scrip": 15
+      },
+      "onLifeEndIfCompleted": {
+        "Legacy": 5
+      }
+    }
+  }
+];
+
 const AMBITION_SCRIP_ON_COMPLETE = 15;
 const AMBITION_LEGACY_ON_LIFE_END = 5;
 
@@ -2232,7 +3036,7 @@ async function loadAllData() {
     fetchJsonAny(["./data/events.json", "./events.json"]),
     fetchJsonAny(["./data/backgrounds.json", "./backgrounds.json"]),
     fetchJsonAny(["./data/factions.json", "./factions.json"]).catch(() => ([])),
-    fetchJsonAny(["./data/ambitions.json", "./ambitions.json"]).catch(() => (null))
+    fetchAmbitionsWithDebug()
   ]);
 
   DATA.cards = cards;
@@ -5953,6 +6757,17 @@ function openAmbitionPickerModal({ forced = false, mode = "builder", onPick = nu
 
   const wrap = document.createElement("div");
   wrap.innerHTML = `<p class="muted">${forced ? "Choose an ambition before you face your Calling." : "Choose a personal ambition for this ruler."}</p>`;
+
+  if (!offers.length) {
+    const info = DATA.ambitionsLoad?.ok
+      ? `Loaded ambitions from: ${DATA.ambitionsLoad.path}`
+      : `Ambitions failed to load (${DATA.ambitionsLoad?.error ?? "unknown error"}). Using fallback list.`;
+    const warn = document.createElement("div");
+    warn.className = "muted small";
+    warn.style.marginTop = "10px";
+    warn.textContent = `No ambitions available to show. ${info}`;
+    wrap.appendChild(warn);
+  }
 
   const list = document.createElement("div");
   list.style.display = "grid";
