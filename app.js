@@ -4111,6 +4111,9 @@ function scarcityBias(ev) {
 
   const coin = state.res?.Coin ?? 0;
   const sup  = state.res?.Supplies ?? 0;
+  const ren  = state.res?.Renown ?? 0;
+  const inf  = state.res?.Influence ?? 0;
+  const sec  = state.res?.Secrets ?? 0;
 
   // If you're broke, pull events that can plausibly raise coin (or at least avoid burning more).
   if (coin <= 2) {
@@ -4122,6 +4125,22 @@ function scarcityBias(ev) {
   if (sup <= 1) {
     if ((sig.maxGain.Supplies ?? 0) > 0) m *= 1.60;
     if ((sig.maxLoss.Supplies ?? 0) < 0) m *= 0.75;
+  }
+
+  // Reputation / influence / leverage: when you're at rock bottom, bias toward recovery.
+  if (ren <= 1) {
+    if ((sig.maxGain.Renown ?? 0) > 0) m *= 1.25;
+    if ((sig.maxLoss.Renown ?? 0) < 0) m *= 0.85;
+  }
+
+  if (inf <= 1) {
+    if ((sig.maxGain.Influence ?? 0) > 0) m *= 1.25;
+    if ((sig.maxLoss.Influence ?? 0) < 0) m *= 0.85;
+  }
+
+  if (sec <= 0) {
+    if ((sig.maxGain.Secrets ?? 0) > 0) m *= 1.30;
+    if ((sig.maxLoss.Secrets ?? 0) < 0) m *= 0.85;
   }
 
   return m;
@@ -4668,21 +4687,220 @@ function openEventPickerModal() {
 
 // ---------- Time ----------
 
+// --- Annual Upkeep & Drift ---
+// Lightweight: runs once per year, always explains itself via a modal.
+// Goal: keeping *all* resources healthy is meaningfully hard, without keeping players broke.
+function applyAnnualUpkeepAndDrift() {
+  if (!state) return null;
+  state.res ??= {};
+  for (const r of RES) state.res[r] = Number.isFinite(state.res[r]) ? state.res[r] : 0;
+
+  const before = { ...state.res };
+  const lines = [];
+
+  const addLine = (reason, changes) => {
+    if (!Array.isArray(changes) || changes.length === 0) return;
+    const applied = [];
+    for (const ch of changes) {
+      const resource = ch?.resource;
+      const amount = Number(ch?.amount ?? 0);
+      if (!resource || !amount) continue;
+      applyResourceDelta({ resource, amount });
+      applied.push({ resource, amount });
+    }
+    if (applied.length) lines.push({ reason, changes: applied });
+  };
+
+  const sup = state.res.Supplies ?? 0;
+  const ren = state.res.Renown ?? 0;
+  const inf = state.res.Influence ?? 0;
+  const sec = state.res.Secrets ?? 0;
+
+  // 1) Living expenses: food + wear-and-tear (Supplies).
+  if (sup > 0) addLine("Living expenses (food & wear)", [{ resource: "Supplies", amount: -1 }]);
+
+  // 2) Spoilage: stockpiles rot.
+  if ((state.res.Supplies ?? 0) >= 10) addLine("Spoilage & waste", [{ resource: "Supplies", amount: -1 }]);
+
+  // 3) Secrets decay if hoarded too high.
+  if (sec >= 4) addLine("Secrets go stale", [{ resource: "Secrets", amount: -1 }]);
+
+  // 4) Leverage + cover interplay (keeps Influence/Secrets meaningful).
+  if (sec >= 3 && inf <= 0) addLine("Loose lips (no cover)", [{ resource: "Secrets", amount: -1 }]);
+  if (inf >= 7 && sec <= 0) addLine("Favors cool (no leverage)", [{ resource: "Influence", amount: -1 }]);
+
+  // 5) Status upkeep: high Renown/Influence costs Coin to maintain (but won't push you into poverty).
+  if (ren >= 9 || inf >= 7) {
+    if ((state.res.Coin ?? 0) >= 3) addLine("Keeping up appearances", [{ resource: "Coin", amount: -1 }]);
+    else if (ren >= inf) addLine("Rumors spread (couldn't sustain status)", [{ resource: "Renown", amount: -1 }]);
+    else addLine("Favors go unpaid (couldn't sustain status)", [{ resource: "Influence", amount: -1 }]);
+  }
+
+  // 6) Emergency provisions: if you're at 0 Supplies and have spare coin, auto-buy a little.
+  // (This prevents the 'always broke' feel, but still costs something and is always shown.)
+  if ((state.res.Supplies ?? 0) === 0 && (state.res.Coin ?? 0) >= 4) {
+    addLine("Emergency provisions", [{ resource: "Coin", amount: -1 }, { resource: "Supplies", amount: +1 }]);
+  }
+
+  // 7) Small investments: big Coin cushions slowly turn into the weakest pillar.
+  // This makes Coin useful, but also forces tradeoffs (Coin can't just be hoarded forever).
+  if ((state.res.Coin ?? 0) >= 10) {
+    const candidates = ["Supplies", "Influence", "Renown"];
+    let lowest = candidates[0];
+    let lowestVal = state.res[lowest] ?? 0;
+    for (const c of candidates.slice(1)) {
+      const v = state.res[c] ?? 0;
+      if (v < lowestVal) { lowest = c; lowestVal = v; }
+    }
+    if (lowestVal <= 3) {
+      addLine("Small investments", [{ resource: "Coin", amount: -1 }, { resource: lowest, amount: +1 }]);
+    }
+  }
+
+  // 8) Steady Year bonus: if you keep most resources in a healthy band, gain a redraw token (capped).
+  let tokenAdded = 0;
+  const afterRes = state.res;
+  const healthyCount = RES.filter(r => {
+    const v = afterRes?.[r] ?? 0;
+    return v >= 3 && v <= 9;
+  }).length;
+
+  if (healthyCount >= 4) {
+    initPerLifeMeta();
+    const base = trunkRank("t_better_odds") ?? 0;
+    const cap = base + 3;
+    const curTok = state.metaPerLife.redrawTokens ?? 0;
+    if (curTok < cap) {
+      state.metaPerLife.redrawTokens = curTok + 1;
+      tokenAdded = 1;
+    }
+  }
+
+  const after = { ...state.res };
+
+  return { age: state.age, before, after, lines, tokenAdded };
+}
+
+function openYearEndModal(summary, onDone) {
+  if (!summary) { onDone?.(); return; }
+
+  const wrap = document.createElement("div");
+
+  const hint = document.createElement("p");
+  hint.className = "muted";
+  hint.textContent = "A year passes. Upkeep and drift happen automatically, but they’re always shown here so nothing feels ‘mysterious’.";
+  wrap.appendChild(hint);
+
+  const list = document.createElement("div");
+  list.className = "outcomes";
+  list.style.marginTop = "10px";
+
+  const addRow = (title, changes) => {
+    const row = document.createElement("div");
+    row.className = "outcome";
+    row.style.cursor = "default";
+
+    const pills = document.createElement("div");
+    pills.className = "resultBadges";
+    pills.style.marginTop = "8px";
+
+    for (const ch of (changes ?? [])) {
+      const amt = Number(ch?.amount ?? 0);
+      if (!amt) continue;
+      const pill = document.createElement("span");
+      pill.className = "resultPill " + (amt > 0 ? "good" : "bad");
+      pill.textContent = `${amt > 0 ? "↑" : "↓"} ${ch.resource} ${Math.abs(amt)}`;
+      pills.appendChild(pill);
+    }
+
+    row.innerHTML = `<div class="outcome-title">${escapeHtml(title)}</div>`;
+    row.appendChild(pills);
+    list.appendChild(row);
+  };
+
+  if (Array.isArray(summary.lines) && summary.lines.length) {
+    for (const ln of summary.lines) addRow(ln.reason, ln.changes);
+  } else {
+    addRow("A quiet year (no upkeep changes)", []);
+  }
+
+  if (summary.tokenAdded) {
+    const row = document.createElement("div");
+    row.className = "outcome";
+    row.style.cursor = "default";
+    row.innerHTML = `<div class="outcome-title">Steady Year</div>`;
+    const pills = document.createElement("div");
+    pills.className = "resultBadges";
+    pills.style.marginTop = "8px";
+    const pill = document.createElement("span");
+    pill.className = "resultPill good";
+    pill.textContent = "↑ Redraw token +1";
+    pills.appendChild(pill);
+    row.appendChild(pills);
+    list.appendChild(row);
+  }
+
+  wrap.appendChild(list);
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+  actions.style.marginTop = "12px";
+
+  const btnOk = document.createElement("button");
+  btnOk.className = "btn primary";
+  btnOk.textContent = "Continue";
+  btnOk.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onDone?.();
+  });
+
+  actions.appendChild(btnOk);
+  wrap.appendChild(actions);
+
+  openModal(`Year End: Age ${summary.age}`, wrap, { locked: true });
+}
+
+
 function advanceTime() {
   // Count events completed (drives storyline pacing + condition timers).
-    state.runEventIndex = (state.runEventIndex ?? 0) + 1;
+  state.runEventIndex = (state.runEventIndex ?? 0) + 1;
   state.lifetimeEvents = (state.lifetimeEvents ?? 0) + 1;
 
   // Timers tick on completed events.
   tickConditionsAfterEvent();
 
-  state.seasonIndex = 1 - state.seasonIndex;
+  // Two events per year: Vernal / Autumnal
+  state.seasonIndex = 1 - (state.seasonIndex ?? 0);
+
   if (state.seasonIndex === 0) {
+    // A year passes.
     state.age += 1;
+
     ensureFamilyState();
     // Age spouse + children annually.
     if (state.family.spouse) state.family.spouse.age = (state.family.spouse.age ?? 16) + 1;
     for (const h of (state.family.heirs ?? [])) h.age = (h.age ?? 0) + 1;
+
+    // Apply annual upkeep + drift, and stash a summary for an interstitial modal.
+    try {
+      const summary = applyAnnualUpkeepAndDrift();
+      if (summary) {
+        state.__yearEndSummary = summary;
+
+        // Also log a compact trace.
+        if (Array.isArray(summary.lines)) {
+          for (const ln of summary.lines) {
+            const parts = (ln.changes ?? []).map(c => `${c.resource} ${fmtDelta(c.amount)}`).join(", ");
+            if (parts) log(`Year End — ${ln.reason}: ${parts}`);
+          }
+        }
+        if (summary.tokenAdded) log("Year End — Steady Year: Redraw token +1");
+      }
+    } catch (e) {
+      console.warn("Year-end upkeep failed:", e);
+    }
+
     log(`— A year passes. Age is now ${state.age}.`);
   }
 }
@@ -4731,41 +4949,57 @@ function finishEvent(evJustResolved) {
     }
   };
 
-  // If the player deferred an ambition, prompt once at age 20.
-  const needsAmbitionAt20 =
-    (state?.ambitionId == null) &&
-    (state?.ambitionDeferred === true) &&
-    (state?.age >= 20) &&
-    !state?.ambitionPromptedAt20;
+  const runAmbitionInterstitial = () => {
+    // If the player deferred an ambition, prompt once at age 20.
+    const needsAmbitionAt20 =
+      (state?.ambitionId == null) &&
+      (state?.ambitionDeferred === true) &&
+      (state?.age >= 20) &&
+      !state?.ambitionPromptedAt20;
 
-  if (needsAmbitionAt20) {
-    // Mark as prompted immediately to prevent loops if something goes sideways.
-    state.ambitionPromptedAt20 = true;
+    if (needsAmbitionAt20) {
+      // Mark as prompted immediately to prevent loops if something goes sideways.
+      state.ambitionPromptedAt20 = true;
+      saveState();
+
+      const bgObj = DATA?.backgroundsById?.[state?.backgroundId] ?? null;
+      openAmbitionPickerModal(bgObj, (amb) => {
+        try {
+          if (amb) {
+            state.ambitionId = amb.id;
+            state.ambitionName = amb.name ?? amb.id;
+          } else {
+            state.ambitionId = null;
+            state.ambitionName = null;
+          }
+          // After the age-20 prompt, we stop deferring either way.
+          state.ambitionDeferred = false;
+          saveState();
+          renderAll();
+        } catch {}
+        maybeProceed();
+      }, { pickCount: 5, allowDefer: false, skipLabel: "Skip" });
+    } else {
+      maybeProceed();
+    }
+  };
+
+  // If a year just passed, show upkeep/drift report first (so the player always knows why resources changed).
+  const yearSummary = state?.__yearEndSummary;
+  if (yearSummary) {
+    state.__yearEndSummary = null; // clear first to avoid loops if something crashes
     saveState();
 
-    const bgObj = DATA?.backgroundsById?.[state?.backgroundId] ?? null;
-    openAmbitionPickerModal(bgObj, (amb) => {
-      try {
-        if (amb) {
-          state.ambitionId = amb.id;
-          state.ambitionName = amb.name ?? amb.id;
-        } else {
-          state.ambitionId = null;
-          state.ambitionName = null;
-        }
-        // After the age-20 prompt, we stop deferring either way.
-        state.ambitionDeferred = false;
-        saveState();
-        renderAll();
-      } catch {}
-      maybeProceed();
-    }, { pickCount: 5, allowDefer: false, skipLabel: "Skip" });
-  } else {
-    maybeProceed();
+    openYearEndModal(yearSummary, () => {
+      saveState();
+      renderAll();
+      runAmbitionInterstitial();
+    });
+    return;
   }
+
+  runAmbitionInterstitial();
 }
-
-
 
 // ---------- Resolve ----------
 function mitigateFailBundle(bundle, ev, outcome, committedCids, opts = {}) {
