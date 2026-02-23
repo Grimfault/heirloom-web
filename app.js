@@ -33,9 +33,9 @@ function applyTheme(theme) {
   const menuLabel = (t === "ink") ? "Theme: Ink" : "Theme: Candle";
 
   const btn = document.getElementById("btnTheme");
-  if (btn) btn.textContent = label;
+  if (btn) btn.textContent = menuLabel;
 
-  const btnMenu = document.getElementById("btnThemeMenu");
+  const btnMenu = document.getElementById("btnMenuTheme");
   if (btnMenu) btnMenu.textContent = menuLabel;
 
   try { localStorage.setItem(THEME_KEY, t); } catch {}
@@ -56,7 +56,7 @@ function initThemeUI() {
     btn.__heirloomBound = true;
   }
 
-  const btnMenu = document.getElementById("btnThemeMenu");
+  const btnMenu = document.getElementById("btnMenuTheme");
   if (btnMenu && !btnMenu.__heirloomBound) {
     btnMenu.addEventListener("click", toggleTheme);
     btnMenu.__heirloomBound = true;
@@ -3428,6 +3428,9 @@ function conditionBias(ev) {
 
 // ---------- UI helpers ----------
 function showMenu() {
+  // Ensure scroll is never "stuck" off when switching screens
+  document.body.style.overflow = "";
+
   if (elMenu) elMenu.classList.remove("hidden");
   if (topbarEl) topbarEl.classList.add("hidden");
   if (footerEl) footerEl.classList.add("hidden");
@@ -3440,6 +3443,9 @@ function showMenu() {
 }
 
 function showStart() {
+  // Ensure scroll is never "stuck" off when switching screens
+  document.body.style.overflow = "";
+
   if (elMenu) elMenu.classList.add("hidden");
   if (topbarEl) topbarEl.classList.remove("hidden");
   if (footerEl) footerEl.classList.add("hidden");
@@ -3453,6 +3459,9 @@ function showStart() {
 }
 
 function showGame() {
+  // Ensure scroll is never "stuck" off when switching screens
+  document.body.style.overflow = "";
+
   if (elMenu) elMenu.classList.add("hidden");
   if (topbarEl) topbarEl.classList.remove("hidden");
   if (footerEl) footerEl.classList.remove("hidden");
@@ -3465,6 +3474,9 @@ function showGame() {
 }
 
 function showLegacy() {
+  // Ensure scroll is never "stuck" off when switching screens
+  document.body.style.overflow = "";
+
   if (elMenu) elMenu.classList.add("hidden");
   if (topbarEl) topbarEl.classList.remove("hidden");
   if (footerEl) footerEl.classList.add("hidden");
