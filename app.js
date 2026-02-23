@@ -5266,15 +5266,10 @@ function openAmbitionPickerModal(bg, onPick, opts = {}) {
   grid.className = "hand";
   wrap.appendChild(grid);
 
-  const recBg = bg?.id ? String(bg.id) : null;
-
   const renderTile = (amb) => {
     const tile = document.createElement("div");
     tile.className = "cardbtn";
     tile.tabIndex = 0;
-
-    const rec = recBg && Array.isArray(amb?.recommendedFor?.backgrounds) && amb.recommendedFor.backgrounds.includes(recBg);
-    const recTag = rec ? `<span class="chip disc">Recommended</span>` : "";
 
     const objLines = (amb?.objectives ?? [])
       .map(o => o?.text)
@@ -5289,7 +5284,6 @@ function openAmbitionPickerModal(bg, onPick, opts = {}) {
           <div class="cardname">${escapeHtml(amb?.name ?? amb?.id ?? "Ambition")}</div>
           <div class="muted small" style="margin-top:4px;">${escapeHtml(amb?.desc ?? "")}</div>
         </div>
-        ${recTag}
       </div>
       <div style="margin-top:8px;">${objLines}</div>
     `;
