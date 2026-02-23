@@ -1322,6 +1322,10 @@ html[data-theme="candle"] .iconBadge{
 html, body { overflow-x: hidden; }
 .card { overflow: hidden; } /* prevents shadows/content from forcing page scroll */
 
+/* Allow the Legacy/Upgrades screen to scroll naturally */
+#legacyScreen.card { max-height: none; }
+
+
 /* Scene list: two-column grid keeps height consistent even for multi-scene cards */
 .scenesList{
   display: grid !important;
