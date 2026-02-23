@@ -10,7 +10,7 @@
       "Bandits",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the central marches, the road narrows between thorn and stone. A snap of brush, then men with patched mail and watchful eyes step out with blades drawn.",
     "outcomes": [
@@ -205,7 +205,7 @@
       "Rival",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 40,
     "prompt": "In the central marches, a careless word becomes a careful threat. At first light, your rival waits in the dew-silver grass with witnesses who pretend they’re impartial.",
     "outcomes": [
@@ -390,7 +390,7 @@
       "Raid",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the central marches, a town’s edge is on fire, roof-thatch and tar running like oil. Raiders move in the smoke, half seen and fully cruel.",
     "outcomes": [
@@ -586,7 +586,7 @@
       "Blades",
       "Gilderhaven"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 55,
     "prompt": "In a shipyard port’s shipyards, a mercenary captain sits easy by their cookfire, armor oiled and boots muddy. They offer you a contract with the smile of someone who has sold loyalty a hundred times and never once believed in it.",
     "outcomes": [
@@ -784,7 +784,7 @@
       "Urban",
       "Kestrelbank"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a banking city, you reach for your coin and find only cloth. The crowd is thick, the air smells of spice and sweat, and someone nearby is suddenly walking very fast.",
     "outcomes": [
@@ -974,7 +974,7 @@
       "Urban",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the central marches, you hear it in the pauses between greetings: a rumor about you, polished and ready, spreading too quickly to be chance. Someone is feeding it, quietly, carefully, like a fire they want to look accidental.",
     "outcomes": [
@@ -1160,7 +1160,7 @@
       "Paperwork",
       "Kestrelbank"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a banking city, a packet of papers crosses your hands, clean vellum, expensive ink, and a seal that is almost perfect. Almost.",
     "outcomes": [
@@ -1342,7 +1342,7 @@
       "Urban",
       "Marrowgate"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a toll city, a dozen quiet people pretend they’re strangers. Forbidden goods sit on a cloth like offerings: a reliquary shard, a sealed letter, a knife that looks too honest.",
     "outcomes": [
@@ -1530,7 +1530,7 @@
       "Public",
       "High Valewyr"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the capital’s court, the hall is packed with people who have practiced their suffering in front of mirrors. A farmer with cracked hands.",
     "outcomes": [
@@ -1730,7 +1730,7 @@
       "Politics",
       "High Valewyr"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the capital’s court, the table groans with roasted meat and sugared fruit, but the real weight in the room is invisible. Every toast is a trade.",
     "outcomes": [
@@ -1911,7 +1911,7 @@
       "Public",
       "High Valewyr"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 35,
     "prompt": "In the capital’s court, a herald’s voice rings out over the square: contests of arms, riddles, and wagers. People gather for spectacle, but the true audience is the one that counts reputations like coin.",
     "outcomes": [
@@ -2115,7 +2115,7 @@
       "Pressure",
       "Ashqar"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "At an oasis court’s oasis court, a clerk arrives with ledgers and a practiced frown, accompanied by a guard who looks bored in the way only armed men can. They lay stamped papers on your table as if setting down a verdict.",
     "outcomes": [
@@ -2307,7 +2307,7 @@
       "Risk",
       "Marrowgate"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a toll city, the river runs high and fast, carrying branches like thrown spears. The far bank is close enough to want, far enough to punish impatience.",
     "outcomes": [
@@ -2490,7 +2490,7 @@
       "Hardship",
       "Frostbarrow Pass"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "At a high pass, the road sinks into swamp like a bad promise. Mosquitoes rise in clouds, and the ground argues with every step.",
     "outcomes": [
@@ -2685,7 +2685,7 @@
       "Navigation",
       "Frostbarrow Pass"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "At a high pass, your compass needle spins like a frightened animal. North, south, meaningless.",
     "outcomes": [
@@ -2855,7 +2855,7 @@
       "Hunger",
       "Wrenfield"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a hard-bitten town, the roads are thin with travelers and thick with staring eyes. Markets sell emptier sacks for higher prices.",
     "outcomes": [
@@ -3053,7 +3053,7 @@
       "Opportunity",
       "Sable Coast"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "Along the storm coast, the watchtower’s bones still stand, though the roof is long gone and rain has eaten the mortar into soft grit. Birds nest where sentries once paced.",
     "outcomes": [
@@ -3219,7 +3219,7 @@
       "Scholarship",
       "Gloambridge"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a scholar's town, the folio is wrapped in oilcloth like contraband. The ink is old, the margins dense with a second hand arguing the first.",
     "outcomes": [
@@ -3412,7 +3412,7 @@
       "Faith",
       "Verdemont Abbey"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "At a hillside abbey, a village meets you at the edge of the road as if they’ve been rehearsing the plea. Their relic is gone, wood and metal, worn smooth by hands that needed something to hold onto.",
     "outcomes": [
@@ -3589,7 +3589,7 @@
       "Unease",
       "Gloambridge"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a scholar's town, ancient stones stand in a ring like teeth around a silent mouth. Lichen maps their surfaces in pale greens, and shallow carvings run beneath the growth, lines that look like writing until you stare too long.",
     "outcomes": [
@@ -3781,7 +3781,7 @@
       "Public",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 60,
     "prompt": "In the central marches, the tavern is loud in the way that makes mistakes feel like inevitability. Someone says something cheap.",
     "outcomes": [
@@ -3974,7 +3974,7 @@
       "Road Danger",
       "Stonewold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In Stonewold, an arrow thuds into the dirt beside your boot, close enough to be deliberate. The treeline is still.",
     "outcomes": [
@@ -4166,7 +4166,7 @@
       "Wild",
       "Stonewold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In Stonewold, the hunt was meant to be routine: track, stalk, kill, eat. Instead, the woods shift and the air turns sharp.",
     "outcomes": [
@@ -4356,7 +4356,7 @@
       "Public",
       "Briarwatch"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "Outside a frontier keep, a guard captain steps into your path with the easy confidence of someone backed by steel and writs. Their hand rests near the hilt, not gripping, just reminding.",
     "outcomes": [
@@ -4539,7 +4539,7 @@
       "Leverage",
       "Marrowgate"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a toll city, a bundle of letters falls into your hands, sealed, scented, and written with the reckless confidence of people who assume servants are deaf and walls are loyal. Names appear often enough to matter.",
     "outcomes": [
@@ -4726,7 +4726,7 @@
       "Whispers",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the city, truth is only one ingredient. The rest is tone, timing, and who repeats the story first.",
     "outcomes": [
@@ -4915,7 +4915,7 @@
       "Street Contacts",
       "Kestrelbank"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a banking city, a hooded figure offers you a safehouse: a quiet room above a shop, a cellar with a second door, a place where questions don’t arrive with daylight. The offer smells of generosity, and hooks.",
     "outcomes": [
@@ -5108,7 +5108,7 @@
       "Risk",
       "Kestrelbank"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a banking city, a smuggler offers you work under moonlight. They don’t say ‘crime.’ They say ‘opportunity.’ A crate can be ‘goods.’ A hooded figure can be ‘cargo.’ The same boat carries both, and the same silence buys both.",
     "outcomes": [
@@ -5290,7 +5290,7 @@
       "Grudges",
       "Ashqar"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "At an oasis court’s oasis court, two claimants corner you with smiles that don’t reach their eyes. One has paper.",
     "outcomes": [
@@ -5489,7 +5489,7 @@
       "Public",
       "Ashqar"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "At an oasis court’s oasis court, and old authority. Your friend stands trying not to look at you too much.",
     "outcomes": [
@@ -5693,7 +5693,7 @@
       "Strings",
       "High Valewyr"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the capital’s court, a patron smiles as if you belong to their success. They ask for a ‘small service’ in a tone that makes it clear the service is only small to “them”.",
     "outcomes": [
@@ -5883,7 +5883,7 @@
       "Public",
       "High Valewyr"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 45,
     "prompt": "In the capital’s court, a matron with excellent memory and sharper etiquette draws you into a polite corner. She speaks of \"a most suitable match\", names never quite said, intentions never quite confirmed.",
     "outcomes": [
@@ -6081,7 +6081,7 @@
       "Roadside",
       "Briarwatch"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "Outside a frontier keep, the failure is sudden and final: a crack like a snapped bone, then the sickening tilt of your cart, or the sag of a pack rig, dumping weight into the mud. The sun is already dropping, and the road ahead is the kind that grows teeth after dusk.",
     "outcomes": [
@@ -6273,7 +6273,7 @@
       "Isolation",
       "Frostbarrow Pass"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "At a high pass, the pass disappears under fresh snowfall as if the mountain has decided you don’t deserve to cross. Wind cuts the breath out of you.",
     "outcomes": [
@@ -6473,7 +6473,7 @@
       "Risk",
       "Briarwatch"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "Outside a frontier keep, and beacons draw ships, sometimes wrecks. Footsteps approach beyond the light’s edge.",
     "outcomes": [
@@ -6654,7 +6654,7 @@
       "Authority",
       "Marrowgate"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a toll city, a crude gate, and a man with a ledger that looks a little too clean for the mud around him. He claims official authority, names a lord you’ve heard of, and flashes papers that are plausible at a glance and suspicious on the second look.",
     "outcomes": [
@@ -6839,7 +6839,7 @@
       "Temptation",
       "Verdemont Abbey"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "At a hillside abbey, a roadside shrine leans like an old man who refuses to sit. Weather has gnawed the carvings smooth.",
     "outcomes": [
@@ -7019,7 +7019,7 @@
       "Lessons",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the central marches, a scarred veteran speaks like someone who has stopped pretending the world is fair. They offer lessons, for coin, for respect, or for a favor you won’t understand until later.",
     "outcomes": [
@@ -7206,7 +7206,7 @@
       "Secrecy",
       "Gloambridge"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a scholar's town, you find a sealed coffer with no crest and no explanation. It doesn’t hum with magic.",
     "outcomes": [
@@ -7403,7 +7403,7 @@
       "Identity",
       "Kestrelbank"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a banking city, a mistake in ink can ruin you as thoroughly as a blade. Somewhere in a ledger, your name has been placed a debt that isn’t yours.",
     "outcomes": [
@@ -7612,7 +7612,7 @@
       "Public",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 60,
     "prompt": "In the central marches, a rope barrier and a bored sergeant stop the road. A ledger is opened, a hand is held out.",
     "outcomes": [
@@ -7780,7 +7780,7 @@
       "Scarcity",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the central marches, rain turns the world into a gray sheet. Your tinder is damp, your fingers numb.",
     "outcomes": [
@@ -7952,7 +7952,7 @@
       "Trade",
       "Gilderhaven"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 60,
     "prompt": "In a shipyard port’s shipyards, a small cart lies cockeyed in the ditch, axle snapped. The driver looks at you like you’re either salvation or another spectator.",
     "outcomes": [
@@ -8124,7 +8124,7 @@
       "Travel",
       "Verdemont Abbey"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "At a hillside abbey, a roadside shrine, stone bowl, faded icon, a stub of candle. Someone has left a tiny offering: bread, a copper, a ribbon.",
     "outcomes": [
@@ -8292,7 +8292,7 @@
       "Temptation",
       "Briarwatch"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 55,
     "prompt": "Outside a frontier keep, your fire is low. Nearby travelers speak in murmurs, plans, names, the sound of coin.",
     "outcomes": [
@@ -8471,7 +8471,7 @@
       "Nobility",
       "High Valewyr"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the capital’s court, a hall of waiting faces: farmers with caps in hands, merchants with ledgers, guards with bored eyes. Somewhere beyond a curtain, decisions are made.",
     "outcomes": [
@@ -8632,7 +8632,7 @@
       "Temptation",
       "High Valewyr"
     ],
-    "minAge": 20,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the capital’s court, a laugh behind a goblet. A name spoken softly.",
     "outcomes": [
@@ -8794,7 +8794,7 @@
       "Public",
       "Ashqar"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "At an oasis court’s oasis court, a herald reads proclamations until words lose meaning, then your ears catch one: new restrictions, new taxes, new punishments.",
     "outcomes": [
@@ -9284,7 +9284,7 @@
       "Risk",
       "Kestrelbank"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 60,
     "prompt": "In a back room, a thief shows you a wax seal still attached to a strip of parchment. ‘Worth more than coin,’ they whisper.",
     "outcomes": [
@@ -9456,7 +9456,7 @@
       "Temptation",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 28,
     "prompt": "In the central marches, a ring of onlookers cheers as dice clatter on a crate. The stakes climb faster than sense.",
     "outcomes": [
@@ -9631,7 +9631,7 @@
       "Underworld",
       "Kestrelbank"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a banking city, a folded note is slipped into your hand in the crowd. The symbols aren’t words, until you look at them sideways.",
     "outcomes": [
@@ -9810,7 +9810,7 @@
       "Temptation",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 55,
     "prompt": "In the central marches, you find an alcove: a small pouch, a ring, a list of names. Someone meant to return.",
     "outcomes": [
@@ -9980,7 +9980,7 @@
       "Law",
       "Gilderhaven"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a shipyard port’s shipyards, a hard knock at an inconvenient hour. A collector with polite eyes and strong friends asks about money you may or may not owe.",
     "outcomes": [
@@ -10153,7 +10153,7 @@
       "Knightly",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 32,
     "prompt": "In the practice yard, a challenger steps forward with blunted steel. Their grin says they want an audience.",
     "outcomes": [
@@ -10321,7 +10321,7 @@
       "Public",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 60,
     "prompt": "In the central marches, becomes a shove, becomes a room full of fists. Chairs scrape.",
     "outcomes": [
@@ -10491,7 +10491,7 @@
       "Strife",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the central marches, a captain calls for able hands. Bandits, wolves, raiders, something has townsfolk scared enough to pay for spears.",
     "outcomes": [
@@ -10666,7 +10666,7 @@
       "Risk",
       "Gilderhaven"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 60,
     "prompt": "In a shipyard port’s shipyards, a merchant caravan offers you temporary work: one road, one payout. They warn you the last caravan lost two guards and all its spice.",
     "outcomes": [
@@ -10845,7 +10845,7 @@
       "Travel",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In the central marches, a hunt meant for sport turns sharp. The boar doesn’t flee; it charges.",
     "outcomes": [
@@ -11020,7 +11020,7 @@
       "Travel",
       "Greyvault"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "Near an archive-fortress’s cliff-carved archives, a book you borrowed for one purpose contains another: a map scribbled in the margins, roads that don’t exist anymore, a mark that might mean treasure, or tragedy.",
     "outcomes": [
@@ -11192,7 +11192,7 @@
       "Risk",
       "Gloambridge"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a monastery copy, the margins are filled with a different hand: arguments against doctrine, questions that cut too close, a symbol drawn again and again like a fixation.",
     "outcomes": [
@@ -11360,7 +11360,7 @@
       "Faith",
       "Verdemont Abbey"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 30,
     "prompt": "At a hillside abbey, a hedge-healer invites you to identify plants by smell and bitterness. 'The world wants to poison you,' they say.",
     "outcomes": [
@@ -11540,7 +11540,7 @@
       "Law",
       "Gloambridge"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a scholar's town, a clerk miscopies a name in a register. The mistake is small, until you realize the wrong name is yours.",
     "outcomes": [
@@ -11701,7 +11701,7 @@
       "Low Magic",
       "Greyvault"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "Near an archive-fortress’s cliff-carved archives, a clear night reveals a strange alignment, one star blinking red as if embarrassed to be seen. Old folk mutter prayers.",
     "outcomes": [
@@ -28642,7 +28642,7 @@
       "Injury",
       "Road"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "Rain slicks the old stones. One careless step sends you down hard.",
     "outcomes": [
@@ -28843,7 +28843,7 @@
       "Injury",
       "Training"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 55,
     "prompt": "A friendly spar turns sharp. A wooden blade catches you in the wrong place, and the room goes quiet for a heartbeat.",
     "outcomes": [
@@ -29476,7 +29476,7 @@
       "Greenfold",
       "Lanterns"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "At a warm hall-table in the central marches, laughter rises with the smoke. Then someone coughs, once, twice, wet and ugly.",
     "outcomes": [
@@ -29618,7 +29618,7 @@
       "Road",
       "Forage"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "The ford is shallow, but the fog is thick and the water bites like teeth. By the far bank, your boots are stones and your breath comes out wrong.",
     "outcomes": [
@@ -29774,7 +29774,7 @@
       "Illness",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "In a back lane that smells of crushed herbs and old wine, a physicker offers you a cup the color of swampwater. \"It will help,\" she says.",
     "outcomes": [
@@ -29966,7 +29966,7 @@
       "Rest",
       "Road"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "A roadside widow keeps a spare cot in her loft. It's clean enough.",
     "outcomes": [
@@ -30126,7 +30126,7 @@
       "Rest",
       "Pressure"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "Your mind won't close. Every time you blink, a new worry opens its mouth.",
     "outcomes": [
@@ -30299,7 +30299,7 @@
       "Road",
       "Hide"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "A watchman squints at you under the gatehouse lantern. \"Hold,\" he says.",
     "outcomes": [
@@ -30453,7 +30453,7 @@
       "Bounty",
       "Hide"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "A scrivener with ink-stained fingers offers a new name, written clean, sealed well, and just plausible enough to fool a tired guard.",
     "outcomes": [
@@ -30651,7 +30651,7 @@
       "Reckoning",
       "Peril"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "You feel them before you see them: the quiet absence of casual conversation, the way doors close one breath too early. Then, on a narrow road, three riders appear behind you, patient as debt.",
     "outcomes": [
@@ -30862,7 +30862,7 @@
       "Hunger",
       "Road"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "Your stomach makes arguments your pride can't answer. The central marches’s hedgerows are thick with life, some of it edible, some of it eager to punish the ignorant.",
     "outcomes": [
@@ -31050,7 +31050,7 @@
       "Rest",
       "Greenfold"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "a hard-bitten town’s chapel offers thin soup to anyone willing to queue under the eyes of the righteous. You can smell it from the street.",
     "outcomes": [
@@ -31265,7 +31265,7 @@
       "Injury",
       "Recovery"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "A traveling surgeon sets up near a wagon, his tools laid out like cutlery. He looks at your wound and hums.",
     "outcomes": [
@@ -31445,7 +31445,7 @@
       "Injury",
       "Road"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "A friendly bout turns sour when someone misjudges distance, or pride, or both. Steel kisses flesh, and suddenly the world is all bright pain.",
     "outcomes": [
@@ -31612,7 +31612,7 @@
       "Debt",
       "Pressure"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "A runner finds you with practiced ease. \"My master remembers your arrangement,\" she says, smiling like a knife.",
     "outcomes": [
@@ -31817,7 +31817,7 @@
       "Debt",
       "Bargain"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "A moneylender offers you coin with a smile too wide. \"No shame,\" he says.",
     "outcomes": [
@@ -31979,7 +31979,7 @@
       "Reputation",
       "Pressure"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "People look at you a beat too long, then pretend they weren't. The rumor has traveled ahead of you and set up a stall.",
     "outcomes": [
@@ -32163,7 +32163,7 @@
       "Reputation",
       "Recovery"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "An elder of the Lantern Order offers a rite of apology, salt, water, and a public admission. It won't erase the rumor, but it can change its flavor.",
     "outcomes": [
@@ -32343,7 +32343,7 @@
       "Recovery",
       "Injury"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "prompt": "A hedge-healer offers you a poultice that smells like crushed nettle and rain. \"Bruises are just stories the body tells itself,\" she says.",
     "outcomes": [
@@ -32531,7 +32531,7 @@
       "Faction: Crown",
       "Old Quays"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -32895,7 +32895,7 @@
       "Faction: Crown",
       "Stag Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -33109,7 +33109,7 @@
       "Faction: Crown",
       "Black Mantle Offices"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -33330,7 +33330,7 @@
       "Faction: Crown",
       "Black Mantle Offices"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -33551,7 +33551,7 @@
       "Faction: Crown",
       "Old Quays"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -33765,7 +33765,7 @@
       "Faction: Crown",
       "High Valewyr"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -33978,7 +33978,7 @@
       "Faction: Crown",
       "Stag Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -34198,7 +34198,7 @@
       "Faction: Crown",
       "Stag Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -34411,7 +34411,7 @@
       "Faction: Crown",
       "Old Quays"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -34631,7 +34631,7 @@
       "Faction: Crown",
       "Old Quays"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -34851,7 +34851,7 @@
       "Faction: Crown",
       "Old Quays"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -35064,7 +35064,7 @@
       "Faction: Crown",
       "Widow's Market"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -35277,7 +35277,7 @@
       "Faction: Crown",
       "High Valewyr"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -35491,7 +35491,7 @@
       "Major Story Beat",
       "Widow's Market"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -35721,7 +35721,7 @@
       "Major Story Beat",
       "Stag Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -35981,7 +35981,7 @@
       "Major Story Beat",
       "Stag Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -36211,7 +36211,7 @@
       "Major Story Beat",
       "Stag Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -36471,7 +36471,7 @@
       "Major Story Beat",
       "High Valewyr"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -36701,7 +36701,7 @@
       "Major Story Beat",
       "High Valewyr"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -36961,7 +36961,7 @@
       "Major Story Beat",
       "Old Quays"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -37191,7 +37191,7 @@
       "Major Story Beat",
       "Black Mantle Offices"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -37452,7 +37452,7 @@
       "Major Story Beat",
       "High Valewyr"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -37682,7 +37682,7 @@
       "Major Story Beat",
       "Widow's Market"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -37942,7 +37942,7 @@
       "Major Story Beat",
       "Old Quays"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -38172,7 +38172,7 @@
       "Major Story Beat",
       "Stag Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -38432,7 +38432,7 @@
       "Major Story Beat",
       "High Valewyr"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -38662,7 +38662,7 @@
       "Major Story Beat",
       "Black Mantle Offices"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -38923,7 +38923,7 @@
       "Major Story Beat",
       "Stag Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -39153,7 +39153,7 @@
       "Major Story Beat",
       "Stag Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 60,
     "requirements": [
       {
@@ -39412,7 +39412,7 @@
       "Faction: Marcher League",
       "Marrowgate"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -39767,7 +39767,7 @@
       "Faction: Marcher League",
       "Contract Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -40002,7 +40002,7 @@
       "Faction: Marcher League",
       "Marrowgate"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -40223,7 +40223,7 @@
       "Faction: Marcher League",
       "Gilderhaven"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -40444,7 +40444,7 @@
       "Faction: Marcher League",
       "Kestrelbank"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -40665,7 +40665,7 @@
       "Faction: Marcher League",
       "Marrowgate"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -40895,7 +40895,7 @@
       "Faction: Marcher League",
       "Gilderhaven"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -41118,7 +41118,7 @@
       "Faction: Marcher League",
       "Contract Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -41348,7 +41348,7 @@
       "Faction: Marcher League",
       "Marrowgate"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -41578,7 +41578,7 @@
       "Faction: Marcher League",
       "Marrowgate"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -41801,7 +41801,7 @@
       "Faction: Marcher League",
       "Gilderhaven"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -42024,7 +42024,7 @@
       "Faction: Marcher League",
       "Marrowgate"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -42247,7 +42247,7 @@
       "Faction: Marcher League",
       "Countinghouse"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -42471,7 +42471,7 @@
       "Major Story Beat",
       "Gilderhaven"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -42697,7 +42697,7 @@
       "Major Story Beat",
       "Marrowgate"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -42923,7 +42923,7 @@
       "Major Story Beat",
       "Gilderhaven"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -43149,7 +43149,7 @@
       "Major Story Beat",
       "Countinghouse"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -43375,7 +43375,7 @@
       "Major Story Beat",
       "Contract Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -43628,7 +43628,7 @@
       "Major Story Beat",
       "Marrowgate"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -43854,7 +43854,7 @@
       "Major Story Beat",
       "Contract Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -44107,7 +44107,7 @@
       "Major Story Beat",
       "Kestrelbank"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -44333,7 +44333,7 @@
       "Major Story Beat",
       "Contract Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -44586,7 +44586,7 @@
       "Major Story Beat",
       "Contract Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -44839,7 +44839,7 @@
       "Major Story Beat",
       "Gilderhaven"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -45065,7 +45065,7 @@
       "Major Story Beat",
       "Countinghouse"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -45291,7 +45291,7 @@
       "Major Story Beat",
       "Kestrelbank"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -45517,7 +45517,7 @@
       "Major Story Beat",
       "Contract Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -45770,7 +45770,7 @@
       "Major Story Beat",
       "Gilderhaven"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -45996,7 +45996,7 @@
       "Major Story Beat",
       "Contract Court"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 65,
     "requirements": [
       {
@@ -46248,7 +46248,7 @@
       "Faction: Iron Covenant",
       "Stonewold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -46601,7 +46601,7 @@
       "Faction: Iron Covenant",
       "Ring Hall"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -46815,7 +46815,7 @@
       "Faction: Iron Covenant",
       "Stonewold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -47029,7 +47029,7 @@
       "Faction: Iron Covenant",
       "Stonewold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -47243,7 +47243,7 @@
       "Faction: Iron Covenant",
       "Skarnhold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -47457,7 +47457,7 @@
       "Faction: Iron Covenant",
       "Ring Hall"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -47677,7 +47677,7 @@
       "Faction: Iron Covenant",
       "Oathstone Plaza"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -47890,7 +47890,7 @@
       "Faction: Iron Covenant",
       "Stonewold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -48103,7 +48103,7 @@
       "Faction: Iron Covenant",
       "Skarnhold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -48323,7 +48323,7 @@
       "Faction: Iron Covenant",
       "Ring Hall"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -48536,7 +48536,7 @@
       "Faction: Iron Covenant",
       "Frostbarrow Pass"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -48749,7 +48749,7 @@
       "Faction: Iron Covenant",
       "Stonewold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -48962,7 +48962,7 @@
       "Faction: Iron Covenant",
       "Stonewold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -49176,7 +49176,7 @@
       "Major Story Beat",
       "Ring Hall"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -49406,7 +49406,7 @@
       "Major Story Beat",
       "Oathstone Plaza"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -49636,7 +49636,7 @@
       "Major Story Beat",
       "Frostbarrow Pass"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -49866,7 +49866,7 @@
       "Major Story Beat",
       "Stonewold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -50096,7 +50096,7 @@
       "Major Story Beat",
       "Frostbarrow Pass"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -50326,7 +50326,7 @@
       "Major Story Beat",
       "Frostbarrow Pass"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -50556,7 +50556,7 @@
       "Major Story Beat",
       "Frostbarrow Pass"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -50786,7 +50786,7 @@
       "Major Story Beat",
       "Ring Hall"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -51016,7 +51016,7 @@
       "Major Story Beat",
       "Stonewold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -51246,7 +51246,7 @@
       "Major Story Beat",
       "Stonewold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -51476,7 +51476,7 @@
       "Major Story Beat",
       "Stonewold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -51706,7 +51706,7 @@
       "Major Story Beat",
       "Ring Hall"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -51936,7 +51936,7 @@
       "Major Story Beat",
       "Oathstone Plaza"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -52166,7 +52166,7 @@
       "Major Story Beat",
       "Stonewold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -52396,7 +52396,7 @@
       "Major Story Beat",
       "Skarnhold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -52626,7 +52626,7 @@
       "Major Story Beat",
       "Stonewold"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -52855,7 +52855,7 @@
       "Faction: Verdant Synod",
       "Larkhallow"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -53196,7 +53196,7 @@
       "Faction: Verdant Synod",
       "Quarantine Wall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -53415,7 +53415,7 @@
       "Faction: Verdant Synod",
       "Verdemont Abbey"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -53621,7 +53621,7 @@
       "Faction: Verdant Synod",
       "Quarantine Wall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -53840,7 +53840,7 @@
       "Faction: Verdant Synod",
       "Quarantine Wall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -54059,7 +54059,7 @@
       "Faction: Verdant Synod",
       "Quarantine Wall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -54281,7 +54281,7 @@
       "Faction: Verdant Synod",
       "Candlekeeper Hall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -54496,7 +54496,7 @@
       "Faction: Verdant Synod",
       "Verdemont Abbey"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -54711,7 +54711,7 @@
       "Faction: Verdant Synod",
       "Verdemont Abbey"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -54926,7 +54926,7 @@
       "Faction: Verdant Synod",
       "Larkhallow"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -55141,7 +55141,7 @@
       "Faction: Verdant Synod",
       "Verdemont Abbey"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -55363,7 +55363,7 @@
       "Faction: Verdant Synod",
       "Quarantine Wall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -55585,7 +55585,7 @@
       "Faction: Verdant Synod",
       "Larkhallow"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -55801,7 +55801,7 @@
       "Major Story Beat",
       "Candlekeeper Hall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -56027,7 +56027,7 @@
       "Major Story Beat",
       "Wrenfield"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -56253,7 +56253,7 @@
       "Major Story Beat",
       "Larkhallow"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -56479,7 +56479,7 @@
       "Major Story Beat",
       "Verdemont Abbey"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -56705,7 +56705,7 @@
       "Major Story Beat",
       "Candlekeeper Hall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -56931,7 +56931,7 @@
       "Major Story Beat",
       "Candlekeeper Hall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -57157,7 +57157,7 @@
       "Major Story Beat",
       "Larkhallow"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -57383,7 +57383,7 @@
       "Major Story Beat",
       "Candlekeeper Hall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -57609,7 +57609,7 @@
       "Major Story Beat",
       "Wrenfield"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -57835,7 +57835,7 @@
       "Major Story Beat",
       "Verdemont Abbey"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -58061,7 +58061,7 @@
       "Major Story Beat",
       "Quarantine Wall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -58300,7 +58300,7 @@
       "Major Story Beat",
       "Wrenfield"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -58526,7 +58526,7 @@
       "Major Story Beat",
       "Candlekeeper Hall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -58752,7 +58752,7 @@
       "Major Story Beat",
       "Quarantine Wall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -58991,7 +58991,7 @@
       "Major Story Beat",
       "Wrenfield"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -59217,7 +59217,7 @@
       "Major Story Beat",
       "Candlekeeper Hall"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -59443,7 +59443,7 @@
       "Faction: Verdant Synod",
       "Sable Coast"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -59782,7 +59782,7 @@
       "Faction: Verdant Synod",
       "Drowned Monastery"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -59997,7 +59997,7 @@
       "Faction: Verdant Synod",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -60212,7 +60212,7 @@
       "Faction: Verdant Synod",
       "Storm Port"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -60427,7 +60427,7 @@
       "Faction: Verdant Synod",
       "Greyvault"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -60642,7 +60642,7 @@
       "Faction: Verdant Synod",
       "Storm Port"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -60856,7 +60856,7 @@
       "Faction: Verdant Synod",
       "Drowned Monastery"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -61070,7 +61070,7 @@
       "Faction: Verdant Synod",
       "Greyvault"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -61284,7 +61284,7 @@
       "Faction: Verdant Synod",
       "Greyvault"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -61498,7 +61498,7 @@
       "Faction: Verdant Synod",
       "Greyvault"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -61719,7 +61719,7 @@
       "Faction: Verdant Synod",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -61933,7 +61933,7 @@
       "Faction: Verdant Synod",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -62147,7 +62147,7 @@
       "Faction: Verdant Synod",
       "Drowned Monastery"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -62362,7 +62362,7 @@
       "Major Story Beat",
       "Drowned Monastery"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -62589,7 +62589,7 @@
       "Major Story Beat",
       "Greyvault"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -62834,7 +62834,7 @@
       "Major Story Beat",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -63061,7 +63061,7 @@
       "Major Story Beat",
       "Drowned Monastery"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -63306,7 +63306,7 @@
       "Major Story Beat",
       "Sable Coast"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -63533,7 +63533,7 @@
       "Major Story Beat",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -63778,7 +63778,7 @@
       "Major Story Beat",
       "Storm Port"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -64005,7 +64005,7 @@
       "Major Story Beat",
       "Sable Coast"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -64250,7 +64250,7 @@
       "Major Story Beat",
       "Drowned Monastery"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -64477,7 +64477,7 @@
       "Major Story Beat",
       "Storm Port"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -64722,7 +64722,7 @@
       "Major Story Beat",
       "Storm Port"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -64949,7 +64949,7 @@
       "Major Story Beat",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -65194,7 +65194,7 @@
       "Major Story Beat",
       "Drowned Monastery"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -65421,7 +65421,7 @@
       "Major Story Beat",
       "Storm Port"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -65666,7 +65666,7 @@
       "Major Story Beat",
       "Greyvault"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -65893,7 +65893,7 @@
       "Major Story Beat",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 70,
     "requirements": [
       {
@@ -66136,7 +66136,7 @@
       "Faction: Crown",
       "Widow's Market"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -66483,7 +66483,7 @@
       "Faction: Crown",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -66739,7 +66739,7 @@
       "Faction: Crown",
       "Widow's Market"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -66988,7 +66988,7 @@
       "Faction: Crown",
       "Gloambridge"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -67237,7 +67237,7 @@
       "Faction: Crown",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -67486,7 +67486,7 @@
       "Faction: Crown",
       "High Valewyr"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -67728,7 +67728,7 @@
       "Faction: Crown",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -67977,7 +67977,7 @@
       "Faction: Crown",
       "Widow's Market"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -68226,7 +68226,7 @@
       "Faction: Crown",
       "Widow's Market"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -68475,7 +68475,7 @@
       "Faction: Crown",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -68717,7 +68717,7 @@
       "Faction: Crown",
       "Gloambridge"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -68966,7 +68966,7 @@
       "Faction: Crown",
       "Gloambridge"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -69208,7 +69208,7 @@
       "Faction: Crown",
       "Gloambridge"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -69458,7 +69458,7 @@
       "Major Story Beat",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -69700,7 +69700,7 @@
       "Major Story Beat",
       "High Valewyr"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -69942,7 +69942,7 @@
       "Major Story Beat",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -70184,7 +70184,7 @@
       "Major Story Beat",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -70426,7 +70426,7 @@
       "Major Story Beat",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -70668,7 +70668,7 @@
       "Major Story Beat",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -70910,7 +70910,7 @@
       "Major Story Beat",
       "Gloambridge"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -71152,7 +71152,7 @@
       "Major Story Beat",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -71394,7 +71394,7 @@
       "Major Story Beat",
       "Gloambridge"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -71636,7 +71636,7 @@
       "Major Story Beat",
       "Thornmere"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -71878,7 +71878,7 @@
       "Major Story Beat",
       "Widow's Market"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -72120,7 +72120,7 @@
       "Major Story Beat",
       "Gloambridge"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -72362,7 +72362,7 @@
       "Major Story Beat",
       "High Valewyr"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -72604,7 +72604,7 @@
       "Major Story Beat",
       "Widow's Market"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -72846,7 +72846,7 @@
       "Major Story Beat",
       "High Valewyr"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -73088,7 +73088,7 @@
       "Major Story Beat",
       "High Valewyr"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "maxAge": 55,
     "requirements": [
       {
@@ -73327,7 +73327,7 @@
       "Youth",
       "Ageband: 16-25"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 25,
     "prompt": "A shouting match in a yard turns into fists. Someone calls your name like it’s a challenge and a promise.",
     "outcomes": [
@@ -73460,7 +73460,7 @@
       "Ageband: 16-25",
       "Patronage"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 25,
     "prompt": "A minor patron corners you with a smile too practiced for kindness. “A message. A parcel. Nothing dangerous.”",
     "outcomes": [
@@ -73593,7 +73593,7 @@
       "Ageband: 16-25",
       "Caravan"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 25,
     "prompt": "A caravan master needs bodies—guards, clerks, even someone to keep the cooking pot from walking off.",
     "outcomes": [
@@ -73745,7 +73745,7 @@
       "Ageband: 16-25",
       "Gambling"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 25,
     "prompt": "A dice circle forms in lantern light. The pot is small, but the attention is not.",
     "outcomes": [
@@ -73887,7 +73887,7 @@
       "Ageband: 16-25",
       "Apprenticeship"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 25,
     "prompt": "A mentor’s book goes missing for a breath—long enough for someone to notice. Eyes turn to you, then away, then back again.",
     "outcomes": [
@@ -74020,7 +74020,7 @@
       "Ageband: 16-25",
       "Lists"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 25,
     "prompt": "A local lord’s men drill in the dirt by the lists. A sergeant points at you. “You. Show me what you’ve got.”",
     "outcomes": [
@@ -74151,7 +74151,7 @@
       "Ageband: 16-25",
       "Relationships"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 25,
     "prompt": "A flirtation turns serious under lantern light. Someone asks for a promise you’re not sure you can keep.",
     "outcomes": [
@@ -74284,7 +74284,7 @@
       "Ageband: 16-25",
       "Folly"
     ],
-    "minAge": 16,
+    "minAge": 21,
     "maxAge": 25,
     "prompt": "At night, friends dare each other to cross an old bridge where boards creak like teeth. It’s childish—until it isn’t.",
     "outcomes": [
@@ -92611,5 +92611,4345 @@
       }
     ],
     "majorStage": "knot3"
+  },
+  {
+    "id": "yev_001_leaving_the_harth",
+    "name": "Leaving the Hearth",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Coming of Age",
+      "Road",
+      "Greenfold"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "The last light of home clings to the doorway as if it can hold you in place. A pack, a few coins, a blessing half-spoken. The road waits like a verdict.",
+    "outcomes": [
+      {
+        "title": "Leave with a Plan",
+        "desc": "Pick a destination, a trade, and a route that minimizes surprises.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "You choose a road that makes sense and a goal that fits your hands. The first miles are still hard, but they are yours.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your plan turns out to be a story you told yourself. You buy the wrong map, follow the wrong landmark, and pay in small humiliations.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Walk Out Quietly",
+        "desc": "Avoid goodbyes. Avoid arguments. Just go.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Veil"
+        ],
+        "tags": [
+          "Covert"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You slip away before anyone can turn leaving into a fight. In the hush you learn what the village truly feared for you: the names of roads people avoid.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Someone sees you leaving and decides to narrate it. By noon the story has teeth, and your name wears them.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Take the Hard Work",
+        "desc": "Sign onto a cart or crew for food and a place to sleep.",
+        "stat": "Might",
+        "diff": 2,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Coin",
+            "Supplies"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You lift, haul, and keep your mouth shut when your arms start complaining. The foreman pays you like someone who finished the day.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            },
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You push too hard to prove you belong. Something in you pulls the wrong way, and the day ends with you shaking from fatigue.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Borrow What You Need",
+        "desc": "Take a little from home—just enough to start.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You take from a loose board and replace it carefully. It feels like theft and inheritance at the same time.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "A hand catches you in the act. No shout, no scene—just a look that says this will be remembered by the wrong person.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_002_apprentices_knot",
+    "name": "The Apprentice’s Knot",
+    "context": "Court",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Work",
+      "Guild",
+      "Urban",
+      "Kestrelbank"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "In the city’s apprentice quarter, masters glance at your hands the way judges look at evidence. A cord is tied around your wrist—symbolic, temporary, and still a kind of chain.",
+    "outcomes": [
+      {
+        "title": "Prove Yourself",
+        "desc": "Work clean, fast, and without complaint.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You do the dull work until the dull work becomes skill. A master nods once, and the nod matters.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The hours grind you down. You miss a step, spill a batch, and earn the kind of attention you don’t want.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Talk Your Way In",
+        "desc": "Sell the story of who you could become.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Quill"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You speak like you’ve already survived worse than this. The master laughs, then says, \"Fine. Try.\"",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your confidence reads as arrogance. The master’s smile tightens, and the door closes politely.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Cut a Side Deal",
+        "desc": "Offer a favor, a secret, or a quiet compromise.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Covert",
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Obligation (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You learn the private want beneath the public rules. The apprenticeship opens—but it opens like a trap door.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your offer is taken, and then expanded. What began as a shortcut becomes a leash.",
+          "conditions": [
+            {
+              "id": "Obligation",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Walk Away Proud",
+        "desc": "Refuse the knot and find your own work.",
+        "stat": "Might",
+        "diff": 2,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "You refuse to be owned and find day work anyway. People notice a spine that doesn’t bend easily.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Pride doesn’t buy bread. By nightfall you’ve spent your last coin just to keep your stomach quiet.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_003_yard_drill",
+    "name": "Yard Drill",
+    "context": "Strife",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Training",
+      "Militia",
+      "Public",
+      "Briarwatch"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A sergeant with a voice like gravel lines you up with other young bodies and older fears. \"Hold the shield,\" they say, as if holding is simple.",
+    "outcomes": [
+      {
+        "title": "Hold the Line",
+        "desc": "Do what you’re told: stance, breath, discipline.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You take the hit, then the next, and you don’t fold. The sergeant’s approval is a grunt, but it lands like a medal.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your guard drops at the wrong moment. The practice blade still bites, and shame bites harder.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Study the Veteran",
+        "desc": "Watch feet, timing, and tells between swings.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Steel"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You learn the little rules nobody says out loud. Where the weight shifts. When the shoulder lies. The lesson sticks.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You overthink while the drill continues. By the end your arms are jelly and your mind is loud.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Show Off",
+        "desc": "Make it look easy, make them remember you.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Steel"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You take a risk at the right time and turn practice into spectacle. A few older eyes follow you afterward.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your flourish becomes a mistake, and the sergeant makes an example of you in front of everyone.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Slip Out Early",
+        "desc": "Avoid the bruises. Keep your body for something else.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Hearth"
+        ],
+        "tags": [
+          "Covert"
+        ],
+        "preview": {
+          "gains": [
+            ""
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You vanish between rotations and nobody catches the exact moment you stopped being present.",
+          "resources": []
+        },
+        "fail": {
+          "text": "Someone notices your absence the moment orders are called. A petty warrant is easy to write.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_004_market_errand",
+    "name": "Market Errand",
+    "context": "Scheme",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Market",
+      "Petty Crime",
+      "Urban",
+      "Greenfold"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A basket in your hands, a list of goods, and too many eyes. In markets like this, you learn quickly who counts coins and who counts teeth.",
+    "outcomes": [
+      {
+        "title": "Bargain Hard",
+        "desc": "Turn a few coins into more than they should buy.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You haggle like you mean it. The merchant relents with a sigh that sounds like defeat.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You push too far and get called out as a cheat. The crowd laughs, and the laughter lingers.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Lift What You Need",
+        "desc": "A quick hand, a quick exit.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Steel"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Supplies",
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You take from a stall that can afford to lose it. Your bag is heavier and your conscience is quieter than expected.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            },
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A vendor’s shout pins you in place. Guards love simple stories.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Watch for Trouble",
+        "desc": "Spot the pickpockets and cutters before they spot you.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Veil"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "You notice the pattern: bump, apology, vanish. You keep your coin and learn who’s working the crowd.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You get distracted by the noise and lose a coin you needed.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Carry It All Alone",
+        "desc": "Refuse help, refuse weakness, refuse the easy way.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Steel"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You muscle through the press and bring everything back intact. Someone older nods, approving without words.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The load shifts, the strap bites, and you arrive late and trembling from the effort.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_005_household_debt",
+    "name": "A Debt at the Door",
+    "context": "Court",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Family",
+      "Debt",
+      "Public",
+      "Wrenfield"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A collector arrives with paper too clean for the road and a smile too practiced for mercy. \"Your household owes,\" they say, as if owing is a choice.",
+    "outcomes": [
+      {
+        "title": "Pay What You Can",
+        "desc": "Offer coin now to buy time later.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            ""
+          ],
+          "risks": [
+            "Coin loss",
+            "In Debt (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You pay a little and the collector agrees to return later. Later is still coming, but it isn’t today.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You pay and it isn’t enough. The paper gains a new line and your name sits beneath it.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "In Debt",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Argue the Paper",
+        "desc": "Make them prove the claim, line by line.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You find the seam: the wrong seal, the wrong date, the wrong witness. The collector’s confidence wobbles.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They smile through your argument and treat your words like noise. The neighbors hear you 'resisting' and judge you for it.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Threaten Them Off",
+        "desc": "Make the cost of collecting feel higher than the coin.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You step close enough that the collector reconsiders their courage. They leave with the promise of 'returning.'",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The collector backs away and calls for guards. You’re not arrested today, but you’re noted.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Make a Quiet Deal",
+        "desc": "Offer information or service instead of coin.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Covert",
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Obligation (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You trade something that costs you less than coin—now. The collector leaves satisfied.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The deal shifts under your feet. You agree to more than you meant, and now someone expects you to deliver.",
+          "conditions": [
+            {
+              "id": "Obligation",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_006_first_night_watch",
+    "name": "First Night Watch",
+    "context": "Strife",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Night",
+      "Watch",
+      "Briarwatch"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "They hand you a lantern and a spear that feels too long for your arms. The dark beyond the palisade listens.",
+    "outcomes": [
+      {
+        "title": "Stay Sharp",
+        "desc": "Fight sleep and keep scanning the treeline.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Steel"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You notice the small things: a distant cough, a misplaced stone, the way fear changes the sound of grass.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your eyes close for a heartbeat too long. When you open them, something is wrong, and you can’t prove what.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Make Conversation",
+        "desc": "Keep the older guard talking; stories keep you awake.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You earn a little respect and a name you can use later.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You say the wrong thing to the wrong person. The night grows colder with their silence.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Sneak a Nap",
+        "desc": "Find a corner and trust luck to cover you.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Hearth"
+        ],
+        "tags": [
+          "Covert"
+        ],
+        "preview": {
+          "gains": [
+            ""
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You sleep in fragments and wake before you’re caught. It feels like stealing time.",
+          "resources": []
+        },
+        "fail": {
+          "text": "A captain finds you slumped and furious. Discipline becomes paperwork.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Chase a Shadow",
+        "desc": "If something moves, you move first.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You catch a prowler—human, hungry, and more scared than you. You drive them off and keep the post intact.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "It wasn’t one shadow. Something catches you in the dark and you feel the sting of a fast blade.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_007_harvest_help",
+    "name": "Harvest Help",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Work",
+      "Scarcity",
+      "Wrenfield",
+      "Hunger"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "Fields don’t care how young you are. They only care whether you show up. The harvest is thin this year and everyone knows it.",
+    "outcomes": [
+      {
+        "title": "Work Until Dark",
+        "desc": "Do more than your share, quietly.",
+        "stat": "Might",
+        "diff": 2,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You earn a sack of grain and a quiet kind of gratitude.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "You push through pain until pain wins. The foreman sends you away with a look that says 'weak.'",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Organize the Line",
+        "desc": "Make the work efficient so nobody wastes energy.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You turn chaos into rhythm and the harvest comes in cleaner than anyone expected.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            },
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "People resent being managed by someone young. They ignore you, and the day becomes a mess.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Skim a Little",
+        "desc": "A handful here, a handful there. No one will miss it.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You pocket enough to matter and keep your face calm.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A neighbor sees your hand move. Hunger makes informants out of friends.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Refuse the Work",
+        "desc": "You’re not a mule. Let someone else break their back.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Steel"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            ""
+          ],
+          "risks": [
+            "Supplies loss",
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You find other work before the day ends. The field still hates you, but your hands don’t blister today.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "People remember who didn’t show up. When hunger comes, they remember it loudly.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_008_letters_by_candle",
+    "name": "Letters by Candle",
+    "context": "Lore",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Learning",
+      "Scholarship",
+      "Gloambridge"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A tired scribe offers to teach you letters after hours, if you bring your own candle and don’t waste his patience. Ink smells like power when you’ve never had any.",
+    "outcomes": [
+      {
+        "title": "Practice Until It Sticks",
+        "desc": "Copy the same line until your hand stops trembling.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "Your letters stop looking like scratches and start looking like meaning. It’s a small door opening.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your eyes blur and your mind slips. The lesson ends with you more frustrated than wiser.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Charm the Teacher",
+        "desc": "Make him like you enough to teach you the shortcuts.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You earn patience you didn’t deserve. He teaches you which words matter in contracts and which words are decoration.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You misjudge the tone and sound like you’re trying to buy knowledge with flattery. He shuts the book.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Steal a Primer",
+        "desc": "If you can’t be taught, you’ll teach yourself.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You take a slim primer and hide it under your shirt. The first lesson is that books are lighter than they look.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A clerk catches you with ink-stained fingers near the shelf. Suspicion is as loud as a bell in a quiet hall.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Earn the Candle Coin",
+        "desc": "Work for the lesson instead of begging for it.",
+        "stat": "Might",
+        "diff": 2,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You haul crates, run messages, and come back with the coin for a candle and the pride of not owing anyone.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A hurried run ends in a fall on bad stairs. The bruise is minor; the embarrassment isn’t.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_009_festival_trial",
+    "name": "Festival Trial",
+    "context": "Court",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Festival",
+      "Public",
+      "High Valewyr"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "The festival’s games are meant to keep spirits up, but the prizes are real enough to fight over. Someone your age is already warming up like it’s war.",
+    "outcomes": [
+      {
+        "title": "Enter the Bout",
+        "desc": "A short spar in the ring, watched by people who pretend it’s harmless.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Seal"
+        ],
+        "tags": [
+          "Public",
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown",
+            "Coin"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You win cleanly, breathless, and the crowd cheers as if cheering changes anything. Still—your name gets repeated.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            },
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You misjudge an opponent’s reach. Pain flashes, and you learn how thin the line is between sport and injury.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Solve the Riddle",
+        "desc": "Win with your mind while others swing sticks.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Renown",
+            "Secrets"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You answer and the crowd’s laughter turns respectful for half a heartbeat. You catch a hint in the riddle’s wording—someone’s in-joke, someone’s secret.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You answer confidently and are wrong. The crowd laughs, and you feel your face burn.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Fix the Game",
+        "desc": "If the prize matters, make sure you get it.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Minor)",
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "A string is cut, a sign is swapped, and the wager goes your way. You leave richer, and watched.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 3
+            }
+          ]
+        },
+        "fail": {
+          "text": "The cheat breaks in the open. Accusations fly faster than stones.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            },
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Cheer for Someone Else",
+        "desc": "Back a friend and share the win.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "You build someone up in public and they remember it. In this world, remembered kindness is leverage.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your support draws you into someone else’s rivalry. You lose a coin and gain an enemy you didn’t ask for.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_010_whispers_and_blushes",
+    "name": "Whispers and Blushes",
+    "context": "Scheme",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Rumor",
+      "Reputation",
+      "Urban",
+      "Greenfold"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "You catch your own name in someone else’s mouth, attached to a crush, a mistake, a dare. In a small world, nothing stays private long.",
+    "outcomes": [
+      {
+        "title": "Own the Story",
+        "desc": "Laugh first, so the laughter belongs to you.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You turn the rumor into a joke you control. People follow the tone you set.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You try to make it light and it comes out strained. The rumor sharpens instead of softening.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Find the Source",
+        "desc": "Track who started it and why.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Veil"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You follow the chain and find the hand that pushed it. The motive is petty—and useful to know.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You chase the whisper through too many conversations until your nerves feel scraped raw.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Start a Different Rumor",
+        "desc": "Redirect the fire to a safer target.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You plant a better story, one that flatters the listeners for believing it. The original rumor loses oxygen.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Someone notices your hand on the wheel. Now you’re not just gossip—you’re the kind of person who steers it.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Say Nothing",
+        "desc": "Let it burn out without feeding it.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            ""
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "Without your reaction, the rumor struggles to stay entertaining. People move on.",
+          "resources": []
+        },
+        "fail": {
+          "text": "Silence reads as guilt to bored minds. The rumor sticks longer than it should.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_011_bullies_toll",
+    "name": "Bullies’ Toll",
+    "context": "Strife",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Street",
+      "Threat",
+      "Urban",
+      "Kestrelbank"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A pair of older youths block the alley, casual as if violence is just another kind of weather. They want coin, or pride, or both.",
+    "outcomes": [
+      {
+        "title": "Hit First",
+        "desc": "End the negotiation before it begins.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You swing with all your fear behind it and drop the loudest one. The other backs off, surprised you had teeth.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You commit and they were ready. You take a hard blow and stumble away bleeding pride and skin.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Talk Them Down",
+        "desc": "Make them feel stupid for needing this.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "You find the right insult disguised as a compliment. They let you pass, pretending it was their choice.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your words don’t land. You pay a coin just to keep your teeth.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      {
+        "title": "Slip Past",
+        "desc": "Use shadow and timing.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Hearth"
+        ],
+        "tags": [
+          "Covert"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You move when they blink and vanish into crowd noise. You learn which corners they own.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A hand catches your collar. They shout for guards—not because they want justice, but because it scares you.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Endure It",
+        "desc": "Give up nothing but dignity and leave.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            ""
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You keep your face blank and walk through their jeers. Later, you realize you didn’t give them what they wanted most: your fear.",
+          "resources": []
+        },
+        "fail": {
+          "text": "They follow you, loud, making sure the street knows you were prey today.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_012_inn_kitchen_shift",
+    "name": "Kitchen Shift",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Work",
+      "Rest",
+      "Urban",
+      "Greenfold"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "An innkeeper offers you a pallet by the hearth if you work the kitchen: peel roots, scrub pots, and keep out of the way when tempers flare.",
+    "outcomes": [
+      {
+        "title": "Work Clean and Quiet",
+        "desc": "Do the job well enough to be forgotten.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies",
+            "Relief from Exhausted"
+          ],
+          "risks": [
+            "Ill (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You eat hot broth and sleep near warmth. Your body loosens a little.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "The steam and damp settle into your lungs. You wake with a cough that won’t take a hint.",
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Learn the Ledger",
+        "desc": "Watch the coin box and the cheats around it.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Veil"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Coin"
+          ],
+          "risks": [
+            "Marked (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You learn who skims, who pays, and who can’t afford to be known here. You also learn how to take a little for yourself.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            },
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Someone notices you noticing. Their smile is friendly and sharp.",
+          "conditions": [
+            {
+              "id": "Marked",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Pocket the Tips",
+        "desc": "No one keeps track in a busy kitchen.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You take a few coins and no one proves it was you.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "A barked accusation turns into a hand on your shoulder. The innkeeper calls for guards to protect their reputation.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Prove Your Strength",
+        "desc": "Lift the heavy barrels. Take the burn of effort like it’s nothing.",
+        "stat": "Might",
+        "diff": 2,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You earn respect from the staff and a larger bowl of stew. It’s not much, but it’s real.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A barrel slips. The impact is minor, but it leaves a bruise that reminds you for days.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_013_border_questions",
+    "name": "Border Questions",
+    "context": "Court",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Road",
+      "Authority",
+      "Public",
+      "Stonewold"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "At a checkpoint, a bored guard scans your face like it might become a problem. \"Where are you going?\" they ask, as if going is a crime.",
+    "outcomes": [
+      {
+        "title": "Tell the Truth",
+        "desc": "Keep it simple. Keep it clean.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            ""
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "They wave you through with a grunt. The road is harsh, but it’s open.",
+          "resources": []
+        },
+        "fail": {
+          "text": "They decide your truth is suspicious. You’re turned back with a warning that stings.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Explain Precisely",
+        "desc": "Names, dates, reasons. Give them too much to dispute.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You answer before they finish asking. The guard loses interest and lets you pass.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The questions multiply. You leave drained and a little frightened of how easily paperwork becomes a cage.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Bluff Confidence",
+        "desc": "Act like you belong and force them to decide quickly.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Steel"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "They hesitate, then step aside. Confidence is a counterfeit seal that sometimes works.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A second guard leans in and calls the bluff. Now your name gets written down.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Slip the Line",
+        "desc": "Go around in the brush where rules don’t reach.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Hearth"
+        ],
+        "tags": [
+          "Covert",
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You bypass the checkpoint and discover why it exists: a smuggler trail worn into the undergrowth.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A patrol dog catches your scent. Shouts rise and you run with your heart in your throat.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            },
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_014_runaway_friend",
+    "name": "Runaway Friend",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Friendship",
+      "Road",
+      "Greenfold"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A friend you grew up with shows up at dusk with a pack and panic in their eyes. \"I can’t stay,\" they say. \"Not after what I did.\"",
+    "outcomes": [
+      {
+        "title": "Help Them Flee",
+        "desc": "Share your route and your risk.",
+        "stat": "Resolve",
+        "diff": 3,
+        "allowed": [
+          "Hearth",
+          "Veil"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence",
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You guide them to a safer road and keep your voice steady until their shaking stops. They will remember this.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Someone sees you together and assumes the worst. Now you’re tied to their crime whether you wanted it or not.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Demand the Truth",
+        "desc": "If you’re risking anything, you want to know what.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You get the full story: the wrong house, the wrong temper, the wrong witness. Knowing it helps you choose the right next step.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your questions sound like judgment. They leave in anger, and the village later blames you for not stopping them.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Turn Them In",
+        "desc": "Save yourself by buying the law’s favor.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Quill"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Marked (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You tell a guard where they went. The village calls you responsible. Your friend will call you something else.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The law takes your information and still looks at you like you’re the same kind of problem. You’re watched now.",
+          "conditions": [
+            {
+              "id": "Marked",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Fight for Them",
+        "desc": "If someone comes, you’ll stand between.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "When a search party comes too close, you intercept them long enough for your friend to vanish into dark fields.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The confrontation turns physical and you take the first hit. The pain is small. The consequences aren’t.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            },
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_015_temple_errand",
+    "name": "Temple Errand",
+    "context": "Lore",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Faith",
+      "Shrine",
+      "Public",
+      "Verdemont Abbey"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A shrine-keeper asks you to carry offerings to an outlying roadside altar. \"Bandits don’t rob shrines,\" they say. The way they say it makes you doubt that.",
+    "outcomes": [
+      {
+        "title": "Deliver Them Openly",
+        "desc": "Walk in daylight with the offerings visible.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You arrive with everything intact. The keeper blesses you with gratitude instead of ceremony.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Someone tries to take the offerings anyway. You fend them off, but not without a bruise and a lesson.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Hide the Pouch",
+        "desc": "Carry it like it’s nothing and watch the road.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Veil"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Ill (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You avoid the obvious danger and notice the real one: a patrol schedule and a blind stretch of road.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You take the long way through damp hollows. The cold clings to you afterward.",
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Skim an Offering",
+        "desc": "A coin for your trouble. The shrine won’t miss one.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Disgraced (Minor)",
+            "Cursed (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You take one coin and the pouch still feels heavy. The guilt is lighter than hunger, so you keep walking.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A sudden chill runs up your spine, and you swear the road goes quiet around you. Whether curse or conscience, it clings.",
+          "conditions": [
+            {
+              "id": "Cursed",
+              "mode": "Add",
+              "severity": "Minor"
+            },
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Ask for a Guard",
+        "desc": "Bring someone with a spear and split the risk.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Steel"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "A local guard accompanies you and treats you like someone worth protecting. That feeling has value.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The guard expects payment you can’t afford. You pay anyway because pride doesn’t stop knives.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_016_stolen_livestock",
+    "name": "Stolen Livestock",
+    "context": "Scheme",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Village",
+      "Theft",
+      "Greenfold"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A neighbor’s goat is gone. In a hungry season, that’s not inconvenience—it’s survival. Everyone looks at everyone.",
+    "outcomes": [
+      {
+        "title": "Track the Prints",
+        "desc": "Treat it like a hunt.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Steel"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies",
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You find where the goat was driven and who drove it. The answer is uglier than you hoped.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            },
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The trail splits in muddy confusion. You lose half a day and gain nothing but fatigue.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Confront the Suspect",
+        "desc": "Make them answer in public.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "Your accusation lands true. The village mood shifts in your favor and the goat returns, shame-faced and alive.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            },
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You accuse the wrong person and the village remembers it as cruelty, not vigilance.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Steal It Back",
+        "desc": "If someone took it, you can take it too.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Steel"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You reclaim the goat under cover of night and feel like a hero and a criminal in the same breath.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A lantern catches you mid-act. Now the story is about you, not the goat.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Offer Compensation",
+        "desc": "Give what you can to keep peace.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Supplies loss"
+          ]
+        },
+        "success": {
+          "text": "You share your own food and keep the feud from forming. In small places, that matters.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You give what you can and it still isn’t enough. The season is too lean for generosity to fix.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": -1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_017_secret_letter",
+    "name": "A Secret Letter",
+    "context": "Scheme",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Message",
+      "Covert",
+      "High Valewyr"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A sealed letter is pressed into your palm by someone who won’t meet your eyes. \"Deliver it,\" they say. \"Don’t read it.\" The seal looks expensive.",
+    "outcomes": [
+      {
+        "title": "Deliver Without Peeking",
+        "desc": "Do the job cleanly.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Veil"
+        ],
+        "tags": [
+          "Covert"
+        ],
+        "preview": {
+          "gains": [
+            "Coin",
+            "Influence"
+          ],
+          "risks": [
+            "Marked (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You deliver it and are paid with coin and the knowledge that someone important now knows you exist.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            },
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A watcher notices the exchange. Their attention sticks to you like soot.",
+          "conditions": [
+            {
+              "id": "Marked",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Read It Quickly",
+        "desc": "Knowledge is leverage, even stolen knowledge.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Veil"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You glance at the key lines and learn a name you weren’t meant to see. You reseal it well enough to pass.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "The seal tears. Now the letter is evidence of your curiosity.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Sell It",
+        "desc": "Someone will pay for what’s inside.",
+        "stat": "Guile",
+        "diff": 4,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin",
+            "Secrets"
+          ],
+          "risks": [
+            "Wanted (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You trade it to the right buyer and walk away heavier and less safe.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 3
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You choose the wrong buyer. The moment becomes a trap with guards on both sides.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Refuse It",
+        "desc": "Hand it back and step away.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You refuse politely and keep your hands clean. Word travels that you can say no.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They take offense. In their telling, your refusal becomes disrespect.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_018_sickhouse_choice",
+    "name": "Sickhouse Choice",
+    "context": "Lore",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Illness",
+      "Recovery",
+      "Urban",
+      "Gloambridge"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "The sickhouse smells of vinegar and fear. A healer looks you over like a ledger line and asks what you can pay: coin, labor, or truth.",
+    "outcomes": [
+      {
+        "title": "Pay Coin",
+        "desc": "Buy care the clean way.",
+        "stat": "Gravitas",
+        "diff": 1,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Relief from Ill"
+          ],
+          "risks": [
+            "Coin loss"
+          ]
+        },
+        "success": {
+          "text": "You pay and receive medicine that tastes like bile and works anyway.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "The price rises the moment you agree. You pay more than you planned just to be treated at all.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": -2
+            }
+          ]
+        }
+      },
+      {
+        "title": "Work the Ward",
+        "desc": "Earn the care by doing the unpleasant parts.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Relief from Ill",
+            "Influence"
+          ],
+          "risks": [
+            "Ill (Severe)"
+          ]
+        },
+        "success": {
+          "text": "You scrub, carry, and sit with the frightened. The healer treats you with something like respect.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ],
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "You breathe too much sickness for too long. Your own illness deepens.",
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Add",
+              "severity": "Severe"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Steal the Tonic",
+        "desc": "If care is withheld, take it.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Relief from Ill"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You lift a bottle and swallow medicine in the alley like a crime. It helps.",
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "A nurse catches you and calls for guards. In a sickhouse, order matters more than mercy.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Demand Care",
+        "desc": "Make it a scene they can’t ignore.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Seal"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Relief from Ill"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You force their attention and get treated, grudgingly. Sometimes being difficult is survival.",
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your anger becomes the story, not your need. They treat you, but the room decides you’re the problem.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_019_knife_lesson",
+    "name": "Knife Lesson",
+    "context": "Strife",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Training",
+      "Underworld",
+      "Marrowgate"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A back-alley mentor offers you a simple deal: learn to hold a knife without shaking, and you’ll never be truly helpless again. The lesson costs something.",
+    "outcomes": [
+      {
+        "title": "Train Hard",
+        "desc": "Take bruises now to avoid wounds later.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "Your grip steadies and your fear becomes something you can carry.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The lesson turns rough. You leave with a split lip and a new understanding of your own limits.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Learn the Tricks",
+        "desc": "Footwork, angles, when to run.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Steel"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You learn what the mentor doesn’t brag about: how to survive without winning.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The lesson drags and your mind slips. You leave tired and unsure you learned anything at all.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Pay with a Favor",
+        "desc": "Coin is one cost. Loyalty is another.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Seal"
+        ],
+        "tags": [
+          "Covert"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Obligation (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You don’t pay today, but you will. The mentor smiles like a banker.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The favor is named too soon and it’s uglier than you expected. You feel the hook sink in.",
+          "conditions": [
+            {
+              "id": "Obligation",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Refuse the Lesson",
+        "desc": "Keep your hands clean, whatever it costs.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You walk away. You keep your principles and your uncertainty.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They laugh as you leave. Later, someone repeats that laughter at your expense.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_020_caravan_offer",
+    "name": "Caravan Offer",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Road",
+      "Work",
+      "Gilderhaven"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A caravan master sizes you up. \"We need bodies,\" they say. \"Not heroes.\" The road they’re taking is long and contested.",
+    "outcomes": [
+      {
+        "title": "Sign On",
+        "desc": "Take the honest work and the honest risk.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Steel"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Coin",
+            "Supplies"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You earn your keep and learn the rhythm of travel: wake, haul, watch, repeat.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            },
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You last, but barely. By the time camp is made you can’t feel your feet.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Guard the Rear",
+        "desc": "Make yourself useful with steel.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You drive off a petty threat and earn the caravan’s rough respect.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A thrown stone catches you and you limp through the next day cursing your own bravery.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Skim the Cargo",
+        "desc": "If the road is dangerous, why not take your cut now?",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You take a small item that won’t be missed until it’s too late. Your purse grows.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "A watchman checks bundles and finds your hands in the wrong place.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Negotiate Better Terms",
+        "desc": "Make your youth sound like value, not liability.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Coin",
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You get a better cut and a small promise of protection.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            },
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The caravan master laughs. You leave feeling smaller than you did a minute ago.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_021_wolf_pups",
+    "name": "Wolf Pups",
+    "context": "Strife",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Wild",
+      "Hunt",
+      "Stonewold"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A den of wolf pups lies hidden in bracken. The mother is nowhere in sight, which means she’s close. In a harsh world, even pity has consequences.",
+    "outcomes": [
+      {
+        "title": "Leave Them",
+        "desc": "Nature’s business is not yours.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Quill"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            ""
+          ]
+        },
+        "success": {
+          "text": "You step away without making it your problem. Restraint is survival too.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You leave—but the mother sees you anyway. Her eyes track you until you’re out of sight.",
+          "conditions": [
+            {
+              "id": "Marked",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Take One",
+        "desc": "Sell it, raise it, use it—choose later.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Steel"
+        ],
+        "tags": [
+          "Scandalous",
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You grab a pup and run before the mother arrives. The pup’s whine is loud in your arms.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "The mother returns like lightning. You escape, but not without a bite that teaches you about arrogance.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Study the Tracks",
+        "desc": "Learn where the pack hunts and avoid it later.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Steel"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You map the pack’s path in your head and leave with useful knowledge.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You linger too long. The mother’s presence turns your careful study into a frantic retreat.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Protect the Den",
+        "desc": "Drive off a scavenger or rival predator.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Hearth"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You scare off the threat and leave the den intact. It feels like doing something good in a world that resents it.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "The fight is messy and close. You win, but you bleed for it.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_022_moot_of_youngbloods",
+    "name": "Moot of Youngbloods",
+    "context": "Court",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Village",
+      "Public",
+      "Ironspine"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "The village’s older heads let the young speak this season, more as a pressure valve than respect. Still, words said in public can become real.",
+    "outcomes": [
+      {
+        "title": "Speak for Fairness",
+        "desc": "Argue for those who get ignored.",
+        "stat": "Gravitas",
+        "diff": 3,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You speak plainly and the room listens longer than expected.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your speech is called naive. Laughter follows you out the door.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Listen for Leverage",
+        "desc": "Let others talk themselves into revealing needs.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Covert"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Marked (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You learn who’s feuding and why. That knowledge is a tool you can keep.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Someone notices you watching instead of speaking. Their attention feels like a hand on the back of your neck.",
+          "conditions": [
+            {
+              "id": "Marked",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Propose a Plan",
+        "desc": "Offer logistics, not ideals.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Supplies"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You propose storage, patrol rotations, shared labor—practical steps that keep people alive.",
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your plan becomes an argument. You spend the whole moot wrestling stubbornness and leave drained.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Challenge a Rival",
+        "desc": "Turn debate into dominance.",
+        "stat": "Might",
+        "diff": 3,
+        "allowed": [
+          "Steel",
+          "Seal"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You win a short, brutal spar and the room accepts your point because your body delivered it.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You lose the spar and the room decides your ideas can lose too.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_023_turned_signpost",
+    "name": "Turned Signpost",
+    "context": "Journey",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Road",
+      "Misdirection",
+      "Ember Dunes"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "A road sign has been turned just enough to send the unwary into bad ground. You’re young, not blind. You notice it in time—barely.",
+    "outcomes": [
+      {
+        "title": "Fix It Now",
+        "desc": "Turn it back and warn others.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You set the sign right and save someone else from a slow death. The road feels less cruel for an hour.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You waste time arguing with stubborn hardware. The sun drops and you pay for the delay.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Track the Saboteur",
+        "desc": "Assume it was done on purpose.",
+        "stat": "Wit",
+        "diff": 3,
+        "allowed": [
+          "Quill",
+          "Steel"
+        ],
+        "tags": [
+          "Perilous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Wounded (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You find boot prints and a cut rope. You don’t catch them, but you learn their route.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You follow the trail into an ambush that wasn’t meant for you—until it was.",
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Use the Lie",
+        "desc": "Turned signpost means a smuggler path. Use it.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Hearth"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Secrets",
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You take the hidden track and find a dropped pouch and a quiet schedule scratched into stone.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 1
+            },
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "A patrol catches you on the wrong path. You run and hear the whistle behind you.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Call for Help",
+        "desc": "Find a patrol or caravan and involve them.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Quill"
+        ],
+        "tags": [
+          "Public"
+        ],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You bring the right people and they take it seriously. For once, authority does something useful.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "They dismiss you as over-imaginative. You walk away feeling smaller and less safe.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "yev_024_first_real_choice",
+    "name": "First Real Choice",
+    "context": "Lore",
+    "kind": "general",
+    "weight": 1,
+    "tags": [
+      "Youth",
+      "Coming of Age",
+      "Reflection",
+      "Hearth"
+    ],
+    "minAge": 16,
+    "maxAge": 20,
+    "idealAge": 18,
+    "ageSpan": 4,
+    "prompt": "You realize, quietly, that you’re no longer practicing at life. The next decision you make will shape you whether you want it to or not.",
+    "outcomes": [
+      {
+        "title": "Choose Duty",
+        "desc": "Tie yourself to people who need you.",
+        "stat": "Resolve",
+        "diff": 2,
+        "allowed": [
+          "Hearth",
+          "Seal"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Influence"
+          ],
+          "risks": [
+            "Obligation (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You commit to a path of responsibility. It steadies you—and it binds you.",
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "Your promise becomes a weight immediately. You feel the hook of expectation set.",
+          "conditions": [
+            {
+              "id": "Obligation",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Choose Skill",
+        "desc": "Focus on mastery, even if it makes you lonely.",
+        "stat": "Wit",
+        "diff": 2,
+        "allowed": [
+          "Quill",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Secrets"
+          ],
+          "risks": [
+            "Exhausted (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You invest in learning. Knowledge accumulates quietly, and then all at once.",
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "You try to learn too much too fast. Your mind frays and you lose sleep you needed.",
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Choose Freedom",
+        "desc": "Refuse to be claimed, even by good offers.",
+        "stat": "Gravitas",
+        "diff": 2,
+        "allowed": [
+          "Seal",
+          "Hearth"
+        ],
+        "tags": [],
+        "preview": {
+          "gains": [
+            "Renown"
+          ],
+          "risks": [
+            "Disgraced (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You say no to an easy track. The people who understand call it courage.",
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "fail": {
+          "text": "People interpret your refusal as arrogance. Your name takes a small hit.",
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Choose the Shortcut",
+        "desc": "If the world is cruel, be cruel back—just a little.",
+        "stat": "Guile",
+        "diff": 3,
+        "allowed": [
+          "Veil",
+          "Quill"
+        ],
+        "tags": [
+          "Scandalous"
+        ],
+        "preview": {
+          "gains": [
+            "Coin"
+          ],
+          "risks": [
+            "Wanted (Minor)",
+            "Marked (Minor)"
+          ]
+        },
+        "success": {
+          "text": "You take an opportunity that isn’t entirely clean and gain a small advantage you can feel in your pocket.",
+          "resources": [
+            {
+              "resource": "Coin",
+              "amount": 2
+            }
+          ]
+        },
+        "fail": {
+          "text": "The shortcut leaves fingerprints. Someone notices you as the kind of person who takes shortcuts.",
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Add",
+              "severity": "Minor"
+            },
+            {
+              "id": "Marked",
+              "mode": "Add",
+              "severity": "Minor"
+            }
+          ]
+        }
+      }
+    ]
   }
 ]
