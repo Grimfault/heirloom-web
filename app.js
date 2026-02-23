@@ -4711,10 +4711,45 @@ function finishEvent(evJustResolved) {
     }
   };
 
-  if (shouldOfferOpportunity()) {
-    openOpportunityModal({ onDone: proceed });
+  const maybeProceed = () => {
+    if (shouldOfferOpportunity()) {
+      openOpportunityModal({ onDone: proceed });
+    } else {
+      proceed();
+    }
+  };
+
+  // If the player deferred an ambition, prompt once at age 20.
+  const needsAmbitionAt20 =
+    (state?.ambitionId == null) &&
+    (state?.ambitionDeferred === true) &&
+    (state?.age >= 20) &&
+    !state?.ambitionPromptedAt20;
+
+  if (needsAmbitionAt20) {
+    // Mark as prompted immediately to prevent loops if something goes sideways.
+    state.ambitionPromptedAt20 = true;
+    saveState();
+
+    const bgObj = DATA?.backgroundsById?.[state?.backgroundId] ?? null;
+    openAmbitionPickerModal(bgObj, (amb) => {
+      try {
+        if (amb) {
+          state.ambitionId = amb.id;
+          state.ambitionName = amb.name ?? amb.id;
+        } else {
+          state.ambitionId = null;
+          state.ambitionName = null;
+        }
+        // After the age-20 prompt, we stop deferring either way.
+        state.ambitionDeferred = false;
+        saveState();
+        renderAll();
+      } catch {}
+      maybeProceed();
+    }, { pickCount: 5, allowDefer: false, skipLabel: "Skip" });
   } else {
-    proceed();
+    maybeProceed();
   }
 }
 
@@ -5193,12 +5228,18 @@ if (btnStartBack) {
 }
 
 
-function openAmbitionPickerModal(bg, onPick) {
+function openAmbitionPickerModal(bg, onPick, opts = {}) {
   const ambitions = Array.isArray(DATA.ambitions) ? DATA.ambitions : [];
-  if (!ambitions.length) {
-    onPick?.(null);
+  const pool = ambitions.filter(a => a && a.id);
+
+  if (!pool.length) {
+    onPick?.(null, { deferred: false });
     return;
   }
+
+  // Only offer a small random subset (keeps the choice snappy).
+  const pickCount = Math.max(1, Math.min(16, opts.pickCount ?? 5));
+  const offered = shuffle([...pool]).slice(0, Math.min(pickCount, pool.length));
 
   let chosen = null;
 
@@ -5243,7 +5284,6 @@ function openAmbitionPickerModal(bg, onPick) {
 
     const pickThis = () => {
       chosen = amb;
-      // simple visual select
       [...grid.children].forEach(x => x.classList.remove("committed"));
       tile.classList.add("committed");
       btnConfirm.disabled = false;
@@ -5255,7 +5295,7 @@ function openAmbitionPickerModal(bg, onPick) {
     return tile;
   };
 
-  for (const amb of ambitions) {
+  for (const amb of offered) {
     if (!amb?.id) continue;
     grid.appendChild(renderTile(amb));
   }
@@ -5264,13 +5304,14 @@ function openAmbitionPickerModal(bg, onPick) {
   actions.className = "modalActions";
   actions.style.marginTop = "12px";
 
+  const allowDefer = (opts.allowDefer ?? true) === true;
   const btnSkip = document.createElement("button");
   btnSkip.className = "btn ghost";
-  btnSkip.textContent = "Skip";
+  btnSkip.textContent = allowDefer ? (opts.deferLabel ?? "Defer until age 20") : (opts.skipLabel ?? "Skip");
   btnSkip.addEventListener("click", () => {
     modalLocked = false;
     closeModal();
-    onPick?.(null);
+    onPick?.(null, { deferred: allowDefer });
   });
 
   const btnConfirm = document.createElement("button");
@@ -5280,7 +5321,7 @@ function openAmbitionPickerModal(bg, onPick) {
   btnConfirm.addEventListener("click", () => {
     modalLocked = false;
     closeModal();
-    onPick?.(chosen);
+    onPick?.(chosen, { deferred: false });
   });
 
   actions.appendChild(btnSkip);
@@ -5290,27 +5331,36 @@ function openAmbitionPickerModal(bg, onPick) {
   openModal("Choose an Ambition", wrap, { locked: true });
 }
 
+
 function startRunWithOptionalAmbition(bg, given, family) {
-  openAmbitionPickerModal(bg, (amb) => {
-    // Store selection on creation (so it's visible even before we create state)
+  openAmbitionPickerModal(bg, (amb, meta) => {
+    const deferred = !!meta?.deferred;
+
+    // Stash in creation for visibility / future-proofing
     creation.ambitionId = amb?.id ?? null;
+    creation.ambitionDeferred = deferred;
 
-    startRunWithOptionalAmbition(bg, given, family);
+    // Start the run
+    startRunFromBuilder(bg, given, family);
 
-    // Attach to state after run start (non-breaking if ambitions are missing)
+    // Attach to state after run start
     try {
       if (amb) {
         state.ambitionId = amb.id;
         state.ambitionName = amb.name ?? amb.id;
+        state.ambitionDeferred = false;
       } else {
         state.ambitionId = null;
         state.ambitionName = null;
+        state.ambitionDeferred = deferred; // defer only when user chose "Defer until age 20"
       }
+      state.ambitionPromptedAt20 = false;
       saveState();
       renderAll();
     } catch {}
-  });
+  }, { pickCount: 5, allowDefer: true, deferLabel: "Defer until age 20" });
 }
+
 
 
 btnStart.addEventListener("click", () => {
