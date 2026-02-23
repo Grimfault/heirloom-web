@@ -60,17 +60,6 @@
       "ui": {
         "icon": "Renown"
       },
-      "recommendedFor": {
-        "backgrounds": [
-          "squire",
-          "hedge_knight",
-          "minor_noble"
-        ],
-        "callings": [
-          "calling_steel",
-          "calling_seal"
-        ]
-      },
       "objectives": [
         {
           "id": "renown_peak",
@@ -115,17 +104,6 @@
       "ui": {
         "icon": "Coin"
       },
-      "recommendedFor": {
-        "backgrounds": [
-          "ledger_clerk",
-          "guild_factor",
-          "minor_noble"
-        ],
-        "callings": [
-          "calling_quill",
-          "calling_seal"
-        ]
-      },
       "objectives": [
         {
           "id": "coin_peak",
@@ -168,18 +146,6 @@
       "ui": {
         "icon": "Secrets"
       },
-      "recommendedFor": {
-        "backgrounds": [
-          "ledger_clerk",
-          "street_urchin",
-          "outlaw",
-          "guild_factor"
-        ],
-        "callings": [
-          "calling_quill",
-          "calling_veil"
-        ]
-      },
       "objectives": [
         {
           "id": "coin_peak_20",
@@ -217,15 +183,6 @@
       "desc": "Rule from the margins. When you cannot command openly, you command quietly.",
       "ui": {
         "icon": "Veil"
-      },
-      "recommendedFor": {
-        "backgrounds": [
-          "outlaw",
-          "street_urchin"
-        ],
-        "callings": [
-          "calling_veil"
-        ]
       },
       "objectives": [
         {
@@ -268,15 +225,6 @@
       "ui": {
         "icon": "Quill"
       },
-      "recommendedFor": {
-        "backgrounds": [
-          "ledger_clerk",
-          "novice"
-        ],
-        "callings": [
-          "calling_quill"
-        ]
-      },
       "objectives": [
         {
           "id": "influence_peak_10",
@@ -313,15 +261,6 @@
       "desc": "Hold people together when fear would tear them apart. Make mercy practical, and you’ll be remembered for it.",
       "ui": {
         "icon": "Hearth"
-      },
-      "recommendedFor": {
-        "backgrounds": [
-          "novice",
-          "pilgrim_wanderer"
-        ],
-        "callings": [
-          "calling_hearth"
-        ]
       },
       "objectives": [
         {
@@ -360,16 +299,6 @@
       "ui": {
         "icon": "Covenant"
       },
-      "recommendedFor": {
-        "backgrounds": [
-          "squire",
-          "hedge_knight"
-        ],
-        "callings": [
-          "calling_steel",
-          "calling_hearth"
-        ]
-      },
       "objectives": [
         {
           "id": "renown_peak_14",
@@ -406,15 +335,6 @@
       "desc": "Survive court without becoming prey. Turn etiquette into a blade and scandal into a shield.",
       "ui": {
         "icon": "Seal"
-      },
-      "recommendedFor": {
-        "backgrounds": [
-          "minor_noble",
-          "squire"
-        ],
-        "callings": [
-          "calling_seal"
-        ]
       },
       "objectives": [
         {
@@ -453,17 +373,6 @@
       "ui": {
         "icon": "Dynasty"
       },
-      "recommendedFor": {
-        "backgrounds": [
-          "minor_noble",
-          "novice",
-          "guild_factor"
-        ],
-        "callings": [
-          "calling_hearth",
-          "calling_seal"
-        ]
-      },
       "objectives": [
         {
           "id": "has_spouse",
@@ -496,16 +405,6 @@
       "desc": "Make distance pay. Keep your people fed, your coffers heavy, and your route open no matter who complains.",
       "ui": {
         "icon": "Journey"
-      },
-      "recommendedFor": {
-        "backgrounds": [
-          "caravan_scout",
-          "pilgrim_wanderer"
-        ],
-        "callings": [
-          "calling_steel",
-          "calling_veil"
-        ]
       },
       "objectives": [
         {
@@ -546,17 +445,6 @@
       "ui": {
         "icon": "Coin"
       },
-      "recommendedFor": {
-        "backgrounds": [
-          "ledger_clerk",
-          "guild_factor",
-          "minor_noble"
-        ],
-        "callings": [
-          "calling_quill",
-          "calling_seal"
-        ]
-      },
       "objectives": [
         {
           "id": "coin_peak_22",
@@ -593,18 +481,6 @@
       "desc": "Keep court, contract, and mercy on your side at once. Balance is harder than conquest.",
       "ui": {
         "icon": "Influence"
-      },
-      "recommendedFor": {
-        "backgrounds": [
-          "minor_noble",
-          "guild_factor",
-          "novice"
-        ],
-        "callings": [
-          "calling_seal",
-          "calling_quill",
-          "calling_hearth"
-        ]
       },
       "objectives": [
         {
@@ -645,17 +521,6 @@
       "ui": {
         "icon": "Hearth"
       },
-      "recommendedFor": {
-        "backgrounds": [
-          "hedge_knight",
-          "caravan_scout",
-          "pilgrim_wanderer"
-        ],
-        "callings": [
-          "calling_hearth",
-          "calling_steel"
-        ]
-      },
       "objectives": [
         {
           "id": "age_45",
@@ -689,17 +554,6 @@
       "desc": "Earn the Crown’s attention without becoming its quarry. Influence, not infamy.",
       "ui": {
         "icon": "Seal"
-      },
-      "recommendedFor": {
-        "backgrounds": [
-          "minor_noble",
-          "squire",
-          "ledger_clerk"
-        ],
-        "callings": [
-          "calling_seal",
-          "calling_quill"
-        ]
       },
       "objectives": [
         {
@@ -738,17 +592,6 @@
       "ui": {
         "icon": "Dynasty"
       },
-      "recommendedFor": {
-        "backgrounds": [
-          "minor_noble",
-          "novice",
-          "guild_factor"
-        ],
-        "callings": [
-          "calling_hearth",
-          "calling_seal"
-        ]
-      },
       "objectives": [
         {
           "id": "has_spouse",
@@ -781,17 +624,6 @@
       "desc": "Live in the open and leave fewer stains behind you than your rivals expected.",
       "ui": {
         "icon": "Resolve"
-      },
-      "recommendedFor": {
-        "backgrounds": [
-          "novice",
-          "pilgrim_wanderer",
-          "minor_noble"
-        ],
-        "callings": [
-          "calling_hearth",
-          "calling_seal"
-        ]
       },
       "objectives": [
         {
