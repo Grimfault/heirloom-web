@@ -5687,6 +5687,10 @@ function startRunFromBuilder(bg, givenName, familyName) {
     discardPile: []
   };
 
+  // Enable background-specific event packs (bev_*) that use HasFlag bg_<backgroundId>.
+  // These flags are meant to be permanent markers, so we store them with duration 0 (presence-only).
+  try { state.flags[`bg_${bg.id}`] = 0; } catch {}
+
   saveState();
   logEl.textContent = "";
   log(`Run begins as ${state.charName} ${state.familyName} (${bg.name}). Traits: ${state.traits.join(", ")}`);
