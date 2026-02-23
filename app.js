@@ -851,13 +851,10 @@ let DATA = {
   events: [],
   backgrounds: [],
   factions: [],
-  ambitions: [],
-  ambitionsMeta: null,
   cardsById: {},
   eventsById: {},
   backgroundsById: {},
-  factionsById: {},
-  ambitionsById: {}
+  factionsById: {}
 };
 
 // ---------- DOM ----------
@@ -1230,61 +1227,49 @@ function conditionChanceModifier(ev, outcome, committedCids) {
   // General friction: death isn't the only cost of conditions.
   for (const c of (state.conditions ?? [])) {
     if (c.severity === "Minor") mod -= 1;
-    else if (c.severity === "Severe") mod -= 2;
+    else if (c.severity === "Severe") mod -= 3;
   }
 
   // Focused penalties
   const ill = conditionSeverity("Ill");
   if (ill) {
-    const p = (ill === "Severe") ? -8 : -5;
+    const p = (ill === "Severe") ? -10 : -6;
     if (ctx === "Journey" || ctx === "Lore" || stat === "Wit" || stat === "Resolve") mod += p;
-    else mod += (ill === "Severe") ? -4 : -2;
+    else mod += (ill === "Severe") ? -6 : -3;
   }
 
   const wounded = conditionSeverity("Wounded");
   if (wounded) {
-    const p = (wounded === "Severe") ? -9 : -5;
+    const p = (wounded === "Severe") ? -12 : -6;
     if (ctx === "Strife" || stat === "Might") mod += p;
-    else mod += (wounded === "Severe") ? -4 : -2;
+    else mod += (wounded === "Severe") ? -6 : -3;
   }
 
   const starving = conditionSeverity("Starving");
   if (starving) {
-    const p = (starving === "Severe") ? -8 : -5;
+    const p = (starving === "Severe") ? -12 : -6;
     if (ctx === "Journey" || ctx === "Strife" || stat === "Might" || stat === "Resolve") mod += p;
-    else mod += (starving === "Severe") ? -4 : -2;
+    else mod += (starving === "Severe") ? -6 : -3;
   }
 
   const disgraced = conditionSeverity("Disgraced");
   if (disgraced) {
-    const p = (disgraced === "Severe") ? -8 : -5;
+    const p = (disgraced === "Severe") ? -10 : -6;
     if (ctx === "Court" || stat === "Gravitas") mod += p;
-    else mod += (disgraced === "Severe") ? -4 : -1;
+    else mod += (disgraced === "Severe") ? -5 : -2;
   }
 
   const wanted = conditionSeverity("Wanted");
   if (wanted) {
-    // Wanted is mostly about visibility + cover costs; keep the penalty present but not crushing.
-    const p = (wanted === "Severe") ? -5 : -3;
+    const p = (wanted === "Severe") ? -14 : -9;
     if (ctx === "Court") mod += p;
-    else mod += (wanted === "Severe") ? -2 : -1;
+    else mod += (wanted === "Severe") ? -8 : -4;
   }
 
   if (hasCondition("In Debt")) {
-    // Debt is a constant drag; sharper in Court and on the road.
-    if (ctx === "Court") mod -= 3;
-    else if (ctx === "Journey") mod -= 2;
-    else mod -= 1;
+    // Debt is a constant drag; bigger when you're trying to do public / expensive things.
+    if (ctx === "Court" || ctx === "Journey") mod -= 2;
   }
-
-  
-  const exhausted = conditionSeverity("Exhausted");
-  if (exhausted) {
-    const p = (exhausted === "Severe") ? -6 : -4;
-    if (ctx === "Journey" || ctx === "Strife" || stat === "Might" || stat === "Resolve") mod += p;
-    else mod += (exhausted === "Severe") ? -3 : -2;
-  }
-
 
   if (hasCondition("Oathbound")) {
     const allowed = outcome?.allowed ?? [];
@@ -1804,9 +1789,7 @@ function openOpportunityModal({ onDone } = {}) {
 let creation = {
   bgId: null,
   alloc: Object.fromEntries(STATS.map(s => [s, 0])),
-  traits: new Set(),
-  ambitionId: null,
-  deferAmbition: true
+  traits: new Set()
 };
 
 function generateHeirNameChoices(n = 5) {
@@ -2153,8 +2136,8 @@ function loadState() {
 // ---------- Mortality ----------
 function baseMortalityByAge(age) {
   // Design doc alignment:
-  // 16–29: 2%, 30–39: 3%, 40–49: 6%, 50–59: 12%, 60+: 20%
-  if (age <= 29) return 2;
+  // 16–29: 1%, 30–39: 3%, 40–49: 6%, 50–59: 12%, 60+: 20%
+  if (age <= 29) return 1;
   if (age <= 39) return 3;
   if (age <= 49) return 6;
   if (age <= 59) return 12;
@@ -2171,17 +2154,11 @@ function conditionMortalityBonus(cond) {
   }
 }
 
-function computeMortalityChance(mitigation = 0) {
-  // Resolve should blunt condition-added risk, but not erase baseline age risk.
-  const base = baseMortalityByAge(state.age);
-  let bonus = 0;
-  for (const c of state.conditions) bonus += conditionMortalityBonus(c);
-
-  const resolve = (MORTALITY_RESOLVE_MULT * (state.stats.Resolve ?? 0));
-  const mit = Number.isFinite(mitigation) ? mitigation : 0;
-
-  bonus = Math.max(0, bonus - resolve - mit);
-  return Math.max(0, base + bonus);
+function computeMortalityChance() {
+  let chance = baseMortalityByAge(state.age);
+  for (const c of state.conditions) chance += conditionMortalityBonus(c);
+  chance -= (MORTALITY_RESOLVE_MULT * (state.stats.Resolve ?? 0));
+  return Math.max(0, chance);
 }
 
 // ---------- Data loading ----------
@@ -2205,838 +2182,19 @@ async function fetchJsonAny(paths) {
   throw (lastErr ?? new Error("Failed to load JSON"));
 }
 
-// Like fetchJsonAny, but returns which path succeeded.
-async function fetchJsonAnyWithInfo(paths) {
-  let lastErr = null;
-  for (const p of paths) {
-    try {
-      const data = await fetchJson(p);
-      return { data, path: p };
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-  throw (lastErr ?? new Error("Failed to load JSON"));
-}
-
-async function fetchAmbitionsWithDebug() {
-  const paths = [
-    "./data/ambitions.json",
-    "/data/ambitions.json",
-    "data/ambitions.json",
-    "./ambitions.json",
-    "/ambitions.json"
-  ];
-  try {
-    const { data, path } = await fetchJsonAnyWithInfo(paths);
-    DATA.ambitionsLoad = { ok: true, path, error: null };
-    return data;
-  } catch (e) {
-    DATA.ambitionsLoad = { ok: false, path: null, error: String(e?.message ?? e) };
-    console.warn("Ambitions failed to load; using fallback ambitions.", e);
-    // Fallback keeps the game playable even if the host doesn't serve ambitions.json correctly.
-    return { version: "fallback", updated: null, notes: ["Fallback ambitions in app.js"], ambitions: FALLBACK_AMBITIONS };
-  }
-}
-
 function indexData() {
   DATA.cardsById = Object.fromEntries(DATA.cards.map(c => [c.id, c]));
   DATA.eventsById = Object.fromEntries(DATA.events.map(e => [e.id, e]));
   DATA.backgroundsById = Object.fromEntries(DATA.backgrounds.map(b => [b.id, b]));
   DATA.factionsById = Object.fromEntries((DATA.factions ?? []).map(f => [f.id, f]));
-  DATA.ambitionsById = Object.fromEntries((DATA.ambitions ?? []).map(a => [a.id, a]));
 }
-
-function normalizeAmbitionsJson(raw) {
-  if (!raw) return { meta: null, ambitions: [] };
-  if (Array.isArray(raw)) return { meta: null, ambitions: raw };
-  if (typeof raw === "object" && Array.isArray(raw.ambitions)) {
-    const meta = { version: raw.version ?? null, updated: raw.updated ?? null, notes: raw.notes ?? null };
-    return { meta, ambitions: raw.ambitions };
-  }
-  return { meta: null, ambitions: [] };
-}
-
-// Fallback ambitions (used only if /data/ambitions.json fails to load)
-const FALLBACK_AMBITIONS = [
-  {
-    "id": "amb_make_a_name",
-    "name": "Make a Name",
-    "desc": "Become known beyond your station—through deed, leverage, or story. When people speak of you, it changes what doors open.",
-    "ui": {
-      "icon": "Renown"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "squire",
-        "hedge_knight",
-        "minor_noble"
-      ],
-      "callings": [
-        "calling_steel",
-        "calling_seal"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "renown_peak",
-        "type": "PeakResourceAtLeast",
-        "resource": "Renown",
-        "amount": 18,
-        "text": "Reach peak Renown 18+ in this life."
-      },
-      {
-        "id": "favored_any",
-        "type": "AnyStandingAtLeast",
-        "minTier": "Favored",
-        "text": "Reach Favored standing with any faction."
-      },
-      {
-        "id": "story_any_done",
-        "type": "AnyFlagSet",
-        "ids": [
-          "sl_bo_done",
-          "sl_mg_done",
-          "sl_wc_done",
-          "sl_pa_done",
-          "sl_da_done",
-          "sl_ct_done"
-        ],
-        "text": "Complete any storyline."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_fortunes_hand",
-    "name": "Fortune’s Hand",
-    "desc": "Accumulate real leverage: coin in the strongbox and influence in the right rooms.",
-    "ui": {
-      "icon": "Coin"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "ledger_clerk",
-        "guild_factor",
-        "minor_noble"
-      ],
-      "callings": [
-        "calling_quill",
-        "calling_seal"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "coin_peak",
-        "type": "PeakResourceAtLeast",
-        "resource": "Coin",
-        "amount": 25,
-        "text": "Reach peak Coin 25+ in this life."
-      },
-      {
-        "id": "influence_peak",
-        "type": "PeakResourceAtLeast",
-        "resource": "Influence",
-        "amount": 8,
-        "text": "Reach peak Influence 8+ in this life."
-      },
-      {
-        "id": "favored_trade_or_court",
-        "type": "AnyStandingAtLeast",
-        "minTier": "Favored",
-        "factionIds": [
-          "league",
-          "crown"
-        ],
-        "text": "Reach Favored with the League or the Crown."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_ledger_and_knife",
-    "name": "Ledger and the Knife",
-    "desc": "Win by numbers and nerves: keep your accounts clean enough to pass inspection, and your secrets sharp enough to cut.",
-    "ui": {
-      "icon": "Secrets"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "ledger_clerk",
-        "street_urchin",
-        "outlaw",
-        "guild_factor"
-      ],
-      "callings": [
-        "calling_quill",
-        "calling_veil"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "coin_peak_20",
-        "type": "PeakResourceAtLeast",
-        "resource": "Coin",
-        "amount": 20,
-        "text": "Reach peak Coin 20+ in this life."
-      },
-      {
-        "id": "secrets_peak_10",
-        "type": "PeakResourceAtLeast",
-        "resource": "Secrets",
-        "amount": 10,
-        "text": "Reach peak Secrets 10+ in this life."
-      },
-      {
-        "id": "sl_mg_done",
-        "type": "HasFlag",
-        "idRef": "sl_mg_done",
-        "text": "Complete The Merchant’s Gambit."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_shadow_crown",
-    "name": "Shadow Crown",
-    "desc": "Rule from the margins. When you cannot command openly, you command quietly.",
-    "ui": {
-      "icon": "Veil"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "outlaw",
-        "street_urchin"
-      ],
-      "callings": [
-        "calling_veil"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "secrets_peak_12",
-        "type": "PeakResourceAtLeast",
-        "resource": "Secrets",
-        "amount": 12,
-        "text": "Reach peak Secrets 12+ in this life."
-      },
-      {
-        "id": "league_favored",
-        "type": "MinStanding",
-        "factionId": "league",
-        "minTier": "Favored",
-        "text": "Reach Favored standing with the League."
-      },
-      {
-        "id": "mg_or_wc_done",
-        "type": "AnyFlagSet",
-        "ids": [
-          "sl_mg_done",
-          "sl_wc_done"
-        ],
-        "text": "Complete The Merchant’s Gambit or The Wolf Court."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_keeper_of_truth",
-    "name": "Keeper of Truth",
-    "desc": "Secure knowledge that outlives you—then decide whether it becomes a lantern or a weapon.",
-    "ui": {
-      "icon": "Quill"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "ledger_clerk",
-        "novice"
-      ],
-      "callings": [
-        "calling_quill"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "influence_peak_10",
-        "type": "PeakResourceAtLeast",
-        "resource": "Influence",
-        "amount": 10,
-        "text": "Reach peak Influence 10+ in this life."
-      },
-      {
-        "id": "collegium_favored",
-        "type": "MinStanding",
-        "factionId": "collegium",
-        "minTier": "Favored",
-        "text": "Reach Favored standing with the Collegium."
-      },
-      {
-        "id": "sl_da_done",
-        "type": "HasFlag",
-        "text": "Complete The Drowned Abbey."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_mercys_thread",
-    "name": "Mercy’s Thread",
-    "desc": "Hold people together when fear would tear them apart. Make mercy practical, and you’ll be remembered for it.",
-    "ui": {
-      "icon": "Hearth"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "novice",
-        "pilgrim_wanderer"
-      ],
-      "callings": [
-        "calling_hearth"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "supplies_peak_10",
-        "type": "PeakResourceAtLeast",
-        "resource": "Supplies",
-        "amount": 10,
-        "text": "Reach peak Supplies 10+ in this life."
-      },
-      {
-        "id": "synod_favored",
-        "type": "MinStanding",
-        "factionId": "synod",
-        "minTier": "Favored",
-        "text": "Reach Favored standing with the Synod."
-      },
-      {
-        "id": "sl_pa_done",
-        "type": "HasFlag",
-        "text": "Complete Pilgrimage of Ash."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_unbroken_ring",
-    "name": "The Unbroken Ring",
-    "desc": "Pay the price of an oath and keep paying it—until the world learns you do not bend.",
-    "ui": {
-      "icon": "Covenant"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "squire",
-        "hedge_knight"
-      ],
-      "callings": [
-        "calling_steel",
-        "calling_hearth"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "renown_peak_14",
-        "type": "PeakResourceAtLeast",
-        "resource": "Renown",
-        "amount": 14,
-        "text": "Reach peak Renown 14+ in this life."
-      },
-      {
-        "id": "covenant_favored",
-        "type": "MinStanding",
-        "factionId": "covenant",
-        "minTier": "Favored",
-        "text": "Reach Favored standing with the Iron Covenant."
-      },
-      {
-        "id": "sl_bo_done",
-        "type": "HasFlag",
-        "text": "Complete The Broken Oath."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_wolf_in_velvet",
-    "name": "A Wolf in Velvet",
-    "desc": "Survive court without becoming prey. Turn etiquette into a blade and scandal into a shield.",
-    "ui": {
-      "icon": "Seal"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "minor_noble",
-        "squire"
-      ],
-      "callings": [
-        "calling_seal"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "influence_peak_12",
-        "type": "PeakResourceAtLeast",
-        "resource": "Influence",
-        "amount": 12,
-        "text": "Reach peak Influence 12+ in this life."
-      },
-      {
-        "id": "crown_favored",
-        "type": "MinStanding",
-        "factionId": "crown",
-        "minTier": "Favored",
-        "text": "Reach Favored standing with the Crown."
-      },
-      {
-        "id": "sl_wc_done",
-        "type": "HasFlag",
-        "text": "Complete The Wolf Court."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_quiet_succession",
-    "name": "Quiet Succession",
-    "desc": "Build a household that can outlive a bad season: a spouse, an heir, and a name that doesn’t crumble under gossip.",
-    "ui": {
-      "icon": "Dynasty"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "minor_noble",
-        "novice",
-        "guild_factor"
-      ],
-      "callings": [
-        "calling_hearth",
-        "calling_seal"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "has_spouse",
-        "type": "HasSpouse",
-        "text": "Secure a spouse."
-      },
-      {
-        "id": "has_heir",
-        "type": "HasHeir",
-        "text": "Secure an heir."
-      },
-      {
-        "id": "Disgraced",
-        "type": "NotCondition",
-        "text": "End the life without the Disgraced condition."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_glass_road_prince",
-    "name": "Prince of the Glass Road",
-    "desc": "Make distance pay. Keep your people fed, your coffers heavy, and your route open no matter who complains.",
-    "ui": {
-      "icon": "Journey"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "caravan_scout",
-        "pilgrim_wanderer"
-      ],
-      "callings": [
-        "calling_steel",
-        "calling_veil"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "supplies_peak_14",
-        "type": "PeakResourceAtLeast",
-        "resource": "Supplies",
-        "amount": 14,
-        "text": "Reach peak Supplies 14+ in this life."
-      },
-      {
-        "id": "coin_peak_18",
-        "type": "PeakResourceAtLeast",
-        "resource": "Coin",
-        "amount": 18,
-        "text": "Reach peak Coin 18+ in this life."
-      },
-      {
-        "id": "emirate_neutral_plus",
-        "type": "MinStanding",
-        "factionId": "emirate",
-        "minTier": "Neutral",
-        "text": "Maintain Neutral-or-better standing with the Emirate."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_clean_ledger",
-    "name": "A Clean Ledger",
-    "desc": "Keep your accounts fat and your record clean. Wealth is easy; clean wealth is power.",
-    "ui": {
-      "icon": "Coin"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "ledger_clerk",
-        "guild_factor",
-        "minor_noble"
-      ],
-      "callings": [
-        "calling_quill",
-        "calling_seal"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "coin_peak_22",
-        "type": "PeakResourceAtLeast",
-        "resource": "Coin",
-        "amount": 22,
-        "text": "Reach peak Coin 22+ in this life."
-      },
-      {
-        "id": "influence_peak_10",
-        "type": "PeakResourceAtLeast",
-        "resource": "Influence",
-        "amount": 10,
-        "text": "Reach peak Influence 10+ in this life."
-      },
-      {
-        "id": "In Debt",
-        "type": "NotCondition",
-        "text": "End the life without the In Debt condition."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_bind_three_threads",
-    "name": "Bind the Three Threads",
-    "desc": "Keep court, contract, and mercy on your side at once. Balance is harder than conquest.",
-    "ui": {
-      "icon": "Influence"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "minor_noble",
-        "guild_factor",
-        "novice"
-      ],
-      "callings": [
-        "calling_seal",
-        "calling_quill",
-        "calling_hearth"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "crown_neutral",
-        "type": "MinStanding",
-        "factionId": "crown",
-        "minTier": "Neutral",
-        "text": "Maintain Neutral-or-better with the Crown."
-      },
-      {
-        "id": "league_neutral",
-        "type": "MinStanding",
-        "factionId": "league",
-        "minTier": "Neutral",
-        "text": "Maintain Neutral-or-better with the Marcher League."
-      },
-      {
-        "id": "synod_neutral",
-        "type": "MinStanding",
-        "factionId": "synod",
-        "minTier": "Neutral",
-        "text": "Maintain Neutral-or-better with the Verdant Synod."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_sound_body",
-    "name": "Sound Body, Steady Step",
-    "desc": "Outlast the hard years without letting violence or sickness write your epitaph.",
-    "ui": {
-      "icon": "Hearth"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "hedge_knight",
-        "caravan_scout",
-        "pilgrim_wanderer"
-      ],
-      "callings": [
-        "calling_hearth",
-        "calling_steel"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "age_45",
-        "type": "AgeAtLeast",
-        "age": 45,
-        "text": "Reach Age 45 in this life."
-      },
-      {
-        "id": "Wounded",
-        "type": "NotCondition",
-        "text": "End the life without the Wounded condition."
-      },
-      {
-        "id": "Ill",
-        "type": "NotCondition",
-        "text": "End the life without the Ill condition."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_black_mantles_notice",
-    "name": "Black Mantle’s Notice",
-    "desc": "Earn the Crown’s attention without becoming its quarry. Influence, not infamy.",
-    "ui": {
-      "icon": "Seal"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "minor_noble",
-        "squire",
-        "ledger_clerk"
-      ],
-      "callings": [
-        "calling_seal",
-        "calling_quill"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "influence_peak_14",
-        "type": "PeakResourceAtLeast",
-        "resource": "Influence",
-        "amount": 14,
-        "text": "Reach peak Influence 14+ in this life."
-      },
-      {
-        "id": "crown_favored",
-        "type": "MinStanding",
-        "factionId": "crown",
-        "minTier": "Favored",
-        "text": "Reach Favored standing with the Crown."
-      },
-      {
-        "id": "Wanted",
-        "type": "NotCondition",
-        "text": "End the life without the Wanted condition."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_promise_of_heirs",
-    "name": "A Promise of Heirs",
-    "desc": "Secure the household: a spouse, a child, and a courtship that doesn't collapse under pressure.",
-    "ui": {
-      "icon": "Dynasty"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "minor_noble",
-        "novice",
-        "guild_factor"
-      ],
-      "callings": [
-        "calling_hearth",
-        "calling_seal"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "has_spouse",
-        "type": "HasSpouse",
-        "text": "Secure a spouse."
-      },
-      {
-        "id": "has_heir",
-        "type": "HasHeir",
-        "text": "Secure an heir."
-      },
-      {
-        "id": "sl_ct_done",
-        "type": "HasFlag",
-        "text": "Complete the Courtship storyline."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  },
-  {
-    "id": "amb_clean_hands",
-    "name": "Clean Hands",
-    "desc": "Live in the open and leave fewer stains behind you than your rivals expected.",
-    "ui": {
-      "icon": "Resolve"
-    },
-    "recommendedFor": {
-      "backgrounds": [
-        "novice",
-        "pilgrim_wanderer",
-        "minor_noble"
-      ],
-      "callings": [
-        "calling_hearth",
-        "calling_seal"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "Wanted",
-        "type": "NotCondition",
-        "text": "End the life without the Wanted condition."
-      },
-      {
-        "id": "In Debt",
-        "type": "NotCondition",
-        "text": "End the life without the In Debt condition."
-      },
-      {
-        "id": "Disgraced",
-        "type": "NotCondition",
-        "text": "End the life without the Disgraced condition."
-      }
-    ],
-    "rewards": {
-      "onComplete": {
-        "Scrip": 15
-      },
-      "onLifeEndIfCompleted": {
-        "Legacy": 5
-      }
-    }
-  }
-];
-
-const AMBITION_SCRIP_ON_COMPLETE = 15;
-const AMBITION_LEGACY_ON_LIFE_END = 5;
 
 async function loadAllData() {
-  const [cards, events, backgrounds, factions, ambitionsRaw] = await Promise.all([
+  const [cards, events, backgrounds, factions] = await Promise.all([
     fetchJsonAny(["./data/cards.json", "./cards.json"]),
     fetchJsonAny(["./data/events.json", "./events.json"]),
     fetchJsonAny(["./data/backgrounds.json", "./backgrounds.json"]),
-    fetchJsonAny(["./data/factions.json", "./factions.json"]).catch(() => ([])),
-    fetchAmbitionsWithDebug()
+    fetchJsonAny(["./data/factions.json", "./factions.json"]).catch(() => ([]))
   ]);
 
   DATA.cards = cards;
@@ -3045,9 +2203,6 @@ async function loadAllData() {
   DATA.events = events;
   DATA.backgrounds = backgrounds;
   DATA.factions = (Array.isArray(factions) && factions.length) ? factions : DEFAULT_FACTIONS;
-  const ambNorm = normalizeAmbitionsJson(ambitionsRaw);
-  DATA.ambitionsMeta = ambNorm.meta;
-  DATA.ambitions = ambNorm.ambitions;
   indexData();
   annotateEventSignals();
   DATA.storylineMetaById = null; // rebuilt lazily
@@ -3064,13 +2219,6 @@ async function loadAllData() {
     if (n < 2 || n > 5) {
       console.warn(`Event ${ev.id} should have 2–5 outcomes (has ${n}).`);
     }
-  }
-
-  // Ambitions minimal validation
-  for (const a of (DATA.ambitions ?? [])) {
-    if (!a?.id) console.warn("Ambition missing id:", a);
-    const objs = a?.objectives ?? [];
-    if (!Array.isArray(objs) || objs.length < 2) console.warn(`Ambition ${a?.id} has too few objectives.`);
   }
 }
 
@@ -3440,11 +2588,10 @@ function handSizeForEvent(ev) {
   let n = 4;
 
   // Conditions should squeeze your options a bit, but not hard-lock you.
-  if (ev?.context === "Strife" && (hasCondition("Wounded", "Severe") || hasCondition("Bruised"))) n = Math.min(n, 3);
-  if ((ev?.context === "Journey" || ev?.context === "Strife") && hasCondition("Starving", "Severe")) n = Math.min(n, 3);
-  if ((ev?.context === "Journey" || ev?.context === "Lore") && hasCondition("Ill", "Severe")) n = Math.min(n, 3);
-  if (ev?.context === "Court" && hasCondition("Wanted", "Severe")) n = Math.min(n, 3);
-  if (hasCondition("Exhausted", "Severe")) n = Math.min(n, 3);
+  if (ev?.context === "Strife" && (hasCondition("Wounded") || hasCondition("Bruised"))) n = Math.min(n, 3);
+  if ((ev?.context === "Journey" || ev?.context === "Strife") && hasCondition("Starving")) n = Math.min(n, 3);
+  if ((ev?.context === "Journey" || ev?.context === "Lore") && hasCondition("Ill")) n = Math.min(n, 3);
+  if (ev?.context === "Court" && hasCondition("Wanted")) n = Math.min(n, 3);
 
   return n;
 }
@@ -3555,288 +2702,7 @@ function ensureStateMaps() {
   state.flags ??= {};      // { flagId: remainingEvents }
   state.standings ??= {};  // { factionId: tier }
   state.history ??= { recentEvents: [], recentContexts: [], seen: {} };
-
-  // Background marker flag: enables background-specific sprinkle events.
-  if (state?.backgroundId) {
-    const fid = `bg_${state.backgroundId}`;
-    if (!Object.prototype.hasOwnProperty.call(state.flags, fid)) state.flags[fid] = 0; // 0 = permanent
-  }
-
-  ensureLifeMetrics();
-  ensureAmbitionState();
 }
-
-
-function ensureLifeMetrics() {
-  if (!state) return;
-  state.metrics ??= {};
-  state.metrics.peakRes ??= {};
-  state.metrics.bestStanding ??= {};
-
-  // Initialize peaks from current state if missing
-  for (const k of RESOURCES) {
-    const cur = state.res?.[k] ?? 0;
-    const prev = state.metrics.peakRes?.[k];
-    if (!Number.isFinite(prev)) state.metrics.peakRes[k] = cur;
-  }
-
-  // Initialize best standing from current tiers
-  const factionIds = (DATA.factions ?? []).map(f => f.id);
-  for (const fid of factionIds) {
-    const curTier = state.standings?.[fid] ?? "Neutral";
-    const prevTier = state.metrics.bestStanding?.[fid];
-    if (!prevTier) state.metrics.bestStanding[fid] = curTier;
-  }
-}
-
-function ensureAmbitionState() {
-  if (!state) return;
-  state.ambition ??= {
-    id: null,
-    chosenAtAge: null,
-    completed: false,
-    completedAtAge: null,
-    provisional: false, // for ambitions with end-of-life-only objectives
-    objectivesDone: {}
-  };
-  state.ambition.objectivesDone ??= {};
-}
-
-function hasSpouse() {
-  return Boolean(state?.family?.spouse) || hasFlag("has_spouse");
-}
-function hasHeir() {
-  return (state?.family?.heirs?.length ?? 0) > 0 || hasFlag("has_heir");
-}
-
-function chooseAmbitionForLife(ambitionId, { chosenAtAge = null } = {}) {
-  ensureStateMaps();
-  const def = DATA.ambitionsById?.[ambitionId];
-  if (!def) return;
-
-  state.ambition.id = ambitionId;
-  state.ambition.chosenAtAge = chosenAtAge ?? state.age ?? STARTING_AGE;
-  state.ambition.completed = false;
-  state.ambition.completedAtAge = null;
-  state.ambition.provisional = false;
-  state.ambition.objectivesDone = {};
-
-  // Optional flag for future pool bias / debugging
-  state.flags[`amb_${ambitionId}`] = 0;
-
-  log(`Personal Ambition chosen: ${def.name}.`);
-  saveState();
-  renderAll();
-}
-
-function ambitionObjectiveIsLifeEndOnly(obj) {
-  // Heuristic: objectives about "end without X" should finalize at life end.
-  return obj?.type === "NotCondition";
-}
-
-function evaluateAmbitionObjectives(def, { timing = "anytime" } = {}) {
-  ensureStateMaps();
-  const out = [];
-  const objs = def?.objectives ?? [];
-
-  for (const obj of objs) {
-    const type = obj?.type;
-    const lifeEndOnly = ambitionObjectiveIsLifeEndOnly(obj);
-    const isLifeEndPass = (timing === "lifeEnd");
-
-    let done = false;
-    let current = null;
-    let target = null;
-
-    if (type === "PeakResourceAtLeast") {
-      const k = obj.resource;
-      current = state.metrics?.peakRes?.[k] ?? (state.res?.[k] ?? 0);
-      target = obj.amount ?? 0;
-      done = Number(current) >= Number(target);
-    } else if (type === "MinStanding") {
-      const fid = obj.factionId;
-      const cur = state.metrics?.bestStanding?.[fid] ?? (state.standings?.[fid] ?? "Neutral");
-      current = cur;
-      target = obj.minTier ?? "Neutral";
-      done = tierIndex(cur) >= tierIndex(target);
-    } else if (type === "AnyStandingAtLeast") {
-      const minTier = obj.minTier ?? "Neutral";
-      const fids = Array.isArray(obj.factionIds) && obj.factionIds.length
-        ? obj.factionIds
-        : (DATA.factions ?? []).map(f => f.id);
-
-      let best = null;
-      for (const fid of fids) {
-        const cur = state.metrics?.bestStanding?.[fid] ?? (state.standings?.[fid] ?? "Neutral");
-        if (best == null || tierIndex(cur) > tierIndex(best)) best = cur;
-      }
-      current = best ?? "Neutral";
-      target = minTier;
-      done = tierIndex(current) >= tierIndex(target);
-    } else if (type === "AnyFlagSet") {
-      const ids = obj.ids ?? [];
-      current = ids.filter(hasFlag).length;
-      target = 1;
-      done = ids.some(hasFlag);
-    } else if (type === "HasFlag") {
-      done = hasFlag(obj.id);
-    } else if (type === "HasSpouse") {
-      done = hasSpouse();
-    } else if (type === "HasHeir") {
-      done = hasHeir();
-    } else if (type === "NotCondition") {
-      const condId = obj.id;
-      done = !hasCondition(condId);
-    } else if (type === "AgeAtLeast") {
-      current = state.age ?? STARTING_AGE;
-      target = obj.age ?? STARTING_AGE;
-      done = Number(current) >= Number(target);
-    } else {
-      done = false;
-    }
-
-    // If it's lifeEndOnly and we are evaluating mid-life, treat it as "pending".
-    const countsForCompletion = !lifeEndOnly || isLifeEndPass;
-
-    out.push({
-      obj,
-      done,
-      countsForCompletion,
-      lifeEndOnly,
-      type,
-      current,
-      target
-    });
-  }
-
-  return out;
-}
-
-function ambitionProgressSummary(def, evals) {
-  const total = evals.length;
-  const doneNow = evals.filter(e => e.done).length;
-  const doneForCompletion = evals.filter(e => e.countsForCompletion && e.done).length;
-  const neededForCompletion = evals.filter(e => e.countsForCompletion).length;
-  const pendingLifeEnd = evals.some(e => e.lifeEndOnly);
-  return { total, doneNow, doneForCompletion, neededForCompletion, pendingLifeEnd };
-}
-
-function checkAmbitionProgress({ timing = "anytime", award = true } = {}) {
-  if (!state?.ambition?.id) return { changed: false, completedNow: false, provisionalNow: false };
-
-  const def = DATA.ambitionsById?.[state.ambition.id];
-  if (!def) return { changed: false, completedNow: false, provisionalNow: false };
-
-  const evals = evaluateAmbitionObjectives(def, { timing });
-  let changed = false;
-
-  // Mark objectivesDone for stable (non-lifeEndOnly) objectives once achieved.
-  for (const e of evals) {
-    const oid = e.obj?.id ?? null;
-    if (!oid) continue;
-
-    // For life-end-only objectives, only record at life end.
-    if (e.lifeEndOnly && timing !== "lifeEnd") continue;
-
-    if (e.done && !state.ambition.objectivesDone[oid]) {
-      state.ambition.objectivesDone[oid] = true;
-      changed = true;
-    }
-  }
-
-  const sum = ambitionProgressSummary(def, evals);
-
-  // Provisional completion (all non-lifeEnd objectives done)
-  const canBeProvisional = (sum.neededForCompletion > 0) && (sum.doneForCompletion >= sum.neededForCompletion);
-  let provisionalNow = false;
-  if (canBeProvisional && sum.pendingLifeEnd && !state.ambition.provisional) {
-    state.ambition.provisional = true;
-    provisionalNow = true;
-    changed = true;
-    log(`Ambition nearing completion: ${def.name}. Keep your hands clean until death.`);
-  }
-
-  // Final completion
-  let completedNow = false;
-  if (!state.ambition.completed) {
-    const allCountedDone = evals.every(e => !e.countsForCompletion || e.done);
-    const finalOk = sum.pendingLifeEnd ? (timing === "lifeEnd" && allCountedDone) : (canBeProvisional && allCountedDone);
-
-    if (finalOk) {
-      state.ambition.completed = true;
-      state.ambition.completedAtAge = state.age ?? null;
-      completedNow = true;
-      changed = true;
-
-      if (award) {
-        awardScrip(AMBITION_SCRIP_ON_COMPLETE, `Ambition Complete: ${def.name}`);
-      }
-      log(`✦ Ambition completed: ${def.name}. (+${AMBITION_SCRIP_ON_COMPLETE} Scrip now, +${AMBITION_LEGACY_ON_LIFE_END} Legacy at life end)`);
-    }
-  }
-
-  if (changed) {
-    saveState();
-    renderAll();
-  }
-
-  return { changed, completedNow, provisionalNow, def, evals };
-}
-
-function ambitionLegacyBonusAtLifeEnd() {
-  if (!state?.ambition?.id) return 0;
-
-  // If not completed, attempt a life-end evaluation (awards Scrip if it completes here).
-  if (!state.ambition.completed) {
-    checkAmbitionProgress({ timing: "lifeEnd", award: true });
-  }
-
-  return state.ambition.completed ? AMBITION_LEGACY_ON_LIFE_END : 0;
-}
-
-function ambitionTitle() {
-  const id = state?.ambition?.id;
-  if (!id) return null;
-  return DATA.ambitionsById?.[id]?.name ?? id;
-}
-
-function openAmbitionDetailsModal() {
-  if (!state?.ambition?.id) return;
-
-  const def = DATA.ambitionsById?.[state.ambition.id];
-  if (!def) return;
-
-  const evals = evaluateAmbitionObjectives(def, { timing: "anytime" });
-  const sum = ambitionProgressSummary(def, evals);
-
-  const wrap = document.createElement("div");
-  wrap.innerHTML = `
-    <p class="muted">${escapeHtml(def.desc ?? "")}</p>
-    <div class="spacer"></div>
-    <div class="muted small"><b>Progress:</b> ${sum.doneNow}/${sum.total}${sum.pendingLifeEnd ? " (some objectives finalize at life end)" : ""}</div>
-  `;
-
-  const ul = document.createElement("ul");
-  ul.style.marginLeft = "18px";
-  ul.style.marginTop = "10px";
-
-  for (const e of evals) {
-    const label = e.obj?.text ?? "";
-    const prefix = e.done ? "✅" : "⬜";
-    const suffix = (e.type === "PeakResourceAtLeast" && e.target != null) ? ` (${e.current}/${e.target})`
-      : (e.type === "AgeAtLeast" && e.target != null) ? ` (Age ${e.current}/${e.target})`
-      : "";
-    const note = (e.lifeEndOnly && !e.done) ? " (checked at death)" : "";
-    const li = document.createElement("li");
-    li.textContent = `${prefix} ${label}${suffix}${note}`;
-    ul.appendChild(li);
-  }
-
-  wrap.appendChild(ul);
-
-  openModal(`Ambition: ${def.name}`, wrap, { locked: false });
-}
-
 
 
 function hasFlag(id) {
@@ -3853,11 +2719,6 @@ function applyResourceDelta(d) {
   const before = state.res[k] ?? 0;
   const after = clamp(before + amt, 0, 99);
   state.res[k] = after;
-
-  // Update per-life peak tracking (ambitions)
-  ensureLifeMetrics();
-  const prevPeak = state.metrics.peakRes[k] ?? 0;
-  if (after > prevPeak) state.metrics.peakRes[k] = after;
 
   // Resource floor consequences (only when crossing from >0 to 0 due to a loss).
   // These don't kill you directly; they add pressure conditions.
@@ -4025,13 +2886,7 @@ function applyStandingDelta(s) {
   const cur = state.standings[s.factionId] ?? "Neutral";
   const idx = tierIndex(cur);
   const next = clamp(idx + (s.steps ?? 0), 0, TIERS.length - 1);
-  const nextTier = TIERS[next];
-  state.standings[s.factionId] = nextTier;
-
-  // Update per-life best standing (ambitions)
-  ensureLifeMetrics();
-  const prev = state.metrics.bestStanding[s.factionId] ?? "Hostile";
-  if (tierIndex(nextTier) > tierIndex(prev)) state.metrics.bestStanding[s.factionId] = nextTier;
+  state.standings[s.factionId] = TIERS[next];
 }
 
 function applyBundle(bundle) {
@@ -4354,15 +3209,13 @@ function tickConditionsAfterEvent() {
 function commitCapForEvent(ev) {
   let cap = 2;
 
-  const ex = conditionSeverity("Exhausted");
-  if (ex === "Severe") cap = Math.min(cap, 1);
-  else if (ex === "Minor" && (ev?.context === "Strife" || ev?.context === "Journey")) cap = Math.min(cap, 1);
+  if (hasCondition("Exhausted")) cap = Math.min(cap, 1);
 
   if (ev?.context === "Strife") {
-    if (hasCondition("Bruised") || hasCondition("Wounded") || hasCondition("Starving", "Severe")) cap = Math.min(cap, 1);
+    if (hasCondition("Bruised") || hasCondition("Wounded") || hasCondition("Starving")) cap = Math.min(cap, 1);
   }
   if (ev?.context === "Journey") {
-    if (hasCondition("Starving", "Severe")) cap = Math.min(cap, 1);
+    if (hasCondition("Starving")) cap = Math.min(cap, 1);
   }
   return cap;
 }
@@ -4395,20 +3248,16 @@ function outcomeConditionRules(ev, o) {
     reasons.push("Too wounded for a perilous fight");
   }
 
-  // Wanted: being seen in Court sometimes requires cover.
-  // Severe Wanted always requires cover; Minor Wanted only does when you court scandal.
+  // Wanted: being seen in Court requires cover.
   const wantedSev = conditionSeverity("Wanted");
   if (wantedSev && ev?.context === "Court") {
-    const needsCover = (wantedSev === "Severe") || (o.tags ?? []).includes("Scandalous");
-    if (needsCover) {
-      const haveSecrets = (state.res?.Secrets ?? 0) >= 1;
-      const haveInfluence = (state.res?.Influence ?? 0) >= 1;
-      if (!haveSecrets && !haveInfluence) {
-        reasons.push("Too visible while Wanted (need 1 Secrets or 1 Influence)");
-      } else {
-        // We'll spend Secrets first, otherwise Influence.
-        costs.push({ resource: haveSecrets ? "Secrets" : "Influence", amount: -1, label: "Keep your name off tongues" });
-      }
+    const haveSecrets = (state.res?.Secrets ?? 0) >= 1;
+    const haveInfluence = (state.res?.Influence ?? 0) >= 1;
+    if (!haveSecrets && !haveInfluence) {
+      reasons.push("Too visible while Wanted (need 1 Secrets or 1 Influence)");
+    } else {
+      // We'll spend Secrets first, otherwise Influence.
+      costs.push({ resource: haveSecrets ? "Secrets" : "Influence", amount: -1, label: "Keep your name off tongues" });
     }
   }
 
@@ -4515,31 +3364,14 @@ function applyPostEventConditionPressure(ev, outcome, success, isPartial, netDel
     else state.condMeta.wantedHeat = Math.max(0, state.condMeta.wantedHeat - 1);
   }
 
-
-  // Wanted cool-off: if you stay out of the public eye, the hunt can lose your trail.
-  if (hasCondition("Wanted")) {
-    if ((state.condMeta.wantedHeat ?? 0) <= 0) state.condMeta.wantedCool = (state.condMeta.wantedCool ?? 0) + 1;
-    else state.condMeta.wantedCool = 0;
-
-    if (state.condMeta.wantedCool >= 3) {
-      if (hasCondition("Wanted", "Severe")) {
-        post.conditions.push({ id: "Wanted", mode: "Downgrade" });
-      } else {
-        post.conditions.push({ id: "Wanted", mode: "Remove" });
-      }
-      state.condMeta.wantedCool = 0;
-      state.condMeta.wantedHeat = 0;
-    }
-  }
-
   return post;
 }
 function conditionBias(ev) {
   let m = 1;
 
   // Avoid Court when Wanted / severely Disgraced.
-  if (hasCondition("Wanted") && ev.context === "Court") m *= 0.60;
-  if (hasCondition("Disgraced", "Severe") && ev.context === "Court") m *= 0.75;
+  if (hasCondition("Wanted") && ev.context === "Court") m *= 0.35;
+  if (hasCondition("Disgraced", "Severe") && ev.context === "Court") m *= 0.55;
 
   // Pull matching condition packs.
   if (hasCondition("Ill") && (ev.tags ?? []).includes("Illness")) m *= 3.2;
@@ -4580,9 +3412,6 @@ function showStart() {
   elStart.classList.remove("hidden");
   elGame.classList.add("hidden");
   if (elLegacy) elLegacy.classList.add("hidden");
-
-  // Ensure the ambition picker UI exists on the builder.
-  ensureAmbitionBuilderSection();
 
   btnNewEvent.disabled = true;
   updateStartButtonState();
@@ -4769,10 +3598,6 @@ function renderCreationUI() {
     if (label) label.classList.toggle("disabled", shouldDisable);
   }
 
-  // Personal Ambition section
-  ensureAmbitionBuilderSection();
-  renderAmbitionBuilderUI(bg);
-
   // Keep the Begin button state in sync with the builder requirements
   updateStartButtonState();
 }
@@ -4802,9 +3627,6 @@ function renderStatus() {
 
     resourceLine.textContent =
     `Coin ${state.res.Coin} • Supplies ${state.res.Supplies} • Renown ${state.res.Renown} • Influence ${state.res.Influence} • Secrets ${state.res.Secrets} • Scrip ${state.scrip ?? 0} • Heirlooms ${META.heirlooms} • Legacy ${META.legacy}`;
-
-  ensureAmbitionLineEl();
-  renderAmbitionStatusLine();
 
   if (standingLine) {
     const ids = (DATA.factions ?? []).map(f => f.id);
@@ -5126,57 +3948,6 @@ function renderChance() {
 
   chanceBreakdown.textContent = bits.join(" ");
 }
-
-
-// ---------- Ambitions: in-run UI ----------
-let ambitionLineEl = null;
-
-function ensureAmbitionLineEl() {
-  if (ambitionLineEl) return;
-  const resource = document.getElementById("resourceLine");
-  if (!resource) return;
-  const parent = resource.parentElement;
-  if (!parent) return;
-
-  // Insert directly after resource line for readability.
-  const el = document.createElement("div");
-  el.className = "muted";
-  el.id = "ambitionLine";
-  el.style.cursor = "pointer";
-  el.style.userSelect = "none";
-  el.title = "Tap to view ambition details";
-  resource.insertAdjacentElement("afterend", el);
-
-  ambitionLineEl = el;
-  ambitionLineEl.addEventListener("click", () => {
-    if (!state?.ambition?.id) return;
-    openAmbitionDetailsModal();
-  });
-}
-
-function renderAmbitionStatusLine() {
-  if (!ambitionLineEl) return;
-  ensureStateMaps();
-
-  if (!state?.ambition?.id) {
-    ambitionLineEl.textContent = "Ambition: (none selected)";
-    return;
-  }
-
-  const def = DATA.ambitionsById?.[state.ambition.id];
-  if (!def) {
-    ambitionLineEl.textContent = `Ambition: ${state.ambition.id}`;
-    return;
-  }
-
-  const evals = evaluateAmbitionObjectives(def, { timing: "anytime" });
-  const sum = ambitionProgressSummary(def, evals);
-
-  const completed = state.ambition.completed ? " ✅" : "";
-  const pending = (!state.ambition.completed && sum.pendingLifeEnd && state.ambition.provisional) ? " (pending life end)" : "";
-  ambitionLineEl.textContent = `Ambition: ${def.name} — ${sum.doneNow}/${sum.total}${pending}${completed}`;
-}
-
 
 function renderAll() {
   renderStatus();
@@ -5750,13 +4521,6 @@ function makeFallbackEvent(reason = "") {
 function loadRandomEvent({ avoidIds = [] } = {}) {
   const majorBeat = isMajorEventNow();
   ensureStoryState();
-  ensureStateMaps();
-
-  // Force ambition selection at Age 20+ if it was deferred.
-  if (!state?.ambition?.id && (state?.age ?? 0) >= 20) {
-    openAmbitionPickerModal({ forced: true, mode: "run", onPick: () => loadRandomEvent({ avoidIds }) });
-    return;
-  }
 
   const avoid = Array.isArray(avoidIds) ? [...avoidIds] : [];
   if (currentEvent?.id && !avoid.includes(currentEvent.id)) avoid.push(currentEvent.id);
@@ -6071,20 +4835,7 @@ function resolveSelectedOutcome() {
 
   // Earn Scrip even if a mortality check kills you.
   awardScripForResolvedEvent(evJustResolved, wasMajor);
-
-  // Ambition progress check (may award +Scrip immediately)
-  const ambBeforeCompleted = Boolean(state?.ambition?.completed);
-  checkAmbitionProgress({ timing: "anytime", award: true });
-  const ambCompletedNow = (!ambBeforeCompleted && Boolean(state?.ambition?.completed));
-  if (ambCompletedNow) {
-    if (bundleForResult) {
-      bundleForResult.text = ((bundleForResult.text ?? "").trim() + `\n\n✦ Personal Ambition completed: ${ambitionTitle()}. (+${AMBITION_SCRIP_ON_COMPLETE} Scrip)`).trim();
-    }
-  }
   const perilous = (o.tags ?? []).includes("Perilous");
-  const violent = (o.tags ?? []).includes("Violent");
-  // Violence is risky even when an outcome isn't explicitly tagged Perilous.
-  // Make it matter most in earlier life, when baseline checks are otherwise rare.
 
   const severeAfter = state.conditions.filter(c => c.severity === "Severe").length;
   const gainedSevere = severeAfter > severeBefore;
@@ -6093,7 +4844,6 @@ function resolveSelectedOutcome() {
   let mortalityTriggered = false;
   if (wasMajor) mortalityTriggered = true;
   if (perilous) mortalityTriggered = true;
-  if (violent && (state.age < 40 || hasCondition("Wounded") || hasCondition("Ill"))) mortalityTriggered = true;
   if (gainedSevere && hadSevereAlready) mortalityTriggered = true;
 
   if (mortalityTriggered) {
@@ -6220,10 +4970,7 @@ function resolveSelectedOutcome() {
 // ---------- Succession ----------
 
 function openLifeEndModal(primary) {
-  // Finalize ambitions that have end-of-life objectives
-  const ambLegacy = ambitionLegacyBonusAtLifeEnd();
-
-  const legacyGained = computeLegacyGain() + ambLegacy;
+  const legacyGained = computeLegacyGain();
   META.legacy += legacyGained;
   saveMeta();
   const conds = (state.conditions ?? []).map(c => `${c.id} (${c.severity})`).join(", ") || "None";
@@ -6235,7 +4982,7 @@ function openLifeEndModal(primary) {
     <div class="resultGrid">
       <div class="resultBlock"><div class="muted small">Scrip gained</div><div class="big">+${SCRIP_ON_DEATH_BONUS}</div></div>
       <div class="resultBlock"><div class="muted small">Heirlooms gained</div><div class="big">+0</div></div>
-      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div>${ambLegacy ? `<div class="muted small">Includes +${AMBITION_LEGACY_ON_LIFE_END} from Ambition</div>` : ""}</div>
+      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div></div>
     </div>
     <div class="spacer"></div>
   `;
@@ -6269,8 +5016,7 @@ function openLifeEndModal(primary) {
 
 function openBloodlineEndModal() {
   const conds = (state.conditions ?? []).map(c => `${c.id} (${c.severity})`).join(", ") || "None";
-  const ambLegacy = ambitionLegacyBonusAtLifeEnd();
-  const legacyGained = computeLegacyGain() + ambLegacy;
+  const legacyGained = computeLegacyGain();
   META.legacy += legacyGained;
   saveMeta();
 
@@ -6280,7 +5026,7 @@ function openBloodlineEndModal() {
     <p class="muted">Final conditions: ${conds}</p>
     <div class="spacer"></div>
     <div class="resultGrid">
-      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div>${ambLegacy ? `<div class="muted small">Includes +${AMBITION_LEGACY_ON_LIFE_END} from Ambition</div>` : ""}</div>
+      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div></div>
       <div class="resultBlock"><div class="muted small">Scrip kept</div><div class="big">0</div><div class="muted small">Scrip upgrades are lost when a bloodline ends.</div></div>
       <div class="resultBlock"><div class="muted small">Heirlooms gained</div><div class="big">+0</div><div class="muted small">Scaffolding (future unlock currency).</div></div>
     </div>
@@ -6370,10 +5116,6 @@ function proceedSuccession(primary) {
   // Clear per-life flags (including storylines) so each ruler feels fresh.
   for (const k of Object.keys(state.flags ?? {})) {
     if (k.startsWith("sl_")) delete state.flags[k];
-    if (k.startsWith("knot")) delete state.flags[k];
-    if (k.startsWith("calling_")) delete state.flags[k];
-    if (k.startsWith("turning_")) delete state.flags[k];
-    if (k.startsWith("amb_")) delete state.flags[k];
   }
   // Clear spouse + children (new ruler must build their own line).
   // Also clear per-life family flags.
@@ -6386,11 +5128,6 @@ function proceedSuccession(primary) {
 
   // Clear spouse + children (new ruler must build their own line).
   state.family = { spouse: null, prospect: null, heirs: [] };
-
-  // Reset per-life ambition + metrics
-  state.ambition = { id: null, chosenAtAge: null, completed: false, completedAtAge: null, provisional: false, objectivesDone: {} };
-  state.metrics = { peakRes: {}, bestStanding: {} };
-  ensureLifeMetrics();
 
   log(`Heir takes over: ${state.charName} ${state.familyName}. Focus bonus: ${state.heirFocus ? `+1 ${state.heirFocus}` : "None"}. Heirs ruled so far: ${state.heirCount}.`);
   saveState();
@@ -6621,8 +5358,6 @@ function resetCreation() {
   creation.bgId = bgSelect.value || null;
   creation.alloc = Object.fromEntries(STATS.map(s => [s, 0]));
   creation.traits = new Set();
-  creation.ambitionId = null;
-  creation.deferAmbition = true;
 }
 
 function populateBackgroundSelect() {
@@ -6649,177 +5384,6 @@ bgSelect.addEventListener("change", () => {
   renderCreationUI();
 });
 
-
-
-
-// ---------- Ambitions: builder UI (pick at start or defer to Age 20) ----------
-let ambitionBuilderSection = null;
-let ambitionChosenLineEl = null;
-let btnChooseAmbition = null;
-let btnDeferAmbition = null;
-
-function ensureAmbitionBuilderSection() {
-  if (ambitionBuilderSection) return;
-  const startScreen = document.getElementById("startScreen");
-  if (!startScreen) return;
-
-  const createWrap = startScreen.querySelector(".create");
-  const footer = startScreen.querySelector(".create-footer");
-  if (!createWrap || !footer) return;
-
-  const sec = document.createElement("section");
-  sec.className = "create-section";
-  sec.id = "ambitionSection";
-  sec.innerHTML = `
-    <div class="section-title row space">
-      <div>
-        <h3>Personal Ambition</h3>
-        <div class="hint">Pick a goal for this ruler—or decide at age 20.</div>
-      </div>
-      <div class="hint" id="ambitionChosenLine"></div>
-    </div>
-    <div class="row" style="gap:8px; flex-wrap:wrap;">
-      <button class="btn ghost" id="btnChooseAmbition">Choose Ambition</button>
-      <button class="btn ghost" id="btnDeferAmbition">Decide at 20</button>
-    </div>
-    <div class="hint" style="margin-top:8px;">
-      Ambitions track <b>peak</b> progress (spending resources won’t erase progress). Completing an ambition grants <b>+15 Scrip</b> immediately and <b>+5 Legacy</b> at life end.
-    </div>
-  `;
-
-  createWrap.insertBefore(sec, footer);
-
-  ambitionBuilderSection = sec;
-  ambitionChosenLineEl = sec.querySelector("#ambitionChosenLine");
-  btnChooseAmbition = sec.querySelector("#btnChooseAmbition");
-  btnDeferAmbition = sec.querySelector("#btnDeferAmbition");
-
-  if (btnChooseAmbition && !btnChooseAmbition.__heirloomBound) {
-    btnChooseAmbition.addEventListener("click", () => openAmbitionPickerModal({ forced: false, mode: "builder" }));
-    btnChooseAmbition.__heirloomBound = true;
-  }
-  if (btnDeferAmbition && !btnDeferAmbition.__heirloomBound) {
-    btnDeferAmbition.addEventListener("click", () => {
-      creation.ambitionId = null;
-      creation.deferAmbition = true;
-      renderCreationUI();
-    });
-    btnDeferAmbition.__heirloomBound = true;
-  }
-}
-
-function renderAmbitionBuilderUI(bg) {
-  if (!ambitionBuilderSection) return;
-
-  const chosen = creation.deferAmbition
-    ? "Decide at 20"
-    : (creation.ambitionId ? (DATA.ambitionsById?.[creation.ambitionId]?.name ?? creation.ambitionId) : "Decide at 20");
-
-  if (ambitionChosenLineEl) ambitionChosenLineEl.innerHTML = `<b>${escapeHtml(chosen)}</b>`;
-
-  if (btnDeferAmbition) {
-    btnDeferAmbition.classList.toggle("primary", Boolean(creation.deferAmbition));
-    btnDeferAmbition.classList.toggle("ghost", !creation.deferAmbition);
-  }
-}
-
-// Offer selection: 3 recommended (by background) + 2 random
-function buildAmbitionOfferList(bgId, count = 5) {
-  const all = (DATA.ambitions ?? []).filter(a => a?.id);
-  if (!all.length) return [];
-
-  const rec = all.filter(a => (a.recommendedFor?.backgrounds ?? []).includes(bgId));
-  shuffle(rec);
-
-  const picks = [];
-  for (const a of rec) {
-    if (picks.length >= Math.min(3, count)) break;
-    picks.push(a);
-  }
-
-  const remaining = all.filter(a => !picks.some(p => p.id === a.id));
-  shuffle(remaining);
-  while (picks.length < count && remaining.length) picks.push(remaining.shift());
-
-  return picks.slice(0, count);
-}
-
-function ambitionObjectivesPreviewHtml(a) {
-  const objs = (a?.objectives ?? []).slice(0, 3);
-  if (!objs.length) return "";
-  const li = objs.map(o => `<li>${escapeHtml(o.text ?? "")}</li>`).join("");
-  return `<ul class="muted small" style="margin:6px 0 0 18px;">${li}</ul>`;
-}
-
-function openAmbitionPickerModal({ forced = false, mode = "builder", onPick = null } = {}) {
-  const bgId = (mode === "run" ? state?.backgroundId : creation?.bgId) ?? bgSelect?.value ?? null;
-  const offers = buildAmbitionOfferList(bgId, forced ? 6 : 5);
-
-  const wrap = document.createElement("div");
-  wrap.innerHTML = `<p class="muted">${forced ? "Choose an ambition before you face your Calling." : "Choose a personal ambition for this ruler."}</p>`;
-
-  if (!offers.length) {
-    const info = DATA.ambitionsLoad?.ok
-      ? `Loaded ambitions from: ${DATA.ambitionsLoad.path}`
-      : `Ambitions failed to load (${DATA.ambitionsLoad?.error ?? "unknown error"}). Using fallback list.`;
-    const warn = document.createElement("div");
-    warn.className = "muted small";
-    warn.style.marginTop = "10px";
-    warn.textContent = `No ambitions available to show. ${info}`;
-    wrap.appendChild(warn);
-  }
-
-  const list = document.createElement("div");
-  list.style.display = "grid";
-  list.style.gap = "10px";
-
-  for (const a of offers) {
-    const card = document.createElement("div");
-    card.className = "choiceCard";
-    card.innerHTML = `
-      <div class="row space" style="align-items:flex-start; gap:10px;">
-        <div>
-          <div><b>${escapeHtml(a.name)}</b></div>
-          <div class="muted">${escapeHtml(a.desc ?? "")}</div>
-          ${ambitionObjectivesPreviewHtml(a)}
-        </div>
-        <button class="btn primary small">Select</button>
-      </div>
-    `;
-    card.querySelector("button").addEventListener("click", () => {
-      if (mode === "builder") {
-        creation.ambitionId = a.id;
-        creation.deferAmbition = false;
-        closeModal();
-        renderCreationUI();
-      } else {
-        chooseAmbitionForLife(a.id, { chosenAtAge: state?.age ?? STARTING_AGE });
-        closeModal();
-        onPick?.();
-        if (!onPick) loadRandomEvent();
-      }
-    });
-    list.appendChild(card);
-  }
-
-  wrap.appendChild(list);
-
-  if (!forced && mode === "builder") {
-    const defer = document.createElement("button");
-    defer.className = "btn ghost btn-wide";
-    defer.style.marginTop = "12px";
-    defer.textContent = "Decide at Age 20";
-    defer.addEventListener("click", () => {
-      creation.ambitionId = null;
-      creation.deferAmbition = true;
-      closeModal();
-      renderCreationUI();
-    });
-    wrap.appendChild(defer);
-  }
-
-  openModal("Choose an Ambition", wrap, { locked: forced });
-}
 
 
 function showLoadingUI(isLoading) {
@@ -6909,16 +5473,6 @@ function startRunFromBuilder(bg, givenName, familyName) {
     discardPile: []
   };
 
-  // Background marker flag (used by bg-specific events)
-  state.flags[`bg_${bg.id}`] = 0;
-
-  // Per-life metrics + ambition
-  ensureStateMaps();
-  ensureLifeMetrics();
-  if (!creation.deferAmbition && creation.ambitionId) {
-    chooseAmbitionForLife(creation.ambitionId, { chosenAtAge: state.age });
-  }
-
   saveState();
   logEl.textContent = "";
   log(`Run begins as ${state.charName} ${state.familyName} (${bg.name}). Traits: ${state.traits.join(", ")}`);
@@ -6976,7 +5530,6 @@ async function boot() {
     }
 
     ensureStatScale();
-    ensureStateMaps();
 
     showGame();
     logEl.textContent = "";
@@ -7346,16 +5899,22 @@ openResultModal = function(opts) {
     let lastErr = null;
     for (const b of bases) {
       try {
-        const [cards, events, backgrounds] = await Promise.all([
+        const [cards, events, backgrounds, factions, ambitionsRaw] = await Promise.all([
           fetchJson(b.cards),
           fetchJson(b.events),
-          fetchJson(b.backgrounds)
+          fetchJson(b.backgrounds),
+          fetchJsonAny(["./data/factions.json", "./factions.json"]).catch(() => ([])),
+          fetchJsonAny(["./data/ambitions.json", "./ambitions.json"]).catch(() => (null))
         ]);
 
         DATA.cards = cards;
         ensureThreeLevelCards(DATA.cards);
         DATA.events = events;
         DATA.backgrounds = backgrounds;
+        DATA.factions = (Array.isArray(factions) && factions.length) ? factions : DEFAULT_FACTIONS;
+        const ambNorm = normalizeAmbitionsJson(ambitionsRaw);
+        DATA.ambitionsMeta = ambNorm.meta;
+        DATA.ambitions = ambNorm.ambitions;
 
         indexData();
         annotateEventSignals();
