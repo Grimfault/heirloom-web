@@ -4698,7 +4698,8 @@ function applyAnnualUpkeepAndDrift() {
   const before = { ...state.res };
   const lines = [];
 
-  const addLine = (reason, changes) => {
+  // Each line: a flavorful title + a short in-world explanation + the numeric changes.
+  const addLine = (title, why, changes) => {
     if (!Array.isArray(changes) || changes.length === 0) return;
     const applied = [];
     for (const ch of changes) {
@@ -4708,38 +4709,89 @@ function applyAnnualUpkeepAndDrift() {
       applyResourceDelta({ resource, amount });
       applied.push({ resource, amount });
     }
-    if (applied.length) lines.push({ reason, changes: applied });
+    if (applied.length) lines.push({ title, why: why || "", changes: applied });
   };
 
   const sup = state.res.Supplies ?? 0;
   const ren = state.res.Renown ?? 0;
   const inf = state.res.Influence ?? 0;
   const sec = state.res.Secrets ?? 0;
+  const coin = state.res.Coin ?? 0;
 
   // 1) Living expenses: food + wear-and-tear (Supplies).
-  if (sup > 0) addLine("Living expenses (food & wear)", [{ resource: "Supplies", amount: -1 }]);
+  if (sup > 0) {
+    addLine(
+      "The larder thins",
+      "A year of meals, mended straps, and worn boots quietly eats at your stores.",
+      [{ resource: "Supplies", amount: -1 }]
+    );
+  }
 
   // 2) Spoilage: stockpiles rot.
-  if ((state.res.Supplies ?? 0) >= 10) addLine("Spoilage & waste", [{ resource: "Supplies", amount: -1 }]);
+  if ((state.res.Supplies ?? 0) >= 10) {
+    addLine(
+      "Rot and rats",
+      "A deep stockpile invites spoilage—grain goes stale, oil turns, and something always gets into the sacks.",
+      [{ resource: "Supplies", amount: -1 }]
+    );
+  }
 
   // 3) Secrets decay if hoarded too high.
-  if (sec >= 4) addLine("Secrets go stale", [{ resource: "Secrets", amount: -1 }]);
+  if (sec >= 4) {
+    addLine(
+      "Whispers lose their edge",
+      "Old leverage dulls when it isn’t used. The world moves on—and so do people’s fears.",
+      [{ resource: "Secrets", amount: -1 }]
+    );
+  }
 
   // 4) Leverage + cover interplay (keeps Influence/Secrets meaningful).
-  if (sec >= 3 && inf <= 0) addLine("Loose lips (no cover)", [{ resource: "Secrets", amount: -1 }]);
-  if (inf >= 7 && sec <= 0) addLine("Favors cool (no leverage)", [{ resource: "Influence", amount: -1 }]);
+  if (sec >= 3 && inf <= 0) {
+    addLine(
+      "Loose tongues in the dark",
+      "Without friends to cover you, a rumor slips a little farther than you intended.",
+      [{ resource: "Secrets", amount: -1 }]
+    );
+  }
+  if (inf >= 7 && sec <= 0) {
+    addLine(
+      "Favors cool",
+      "Connections need bargaining power. Without leverage, even warm doors slowly close.",
+      [{ resource: "Influence", amount: -1 }]
+    );
+  }
 
   // 5) Status upkeep: high Renown/Influence costs Coin to maintain (but won't push you into poverty).
   if (ren >= 9 || inf >= 7) {
-    if ((state.res.Coin ?? 0) >= 3) addLine("Keeping up appearances", [{ resource: "Coin", amount: -1 }]);
-    else if (ren >= inf) addLine("Rumors spread (couldn't sustain status)", [{ resource: "Renown", amount: -1 }]);
-    else addLine("Favors go unpaid (couldn't sustain status)", [{ resource: "Influence", amount: -1 }]);
+    if ((state.res.Coin ?? 0) >= 3) {
+      addLine(
+        "Dues and gifts",
+        "A name and a network both require coin: small bribes, donations, and the right presents at the right time.",
+        [{ resource: "Coin", amount: -1 }]
+      );
+    } else if (ren >= inf) {
+      addLine(
+        "Your name fades a shade",
+        "Without coin to keep up appearances, the stories don’t carry as far this year.",
+        [{ resource: "Renown", amount: -1 }]
+      );
+    } else {
+      addLine(
+        "Promises go unpaid",
+        "Without coin to grease the hinges, a few favors drift out of reach.",
+        [{ resource: "Influence", amount: -1 }]
+      );
+    }
   }
 
   // 6) Emergency provisions: if you're at 0 Supplies and have spare coin, auto-buy a little.
   // (This prevents the 'always broke' feel, but still costs something and is always shown.)
   if ((state.res.Supplies ?? 0) === 0 && (state.res.Coin ?? 0) >= 4) {
-    addLine("Emergency provisions", [{ resource: "Coin", amount: -1 }, { resource: "Supplies", amount: +1 }]);
+    addLine(
+      "Bread and salt",
+      "You refuse to let hunger set the terms. A single hard purchase keeps you standing.",
+      [{ resource: "Coin", amount: -1 }, { resource: "Supplies", amount: +1 }]
+    );
   }
 
   // 7) Small investments: big Coin cushions slowly turn into the weakest pillar.
@@ -4753,13 +4805,19 @@ function applyAnnualUpkeepAndDrift() {
       if (v < lowestVal) { lowest = c; lowestVal = v; }
     }
     if (lowestVal <= 3) {
-      addLine("Small investments", [{ resource: "Coin", amount: -1 }, { resource: lowest, amount: +1 }]);
+      addLine(
+        "A prudent exchange",
+        "Coin is safest when it becomes what you lack: a stocked shelf, a friendly door, or a steadier name.",
+        [{ resource: "Coin", amount: -1 }, { resource: lowest, amount: +1 }]
+      );
     }
   }
 
   // 8) Steady Year bonus: if you keep most resources in a healthy band, gain a redraw token (capped).
   let tokenAdded = 0;
   const afterRes = state.res;
+
+  // Healthy band: 3–9 (keeps the early game from being too strict).
   const healthyCount = RES.filter(r => {
     const v = afterRes?.[r] ?? 0;
     return v >= 3 && v <= 9;
@@ -4788,17 +4846,29 @@ function openYearEndModal(summary, onDone) {
 
   const hint = document.createElement("p");
   hint.className = "muted";
-  hint.textContent = "A year passes. Upkeep and drift happen automatically, but they’re always shown here so nothing feels ‘mysterious’.";
+  hint.textContent = "The year turns. Stores are counted, favors weighed, and old leverage tested against new realities.";
   wrap.appendChild(hint);
 
   const list = document.createElement("div");
   list.className = "outcomes";
   list.style.marginTop = "10px";
 
-  const addRow = (title, changes) => {
+  const addRow = (title, why, changes) => {
     const row = document.createElement("div");
     row.className = "outcome";
     row.style.cursor = "default";
+
+    const head = document.createElement("div");
+    head.className = "outcome-title";
+    head.textContent = title || "—";
+    row.appendChild(head);
+
+    if (why) {
+      const whyEl = document.createElement("div");
+      whyEl.className = "outcome-why";
+      whyEl.textContent = why;
+      row.appendChild(whyEl);
+    }
 
     const pills = document.createElement("div");
     pills.className = "resultBadges";
@@ -4809,35 +4879,26 @@ function openYearEndModal(summary, onDone) {
       if (!amt) continue;
       const pill = document.createElement("span");
       pill.className = "resultPill " + (amt > 0 ? "good" : "bad");
-      pill.textContent = `${amt > 0 ? "↑" : "↓"} ${ch.resource} ${Math.abs(amt)}`;
+      pill.textContent = `${amt > 0 ? "↑" : "↓"} ${ch.resource} ${amt > 0 ? "+" : "-"}${Math.abs(amt)}`;
       pills.appendChild(pill);
     }
 
-    row.innerHTML = `<div class="outcome-title">${escapeHtml(title)}</div>`;
-    row.appendChild(pills);
+    if (pills.childNodes.length) row.appendChild(pills);
     list.appendChild(row);
   };
 
   if (Array.isArray(summary.lines) && summary.lines.length) {
-    for (const ln of summary.lines) addRow(ln.reason, ln.changes);
+    for (const ln of summary.lines) addRow(ln.title, ln.why, ln.changes);
   } else {
-    addRow("A quiet year (no upkeep changes)", []);
+    addRow("A quiet turning", "Nothing shifts on its own this year.", []);
   }
 
   if (summary.tokenAdded) {
-    const row = document.createElement("div");
-    row.className = "outcome";
-    row.style.cursor = "default";
-    row.innerHTML = `<div class="outcome-title">Steady Year</div>`;
-    const pills = document.createElement("div");
-    pills.className = "resultBadges";
-    pills.style.marginTop = "8px";
-    const pill = document.createElement("span");
-    pill.className = "resultPill good";
-    pill.textContent = "↑ Redraw token +1";
-    pills.appendChild(pill);
-    row.appendChild(pills);
-    list.appendChild(row);
+    addRow(
+      "Steady Year",
+      "By keeping your fortunes balanced, you buy yourself a breath of choice in the next trials.",
+      [{ resource: "Redraw token", amount: +1 }]
+    );
   }
 
   wrap.appendChild(list);
@@ -4892,7 +4953,7 @@ function advanceTime() {
         if (Array.isArray(summary.lines)) {
           for (const ln of summary.lines) {
             const parts = (ln.changes ?? []).map(c => `${c.resource} ${fmtDelta(c.amount)}`).join(", ");
-            if (parts) log(`Year End — ${ln.reason}: ${parts}`);
+            if (parts) log(`Year End — ${ln.title}: ${parts}`);
           }
         }
         if (summary.tokenAdded) log("Year End — Steady Year: Redraw token +1");
