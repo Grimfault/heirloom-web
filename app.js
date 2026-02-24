@@ -928,7 +928,7 @@ const STAT_CAP = 10;
 const BASELINE_STAT = 1;
 const STAT_SCALE = STAT_CAP / 5; // 2.0 when STAT_CAP is 10
 const DIFF_SCALE = STAT_SCALE; // keep outcome diffs 1–5 but scale internally
-const MORTALITY_RESOLVE_MULT = 1; // 10 Resolve should equal old 5 Resolve mitigation
+const MORTALITY_RESOLVE_MULT = 0.6; // 10 Resolve should equal old 5 Resolve mitigation
 
 function ensureStatScale() {
   if (STAT_CAP !== 10) return;
@@ -4414,13 +4414,21 @@ function tryPickStoryHookEvent() {
 
     let w = rarityW * eventDirectorWeight(ev);
 
-    // Family safety-net: if you have no spouse/heir, heavily bias toward the courtship hook
-    // so players see lineage play in a reasonable window.
+    // Family safety-net: if you have no spouse/heir, bias toward the courtship hook
+    // —but only once you're plausibly "settled" enough to take it on.
     ensureFamilyState();
     if (sid === "ct" && !hasSpouse() && !hasHeir()) {
-      if (state.age >= 18 && state.age <= 34) w *= 3.2;
-      else if (state.age <= 40) w *= 2.0;
-      else w *= 1.1;
+      // Courtship is intentionally rarer; this is a gentle nudge, not a guarantee.
+      if (state.age >= 23 && state.age <= 34) w *= 1.6;
+      else if (state.age <= 40) w *= 1.25;
+      else w *= 1.05;
+
+      // If you're struggling to keep the household steady, courtship is less likely to surface.
+      const coin = state?.res?.Coin ?? 0;
+      const sup  = state?.res?.Supplies ?? 0;
+      const ren  = state?.res?.Renown ?? 0;
+      if (coin < 4 || sup < 3 || ren < 3) w *= 0.45;
+
       if (hasFlag("ct_declined")) w *= 0.35; // cooldown after declining a prospect
     }
 
@@ -4616,7 +4624,13 @@ function loadRandomEvent({ avoidIds = [] } = {}) {
       beginEvent(makeFallbackEvent("no eligible events"));
       return;
     }
-    beginEvent(ev);
+    // Major beats should *behave* like majors even if we had to fall back to a non-major record.
+    // (This keeps the Major pill, Draft modal, and mortality rules consistent.)
+    let chosen = ev;
+    if (chosen.kind !== "major") {
+      chosen = { ...ev, kind: "major" };
+    }
+    beginEvent(chosen);
     return;
   }
 
@@ -5225,7 +5239,10 @@ function resolveSelectedOutcome() {
   if (gainedSevere && hadSevereAlready) mortalityTriggered = true;
 
   if (mortalityTriggered) {
-    const mChance = computeMortalityChance();
+        const mitigation = (pair?.mortalityMitigation ?? 0);
+    let mChance = computeMortalityChance(mitigation);
+    // Mortality triggers should always carry *some* risk, even for high-Resolve builds.
+    mChance = Math.max(1, mChance);
     const mRoll = rInt(1, 100);
     log(`Mortality Check: ${mChance}% (roll ${mRoll})`);
     if (mRoll <= mChance) {
@@ -6119,8 +6136,8 @@ computeFinalResources = function(bg) {
 
 // Wrap computeMortalityChance for trunk + hearth endurance.
 const __origComputeMortalityChance = computeMortalityChance;
-computeMortalityChance = function() {
-  let base = __origComputeMortalityChance();
+computeMortalityChance = function(extraMitigation = 0) {
+  let base = __origComputeMortalityChance(extraMitigation);
   base -= trunkRank("t_hardened_years");
   base -= branchRank("hearth", "h_endure");
   return Math.max(0, base);
