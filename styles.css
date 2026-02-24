@@ -1509,3 +1509,16 @@ img.uiIcon{
    ========================================================= */
 #majorPill{ display: none; }
 #majorPill.show{ display: inline-flex; }
+
+
+/* --- Trait disabled state: avoid row-level opacity (causes blotchy/overlap look on some displays) --- */
+.traitRow.disabled{
+  opacity: 1;
+  cursor: not-allowed;
+  background: var(--washBg2);
+  border-color: var(--washBorder);
+}
+.traitRow.disabled b{ opacity: .60; }
+.traitRow.disabled .muted{ opacity: .70; }
+.traitRow.disabled .rarityPips{ opacity: .35; }
+
