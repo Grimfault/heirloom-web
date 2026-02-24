@@ -664,6 +664,33 @@ inset: 0;
 }
 
 
+
+
+/* --- Trait rarity visibility (matches card rarity cues) --- */
+.traitHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.traitRow .rarityPips{
+  font-size:12px;
+  letter-spacing:1px;
+  opacity:.9;
+  transform: translateY(-1px);
+}
+.traitRow[data-rarity="Common"] .rarityPips { opacity: .45; }
+.traitRow[data-rarity="Uncommon"] .rarityPips { opacity: .85; }
+.traitRow[data-rarity="Rare"] .rarityPips { opacity: 1; color: var(--warn); }
+
+.traitRow[data-rarity="Uncommon"]{
+  border-color: var(--accentGlow1);
+  box-shadow: 0 0 0 1px var(--accentGlow2), 0 12px 32px rgba(0,0,0,.12);
+}
+.traitRow[data-rarity="Rare"]{
+  border-color: var(--rareBorder);
+  box-shadow: 0 0 0 1px rgba(232,194,117,0.18), 0 14px 38px rgba(0,0,0,.14);
+}
 /* === v6.3 readability patch (mobile) === */
 .dim { opacity: .62; }                 /* previously too dim to read on OLED */
 .cardbtn.dim { opacity: .55; }
