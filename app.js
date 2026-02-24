@@ -949,69 +949,115 @@ const STARTING_AGE = 16;
 const MAX_MARRIAGE_AGE = 45;
 
 const TRAITS = [
-  // All traits are balanced to: net +2 stat points and +3 resource points (Coin: +2 = 1 point).
-  // Some traits include a stat tradeoff (negative stat) but still net to +2 stats overall.
+  // Traits are permanent run-start nudges.
+  // Rarity only affects how often a trait is offered at start (not how it functions in play).
+  // Design baseline:
+  // - Common: modest, reliable bonuses.
+  // - Uncommon: slightly stronger focus bonuses.
+  // - Rare: stronger focus with a simple stat tradeoff.
 
-  { id: "road_hardened", name: "Road Hardened", desc: "Start with +1 Resolve, +1 Might, +2 Supplies, and +2 Coin.",
+  { id: "road_hardened", rarity: "Common", name: "Road Hardened", desc: "Start with +1 Resolve, +1 Might, +2 Supplies, and +2 Coin.",
     statMods: { Resolve: 1, Might: 1 }, resMods: { Supplies: 2, Coin: 2 } },
-
-  { id: "court_polish", name: "Court Polish", desc: "Start with +1 Gravitas, +1 Wit, +2 Influence, and +1 Renown.",
+  { id: "court_polish", rarity: "Common", name: "Court Polish", desc: "Start with +1 Gravitas, +1 Wit, +2 Influence, and +1 Renown.",
     statMods: { Gravitas: 1, Wit: 1 }, resMods: { Influence: 2, Renown: 1 } },
-
-  { id: "ledgerwise", name: "Ledgerwise", desc: "Start with +1 Wit, +1 Guile, +4 Coin, and +1 Influence.",
+  { id: "ledgerwise", rarity: "Common", name: "Ledgerwise", desc: "Start with +1 Wit, +1 Guile, +4 Coin, and +1 Influence.",
     statMods: { Wit: 1, Guile: 1 }, resMods: { Coin: 4, Influence: 1 } },
-
-  { id: "alley_instinct", name: "Alley Instinct", desc: "Start with +1 Guile, +1 Resolve, +2 Secrets, and +1 Supplies.",
+  { id: "alley_instinct", rarity: "Common", name: "Alley Instinct", desc: "Start with +1 Guile, +1 Resolve, +2 Secrets, and +1 Supplies.",
     statMods: { Guile: 1, Resolve: 1 }, resMods: { Secrets: 2, Supplies: 1 } },
-
-  { id: "oath_temper", name: "Oath Temper", desc: "Start with +1 Resolve, +1 Gravitas, +1 Renown, +1 Influence, and +1 Supplies.",
+  { id: "oath_temper", rarity: "Common", name: "Oath Temper", desc: "Start with +1 Resolve, +1 Gravitas, +1 Renown, +1 Influence, and +1 Supplies.",
     statMods: { Resolve: 1, Gravitas: 1 }, resMods: { Renown: 1, Influence: 1, Supplies: 1 } },
-
-  { id: "candle_calm", name: "Candle Calm", desc: "Start with +2 Resolve, +1 Influence, +1 Supplies, and +1 Secrets.",
+  { id: "candle_calm", rarity: "Common", name: "Candle Calm", desc: "Start with +2 Resolve, +1 Influence, +1 Supplies, and +1 Secrets.",
     statMods: { Resolve: 2 }, resMods: { Influence: 1, Supplies: 1, Secrets: 1 } },
-
-  { id: "caravan_born", name: "Caravan Born", desc: "Start with +1 Wit, +1 Resolve, +2 Supplies, and +2 Coin.",
+  { id: "caravan_born", rarity: "Common", name: "Caravan Born", desc: "Start with +1 Wit, +1 Resolve, +2 Supplies, and +2 Coin.",
     statMods: { Wit: 1, Resolve: 1 }, resMods: { Supplies: 2, Coin: 2 } },
-
-  { id: "ink_scholar", name: "Ink Scholar", desc: "Start with +2 Wit, +1 Secrets, +1 Influence, and +2 Coin.",
-    statMods: { Wit: 2 }, resMods: { Secrets: 1, Influence: 1, Coin: 2 } },
-
-  { id: "hard_bargain", name: "Hard Bargain", desc: "Start with +1 Gravitas, +1 Guile, +4 Coin, and +1 Influence.",
-    statMods: { Gravitas: 1, Guile: 1 }, resMods: { Coin: 4, Influence: 1 } },
-
-  { id: "whisper_network", name: "Whisper Network", desc: "Start with +1 Guile, +1 Wit, +2 Secrets, and +1 Influence.",
+  { id: "ink_scholar", rarity: "Common", name: "Ink Scholar", desc: "Start with +2 Wit, +2 Coin, +1 Influence, and +1 Secrets.",
+    statMods: { Wit: 2 }, resMods: { Coin: 2, Influence: 1, Secrets: 1 } },
+  { id: "hard_bargain", rarity: "Common", name: "Hard Bargain", desc: "Start with +1 Gravitas, +1 Guile, +4 Coin, and +1 Renown.",
+    statMods: { Gravitas: 1, Guile: 1 }, resMods: { Coin: 4, Renown: 1 } },
+  { id: "whisper_network", rarity: "Common", name: "Whisper Network", desc: "Start with +1 Guile, +1 Wit, +2 Secrets, and +1 Influence.",
     statMods: { Guile: 1, Wit: 1 }, resMods: { Secrets: 2, Influence: 1 } },
-
-  { id: "river_sense", name: "River Sense", desc: "Start with +1 Wit, +1 Gravitas, +2 Influence, and +2 Coin.",
-    statMods: { Wit: 1, Gravitas: 1 }, resMods: { Influence: 2, Coin: 2 } },
-
-  { id: "stern_mercy", name: "Stern Mercy", desc: "Start with +1 Resolve, +1 Gravitas, +1 Influence, +1 Supplies, and +2 Coin.",
-    statMods: { Resolve: 1, Gravitas: 1 }, resMods: { Influence: 1, Supplies: 1, Coin: 2 } },
-
-  { id: "quiet_name", name: "Quiet Name", desc: "Start with +1 Resolve, +1 Wit, +2 Renown, and +1 Supplies.",
+  { id: "river_sense", rarity: "Common", name: "River Sense", desc: "Start with +1 Wit, +1 Gravitas, +2 Coin, and +2 Influence.",
+    statMods: { Wit: 1, Gravitas: 1 }, resMods: { Coin: 2, Influence: 2 } },
+  { id: "stern_mercy", rarity: "Common", name: "Stern Mercy", desc: "Start with +1 Resolve, +1 Gravitas, +2 Coin, +1 Supplies, and +1 Renown.",
+    statMods: { Resolve: 1, Gravitas: 1 }, resMods: { Coin: 2, Supplies: 1, Renown: 1 } },
+  { id: "quiet_name", rarity: "Common", name: "Quiet Name", desc: "Start with +1 Resolve, +1 Wit, +2 Renown, and +1 Supplies.",
     statMods: { Resolve: 1, Wit: 1 }, resMods: { Renown: 2, Supplies: 1 } },
+  { id: "field_medic", rarity: "Common", name: "Field Medic", desc: "Start with +1 Resolve, +1 Wit, and +3 Supplies.",
+    statMods: { Resolve: 1, Wit: 1 }, resMods: { Supplies: 3 } },
+  { id: "stable_hands", rarity: "Common", name: "Stable Hands", desc: "Start with +1 Might, +1 Resolve, +2 Coin, +1 Supplies, and +1 Renown.",
+    statMods: { Might: 1, Resolve: 1 }, resMods: { Coin: 2, Supplies: 1, Renown: 1 } },
+  { id: "quick_study", rarity: "Common", name: "Quick Study", desc: "Start with +1 Wit, +1 Resolve, +2 Coin, +1 Influence, and +1 Secrets.",
+    statMods: { Wit: 1, Resolve: 1 }, resMods: { Coin: 2, Influence: 1, Secrets: 1 } },
+  { id: "street_courtesy", rarity: "Common", name: "Street Courtesy", desc: "Start with +1 Gravitas, +1 Guile, +2 Coin, +1 Influence, and +1 Secrets.",
+    statMods: { Gravitas: 1, Guile: 1 }, resMods: { Coin: 2, Influence: 1, Secrets: 1 } },
+  { id: "stout_pack", rarity: "Common", name: "Stout Pack", desc: "Start with +1 Might, +1 Wit, and +3 Supplies.",
+    statMods: { Might: 1, Wit: 1 }, resMods: { Supplies: 3 } },
+  { id: "stacked_dice", rarity: "Common", name: "Stacked Dice", desc: "Start with +1 Guile, +1 Wit, +4 Coin, and +1 Secrets.",
+    statMods: { Guile: 1, Wit: 1 }, resMods: { Coin: 4, Secrets: 1 } },
+  { id: "open_door", rarity: "Common", name: "Open Door", desc: "Start with +1 Gravitas, +1 Resolve, +2 Influence, and +2 Coin.",
+    statMods: { Gravitas: 1, Resolve: 1 }, resMods: { Influence: 2, Coin: 2 } },
+  { id: "salt_and_rope", rarity: "Common", name: "Salt & Rope", desc: "Start with +1 Might, +1 Resolve, +2 Supplies, and +1 Influence.",
+    statMods: { Might: 1, Resolve: 1 }, resMods: { Supplies: 2, Influence: 1 } },
+  { id: "honest_ledger", rarity: "Common", name: "Honest Ledger", desc: "Start with +1 Wit, +1 Gravitas, +3 Coin, and +1 Renown.",
+    statMods: { Wit: 1, Gravitas: 1 }, resMods: { Coin: 3, Renown: 1 } },
+  { id: "harbor_friend", rarity: "Common", name: "Harbor Friend", desc: "Start with +1 Gravitas, +1 Resolve, +2 Coin, +1 Supplies, and +1 Influence.",
+    statMods: { Gravitas: 1, Resolve: 1 }, resMods: { Coin: 2, Supplies: 1, Influence: 1 } },
+  { id: "hedge_forager", rarity: "Common", name: "Hedge Forager", desc: "Start with +1 Wit, +1 Resolve, +2 Supplies, and +1 Secrets.",
+    statMods: { Wit: 1, Resolve: 1 }, resMods: { Supplies: 2, Secrets: 1 } },
+  { id: "hearthward", rarity: "Common", name: "Hearthward", desc: "Start with +1 Resolve, +1 Gravitas, +1 Supplies, and +2 Renown.",
+    statMods: { Resolve: 1, Gravitas: 1 }, resMods: { Supplies: 1, Renown: 2 } },
+  { id: "names_in_ink", rarity: "Common", name: "Names in Ink", desc: "Start with +1 Wit, +1 Gravitas, +2 Influence, and +1 Secrets.",
+    statMods: { Wit: 1, Gravitas: 1 }, resMods: { Influence: 2, Secrets: 1 } },
+  { id: "watchful_step", rarity: "Common", name: "Watchful Step", desc: "Start with +1 Guile, +1 Resolve, +2 Secrets, and +2 Coin.",
+    statMods: { Guile: 1, Resolve: 1 }, resMods: { Secrets: 2, Coin: 2 } },
+  { id: "guild_token", rarity: "Common", name: "Guild Token", desc: "Start with +1 Wit, +1 Guile, +1 Influence, +1 Renown, and +2 Coin.",
+    statMods: { Wit: 1, Guile: 1 }, resMods: { Influence: 1, Renown: 1, Coin: 2 } },
 
-  { id: "field_medic", name: "Field Medic", desc: "Start with +1 Resolve, +1 Wit, +2 Supplies, and +1 Influence.",
-    statMods: { Resolve: 1, Wit: 1 }, resMods: { Supplies: 2, Influence: 1 } },
+  { id: "iron_discipline", rarity: "Uncommon", name: "Iron Discipline", desc: "Start with +2 Might, +2 Supplies, and +2 Coin.",
+    statMods: { Might: 2 }, resMods: { Supplies: 2, Coin: 2 } },
+  { id: "silver_tongue", rarity: "Uncommon", name: "Silver Tongue", desc: "Start with +2 Gravitas and +3 Influence.",
+    statMods: { Gravitas: 2 }, resMods: { Influence: 3 } },
+  { id: "patient_listener", rarity: "Uncommon", name: "Patient Listener", desc: "Start with +2 Wit, +2 Secrets, and +1 Influence.",
+    statMods: { Wit: 2 }, resMods: { Secrets: 2, Influence: 1 } },
+  { id: "knife_quiet", rarity: "Uncommon", name: "Knife-Quiet", desc: "Start with +2 Guile, +2 Secrets, and +2 Coin.",
+    statMods: { Guile: 2 }, resMods: { Secrets: 2, Coin: 2 } },
+  { id: "well_connected", rarity: "Uncommon", name: "Well-Connected", desc: "Start with +1 Gravitas, +1 Wit, +3 Influence, and +1 Renown.",
+    statMods: { Gravitas: 1, Wit: 1 }, resMods: { Influence: 3, Renown: 1 } },
+  { id: "veterans_scar", rarity: "Uncommon", name: "Veteran's Scar", desc: "Start with +1 Might, +1 Resolve, and +3 Renown.",
+    statMods: { Might: 1, Resolve: 1 }, resMods: { Renown: 3 } },
+  { id: "camp_quartermaster", rarity: "Uncommon", name: "Camp Quartermaster", desc: "Start with +1 Resolve, +1 Wit, and +4 Supplies.",
+    statMods: { Resolve: 1, Wit: 1 }, resMods: { Supplies: 4 } },
+  { id: "hidden_purse", rarity: "Uncommon", name: "Hidden Purse", desc: "Start with +1 Guile, +1 Wit, and +6 Coin.",
+    statMods: { Guile: 1, Wit: 1 }, resMods: { Coin: 6 } },
+  { id: "patrons_favor", rarity: "Uncommon", name: "Patron's Favor", desc: "Start with +1 Gravitas, +1 Resolve, +2 Influence, and +2 Renown.",
+    statMods: { Gravitas: 1, Resolve: 1 }, resMods: { Influence: 2, Renown: 2 } },
+  { id: "couriers_routes", rarity: "Uncommon", name: "Courier's Routes", desc: "Start with +2 Resolve, +2 Supplies, +2 Coin, and +1 Influence.",
+    statMods: { Resolve: 2 }, resMods: { Supplies: 2, Coin: 2, Influence: 1 } },
+  { id: "quiet_bribes", rarity: "Uncommon", name: "Quiet Bribes", desc: "Start with +1 Guile, +1 Gravitas, +5 Coin, and +1 Influence.",
+    statMods: { Guile: 1, Gravitas: 1 }, resMods: { Coin: 5, Influence: 1 } },
+  { id: "court_clerk", rarity: "Uncommon", name: "Court Clerk", desc: "Start with +2 Wit, +2 Influence, and +2 Renown.",
+    statMods: { Wit: 2 }, resMods: { Influence: 2, Renown: 2 } },
+  { id: "battlefield_reputation", rarity: "Uncommon", name: "Battlefield Reputation", desc: "Start with +2 Might, +2 Renown, and +3 Coin.",
+    statMods: { Might: 2 }, resMods: { Renown: 2, Coin: 3 } },
+  { id: "shrine_oath", rarity: "Uncommon", name: "Shrine Oath", desc: "Start with +2 Resolve, +2 Renown, and +2 Influence.",
+    statMods: { Resolve: 2 }, resMods: { Renown: 2, Influence: 2 } },
 
-  // ---- Tradeoff traits (include a -1 stat, but still net +2 stats) ----
-  { id: "fiery_charm", name: "Fiery Charm", desc: "Start with +2 Might, +1 Gravitas, -1 Resolve, +2 Renown, and +2 Coin.",
-    statMods: { Might: 2, Gravitas: 1, Resolve: -1 }, resMods: { Renown: 2, Coin: 2 } },
-
-  { id: "suspicious_mind", name: "Suspicious Mind", desc: "Start with +2 Guile, +1 Wit, -1 Gravitas, +2 Secrets, and +2 Coin.",
-    statMods: { Guile: 2, Wit: 1, Gravitas: -1 }, resMods: { Secrets: 2, Coin: 2 } },
-
-  { id: "scholar_blindspot", name: "Scholar Blindspot", desc: "Start with +2 Wit, +1 Resolve, -1 Might, +2 Influence, and +1 Supplies.",
-    statMods: { Wit: 2, Resolve: 1, Might: -1 }, resMods: { Influence: 2, Supplies: 1 } },
-
-  { id: "masked_motive", name: "Masked Motive", desc: "Start with +2 Gravitas, +1 Guile, -1 Wit, +1 Influence, +1 Secrets, and +2 Coin.",
-    statMods: { Gravitas: 2, Guile: 1, Wit: -1 }, resMods: { Influence: 1, Secrets: 1, Coin: 2 } },
-
-  { id: "stone_stubborn", name: "Stone Stubborn", desc: "Start with +2 Resolve, +1 Might, -1 Guile, +2 Supplies, and +1 Renown.",
-    statMods: { Resolve: 2, Might: 1, Guile: -1 }, resMods: { Supplies: 2, Renown: 1 } },
-
-  { id: "reckless_rider", name: "Reckless Rider", desc: "Start with +2 Might, +1 Guile, -1 Resolve, +1 Supplies, and +4 Coin.",
-    statMods: { Might: 2, Guile: 1, Resolve: -1 }, resMods: { Supplies: 1, Coin: 4 } }
+  { id: "blazing_presence", rarity: "Rare", name: "Blazing Presence", desc: "Start with +2 Might, +1 Gravitas, -1 Resolve, +2 Renown, and +3 Coin.",
+    statMods: { Might: 2, Gravitas: 1, Resolve: -1 }, resMods: { Renown: 2, Coin: 3 } },
+  { id: "watchful_cynic", rarity: "Rare", name: "Watchful Cynic", desc: "Start with +2 Guile, +1 Wit, -1 Gravitas, +3 Secrets, and +2 Coin.",
+    statMods: { Guile: 2, Wit: 1, Gravitas: -1 }, resMods: { Secrets: 3, Coin: 2 } },
+  { id: "scholars_blindspot", rarity: "Rare", name: "Scholar's Blindspot", desc: "Start with +2 Wit, +1 Resolve, -1 Might, +2 Influence, +2 Coin, and +1 Secrets.",
+    statMods: { Wit: 2, Resolve: 1, Might: -1 }, resMods: { Influence: 2, Coin: 2, Secrets: 1 } },
+  { id: "cruel_efficiency", rarity: "Rare", name: "Cruel Efficiency", desc: "Start with +2 Guile, +1 Might, -1 Resolve, +5 Coin, and +1 Secrets.",
+    statMods: { Guile: 2, Might: 1, Resolve: -1 }, resMods: { Coin: 5, Secrets: 1 } },
+  { id: "noble_blood", rarity: "Rare", name: "Noble Blood", desc: "Start with +2 Gravitas, +1 Resolve, -1 Guile, +4 Influence, and +1 Renown.",
+    statMods: { Gravitas: 2, Resolve: 1, Guile: -1 }, resMods: { Influence: 4, Renown: 1 } },
+  { id: "storm_runner", rarity: "Rare", name: "Storm Runner", desc: "Start with +2 Resolve, +1 Guile, -1 Wit, +4 Supplies, and +1 Influence.",
+    statMods: { Resolve: 2, Guile: 1, Wit: -1 }, resMods: { Supplies: 4, Influence: 1 } },
+  { id: "oathbreakers_edge", rarity: "Rare", name: "Oathbreaker's Edge", desc: "Start with +2 Might, +1 Guile, -1 Gravitas, +2 Secrets, and +2 Renown.",
+    statMods: { Might: 2, Guile: 1, Gravitas: -1 }, resMods: { Secrets: 2, Renown: 2 } },
+  { id: "forbidden_insight", rarity: "Rare", name: "Forbidden Insight", desc: "Start with +2 Wit, +1 Gravitas, -1 Resolve, and +4 Secrets.",
+    statMods: { Wit: 2, Gravitas: 1, Resolve: -1 }, resMods: { Secrets: 4 } },
 ];
 
 
@@ -1793,7 +1839,8 @@ let creation = {
   bgId: null,
   ambitionId: null,
   alloc: Object.fromEntries(STATS.map(s => [s, 0])),
-  traits: new Set()
+  traits: new Set(),
+  traitOfferIds: null
 };
 
 function generateHeirNameChoices(n = 5) {
@@ -3600,17 +3647,30 @@ function renderCreationUI() {
     allocGrid.appendChild(row);
   }
 
-  // Traits
+  // Traits (offer 8 with rarity rolls)
+  if (!Array.isArray(creation.traitOfferIds) || creation.traitOfferIds.length !== 8) {
+    creation.traitOfferIds = buildTraitOfferIds();
+  }
+
   traitsListEl.innerHTML = "";
-  for (const t of TRAITS) {
+  for (const tid of creation.traitOfferIds) {
+    const t = traitById(tid);
+    if (!t) continue;
+
     const wrap = document.createElement("label");
     wrap.className = "traitRow";
+    wrap.dataset.rarity = (t.rarity || "Common");
 
     const checked = creation.traits.has(t.id);
+    const pips = rarityPips(t.rarity || "Common");
+
     wrap.innerHTML = `
       <input type="checkbox" data-trait="${t.id}" ${checked ? "checked" : ""} />
       <div>
-        <div><b>${t.name}</b></div>
+        <div class="traitHead">
+          <div><b>${t.name}</b></div>
+          <div class="rarityPips">${pips}</div>
+        </div>
         <div class="muted">${t.desc}</div>
       </div>
     `;
@@ -3631,6 +3691,8 @@ function renderCreationUI() {
 
     traitsListEl.appendChild(wrap);
   }
+
+
 
   // --- Start screen helpers (robust even if ui.enhancements.v1.js is missing) ---
   const traitsPickedEl = document.getElementById("traitsPicked");
@@ -5787,6 +5849,61 @@ function traitById(id) {
   return TRAITS.find(t => t.id === id) || null;
 }
 
+function sampleN(arr, n) {
+  const pool = [...arr];
+  shuffle(pool);
+  return pool.slice(0, Math.min(n, pool.length));
+}
+
+
+function rollChance(p) {
+  return Math.random() < p;
+}
+
+
+/**
+ * Starting trait offer rules (v0.3+):
+ * - Offer 8 Common traits by default.
+ * - 30% chance to replace 1 of the 8 with an Uncommon.
+ * - If that happens, 30% chance to replace a second slot (max 2 Uncommon).
+ * - If any Uncommon traits are present, 10% chance one of those Uncommon slots becomes Rare.
+ */
+function buildTraitOfferIds() {
+  const commons = TRAITS.filter(t => (t.rarity || "Common") === "Common");
+  const uncommons = TRAITS.filter(t => t.rarity === "Uncommon");
+  const rares = TRAITS.filter(t => t.rarity === "Rare");
+
+  // Baseline: 8 commons
+  let offer = sampleN(commons, 8);
+
+  // Safety: if commons are missing/misconfigured, fall back to any traits.
+  if (offer.length < 8) {
+    return sampleN(TRAITS, 8).map(t => t.id);
+  }
+
+  let uncommonCount = 0;
+  if (uncommons.length && rollChance(0.30)) uncommonCount = 1;
+  if (uncommonCount === 1 && uncommons.length >= 2 && rollChance(0.30)) uncommonCount = 2;
+
+  const uncommonSlots = [];
+  if (uncommonCount > 0) {
+    const slots = sampleN([0,1,2,3,4,5,6,7], uncommonCount);
+    uncommonSlots.push(...slots);
+
+    const picks = sampleN(uncommons, uncommonCount);
+    uncommonSlots.forEach((slot, i) => {
+      offer[slot] = picks[i];
+    });
+
+    if (rares.length && rollChance(0.10)) {
+      const slot = uncommonSlots[Math.floor(Math.random() * uncommonSlots.length)];
+      offer[slot] = sampleN(rares, 1)[0];
+    }
+  }
+
+  return offer.map(t => t.id);
+}
+
 function defaultStats() {
   return Object.fromEntries(STATS.map(s => [s, 0]));
 }
@@ -5884,6 +6001,7 @@ function resetCreation() {
   creation.ambitionId = null;
   creation.alloc = Object.fromEntries(STATS.map(s => [s, 0]));
   creation.traits = new Set();
+  creation.traitOfferIds = null;
 }
 
 function populateBackgroundSelect() {
