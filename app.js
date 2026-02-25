@@ -897,10 +897,11 @@ const statusLine = document.getElementById("statusLine");
 const statsLine = document.getElementById("statsLine");
 const resourceLine = document.getElementById("resourceLine");
 const standingLine = document.getElementById("standingLine");
-const conditionLine = document.getElementById("conditionLine");
 
-const ambitionPanel = document.getElementById("ambitionPanel");
-const storylinePanel = document.getElementById("storylinePanel");
+const trackerRow = document.getElementById("trackerRow");
+const ambitionTrackerEl = document.getElementById("ambitionTracker");
+const storyTrackerEl = document.getElementById("storyTracker");
+const conditionLine = document.getElementById("conditionLine");
 const majorPill = document.getElementById("majorPill");
 
 const eventName = document.getElementById("eventName");
@@ -2796,17 +2797,6 @@ function hasFlag(id) {
   return Object.prototype.hasOwnProperty.call(state.flags, id);
 }
 
-
-function ensurePeaks() {
-  if (!state) return;
-  state.peaks ??= {};
-  // Track per-life resource peaks (for ambitions and clarity).
-  for (const r of (RES ?? [])) {
-    const cur = Number(state?.res?.[r] ?? 0);
-    if (!Number.isFinite(state.peaks[r])) state.peaks[r] = cur;
-  }
-}
-
 function applyResourceDelta(d) {
   if (!d) return;
   const k = d.resource;
@@ -2816,11 +2806,15 @@ function applyResourceDelta(d) {
   const after = clamp(before + amt, 0, 99);
   state.res[k] = after;
 
-  // Update per-life peaks for ambition tracking.
-  ensurePeaks();
-  state.peaks[k] = Math.max(Number(state.peaks[k] ?? 0), after);
-
-  // Resource floor consequences (only when crossing from >0 to 0 due to a loss).
+  
+  // Track per-life resource peaks (for ambition objectives)
+  try {
+    initPerLifeMeta();
+    state.metaPerLife.peaks ??= { ...(state.res ?? {}) };
+    const pb = state.metaPerLife.peaks[k];
+    state.metaPerLife.peaks[k] = Math.max(Number.isFinite(pb) ? pb : 0, after);
+  } catch {}
+// Resource floor consequences (only when crossing from >0 to 0 due to a loss).
   // These don't kill you directly; they add pressure conditions.
   if (before > 0 && after === 0 && amt < 0) {
     if (k === "Coin") addCondition("In Debt", "Minor", { source: "floor" });
@@ -3738,213 +3732,6 @@ function isMajorEventNow() {
   return isMajorBeatAt(age, seasonIndex);
 }
 
-
-// ---------- Trackers (Ambition / Storylines) ----------
-function getAmbitionDef() {
-  if (!state?.ambitionId) return null;
-  return DATA?.ambitionsById?.[state.ambitionId] ?? null;
-}
-
-function prettyFlagLabel(id) {
-  if (!id) return "";
-  // Storyline flags: sl_<id>_done / sl_<id>_active / sl_<id>_stepN
-  const m = String(id).match(/^sl_([a-z0-9]+)_(done|active|step\d+)$/i);
-  if (m) {
-    const sid = m[1];
-    const key = m[2];
-    const meta = storylineMeta?.(sid) ?? { name: sid };
-    if (key === "done") return `${meta.name} complete`;
-    if (key === "active") return `${meta.name} started`;
-    if (key.startsWith("step")) return `${meta.name} ${key.replace("step","Step ")}`;
-  }
-  return String(id);
-}
-
-function ambitionObjectiveStatus(obj) {
-  const t = obj?.type;
-  const text = obj?.text ?? obj?.id ?? "Objective";
-  let met = false;
-  let prog = "";
-
-  try {
-    if (t === "PeakResourceAtLeast") {
-      ensurePeaks();
-      const r = obj.resource;
-      const cur = Number(state?.peaks?.[r] ?? state?.res?.[r] ?? 0);
-      const need = Number(obj.amount ?? 0);
-      met = cur >= need;
-      prog = `${cur}/${need}`;
-    } else if (t === "MinStanding") {
-      const fid = obj.factionId;
-      const curTier = state?.standings?.[fid] ?? "Neutral";
-      const needTier = obj.minTier ?? "Neutral";
-      met = tierIndex(curTier) >= tierIndex(needTier);
-      prog = `${factionLabel(fid)}: ${curTier}`;
-    } else if (t === "AnyStandingAtLeast") {
-      const needTier = obj.minTier ?? "Favored";
-      const fids = Array.isArray(obj.factionIds) && obj.factionIds.length
-        ? obj.factionIds
-        : (DATA?.factions ?? []).map(f => f.id);
-
-      let best = { tier: "Hostile", fid: null };
-      let hit = null;
-
-      for (const fid of fids) {
-        const curTier = state?.standings?.[fid] ?? "Neutral";
-        if (!best.fid || tierIndex(curTier) > tierIndex(best.tier)) best = { tier: curTier, fid };
-        if (!hit && tierIndex(curTier) >= tierIndex(needTier)) hit = { tier: curTier, fid };
-      }
-
-      met = Boolean(hit);
-      const show = hit ?? best;
-      prog = show?.fid ? `${factionLabel(show.fid)}: ${show.tier}` : `${best.tier}`;
-      if (!met) prog += ` (need ${needTier})`;
-    } else if (t === "AnyFlagSet") {
-      const ids = Array.isArray(obj.ids) ? obj.ids : [];
-      const found = ids.find(x => hasFlag(x));
-      met = Boolean(found);
-      prog = found ? prettyFlagLabel(found) : `Need one of ${ids.length}`;
-    } else if (t === "HasFlag") {
-      met = hasFlag(obj.id);
-      prog = met ? prettyFlagLabel(obj.id) : prettyFlagLabel(obj.id);
-    } else if (t === "HasSpouse") {
-      met = hasSpouse?.() ?? Boolean(state?.family?.spouse);
-      prog = met ? "Yes" : "No";
-    } else if (t === "HasHeir") {
-      met = hasHeir?.() ?? Boolean((state?.family?.heirs ?? []).length);
-      prog = met ? "Yes" : "No";
-    } else if (t === "NotCondition") {
-      met = !hasCondition(obj.id, "Any");
-      prog = met ? "Clear" : "Has condition";
-    } else if (t === "AgeAtLeast") {
-      const need = Number(obj.age ?? 0);
-      const cur = Number(state?.age ?? 0);
-      met = cur >= need;
-      prog = `${cur}/${need}`;
-    }
-  } catch {}
-
-  return { met, text, prog };
-}
-
-function renderAmbitionPanel() {
-  if (!ambitionPanel) return;
-
-  const amb = getAmbitionDef();
-  if (!amb) {
-    const msg = (state?.ambitionDeferred === true && (state?.ambitionId == null))
-      ? `Deferred (choose at age 20)`
-      : `None selected`;
-    ambitionPanel.innerHTML = `
-      <div class="trackerHeader">
-        <div class="trackerTitle">Ambition</div>
-        <div class="trackerPill warn">${escapeHtml(msg)}</div>
-      </div>
-      <div class="muted small">Pick an ambition to earn bonus Legacy/Scrip. Objectives will track here.</div>
-    `;
-    return;
-  }
-
-  const objs = Array.isArray(amb.objectives) ? amb.objectives : [];
-  const statuses = objs.map(ambitionObjectiveStatus);
-  const done = statuses.length ? statuses.every(o => o.met) : false;
-
-  const objHtml = statuses.map(o => `
-    <div class="objLine">
-      <span class="objMark ${o.met ? "done" : ""}">${o.met ? "✓" : "•"}</span>
-      <span class="objText">${escapeHtml(o.text)}</span>
-      <span class="objProg">${escapeHtml(o.prog ?? "")}</span>
-    </div>
-  `).join("");
-
-  ambitionPanel.innerHTML = `
-    <div class="trackerHeader">
-      <div class="trackerTitle">Ambition</div>
-      <div class="trackerPill ${done ? "good" : ""}">${done ? "Completed" : "In progress"}</div>
-    </div>
-    <div class="trackerName">${escapeHtml(amb.name ?? amb.id ?? "Ambition")}</div>
-    ${amb.desc ? `<div class="muted small trackerDesc">${escapeHtml(amb.desc)}</div>` : ``}
-    <div class="objList">${objHtml}</div>
-  `;
-}
-
-function storylineNextStep(id) {
-  if (!state?.flags) return null;
-  const re = new RegExp(`^sl_${id}_step(\\\\d+)$`);
-  let next = null;
-  for (const k of Object.keys(state.flags)) {
-    const m = String(k).match(re);
-    if (!m) continue;
-    const n = Number(m[1]);
-    if (!Number.isFinite(n)) continue;
-    if (next == null || n > next) next = n;
-  }
-  return next;
-}
-
-function renderStorylinePanel() {
-  if (!storylinePanel) return;
-
-  const active = activeStorylineIds?.() ?? [];
-  const max = (typeof MAX_ACTIVE_STORYLINES !== "undefined") ? MAX_ACTIVE_STORYLINES : 2;
-
-  if (!active.length) {
-    storylinePanel.innerHTML = `
-      <div class="trackerHeader">
-        <div class="trackerTitle">Storylines</div>
-        <div class="trackerPill">${active.length}/${max} active</div>
-      </div>
-      <div class="muted small">None active. Hooks will appear as you play (up to 2 at a time).</div>
-    `;
-    return;
-  }
-
-  const items = active.map(id => {
-    const meta = storylineMeta?.(id) ?? { name: id, total: null };
-    const total = Number(meta.total ?? 0) || null;
-    const done = isStoryDone?.(id) ?? hasFlag(`sl_${id}_done`);
-    const nextStep = storylineNextStep(id);
-    const completed = done ? (total ?? "?") : (Number.isFinite(nextStep) ? Math.max(0, nextStep - 1) : 0);
-
-    const dueAt = Number(state?.story?.due?.[id]);
-    let dueStr = "";
-    if (Number.isFinite(dueAt)) {
-      const idx = Number(state?.runEventIndex ?? 0);
-      const d = dueAt - idx;
-      dueStr = (d <= 0) ? "Due now" : `Due in ${d} event(s)`;
-    }
-
-    const prog = total ? `${completed}/${total}` : `${completed}`;
-    const isHere = (currentEvent?.storyline?.id === id);
-
-    return `
-      <div class="storyItem">
-        <div class="storyMetaRow">
-          <div class="trackerName">${escapeHtml(meta.name ?? id)}${isHere ? ` <span class="trackerPill good">Now</span>` : ``}</div>
-          <div class="objProg">${escapeHtml(prog)}</div>
-        </div>
-        <div class="storyMetaRow">
-          <div class="muted small">${done ? "Complete" : "Active"}</div>
-          <div class="storyDue">${escapeHtml(dueStr)}</div>
-        </div>
-      </div>
-    `;
-  }).join("");
-
-  storylinePanel.innerHTML = `
-    <div class="trackerHeader">
-      <div class="trackerTitle">Storylines</div>
-      <div class="trackerPill">${active.length}/${max} active</div>
-    </div>
-    <div class="objList">${items}</div>
-  `;
-}
-
-function renderTrackers() {
-  renderAmbitionPanel();
-  renderStorylinePanel();
-}
-
 function renderStatus() {
   const season = SEASONS[state.seasonIndex];
 
@@ -3977,11 +3764,200 @@ function renderStatus() {
     : "None";
   conditionLine.textContent = `Conditions: ${condStr}`;
 
-  // Player clarity panels
-  renderTrackers();
-
     // Show MAJOR only when the current event is actually a major event.
   majorPill.classList.toggle("show", (currentEvent?.kind === "major"));
+}
+
+
+function tierValue(tier){
+  const t = String(tier ?? "Neutral");
+  if (t === "Hostile") return 0;
+  if (t === "Wary") return 1;
+  if (t === "Neutral") return 2;
+  if (t === "Favored") return 3;
+  if (t === "Exalted") return 4;
+  return 2;
+}
+
+function getActiveAmbition(){
+  // Prefer id, fall back to name matching.
+  if (state?.ambitionId && DATA.ambitionsById?.[state.ambitionId]) return DATA.ambitionsById[state.ambitionId];
+  const name = state?.ambitionName;
+  if (name) {
+    const all = DATA?.ambitions ?? [];
+    const byName = all.find(a => (a?.name ?? "") === name);
+    if (byName) return byName;
+  }
+  return null;
+}
+
+function evalAmbitionObjective(obj){
+  if (!obj) return { done:false, meta:"" };
+  const t = obj.type;
+  try {
+    if (t === "HasSpouse") return { done: !!hasSpouse(), meta: "" };
+    if (t === "HasHeir") return { done: !!hasHeir(), meta: "" };
+    if (t === "AgeAtLeast") {
+      const age = Number(obj.age ?? 0);
+      return { done: (state.age ?? 0) >= age, meta: `${state.age ?? 0}/${age}` };
+    }
+    if (t === "PeakResourceAtLeast") {
+      initPerLifeMeta();
+      const r = obj.resource;
+      const target = Number(obj.amount ?? 0);
+      const peak = Number(state?.metaPerLife?.peaks?.[r] ?? state?.res?.[r] ?? 0);
+      return { done: peak >= target, meta: `${peak}/${target}` };
+    }
+    if (t === "MinStanding") {
+      const fid = obj.factionId;
+      const need = obj.minTier ?? "Neutral";
+      const cur = state?.standings?.[fid] ?? "Neutral";
+      return { done: tierValue(cur) >= tierValue(need), meta: `${cur} ≥ ${need}` };
+    }
+    if (t === "AnyStandingAtLeast") {
+      const need = obj.minTier ?? "Neutral";
+      const fids = Array.isArray(obj.factionIds) && obj.factionIds.length
+        ? obj.factionIds
+        : (DATA.factions ?? []).map(f => f.id);
+      const best = fids.map(fid => state?.standings?.[fid] ?? "Neutral")
+        .sort((a,b)=> tierValue(b)-tierValue(a))[0] ?? "Neutral";
+      return { done: tierValue(best) >= tierValue(need), meta: `Best: ${best}` };
+    }
+    if (t === "HasFlag") {
+      const id = obj.id ?? obj.idRef;
+      return { done: !!hasFlag(id), meta: "" };
+    }
+    if (t === "AnyFlagSet") {
+      const ids = obj.ids ?? [];
+      const hit = ids.filter(id => hasFlag(id));
+      return { done: hit.length > 0, meta: `${hit.length}/${ids.length}` };
+    }
+    if (t === "NotCondition") {
+      const id = obj.id;
+      const has = (state.conditions ?? []).some(c => c.id === id);
+      return { done: !has, meta: has ? "Present" : "Clear" };
+    }
+  } catch {}
+  return { done:false, meta:"" };
+}
+
+function storylineTotalFor(id){
+  // Prefer meta cache, but also scan events for totals.
+  const meta = storylineMeta(id);
+  if (Number.isFinite(meta.total)) return meta.total;
+  let mx = 0;
+  for (const ev of (DATA.events ?? [])){
+    const sl = ev?.storyline;
+    if (!sl || sl.id !== id) continue;
+    const t = Number(sl.total ?? 0);
+    if (t > mx) mx = t;
+  }
+  return mx || 0;
+}
+
+function storylineNextStepFlag(id){
+  const re = new RegExp(`^sl_${id}_step(\\d+)$`);
+  let maxN = null;
+  for (const k of Object.keys(state?.flags ?? {})){
+    const m = k.match(re);
+    if (m){
+      const n = Number(m[1]);
+      if (!Number.isFinite(n)) continue;
+      if (maxN == null || n > maxN) maxN = n;
+    }
+  }
+  return maxN;
+}
+
+function renderTrackers(){
+  if (!ambitionTrackerEl || !storyTrackerEl) return;
+
+  // ---- Ambition ----
+  const amb = getActiveAmbition();
+  if (!amb) {
+    const pill = state?.ambitionDeferred ? "Deferred" : "None selected";
+    const pillClass = state?.ambitionDeferred ? "warn" : "";
+    ambitionTrackerEl.innerHTML = `
+      <div class="trackerHead">
+        <div class="trackerTitle">Ambition</div>
+        <div class="trackerPill ${pillClass}">${pill}</div>
+      </div>
+      <div class="trackerBody">
+        <div class="muted">Pick an ambition to earn bonus Legacy/Scrip. Objectives will track here.</div>
+      </div>
+    `;
+  } else {
+    const objs = (amb.objectives ?? []).map(o => {
+      const r = evalAmbitionObjective(o);
+      const done = !!r.done;
+      const meta = r.meta ? `<span class="objMeta">${escapeHtml(String(r.meta))}</span>` : "";
+      return `
+        <div class="objRow ${done ? "done":""}">
+          <div class="objCheck">${done ? "✓" : ""}</div>
+          <div class="objText">${escapeHtml(o.text ?? o.id ?? o.type ?? "Objective")}${meta}</div>
+        </div>
+      `;
+    }).join("");
+
+    const doneCount = (amb.objectives ?? []).filter(o => evalAmbitionObjective(o).done).length;
+    const total = (amb.objectives ?? []).length || 0;
+    const pill = `${doneCount}/${total}`;
+    const pillClass = (total && doneCount === total) ? "good" : "";
+    ambitionTrackerEl.innerHTML = `
+      <div class="trackerHead">
+        <div class="trackerTitle">Ambition</div>
+        <div class="trackerPill ${pillClass}">${pill}</div>
+      </div>
+      <div class="trackerBody">
+        <div class="cardname" style="margin-bottom:2px;">${escapeHtml(amb.name ?? amb.id)}</div>
+        <div class="muted small">${escapeHtml(amb.desc ?? "")}</div>
+        <div class="objList">${objs || `<div class="muted">No objectives.</div>`}</div>
+      </div>
+    `;
+  }
+
+  // ---- Storylines ----
+  const active = activeStorylineIds();
+  if (!active.length) {
+    storyTrackerEl.innerHTML = `
+      <div class="trackerHead">
+        <div class="trackerTitle">Storylines</div>
+        <div class="trackerPill">0/${MAX_ACTIVE_STORYLINES} active</div>
+      </div>
+      <div class="trackerBody">
+        <div class="muted">None active. Hooks will appear as you play (up to ${MAX_ACTIVE_STORYLINES} at a time).</div>
+      </div>
+    `;
+  } else {
+    const items = active.map(sid => {
+      const meta = storylineMeta(sid);
+      const total = storylineTotalFor(sid);
+      const nextStep = storylineNextStepFlag(sid) ?? 1;
+      const completed = Math.max(0, nextStep - 1);
+      const due = storyDueIndex(sid);
+      const now = state.runEventIndex ?? 0;
+      const dueIn = Number.isFinite(due) && due !== Infinity ? (due - now) : null;
+      const dueStr = (dueIn == null || dueIn === Infinity) ? "" : (dueIn <= 0 ? "Due now" : `Due in ${dueIn}`);
+      return `
+        <div class="storyItem">
+          <div class="storyTop">
+            <div class="storyName">${escapeHtml(meta.name ?? sid)}</div>
+            <div class="objMeta">${completed}/${total || "?"}</div>
+          </div>
+          <div class="storySub">${escapeHtml(dueStr)}</div>
+        </div>
+      `;
+    }).join("");
+    storyTrackerEl.innerHTML = `
+      <div class="trackerHead">
+        <div class="trackerTitle">Storylines</div>
+        <div class="trackerPill">${active.length}/${MAX_ACTIVE_STORYLINES} active</div>
+      </div>
+      <div class="trackerBody">
+        <div class="storyList">${items}</div>
+      </div>
+    `;
+  }
 }
 
 function renderEvent() {
@@ -4289,6 +4265,7 @@ function renderChance() {
 
 function renderAll() {
   renderStatus();
+  renderTrackers();
   renderEvent();
   renderOutcomes();
   renderHand();
@@ -4588,8 +4565,8 @@ function ensureStorylineMeta() {
   for (const ev of (DATA.events ?? [])) {
     const sl = ev?.storyline;
     if (!sl?.id) continue;
-    map[sl.id] ??= { id: sl.id, name: sl.name ?? sl.id, rarity: sl.rarity ?? "common", total: (sl.total ?? null) };
-    if (sl.total) { map[sl.id].total = Math.max(Number(map[sl.id].total ?? 0), Number(sl.total)); }
+    map[sl.id] ??= { id: sl.id, name: sl.name ?? sl.id, rarity: sl.rarity ?? "common", total: 0 };
+    try { map[sl.id].total = Math.max(map[sl.id].total ?? 0, Number(sl.total ?? 0) || 0); } catch {}
   }
   DATA.storylineMetaById = map;
 }
@@ -5799,9 +5776,6 @@ function proceedSuccession(primary) {
   state.runEventIndex = 0;
   state.story = { due: {}, noStoryEvents: 0 };
 
-  // Reset per-life peaks for the new ruler.
-  try { state.peaks = Object.fromEntries((RES ?? []).map(r => [r, Number(state?.res?.[r] ?? 0)])); } catch {}
-
   // Clear per-life flags (including storylines) so each ruler feels fresh.
   for (const k of Object.keys(state.flags ?? {})) {
     if (k.startsWith("sl_")) delete state.flags[k];
@@ -6349,9 +6323,6 @@ function startRunFromBuilder(bg, givenName, familyName) {
     discardPile: []
   };
 
-  // Initialize per-life peaks.
-  try { state.peaks = Object.fromEntries((RES ?? []).map(r => [r, Number(state?.res?.[r] ?? 0)])); } catch {}
-
   // Enable background-specific event packs (bev_*) that use HasFlag bg_<backgroundId>.
   // These flags are meant to be permanent markers, so we store them with duration 0 (presence-only).
   try { state.flags[`bg_${bg.id}`] = 0; } catch {}
@@ -6414,7 +6385,9 @@ async function boot() {
 
     ensureStatScale();
 
-    showGame();
+    
+    try { initPerLifeMeta(); } catch {}
+showGame();
     logEl.textContent = "";
     log("Loaded saved run state.");
     loadRandomEvent();
@@ -6435,7 +6408,8 @@ function initPerLifeMeta() {
       redrawTokens: trunkRank("t_better_odds") ?? 0,
       mulliganUsed: false,
       secondBreathUsed: false,
-      lastEventIndex: -1
+      lastEventIndex: -1,
+      peaks: { ...(state.res ?? {}) }
     };
   }
 }
