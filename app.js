@@ -4636,7 +4636,7 @@ function makeFallbackEvent(reason = "") {
     id: "__fallback__",
     name: `A Quiet Season${r}`,
     prompt: "For once, nothing demands your blood or coin. You take stock, mend what you can, and prepare for whatever comes next.",
-    context: "Hearth",
+    context: "Lore",
     kind: "general",
     minAge: 0,
     maxAge: 999,
