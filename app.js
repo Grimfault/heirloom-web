@@ -898,6 +898,9 @@ const statsLine = document.getElementById("statsLine");
 const resourceLine = document.getElementById("resourceLine");
 const standingLine = document.getElementById("standingLine");
 const conditionLine = document.getElementById("conditionLine");
+
+const ambitionPanel = document.getElementById("ambitionPanel");
+const storylinePanel = document.getElementById("storylinePanel");
 const majorPill = document.getElementById("majorPill");
 
 const eventName = document.getElementById("eventName");
@@ -2793,6 +2796,17 @@ function hasFlag(id) {
   return Object.prototype.hasOwnProperty.call(state.flags, id);
 }
 
+
+function ensurePeaks() {
+  if (!state) return;
+  state.peaks ??= {};
+  // Track per-life resource peaks (for ambitions and clarity).
+  for (const r of (RES ?? [])) {
+    const cur = Number(state?.res?.[r] ?? 0);
+    if (!Number.isFinite(state.peaks[r])) state.peaks[r] = cur;
+  }
+}
+
 function applyResourceDelta(d) {
   if (!d) return;
   const k = d.resource;
@@ -2801,6 +2815,10 @@ function applyResourceDelta(d) {
   const before = state.res[k] ?? 0;
   const after = clamp(before + amt, 0, 99);
   state.res[k] = after;
+
+  // Update per-life peaks for ambition tracking.
+  ensurePeaks();
+  state.peaks[k] = Math.max(Number(state.peaks[k] ?? 0), after);
 
   // Resource floor consequences (only when crossing from >0 to 0 due to a loss).
   // These don't kill you directly; they add pressure conditions.
@@ -3720,6 +3738,213 @@ function isMajorEventNow() {
   return isMajorBeatAt(age, seasonIndex);
 }
 
+
+// ---------- Trackers (Ambition / Storylines) ----------
+function getAmbitionDef() {
+  if (!state?.ambitionId) return null;
+  return DATA?.ambitionsById?.[state.ambitionId] ?? null;
+}
+
+function prettyFlagLabel(id) {
+  if (!id) return "";
+  // Storyline flags: sl_<id>_done / sl_<id>_active / sl_<id>_stepN
+  const m = String(id).match(/^sl_([a-z0-9]+)_(done|active|step\d+)$/i);
+  if (m) {
+    const sid = m[1];
+    const key = m[2];
+    const meta = storylineMeta?.(sid) ?? { name: sid };
+    if (key === "done") return `${meta.name} complete`;
+    if (key === "active") return `${meta.name} started`;
+    if (key.startsWith("step")) return `${meta.name} ${key.replace("step","Step ")}`;
+  }
+  return String(id);
+}
+
+function ambitionObjectiveStatus(obj) {
+  const t = obj?.type;
+  const text = obj?.text ?? obj?.id ?? "Objective";
+  let met = false;
+  let prog = "";
+
+  try {
+    if (t === "PeakResourceAtLeast") {
+      ensurePeaks();
+      const r = obj.resource;
+      const cur = Number(state?.peaks?.[r] ?? state?.res?.[r] ?? 0);
+      const need = Number(obj.amount ?? 0);
+      met = cur >= need;
+      prog = `${cur}/${need}`;
+    } else if (t === "MinStanding") {
+      const fid = obj.factionId;
+      const curTier = state?.standings?.[fid] ?? "Neutral";
+      const needTier = obj.minTier ?? "Neutral";
+      met = tierIndex(curTier) >= tierIndex(needTier);
+      prog = `${factionLabel(fid)}: ${curTier}`;
+    } else if (t === "AnyStandingAtLeast") {
+      const needTier = obj.minTier ?? "Favored";
+      const fids = Array.isArray(obj.factionIds) && obj.factionIds.length
+        ? obj.factionIds
+        : (DATA?.factions ?? []).map(f => f.id);
+
+      let best = { tier: "Hostile", fid: null };
+      let hit = null;
+
+      for (const fid of fids) {
+        const curTier = state?.standings?.[fid] ?? "Neutral";
+        if (!best.fid || tierIndex(curTier) > tierIndex(best.tier)) best = { tier: curTier, fid };
+        if (!hit && tierIndex(curTier) >= tierIndex(needTier)) hit = { tier: curTier, fid };
+      }
+
+      met = Boolean(hit);
+      const show = hit ?? best;
+      prog = show?.fid ? `${factionLabel(show.fid)}: ${show.tier}` : `${best.tier}`;
+      if (!met) prog += ` (need ${needTier})`;
+    } else if (t === "AnyFlagSet") {
+      const ids = Array.isArray(obj.ids) ? obj.ids : [];
+      const found = ids.find(x => hasFlag(x));
+      met = Boolean(found);
+      prog = found ? prettyFlagLabel(found) : `Need one of ${ids.length}`;
+    } else if (t === "HasFlag") {
+      met = hasFlag(obj.id);
+      prog = met ? prettyFlagLabel(obj.id) : prettyFlagLabel(obj.id);
+    } else if (t === "HasSpouse") {
+      met = hasSpouse?.() ?? Boolean(state?.family?.spouse);
+      prog = met ? "Yes" : "No";
+    } else if (t === "HasHeir") {
+      met = hasHeir?.() ?? Boolean((state?.family?.heirs ?? []).length);
+      prog = met ? "Yes" : "No";
+    } else if (t === "NotCondition") {
+      met = !hasCondition(obj.id, "Any");
+      prog = met ? "Clear" : "Has condition";
+    } else if (t === "AgeAtLeast") {
+      const need = Number(obj.age ?? 0);
+      const cur = Number(state?.age ?? 0);
+      met = cur >= need;
+      prog = `${cur}/${need}`;
+    }
+  } catch {}
+
+  return { met, text, prog };
+}
+
+function renderAmbitionPanel() {
+  if (!ambitionPanel) return;
+
+  const amb = getAmbitionDef();
+  if (!amb) {
+    const msg = (state?.ambitionDeferred === true && (state?.ambitionId == null))
+      ? `Deferred (choose at age 20)`
+      : `None selected`;
+    ambitionPanel.innerHTML = `
+      <div class="trackerHeader">
+        <div class="trackerTitle">Ambition</div>
+        <div class="trackerPill warn">${escapeHtml(msg)}</div>
+      </div>
+      <div class="muted small">Pick an ambition to earn bonus Legacy/Scrip. Objectives will track here.</div>
+    `;
+    return;
+  }
+
+  const objs = Array.isArray(amb.objectives) ? amb.objectives : [];
+  const statuses = objs.map(ambitionObjectiveStatus);
+  const done = statuses.length ? statuses.every(o => o.met) : false;
+
+  const objHtml = statuses.map(o => `
+    <div class="objLine">
+      <span class="objMark ${o.met ? "done" : ""}">${o.met ? "✓" : "•"}</span>
+      <span class="objText">${escapeHtml(o.text)}</span>
+      <span class="objProg">${escapeHtml(o.prog ?? "")}</span>
+    </div>
+  `).join("");
+
+  ambitionPanel.innerHTML = `
+    <div class="trackerHeader">
+      <div class="trackerTitle">Ambition</div>
+      <div class="trackerPill ${done ? "good" : ""}">${done ? "Completed" : "In progress"}</div>
+    </div>
+    <div class="trackerName">${escapeHtml(amb.name ?? amb.id ?? "Ambition")}</div>
+    ${amb.desc ? `<div class="muted small trackerDesc">${escapeHtml(amb.desc)}</div>` : ``}
+    <div class="objList">${objHtml}</div>
+  `;
+}
+
+function storylineNextStep(id) {
+  if (!state?.flags) return null;
+  const re = new RegExp(`^sl_${id}_step(\\\\d+)$`);
+  let next = null;
+  for (const k of Object.keys(state.flags)) {
+    const m = String(k).match(re);
+    if (!m) continue;
+    const n = Number(m[1]);
+    if (!Number.isFinite(n)) continue;
+    if (next == null || n > next) next = n;
+  }
+  return next;
+}
+
+function renderStorylinePanel() {
+  if (!storylinePanel) return;
+
+  const active = activeStorylineIds?.() ?? [];
+  const max = (typeof MAX_ACTIVE_STORYLINES !== "undefined") ? MAX_ACTIVE_STORYLINES : 2;
+
+  if (!active.length) {
+    storylinePanel.innerHTML = `
+      <div class="trackerHeader">
+        <div class="trackerTitle">Storylines</div>
+        <div class="trackerPill">${active.length}/${max} active</div>
+      </div>
+      <div class="muted small">None active. Hooks will appear as you play (up to 2 at a time).</div>
+    `;
+    return;
+  }
+
+  const items = active.map(id => {
+    const meta = storylineMeta?.(id) ?? { name: id, total: null };
+    const total = Number(meta.total ?? 0) || null;
+    const done = isStoryDone?.(id) ?? hasFlag(`sl_${id}_done`);
+    const nextStep = storylineNextStep(id);
+    const completed = done ? (total ?? "?") : (Number.isFinite(nextStep) ? Math.max(0, nextStep - 1) : 0);
+
+    const dueAt = Number(state?.story?.due?.[id]);
+    let dueStr = "";
+    if (Number.isFinite(dueAt)) {
+      const idx = Number(state?.runEventIndex ?? 0);
+      const d = dueAt - idx;
+      dueStr = (d <= 0) ? "Due now" : `Due in ${d} event(s)`;
+    }
+
+    const prog = total ? `${completed}/${total}` : `${completed}`;
+    const isHere = (currentEvent?.storyline?.id === id);
+
+    return `
+      <div class="storyItem">
+        <div class="storyMetaRow">
+          <div class="trackerName">${escapeHtml(meta.name ?? id)}${isHere ? ` <span class="trackerPill good">Now</span>` : ``}</div>
+          <div class="objProg">${escapeHtml(prog)}</div>
+        </div>
+        <div class="storyMetaRow">
+          <div class="muted small">${done ? "Complete" : "Active"}</div>
+          <div class="storyDue">${escapeHtml(dueStr)}</div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  storylinePanel.innerHTML = `
+    <div class="trackerHeader">
+      <div class="trackerTitle">Storylines</div>
+      <div class="trackerPill">${active.length}/${max} active</div>
+    </div>
+    <div class="objList">${items}</div>
+  `;
+}
+
+function renderTrackers() {
+  renderAmbitionPanel();
+  renderStorylinePanel();
+}
+
 function renderStatus() {
   const season = SEASONS[state.seasonIndex];
 
@@ -3751,6 +3976,9 @@ function renderStatus() {
     ? state.conditions.map(c => `${c.id} (${c.severity})`).join(", ")
     : "None";
   conditionLine.textContent = `Conditions: ${condStr}`;
+
+  // Player clarity panels
+  renderTrackers();
 
     // Show MAJOR only when the current event is actually a major event.
   majorPill.classList.toggle("show", (currentEvent?.kind === "major"));
@@ -4360,7 +4588,8 @@ function ensureStorylineMeta() {
   for (const ev of (DATA.events ?? [])) {
     const sl = ev?.storyline;
     if (!sl?.id) continue;
-    map[sl.id] ??= { id: sl.id, name: sl.name ?? sl.id, rarity: sl.rarity ?? "common" };
+    map[sl.id] ??= { id: sl.id, name: sl.name ?? sl.id, rarity: sl.rarity ?? "common", total: (sl.total ?? null) };
+    if (sl.total) { map[sl.id].total = Math.max(Number(map[sl.id].total ?? 0), Number(sl.total)); }
   }
   DATA.storylineMetaById = map;
 }
@@ -5570,6 +5799,9 @@ function proceedSuccession(primary) {
   state.runEventIndex = 0;
   state.story = { due: {}, noStoryEvents: 0 };
 
+  // Reset per-life peaks for the new ruler.
+  try { state.peaks = Object.fromEntries((RES ?? []).map(r => [r, Number(state?.res?.[r] ?? 0)])); } catch {}
+
   // Clear per-life flags (including storylines) so each ruler feels fresh.
   for (const k of Object.keys(state.flags ?? {})) {
     if (k.startsWith("sl_")) delete state.flags[k];
@@ -6116,6 +6348,9 @@ function startRunFromBuilder(bg, givenName, familyName) {
     drawPile: shuffle([...starterDeck]),
     discardPile: []
   };
+
+  // Initialize per-life peaks.
+  try { state.peaks = Object.fromEntries((RES ?? []).map(r => [r, Number(state?.res?.[r] ?? 0)])); } catch {}
 
   // Enable background-specific event packs (bev_*) that use HasFlag bg_<backgroundId>.
   // These flags are meant to be permanent markers, so we store them with duration 0 (presence-only).
