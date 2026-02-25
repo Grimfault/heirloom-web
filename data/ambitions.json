@@ -164,7 +164,6 @@
         {
           "id": "sl_mg_done",
           "type": "HasFlag",
-          "idRef": "sl_mg_done",
           "text": "Complete The Merchant’s Gambit."
         }
       ],
