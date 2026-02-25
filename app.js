@@ -845,6 +845,253 @@ const STATS = ["Might","Wit","Guile","Gravitas","Resolve"];
 const RES = ["Coin","Supplies","Renown","Influence","Secrets"];
 const TIERS = ["Hostile","Wary","Neutral","Favored","Exalted"];
 
+
+// ---------- Data Lint (Validation Gate) ----------
+const VALID_CONTEXTS = ["Strife","Court","Scheme","Journey","Lore"];
+const VALID_DISCIPLINES = ["Steel","Quill","Veil","Seal","Hearth","Wild"];
+const VALID_REQ_TYPES = ["MinStat","MinResource","HasCondition","NotCondition","HasFlag","NotFlag","AgeRange","MinStanding"];
+
+const DATA_LINT = {
+  report: null,
+  override: false,
+  runtimeAllOutcomesLocked: {} // eventId -> count (tracked during play)
+};
+
+function recordAllOutcomesLocked(eventId) {
+  if (!eventId) return;
+  const m = DATA_LINT.runtimeAllOutcomesLocked;
+  m[eventId] = (m[eventId] ?? 0) + 1;
+  updateLintBadgeUI();
+}
+
+function lintPush(list, code, message, where = {}) {
+  list.push({ code, message, where });
+}
+
+function validateRequirement(req, eventId, outcomeTitle, errors) {
+  if (!req || typeof req !== "object") {
+    lintPush(errors, "req.notObject", "Requirement is not an object.", { eventId, outcome: outcomeTitle });
+    return;
+  }
+  const t = req.type;
+  if (!VALID_REQ_TYPES.includes(t)) {
+    lintPush(errors, "req.unknownType", `Unknown requirement type "${t}".`, { eventId, outcome: outcomeTitle });
+    return;
+  }
+
+  if (t === "MinStat") {
+    if (!STATS.includes(req.stat)) lintPush(errors, "req.minStat.badStat", `MinStat bad stat "${req.stat}".`, { eventId, outcome: outcomeTitle });
+    if (typeof req.min !== "number") lintPush(errors, "req.minStat.badMin", "MinStat requires numeric min.", { eventId, outcome: outcomeTitle });
+  }
+
+  if (t === "MinResource") {
+    if (!RES.includes(req.resource)) lintPush(errors, "req.minRes.badRes", `MinResource bad resource "${req.resource}".`, { eventId, outcome: outcomeTitle });
+    if (typeof req.min !== "number") lintPush(errors, "req.minRes.badMin", "MinResource requires numeric min.", { eventId, outcome: outcomeTitle });
+  }
+
+  if (t === "HasCondition" || t === "NotCondition") {
+    if (typeof req.id !== "string" || !req.id) lintPush(errors, "req.cond.badId", `${t} requires string id.`, { eventId, outcome: outcomeTitle });
+    const sev = req.severity ?? "Any";
+    if (!["Any","Minor","Severe"].includes(sev)) lintPush(errors, "req.cond.badSeverity", `${t} severity must be Any|Minor|Severe.`, { eventId, outcome: outcomeTitle });
+  }
+
+  if (t === "HasFlag" || t === "NotFlag") {
+    if (typeof req.id !== "string" || !req.id) lintPush(errors, "req.flag.badId", `${t} requires string id.`, { eventId, outcome: outcomeTitle });
+  }
+
+  if (t === "MinStanding") {
+    if (typeof req.factionId !== "string" || !req.factionId) lintPush(errors, "req.standing.badFactionId", "MinStanding requires factionId.", { eventId, outcome: outcomeTitle });
+    else if (!DATA?.factionsById?.[req.factionId]) lintPush(errors, "req.standing.unknownFaction", `Unknown factionId "${req.factionId}".`, { eventId, outcome: outcomeTitle });
+    const tier = req.minTier ?? "Neutral";
+    if (!TIERS.includes(tier)) lintPush(errors, "req.standing.badTier", `Bad tier "${tier}".`, { eventId, outcome: outcomeTitle });
+  }
+}
+
+function lintAllDataStatic() {
+  const errors = [];
+  const warnings = [];
+
+  // Events
+  for (const ev of (DATA.events ?? [])) {
+    if (!VALID_CONTEXTS.includes(ev.context)) {
+      lintPush(errors, "event.badContext", `Invalid event context "${ev.context}".`, { eventId: ev.id });
+    }
+
+    const outs = Array.isArray(ev.outcomes) ? ev.outcomes : [];
+    if (outs.length && outs.every(o => Array.isArray(o.requirements) && o.requirements.length > 0)) {
+      lintPush(warnings, "event.allOutcomesGated", "All outcomes have requirements (may be filtered a lot).", { eventId: ev.id });
+    }
+
+    for (const o of outs) {
+      const title = o?.title ?? "(untitled)";
+
+      if (!Array.isArray(o.allowed) || o.allowed.length === 0) {
+        lintPush(errors, "outcome.missingAllowed", "Outcome missing allowed disciplines.", { eventId: ev.id, outcome: title });
+      } else {
+        for (const d of o.allowed) {
+          if (!VALID_DISCIPLINES.includes(d)) {
+            lintPush(errors, "outcome.badAllowed", `Invalid allowed discipline "${d}".`, { eventId: ev.id, outcome: title });
+          }
+        }
+      }
+
+      if (Array.isArray(o.requirements)) {
+        for (const req of o.requirements) validateRequirement(req, ev.id, title, errors);
+      }
+    }
+  }
+
+  // Ambitions
+  const typeSpec = DATA?.ambitionsMeta?.objectiveTypes ?? null;
+  for (const amb of (DATA.ambitions ?? [])) {
+    for (const obj of (amb.objectives ?? [])) {
+      const t = obj?.type;
+      if (!t || typeof t !== "string") {
+        lintPush(errors, "ambition.obj.missingType", "Objective missing type.", { ambitionId: amb.id, objectiveId: obj?.id });
+        continue;
+      }
+
+      if (typeSpec && typeSpec[t]) {
+        const fields = Array.isArray(typeSpec[t].fields) ? typeSpec[t].fields : [];
+        const required = fields.filter(f => typeof f === "string" && !f.endsWith("?"));
+        for (const f of required) {
+          if (!(f in obj)) {
+            lintPush(errors, "ambition.obj.missingField", `Objective type "${t}" missing field "${f}".`, { ambitionId: amb.id, objectiveId: obj?.id, type: t });
+          }
+        }
+      } else {
+        lintPush(warnings, "ambition.obj.unknownType", `Objective type "${t}" not found in objectiveTypes.`, { ambitionId: amb.id, objectiveId: obj?.id, type: t });
+      }
+    }
+  }
+
+  return { errors, warnings, generatedAt: new Date().toISOString() };
+}
+
+function updateLintBadgeUI() {
+  const btn = document.getElementById("btnDebugLint");
+  if (!btn) return;
+
+  const rep = DATA_LINT.report;
+  const e = rep?.errors?.length ?? 0;
+  const w = rep?.warnings?.length ?? 0;
+  const r = Object.keys(DATA_LINT.runtimeAllOutcomesLocked ?? {}).length;
+
+  let label = "Debug: Data Check";
+  if (e || w) label += ` (${e}E/${w}W)`;
+  if (r) label += ` • ${r} skipped`;
+  btn.textContent = label;
+}
+
+function showLintModal() {
+  const rep = DATA_LINT.report ?? { errors: [], warnings: [], generatedAt: null };
+  const errors = rep.errors ?? [];
+  const warnings = rep.warnings ?? [];
+  const runtime = DATA_LINT.runtimeAllOutcomesLocked ?? {};
+
+  const wrap = document.createElement("div");
+
+  const summary = document.createElement("div");
+  summary.className = "lintSummary";
+  summary.innerHTML = `
+    <div class="lintPill err"><strong>${errors.length}</strong> error${errors.length === 1 ? "" : "s"}</div>
+    <div class="lintPill warn"><strong>${warnings.length}</strong> warning${warnings.length === 1 ? "" : "s"}</div>
+    <div class="lintPill"><strong>${Object.keys(runtime).length}</strong> runtime-skipped</div>
+    <div class="lintPill muted">${rep.generatedAt ? `Generated: ${rep.generatedAt}` : ""}</div>
+  `;
+
+  const list = document.createElement("div");
+  list.className = "lintList";
+
+  function addSection(title, items) {
+    const h = document.createElement("h3");
+    h.textContent = title;
+    list.appendChild(h);
+
+    if (!items.length) {
+      const p = document.createElement("div");
+      p.className = "muted";
+      p.textContent = "None.";
+      list.appendChild(p);
+      return;
+    }
+
+    for (const it of items.slice(0, 200)) {
+      const row = document.createElement("div");
+      row.className = "lintIssue";
+      const whereTxt = Object.entries(it.where ?? {}).map(([k,v]) => `${k}:${v}`).join(" • ");
+      row.innerHTML = `
+        <div><code>${it.code}</code> — ${escapeHtml(it.message)}</div>
+        <div class="where muted">${escapeHtml(whereTxt)}</div>
+      `;
+      list.appendChild(row);
+    }
+  }
+
+  addSection("Errors", errors);
+  addSection("Warnings", warnings);
+
+  const rtEntries = Object.entries(runtime).sort((a,b) => b[1] - a[1]);
+  const rtItems = rtEntries.map(([id,count]) => ({
+    code: "runtime.allOutcomesLocked",
+    message: `Filtered ${count}× (no playable outcomes at eligibility time).`,
+    where: { eventId: id }
+  }));
+  addSection("Runtime Skips (during play)", rtItems);
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+
+  const copyBtn = document.createElement("button");
+  copyBtn.className = "btn ghost";
+  copyBtn.textContent = "Copy report";
+  copyBtn.addEventListener("click", async () => {
+    const payload = JSON.stringify({ ...rep, runtimeAllOutcomesLocked: runtime }, null, 2);
+    try {
+      await navigator.clipboard.writeText(payload);
+      const prev = copyBtn.textContent;
+      copyBtn.textContent = "Copied!";
+      setTimeout(() => (copyBtn.textContent = prev), 900);
+    } catch {
+      alert(payload);
+    }
+  });
+
+  const proceedBtn = document.createElement("button");
+  proceedBtn.className = "btn primary";
+  proceedBtn.textContent = DATA_LINT.override ? "Close" : "Proceed anyway";
+  proceedBtn.addEventListener("click", () => {
+    DATA_LINT.override = true;
+    try { updateStartButtonState(); } catch {}
+    updateLintBadgeUI();
+    closeModal();
+  });
+
+  actions.appendChild(copyBtn);
+  actions.appendChild(proceedBtn);
+
+  wrap.appendChild(summary);
+  wrap.appendChild(list);
+  wrap.appendChild(actions);
+
+  openModal("Data Validation", wrap, { locked: false });
+}
+
+function runDataLint({ showModalOnProblems = false } = {}) {
+  DATA_LINT.report = lintAllDataStatic();
+  updateLintBadgeUI();
+
+  const e = DATA_LINT.report?.errors?.length ?? 0;
+  const w = DATA_LINT.report?.warnings?.length ?? 0;
+
+  if (e) console.error("Data lint errors:", DATA_LINT.report.errors);
+  if (w) console.warn("Data lint warnings:", DATA_LINT.report.warnings);
+
+  if (showModalOnProblems && e) showLintModal();
+  return DATA_LINT.report;
+}
+
+
 // ---------- Data (loaded) ----------
 let DATA = {
   cards: [],
@@ -884,6 +1131,7 @@ const btnReset = document.getElementById("btnReset");
 const btnResolve = document.getElementById("btnResolve");
 const btnNewEvent = document.getElementById("btnNewEvent");
 const btnDebugPickEvent = document.getElementById("btnDebugPickEvent");
+const btnDebugLint = document.getElementById("btnDebugLint");
 
 const charNameInput = document.getElementById("charName");
 const familyNameInput = document.getElementById("familyName");
@@ -4799,7 +5047,7 @@ function eligibleEvents(opts = {}) {
       const cr = outcomeConditionRules(e, o);
       return (cr.reasons ?? []).length === 0;
     });
-    if (!hasPlayableOutcome) return false;
+    if (!hasPlayableOutcome) { recordAllOutcomesLocked(e.id); return false; }
 
 
     return true;
@@ -5971,6 +6219,11 @@ btnStart.addEventListener("click", () => {
     return;
   }
 
+  if ((DATA_LINT?.report?.errors?.length ?? 0) > 0 && !DATA_LINT.override) {
+    showLintModal();
+    return;
+  }
+
   startRunWithOptionalAmbition(bg, given, family);
 });
 
@@ -6013,6 +6266,7 @@ btnNewEvent.addEventListener("click", () => {
   loadRandomEvent({ avoidIds: avoid });
 });
 btnDebugPickEvent.addEventListener("click", () => openEventPickerModal());
+if (btnDebugLint) btnDebugLint.addEventListener("click", () => showLintModal());
 btnModalClose.addEventListener("click", closeModal);
 modalBackdrop.addEventListener("click", (e) => { if (e.target === modalBackdrop) closeModal(); });
 
@@ -6030,6 +6284,9 @@ function pointsRemaining() {
 // This reduces confusing "why can't I start?" situations, especially on mobile.
 function updateStartButtonState() {
   if (!btnStart) return;
+
+  const lintErrs = DATA_LINT?.report?.errors?.length ?? 0;
+  const hasLintErrors = (lintErrs > 0 && !DATA_LINT.override);
 
   const given = (charNameInput?.value ?? "").trim();
   const family = (familyNameInput?.value ?? "").trim();
@@ -6049,6 +6306,12 @@ function updateStartButtonState() {
   } else {
     btnStart.textContent = "Begin Run";
   }
+
+  // If lint errors exist, keep Start clickable but require review.
+  if (hasLintErrors && !btnStart.disabled) {
+    btnStart.textContent = `Review data errors (${lintErrs})`;
+  }
+
 }
 
 function traitById(id) {
@@ -6351,6 +6614,8 @@ async function boot() {
 
   showLoadingUI(false);
   setBootMsg("");
+
+  runDataLint({ showModalOnProblems: true });
 
   loadMeta();
   updateLegacyUIBadges();
