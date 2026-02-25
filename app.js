@@ -2095,6 +2095,9 @@ let creation = {
   traitOfferIds: null
 };
 
+// When true, entering the Start screen will reset allocations/traits and reroll the trait offer.
+let freshStartBuilder = true;
+
 function generateHeirNameChoices(n = 5) {
   const pool = [...HEIR_NAMES];
   shuffle(pool);
@@ -3762,6 +3765,20 @@ function showStart() {
   if (elLegacy) elLegacy.classList.add("hidden");
 
   btnNewEvent.disabled = true;
+
+  // Always refresh the builder UI when entering Start.
+  // After a run ends, we force a fresh roll so traits/allocations don't carry over.
+  try {
+    if (typeof renderCreationUI === "function") {
+      if (freshStartBuilder && typeof resetCreation === "function") {
+        resetCreation();
+      }
+      renderCreationUI();
+    }
+  } catch {}
+
+  freshStartBuilder = false;
+
   updateStartButtonState();
 }
 
@@ -5956,6 +5973,7 @@ function openBloodlineEndModal() {
     logEl.textContent = "";
     modalLocked = false;
     closeModal();
+    freshStartBuilder = true;
     showMenu();
   });
 
@@ -6052,6 +6070,7 @@ btnReset.addEventListener("click", () => {
   localStorage.removeItem(SAVE_KEY);
   state = null;
   logEl.textContent = "";
+  freshStartBuilder = true;
   showMenu();
 });
 
