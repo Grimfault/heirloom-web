@@ -56,7 +56,7 @@
     {
       "id": "amb_make_a_name",
       "name": "Make a Name",
-      "desc": "Become known beyond your station—through deed, leverage, or story. When people speak of you, it changes what doors open.",
+      "desc": "Become known beyond your station\u2014through deed, leverage, or story. When people speak of you, it changes what doors open.",
       "ui": {
         "icon": "Renown"
       },
@@ -99,7 +99,7 @@
     },
     {
       "id": "amb_fortunes_hand",
-      "name": "Fortune’s Hand",
+      "name": "Fortune\u2019s Hand",
       "desc": "Accumulate real leverage: coin in the strongbox and influence in the right rooms.",
       "ui": {
         "icon": "Coin"
@@ -164,7 +164,8 @@
         {
           "id": "sl_mg_done",
           "type": "HasFlag",
-          "text": "Complete The Merchant’s Gambit."
+          "idRef": "sl_mg_done",
+          "text": "Complete The Merchant\u2019s Gambit."
         }
       ],
       "rewards": {
@@ -205,7 +206,7 @@
             "sl_mg_done",
             "sl_wc_done"
           ],
-          "text": "Complete The Merchant’s Gambit or The Wolf Court."
+          "text": "Complete The Merchant\u2019s Gambit or The Wolf Court."
         }
       ],
       "rewards": {
@@ -220,7 +221,7 @@
     {
       "id": "amb_keeper_of_truth",
       "name": "Keeper of Truth",
-      "desc": "Secure knowledge that outlives you—then decide whether it becomes a lantern or a weapon.",
+      "desc": "Secure knowledge that outlives you\u2014then decide whether it becomes a lantern or a weapon.",
       "ui": {
         "icon": "Quill"
       },
@@ -256,8 +257,8 @@
     },
     {
       "id": "amb_mercys_thread",
-      "name": "Mercy’s Thread",
-      "desc": "Hold people together when fear would tear them apart. Make mercy practical, and you’ll be remembered for it.",
+      "name": "Mercy\u2019s Thread",
+      "desc": "Hold people together when fear would tear them apart. Make mercy practical, and you\u2019ll be remembered for it.",
       "ui": {
         "icon": "Hearth"
       },
@@ -294,7 +295,7 @@
     {
       "id": "amb_unbroken_ring",
       "name": "The Unbroken Ring",
-      "desc": "Pay the price of an oath and keep paying it—until the world learns you do not bend.",
+      "desc": "Pay the price of an oath and keep paying it\u2014until the world learns you do not bend.",
       "ui": {
         "icon": "Covenant"
       },
@@ -368,7 +369,7 @@
     {
       "id": "amb_quiet_succession",
       "name": "Quiet Succession",
-      "desc": "Build a household that can outlive a bad season: a spouse, an heir, and a name that doesn’t crumble under gossip.",
+      "desc": "Build a household that can outlive a bad season: a spouse, an heir, and a name that doesn\u2019t crumble under gossip.",
       "ui": {
         "icon": "Dynasty"
       },
@@ -549,8 +550,8 @@
     },
     {
       "id": "amb_black_mantles_notice",
-      "name": "Black Mantle’s Notice",
-      "desc": "Earn the Crown’s attention without becoming its quarry. Influence, not infamy.",
+      "name": "Black Mantle\u2019s Notice",
+      "desc": "Earn the Crown\u2019s attention without becoming its quarry. Influence, not infamy.",
       "ui": {
         "icon": "Seal"
       },
