@@ -167,7 +167,7 @@ const OPPORTUNITY_GAP_MAX = 6;
 // Legacy: earned ONLY when the bloodline ends (no heir). Banked for a future bloodline tree.
 // Heirlooms: rare meta currency (future) used to unlock permanent cards / event packs / storylines.
 const META_KEY = "heirloom_meta_v01";
-let META = { legacy: 0, heirlooms: 0, legacyTree: { trunk: {}, big: {}, branches: {} } };
+let META = { legacy: 0, heirlooms: 0, signatureUnlocks: {}, legacyTree: { trunk: {}, big: {}, branches: {} } };
 
 function loadMeta() {
   try {
@@ -177,6 +177,7 @@ function loadMeta() {
     if (m && typeof m === "object") {
       META.legacy = Number.isFinite(m.legacy) ? m.legacy : 0;
       META.heirlooms = Number.isFinite(m.heirlooms) ? m.heirlooms : 0;
+      META.signatureUnlocks = (m.signatureUnlocks && typeof m.signatureUnlocks === "object") ? m.signatureUnlocks : {};
       if (m.legacyTree && typeof m.legacyTree === "object") META.legacyTree = m.legacyTree;
     }
   } catch {}
@@ -188,6 +189,201 @@ function saveMeta() {
   try { localStorage.setItem(META_KEY, JSON.stringify(META)); } catch {}
 }
 
+// ---------- Heirloom Vault (Signature Cards) ----------
+function isSignatureCard(card) { return Boolean(card && card.isSignature); }
+function isSignatureUnlocked(cardId) {
+  ensureMetaTree();
+  return Boolean(META.signatureUnlocks?.[cardId]);
+}
+function unlockSignatureCard(cardId) {
+  ensureMetaTree();
+  const c = DATA?.cardsById?.[cardId];
+  if (!c || !isSignatureCard(c)) return { ok: false, msg: "Unknown signature card." };
+  if (isSignatureUnlocked(cardId)) return { ok: false, msg: "Already unlocked." };
+  const cost = Number(c.heirloomCost ?? 0) || 0;
+  if ((META.heirlooms ?? 0) < cost) return { ok: false, msg: `Need ${cost} Heirloom Shards.` };
+  META.heirlooms -= cost;
+  META.signatureUnlocks[cardId] = true;
+  saveMeta();
+  updateLegacyUIBadges();
+  return { ok: true, msg: `Unlocked ${c.name}.` };
+}
+function awardHeirlooms(amount, reason = "") {
+  const n = Number(amount ?? 0) || 0;
+  if (!n) return;
+  META.heirlooms = (META.heirlooms ?? 0) + n;
+  if (state) state.heirloomsGainedThisLife = (state.heirloomsGainedThisLife ?? 0) + n;
+  saveMeta();
+  updateLegacyUIBadges();
+  if (reason) log(`+${n} Heirloom Shard${n === 1 ? "" : "s"} (${reason}).`);
+}
+
+
+
+// ---------- Signature Draft (per-life, up to 2 slots) ----------
+function disciplineForFocusStat(stat) {
+  const map = { Might: "Steel", Wit: "Quill", Guile: "Veil", Gravitas: "Seal", Resolve: "Hearth" };
+  return map[stat] ?? null;
+}
+function branchKeyForDiscipline(disc) {
+  const map = { Steel: "steel", Quill: "quill", Veil: "veil", Seal: "seal", Hearth: "hearth" };
+  return map[disc] ?? null;
+}
+function signatureAccessForDiscipline(disc) {
+  const bk = branchKeyForDiscipline(disc);
+  const branch = bk ? LEGACY_TREE.branches?.[bk] : null;
+  if (!branch) return null;
+
+  const ranks = (branch.nodes ?? []).map(n => branchRank(bk, n.id));
+  const maxR = Math.max(0, ...(ranks.length ? ranks : [0]));
+  const capUnlocked = bigUnlocked(branch.capstone?.id);
+
+  const slotCount = capUnlocked ? 2 : (maxR >= 3 ? 1 : 0);
+  if (slotCount <= 0) return null;
+
+  return {
+    slotCount,
+    pickCount: capUnlocked ? 3 : (maxR >= 5 ? 2 : 1),
+    minLevel: capUnlocked ? 2 : 1
+  };
+}
+function unlockedSignatureCardsForDiscipline(disc) {
+  return (DATA?.cards ?? []).filter(c => c && c.isSignature && c.discipline === disc && isSignatureUnlocked(c.id));
+}
+function pickUnique(arr, n) {
+  const pool = arr.slice();
+  shuffle(pool);
+  return pool.slice(0, Math.max(0, Math.min(n, pool.length)));
+}
+function applySignaturePick(cardId, { minLevel = 1 } = {}) {
+  state.lifeSignatureCards = Array.isArray(state.lifeSignatureCards) ? state.lifeSignatureCards : [];
+  if (state.lifeSignatureCards.includes(cardId)) return;
+
+  if (state.lifeSignatureCards.length >= 2) return;
+  state.lifeSignatureCards.push(cardId);
+
+  if (minLevel > 1) {
+    state.cardLevels ??= {};
+    const cur = Number(state.cardLevels[cardId] ?? 1) || 1;
+    state.cardLevels[cardId] = Math.max(cur, minLevel);
+  }
+}
+function openSignatureDraftModal(disc, cardIds, { slotIndex = 1, minLevel = 1, onPicked, onSkip } = {}) {
+  const wrap = document.createElement("div");
+  const p = document.createElement("p");
+  p.className = "muted";
+  p.textContent = `Signature Draft (${disc}) — choose a Signature for slot ${slotIndex}.`;
+  wrap.appendChild(p);
+
+  if (minLevel >= 2) {
+    const perk = document.createElement("p");
+    perk.className = "muted small";
+    perk.textContent = "Capstone perk: chosen Signatures start at Level 2.";
+    wrap.appendChild(perk);
+  }
+
+  const list = document.createElement("div");
+  list.className = "hand";
+  wrap.appendChild(list);
+
+  for (const cid of cardIds) {
+    const c = DATA.cardsById[cid];
+    if (!c) continue;
+
+    const lvlData = getCardLevelData(c);
+    const rarityMark = cardRarityMark(c);
+    const riderText = cardRiderText(c);
+    const scenesText = cardScenesText(c);
+    const line3 = ([scenesText, riderText].filter(Boolean).join(" • "));
+
+    const div = document.createElement("div");
+    div.className = "cardbtn";
+    div.tabIndex = 0;
+    div.innerHTML = `
+      <div class="cardname">${escapeHtml(c.name)}</div>
+      <div class="cardtype"><span>${escapeHtml(c.discipline)}</span><span class="rarityPips">${rarityMark}</span></div>
+      <div class="cardbig">
+        <span class="arrows good">${arrowsForBonus(lvlData.bonus) || "—"}</span>
+        <span class="cardbigtext">${escapeHtml(line3)}</span>
+      </div>
+      <div class="cardflavor"><em>${escapeHtml(cardFlavor(c))}</em></div>
+    `;
+
+    const choose = () => {
+      applySignaturePick(cid, { minLevel });
+      log(`Signature chosen: ${c.name}.`);
+      saveState();
+      renderAll();
+      modalLocked = false;
+      closeModal();
+      onPicked?.(cid);
+    };
+
+    div.addEventListener("click", choose);
+    div.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") choose(); });
+    list.appendChild(div);
+  }
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+
+  const skipBtn = document.createElement("button");
+  skipBtn.className = "btn ghost";
+  skipBtn.textContent = "Skip";
+  skipBtn.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onSkip?.();
+  });
+
+  actions.appendChild(skipBtn);
+  wrap.appendChild(actions);
+
+  openModal("Signature Draft", wrap, { locked: true });
+}
+
+function draftSignaturesForFocus(focusStat, onDone) {
+  const disc = disciplineForFocusStat(focusStat);
+  if (!disc) return onDone?.();
+
+  const access = signatureAccessForDiscipline(disc);
+  if (!access) return onDone?.();
+
+  const pool = unlockedSignatureCardsForDiscipline(disc);
+  if (!pool.length) return onDone?.();
+
+  const chosen = new Set(state.lifeSignatureCards ?? []);
+  const poolIds = pool.map(c => c.id).filter(id => !chosen.has(id));
+
+  const doSlot = (slotIndex) => {
+    if (slotIndex > access.slotCount) return onDone?.();
+
+    const remaining = poolIds.filter(id => !(state.lifeSignatureCards ?? []).includes(id));
+    if (!remaining.length) return onDone?.();
+
+    if (access.pickCount <= 1) {
+      const pick = pickUnique(remaining, 1)[0];
+      if (pick) applySignaturePick(pick, { minLevel: access.minLevel });
+      return doSlot(slotIndex + 1);
+    }
+
+    const choices = pickUnique(remaining, access.pickCount);
+    if (choices.length <= 1) {
+      const pick = choices[0];
+      if (pick) applySignaturePick(pick, { minLevel: access.minLevel });
+      return doSlot(slotIndex + 1);
+    }
+
+    openSignatureDraftModal(disc, choices, {
+      slotIndex,
+      minLevel: access.minLevel,
+      onPicked: () => doSlot(slotIndex + 1),
+      onSkip: () => doSlot(slotIndex + 1)
+    });
+  };
+
+  doSlot(1);
+}
 // ---------- Legacy Tree (Meta Progression) ----------
 // Stored in META.legacyTree (localStorage). Safe to evolve: missing fields are defaulted.
 const TRUNK_RANK_COSTS = [2, 3, 4, 6, 8];   // ranks 1..5
@@ -266,6 +462,7 @@ const LEGACY_TREE = {
 };
 
 function ensureMetaTree() {
+  META.signatureUnlocks ??= {};
   META.legacyTree ??= {};
   META.legacyTree.trunk ??= {};
   META.legacyTree.big ??= {};
@@ -405,6 +602,7 @@ function fmtLegacy(n) { return `${Math.max(0, Math.floor(n ?? 0))}`; }
 
 function updateLegacyUIBadges() {
   if (legacyTotalEl) legacyTotalEl.textContent = fmtLegacy(META.legacy ?? 0);
+  if (heirloomTotalEl) heirloomTotalEl.textContent = fmtLegacy(META.heirlooms ?? 0);
   if (legacyStartLineEl) legacyStartLineEl.textContent = `Legacy: ${fmtLegacy(META.legacy ?? 0)}`;
 }
 
@@ -431,6 +629,7 @@ function nodeCard({ title, meta, desc, locked=false, actions=[] }) {
       b.addEventListener("click", () => { buyBranchRank(bk, nid); renderLegacyPage(); });
     }
     if (action === "big") b.addEventListener("click", () => { buyBig(payload); renderLegacyPage(); });
+    if (action === "sig") b.addEventListener("click", () => { const r = unlockSignatureCard(payload); if (r?.msg) log(r.msg); renderLegacyPage(); });
   }
   return el;
 }
@@ -442,6 +641,7 @@ function renderLegacyPage() {
 
   if (legacyTrunkEl) legacyTrunkEl.innerHTML = "";
   if (legacyBranchesEl) legacyBranchesEl.innerHTML = "";
+  if (heirloomVaultEl) heirloomVaultEl.innerHTML = "";
 
   // Trunk (+ Great Boons interleaved after trunk nodes 3, 7, 10)
   if (legacyTrunkEl) {
@@ -777,7 +977,18 @@ function computeLegacyGain() {
   const age = state?.age ?? STARTING_AGE;
   const base = Math.max(0, Math.floor(renown / 2) + heirsRuled + Math.floor((age - STARTING_AGE) / 5));
   const bonus = trunkRank("t_dynastic_memory") ?? 0;
-  return Math.max(0, base + bonus);
+
+  // Ambition life-end bonus (if completed).
+  let ambBonus = 0;
+  try {
+    if (state?.ambitionCompleted && state?.ambitionId) {
+      const amb = (DATA?.ambitions ?? []).find(a => a.id === state.ambitionId);
+      const add = Number(amb?.rewards?.onLifeEndIfCompleted?.Legacy ?? 0) || 0;
+      ambBonus += add;
+    }
+  } catch {}
+
+  return Math.max(0, base + bonus + ambBonus);
 }
 
 function maxCardLevel(card) {
@@ -844,7 +1055,6 @@ const STORYLINE_RARITY_WEIGHTS = { common: 6, uncommon: 3, rare: 1 };
 const STATS = ["Might","Wit","Guile","Gravitas","Resolve"];
 const RES = ["Coin","Supplies","Renown","Influence","Secrets"];
 const TIERS = ["Hostile","Wary","Neutral","Favored","Exalted"];
-
 
 // ---------- Data Lint (Validation Gate) ----------
 const VALID_CONTEXTS = ["Strife","Court","Scheme","Journey","Lore"];
@@ -1092,6 +1302,8 @@ function runDataLint({ showModalOnProblems = false } = {}) {
 }
 
 
+
+
 // ---------- Data (loaded) ----------
 let DATA = {
   cards: [],
@@ -1124,6 +1336,8 @@ const legacyStartLineEl = document.getElementById("legacyStartLine");
 const legacyTrunkEl = document.getElementById("legacyTrunk");
 const legacyBigEl = document.getElementById("legacyBig");
 const legacyBranchesEl = document.getElementById("legacyBranches");
+const heirloomTotalEl = document.getElementById("heirloomTotal");
+const heirloomVaultEl = document.getElementById("heirloomVault");
 
 const bgSelect = document.getElementById("bgSelect");
 const btnStart = document.getElementById("btnStart");
@@ -1649,6 +1863,13 @@ function bundleInlineSummary(bundle) {
     const s = formatCondDelta(c);
     if (s) parts.push(s);
   }
+  for (const sp of (bundle.special ?? [])) {
+    if (!sp || !sp.type) continue;
+    if (sp.type === "GainRedrawTokens") parts.push(`+${Number(sp.amount ?? 1) || 1} Redraw`);
+  }
+  for (const s of (bundle.standings ?? [])) {
+    if (s?.steps) parts.push(`${s.steps > 0 ? "+" : ""}${s.steps} Standing`);
+  }
   return parts.join(" · ");
 }
 
@@ -1669,6 +1890,7 @@ function cardRiderText(card) {
   const parts = [];
   if (onS) parts.push(`✓ ${onS}`);
   if (onF) parts.push(`✗ ${onF}`);
+  if (lvl.rerollOnFail) parts.push(`↻ reroll on fail`);
   return parts.join(" / ");
 }
 
@@ -2097,6 +2319,7 @@ let creation = {
 
 // When true, entering the Start screen will reset allocations/traits and reroll the trait offer.
 let freshStartBuilder = true;
+
 
 function generateHeirNameChoices(n = 5) {
   const pool = [...HEIR_NAMES];
@@ -2672,6 +2895,7 @@ function weightedPickCardId(excludeSet) {
 
   for (const c of DATA.cards) {
     if (excludeSet.has(c.id)) continue;
+    if (c && c.isSignature) continue;
     const w = rarityWeight(c.rarity);
     total += w;
     weighted.push({ id: c.id, w });
@@ -2844,21 +3068,30 @@ function ensureDeckIntegrity(reason = "") {
   state.drawPile = Array.isArray(state.drawPile) ? state.drawPile : [];
   state.discardPile = Array.isArray(state.discardPile) ? state.discardPile : [];
   state.masterDeck = Array.isArray(state.masterDeck) ? state.masterDeck : [];
+  state.lifeSignatureCards = Array.isArray(state.lifeSignatureCards) ? state.lifeSignatureCards : [];
 
-  // If masterDeck is missing, rebuild from whatever cards exist.
+  const sigCards = state.lifeSignatureCards.filter(cid => DATA?.cardsById?.[cid]);
+
+  // If masterDeck is missing, rebuild from whatever cards exist (excluding signature cards).
   if (state.masterDeck.length === 0) {
     const combined = [...state.drawPile, ...state.discardPile];
-    if (combined.length) state.masterDeck = [...combined];
+    if (combined.length) {
+      const base = combined.filter(cid => {
+        const c = DATA?.cardsById?.[cid];
+        return cid && (!c || !c.isSignature);
+      });
+      if (base.length) state.masterDeck = [...new Set(base)];
+    }
   }
 
-  // If both piles are empty but we have a master deck, refill draw pile.
+  // If both piles are empty but we have a deck, refill draw pile (base + signatures for this life).
   if (state.drawPile.length === 0 && state.discardPile.length === 0 && state.masterDeck.length) {
-    state.drawPile = shuffle([...state.masterDeck]);
+    const full = [...state.masterDeck, ...sigCards];
+    state.drawPile = shuffle([...new Set(full)]);
     state.discardPile = [];
     if (reason) console.warn("Deck integrity refill:", reason);
   }
 }
-
 
 function drawHand(n) {
   ensureDeckIntegrity("drawHand:start");
@@ -3056,16 +3289,14 @@ function applyResourceDelta(d) {
   const before = state.res[k] ?? 0;
   const after = clamp(before + amt, 0, 99);
   state.res[k] = after;
-
-  
-  // Track per-life resource peaks (for ambition objectives)
+  // Track per-life peaks for ambition objectives.
   try {
-    initPerLifeMeta();
-    state.metaPerLife.peaks ??= { ...(state.res ?? {}) };
-    const pb = state.metaPerLife.peaks[k];
-    state.metaPerLife.peaks[k] = Math.max(Number.isFinite(pb) ? pb : 0, after);
+    state.peakRes ??= { ...state.res };
+    const prev = state.peakRes[k] ?? 0;
+    if (after > prev) state.peakRes[k] = after;
   } catch {}
-// Resource floor consequences (only when crossing from >0 to 0 due to a loss).
+
+  // Resource floor consequences (only when crossing from >0 to 0 due to a loss).
   // These don't kill you directly; they add pressure conditions.
   if (before > 0 && after === 0 && amt < 0) {
     if (k === "Coin") addCondition("In Debt", "Minor", { source: "floor" });
@@ -3219,7 +3450,13 @@ function applyFlagChange(f) {
   if (!f) return;
   ensureStateMaps();
   if (f.mode === "Add") {
+    const existed = Object.prototype.hasOwnProperty.call(state.flags, f.id);
     state.flags[f.id] = f.durationEvents ?? 0; // 0 = permanent
+
+    // Heirloom Shards: +1 when a storyline completion flag is added for the first time.
+    if (!existed && typeof f.id === "string" && f.id.startsWith("sl_") && f.id.endsWith("_done")) {
+      awardHeirlooms(1, "Storyline");
+    }
   } else if (f.mode === "Remove") {
     delete state.flags[f.id];
   }
@@ -3232,6 +3469,11 @@ function applyStandingDelta(s) {
   const idx = tierIndex(cur);
   const next = clamp(idx + (s.steps ?? 0), 0, TIERS.length - 1);
   state.standings[s.factionId] = TIERS[next];
+  try {
+    state.bestStanding ??= { ...state.standings };
+    const prev = state.bestStanding[s.factionId] ?? "Hostile";
+    if (tierIndex(TIERS[next]) > tierIndex(prev)) state.bestStanding[s.factionId] = TIERS[next];
+  } catch {}
 }
 
 function applyBundle(bundle) {
@@ -3425,6 +3667,17 @@ function applySpecial(sp) {
   ensureFamilyState();
 
   switch (sp.type) {
+    case "GainRedrawTokens": {
+      initPerLifeMeta();
+      const amt = Number(sp.amount ?? 1) || 1;
+      state.metaPerLife.redrawTokens = (state.metaPerLife.redrawTokens ?? 0) + amt;
+      log(`+${amt} Redraw token${amt === 1 ? "" : "s"}.`);
+      saveState();
+      renderAll();
+      return null;
+    }
+
+
     case "OfferProspect": {
       // Defer the choice until after the result modal closes.
       return (next) => {
@@ -4033,6 +4286,308 @@ function renderStatus() {
   majorPill.classList.toggle("show", (currentEvent?.kind === "major"));
 }
 
+function renderEvent() {
+  eventName.textContent = currentEvent.name;
+  ensureFamilyState();
+
+  // Scene meta with icon
+  const parts = [];
+  parts.push(`<span class="eventScene">${ctxBadgeHtml(currentEvent.context)}<span class="eventSceneLabel">Scene:</span> <span class="eventSceneValue">${currentEvent.context}</span></span>`);
+  if (currentEvent?.storyline?.id === "ct" && state.family.prospect) {
+    parts.push(`<span class="eventProspect">Prospect: <span class="eventProspectValue">${state.family.prospect.given} (${state.family.prospect.cultureName})</span></span>`);
+  }
+  eventMeta.innerHTML = parts.join(`<span class="metaSep"> • </span>`);
+
+  eventPrompt.textContent = currentEvent.prompt;
+}
+
+
+
+function renderOutcomes() {
+  outcomesEl.innerHTML = "";
+
+  // Focus panel (selected outcome details)
+  const focus = document.createElement("div");
+  focus.className = "outcomeFocus";
+
+  if (selectedOutcomeIndex == null) {
+    focus.innerHTML = `
+      <div class="focusTitle">Choose an approach</div>
+      <div class="muted">Select an outcome to see costs, results, and highlight playable cards.</div>
+    `;
+  } else {
+    const o = currentEvent.outcomes[selectedOutcomeIndex];
+    const cond = outcomeConditionRules(currentEvent, o);
+    const attemptCosts = cond.costs ?? [];
+    const attemptBundle = attemptCosts.length ? { resources: attemptCosts } : null;
+
+    const metaBits = [];
+    metaBits.push(`Stat: ${o.stat}`);
+    metaBits.push(`Diff: ${o.diff}`);
+    if ((o.allowed ?? []).length) metaBits.push(`Allows: ${(o.allowed ?? []).join(", ")}`);
+
+    focus.innerHTML = `
+      <div class="focusHeader">
+        <div>
+          <div class="focusTitle">${o.title}</div>
+          <div class="muted">${o.desc ?? ""}</div>
+          <div class="focusMeta muted">${metaBits.join(" • ")}</div>
+        </div>
+      </div>
+    `;
+
+    // Attempt cost
+    if (attemptBundle) {
+      const row = document.createElement("div");
+      row.className = "resultRow";
+      row.innerHTML = `<div class="resultLabel">Attempt cost</div>`;
+      row.appendChild(renderResultBadges(attemptBundle));
+      focus.appendChild(row);
+    }
+
+    // Results: Success / Failure
+    const res = document.createElement("div");
+    res.className = "focusResults";
+
+    const successCol = document.createElement("div");
+    successCol.className = "resultCol";
+    successCol.innerHTML = `<div class="resultLabel good">On success</div>`;
+    successCol.appendChild(renderResultBadges(o.success));
+
+    const failCol = document.createElement("div");
+    failCol.className = "resultCol";
+    failCol.innerHTML = `<div class="resultLabel bad">On failure</div>`;
+    failCol.appendChild(renderResultBadges(o.fail));
+
+    res.appendChild(successCol);
+    res.appendChild(failCol);
+
+    focus.appendChild(res);
+  }
+
+  outcomesEl.appendChild(focus);
+
+  // Compact list
+  const list = document.createElement("div");
+  list.className = "outcomeList";
+
+  currentEvent.outcomes.forEach((o, idx) => {
+    const baseReasons = unmetReasons(o.requirements);
+    const cond = outcomeConditionRules(currentEvent, o);
+    const reasons = [...baseReasons, ...(cond.reasons ?? [])];
+    const disabled = reasons.length > 0;
+
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "outcomeItem"
+      + (selectedOutcomeIndex === idx ? " selected" : "")
+      + (disabled ? " disabled" : "");
+
+    // Small meta line (kept short)
+    const meta = `Stat ${o.stat} • Diff ${o.diff}`;
+    item.innerHTML = `
+      <div class="outcomeItemTitle">${o.title}</div>
+      <div class="outcomeItemMeta">${meta}</div>
+      ${disabled ? `<div class="outcomeItemLock">Locked: ${reasons.join(" • ")}</div>` : ``}
+    `;
+
+    item.addEventListener("click", () => {
+      if (disabled) return;
+      selectedOutcomeIndex = idx;
+      committed = [];
+      showChanceDetails = false;
+      renderAll();
+    });
+
+    list.appendChild(item);
+  });
+
+  outcomesEl.appendChild(list);
+
+  // Resolve button
+  btnResolve.disabled = selectedOutcomeIndex == null;
+}
+
+function renderHand() {
+  const cids = committedCardIds();
+  const cap = commitCapForEvent(currentEvent);
+
+  slot1.textContent = cids[0] ? cardLabel(cids[0]) : "—";
+  slot1.classList.toggle("muted", !cids[0]);
+
+  // Slot2 is visually present, but conditions may cap commits to 1.
+  const slot2Enabled = cap >= 2;
+  slot2.textContent = (slot2Enabled && cids[1]) ? cardLabel(cids[1]) : "—";
+  slot2.classList.toggle("muted", !slot2Enabled || !cids[1]);
+  slot2.classList.toggle("disabled", !slot2Enabled);
+
+  const hasOutcome = (selectedOutcomeIndex != null);
+  if (!hasOutcome) {
+    handHint.textContent = "Pick an outcome to commit cards. (Wild cards can be used anytime.)";
+  } else {
+    const commitReady = countCommitReadyCardsForOutcome(selectedOutcomeIndex);
+    const wildCount = countWildCardsInHand();
+    handHint.textContent = `Commit-ready: ${commitReady} • Wild usable: ${wildCount} • Tap highlighted cards to commit/uncommit (max ${cap}).`;
+  }
+
+  handEl.innerHTML = "";
+  for (const entry of hand) {
+    const cid = entry.cid;
+    const c = DATA.cardsById[cid];
+    if (!c) continue;
+
+    const isWild = isWildCard(c);
+    const playable = isWild ? true : (hasOutcome ? isCardUsable(cid, selectedOutcomeIndex) : false);
+    const isCommitted = committed.includes(entry.iid);
+
+    const lvlData = getCardLevelData(c);
+    const arrowsText = isWild ? "✦" : (arrowsForBonus(lvlData.bonus) || "—");
+    const arrowsClass = isWild ? "muted" : (arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted");
+    const rarityMark = cardRarityMark(c);
+    const riderText = cardRiderText(c);
+    const scenesText = cardScenesText(c);
+    const line3 = isWild ? riderText : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""))
+    let usabilityHtml = "";
+    if (hasOutcome) {
+      const d = cardUsabilityDetails(cid, selectedOutcomeIndex);
+      if (d.isWild) {
+        usabilityHtml = `<div class="cardchips"><span class="chip chipWild">Wild</span><span class="chip chipGood">Scene ✓</span><span class="chip chipGood">Allowed ✓</span></div>`;
+      } else {
+        usabilityHtml = `<div class="cardchips">`
+          + `<span class="chip ${d.sceneOk ? "chipGood" : "chipBad"}">Scene ${d.sceneOk ? "✓" : "✗"}</span>`
+          + `<span class="chip ${d.allowedOk ? "chipGood" : "chipBad"}">Allowed ${d.allowedOk ? "✓" : "✗"}</span>`
+          + `</div>`;
+      }
+    } else if (isWild) {
+      usabilityHtml = `<div class="cardchips"><span class="chip chipWild">Wild</span></div>`;
+    }
+;
+
+    const div = document.createElement("div");
+    div.className = "cardbtn"
+      + (isCommitted ? " committed" : "")
+      + ((hasOutcome || isWild) ? (playable ? " playable" : " dim") : "");
+
+
+    div.dataset.rarity = (c.rarity || "");
+    div.dataset.discipline = (c.discipline || "");
+
+    div.innerHTML = `
+      <div class="cardHead">
+        <div class="cardHeadTop">
+          <div class="cardTitle">${c.name}</div>
+          <div class="cardRarity">${rarityMark}</div>
+        </div>
+
+        <div class="cardHeadSub">
+          <div class="discRow">
+            ${discBadgeHtml(c.discipline)}
+            <div class="discTextBlock">
+              <div class="discName">${(c.discipline || "Wild").toUpperCase()}</div>
+              <div class="discBonus ${arrowsClass}">${isWild ? "WILD" : ("Bonus " + arrowsText)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cardRule"></div>
+
+      <div class="cardBody">
+
+      <div class="cardSection">
+        <div class="sectionLabel">Playable scenes</div>
+        ${playableScenesHtml(c)}
+      </div>
+
+      ${(!isWild && riderText) ? `
+        <div class="cardSection">
+          <div class="sectionLabel">Effect</div>
+          <div class="effectText">${riderText}${(lvlData.partialOnFail ? ` <span class="muted">• partial on failure</span>` : "")}</div>
+        </div>
+      ` : (isWild && riderText) ? `
+        <div class="cardSection">
+          <div class="sectionLabel">Effect</div>
+          <div class="effectText">${riderText}</div>
+        </div>
+      ` : ``}
+
+      ${usabilityHtml}
+
+      <div class="cardFlavor"><em>${cardFlavor(c)}</em></div>
+
+      </div>
+    `;
+
+
+    div.addEventListener("click", () => {
+      if (isWild) {
+        playWildCard(entry.iid);
+        return;
+      }
+      if (!hasOutcome) return;
+      if (!playable) return;
+
+      if (isCommitted) {
+        committed = committed.filter(x => x !== entry.iid);
+      } else {
+        if (committed.length >= cap) return;
+        committed.push(entry.iid);
+      }
+      renderAll();
+    });
+
+    handEl.appendChild(div);
+  }
+}
+
+
+function renderChance() {
+  btnResolve.disabled = (selectedOutcomeIndex == null);
+  if (btnChanceMath) {
+    const hasSel = (selectedOutcomeIndex != null);
+    btnChanceMath.disabled = !hasSel;
+    btnChanceMath.textContent = hasSel ? (showChanceDetails ? "Hide math" : "Math") : "Math";
+  }
+
+  if (selectedOutcomeIndex == null) {
+    chanceLine.textContent = "Select an outcome.";
+    chanceBreakdown.textContent = "";
+    chanceLine.classList.remove("clickable");
+    return;
+  }
+
+  chanceLine.classList.add("clickable");
+
+  const o = currentEvent.outcomes[selectedOutcomeIndex];
+  const parts = computeChanceParts(o, committedCardIds(), { ev: currentEvent, majorBeat: isMajorEventNow() });
+  const chance = Math.round(parts.chance);
+
+  const cls = (chance >= 60) ? "good" : (chance <= 35) ? "bad" : "";
+  const band = chanceBand(chance);
+  chanceLine.innerHTML = `Chance: <span class="${cls}">${band}</span> <span class="muted">(${chance}%)</span>`;
+
+  if (!showChanceDetails) {
+    chanceBreakdown.textContent = "";
+    return;
+  }
+
+  const base = parts.prof.base;
+  const statPart = Math.round(parts.statVal * parts.prof.statMult);
+  const cards = Math.round(parts.cardBonus);
+  const diffPart = Math.round(parts.diff * parts.prof.diffMult);
+  const gapPart = Math.round(parts.gapPenalty);
+  const condPart = Math.round(parts.condMod);
+
+  const bits = [];
+  bits.push(`Base ${base}`);
+  bits.push(`+ Stat ${statPart}`);
+  if (cards) bits.push(`+ Cards ${cards}`);
+  bits.push(`− Diff ${diffPart}`);
+  if (gapPart) bits.push(`− Gap ${gapPart}`);
+  if (condPart) bits.push(`${condPart > 0 ? "+" : "−"} Conditions ${Math.abs(condPart)}`);
+
+  chanceBreakdown.textContent = bits.join(" ");
+}
 
 function tierValue(tier){
   const t = String(tier ?? "Neutral");
@@ -4070,13 +4625,13 @@ function evalAmbitionObjective(obj){
       initPerLifeMeta();
       const r = obj.resource;
       const target = Number(obj.amount ?? 0);
-      const peak = Number(state?.metaPerLife?.peaks?.[r] ?? state?.res?.[r] ?? 0);
+      const peak = Number(state?.peakRes?.[r] ?? state?.metaPerLife?.peaks?.[r] ?? state?.res?.[r] ?? 0);
       return { done: peak >= target, meta: `${peak}/${target}` };
     }
     if (t === "MinStanding") {
       const fid = obj.factionId;
       const need = obj.minTier ?? "Neutral";
-      const cur = state?.standings?.[fid] ?? "Neutral";
+      const cur = state?.bestStanding?.[fid] ?? state?.standings?.[fid] ?? "Neutral";
       return { done: tierValue(cur) >= tierValue(need), meta: `${cur} ≥ ${need}` };
     }
     if (t === "AnyStandingAtLeast") {
@@ -4084,7 +4639,7 @@ function evalAmbitionObjective(obj){
       const fids = Array.isArray(obj.factionIds) && obj.factionIds.length
         ? obj.factionIds
         : (DATA.factions ?? []).map(f => f.id);
-      const best = fids.map(fid => state?.standings?.[fid] ?? "Neutral")
+      const best = fids.map(fid => state?.bestStanding?.[fid] ?? state?.standings?.[fid] ?? "Neutral")
         .sort((a,b)=> tierValue(b)-tierValue(a))[0] ?? "Neutral";
       return { done: tierValue(best) >= tierValue(need), meta: `Best: ${best}` };
     }
@@ -4528,6 +5083,7 @@ function renderChance() {
   chanceBreakdown.textContent = bits.join(" ");
 }
 
+
 function renderAll() {
   renderStatus();
   renderTrackers();
@@ -4830,8 +5386,7 @@ function ensureStorylineMeta() {
   for (const ev of (DATA.events ?? [])) {
     const sl = ev?.storyline;
     if (!sl?.id) continue;
-    map[sl.id] ??= { id: sl.id, name: sl.name ?? sl.id, rarity: sl.rarity ?? "common", total: 0 };
-    try { map[sl.id].total = Math.max(map[sl.id].total ?? 0, Number(sl.total ?? 0) || 0); } catch {}
+    map[sl.id] ??= { id: sl.id, name: sl.name ?? sl.id, rarity: sl.rarity ?? "common" };
   }
   DATA.storylineMetaById = map;
 }
@@ -5522,6 +6077,9 @@ function finishEvent(evJustResolved) {
   updateStoryCountersAfterResolvedEvent(evJustResolved);
   updateStoryPacingAfterResolvedEvent(evJustResolved);
 
+  // Ambition progress check (non-life-end objectives)
+  try { checkAmbitionProgress({ lifeEnd: false }); } catch {}
+
   // Release resolve lock (but keep buttons disabled until the next screen is ready).
   resolvingOutcome = false;
   btnNewEvent.disabled = true;
@@ -5670,8 +6228,25 @@ function resolveSelectedOutcome() {
 
   // Compute success chance
   const chance = computeChance(o, committedCardIds());
-  const roll = rInt(1, 100);
-  const success = roll <= chance;
+  let roll = rInt(1, 100);
+  let success = roll <= chance;
+
+  // Signature/mechanical rider: reroll once on fail if any committed card provides it.
+  if (!success) {
+    const hasReroll = committedCardIds().some(cid => {
+      const c = DATA.cardsById[cid];
+      return c ? Boolean(getCardLevelData(c).rerollOnFail) : false;
+    });
+    if (hasReroll) {
+      const reroll = rInt(1, 100);
+      const rerollSuccess = reroll <= chance;
+      log(`↻ Reroll on fail: ${rerollSuccess ? "SUCCESS" : "FAIL"} (${reroll} ${rerollSuccess ? "≤" : ">"} ${chance})`);
+      if (rerollSuccess) {
+        roll = reroll;
+        success = true;
+      }
+    }
+  }
 
   // Tracking for result + any post-event modals
   let bundleForSummary = null;
@@ -5909,7 +6484,7 @@ function openLifeEndModal(primary) {
     <div class="spacer"></div>
     <div class="resultGrid">
       <div class="resultBlock"><div class="muted small">Scrip gained</div><div class="big">+${SCRIP_ON_DEATH_BONUS}</div></div>
-      <div class="resultBlock"><div class="muted small">Heirlooms gained</div><div class="big">+0</div></div>
+      <div class="resultBlock"><div class="muted small">Heirloom Shards gained</div><div class="big">+${state.heirloomsGainedThisLife ?? 0}</div></div>
       <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div></div>
     </div>
     <div class="spacer"></div>
@@ -5956,7 +6531,7 @@ function openBloodlineEndModal() {
     <div class="resultGrid">
       <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div></div>
       <div class="resultBlock"><div class="muted small">Scrip kept</div><div class="big">0</div><div class="muted small">Scrip upgrades are lost when a bloodline ends.</div></div>
-      <div class="resultBlock"><div class="muted small">Heirlooms gained</div><div class="big">+0</div><div class="muted small">Scaffolding (future unlock currency).</div></div>
+      <div class="resultBlock"><div class="muted small">Heirloom Shards gained</div><div class="big">+${state.heirloomsGainedThisLife ?? 0}</div><div class="muted small">Kept across bloodlines.</div></div>
     </div>
     <div class="spacer"></div>
   `;
@@ -5971,9 +6546,9 @@ function openBloodlineEndModal() {
     localStorage.removeItem(SAVE_KEY);
     state = null;
     logEl.textContent = "";
+    freshStartBuilder = true;
     modalLocked = false;
     closeModal();
-    freshStartBuilder = true;
     showMenu();
   });
 
@@ -5985,6 +6560,9 @@ function openBloodlineEndModal() {
 
 function handleDeath() {
   ensureFamilyState();
+
+  // Final ambition check at life end (supports NotCondition objectives).
+  try { checkAmbitionProgress({ lifeEnd: true }); } catch {}
 
   // Award death bonus now (shown in the Run End screen).
   awardScrip(SCRIP_ON_DEATH_BONUS, "Death");
@@ -6058,10 +6636,29 @@ function proceedSuccession(primary) {
   // Clear spouse + children (new ruler must build their own line).
   state.family = { spouse: null, prospect: null, heirs: [] };
 
+  // Reset per-life trackers for the new ruler.
+  state.heirloomsGainedThisLife = 0;
+  try { state.peakRes = { ...state.res }; } catch {}
+  try { state.bestStanding = { ...state.standings }; } catch {}
+  state.ambitionCompleted = false;
+  state.ambitionRewarded = false;
+  // Clear per-life signature cards
+  state.lifeSignatureCards = [];
+
   log(`Heir takes over: ${state.charName} ${state.familyName}. Focus bonus: ${state.heirFocus ? `+1 ${state.heirFocus}` : "None"}. Heirs ruled so far: ${state.heirCount}.`);
-  saveState();
-  renderAll();
-  loadRandomEvent();
+
+  // Draft Signatures for the new ruler (if unlocked), then rebuild draw pile.
+  draftSignaturesForFocus(state.heirFocus, () => {
+    state.drawPile = shuffle([...new Set([...(state.masterDeck ?? []), ...(state.lifeSignatureCards ?? [])])]);
+    state.discardPile = [];
+    hand = [];
+    committed = [];
+    selectedOutcomeIndex = null;
+
+    saveState();
+    renderAll();
+    loadRandomEvent();
+  });
 }
 
 
@@ -6214,6 +6811,70 @@ function startRunWithOptionalAmbition(bg, given, family) {
   }, { pickCount: 5, allowDefer: true, deferLabel: "Defer until age 20" });
 }
 
+// ---------- Ambition Completion ----------
+function checkAmbitionProgress({ lifeEnd = false } = {}) {
+  if (!state || !state.ambitionId) return false;
+  if (state.ambitionCompleted) return true;
+
+  const amb = (DATA?.ambitions ?? []).find(a => a.id === state.ambitionId);
+  if (!amb) return false;
+
+  const tierAtLeast = (cur, need) => tierIndex(cur) >= tierIndex(need);
+
+  let ok = true;
+  for (const obj of (amb.objectives ?? [])) {
+    const t = obj?.type;
+    if (!t) continue;
+
+    if (t === "PeakResourceAtLeast") {
+      const peak = state.peakRes?.[obj.resource] ?? (state.res?.[obj.resource] ?? 0);
+      if (peak < (Number(obj.amount ?? 0) || 0)) ok = false;
+    } else if (t === "MinStanding") {
+      const best = state.bestStanding?.[obj.factionId] ?? state.standings?.[obj.factionId] ?? "Neutral";
+      if (!tierAtLeast(best, obj.minTier ?? "Neutral")) ok = false;
+    } else if (t === "AnyStandingAtLeast") {
+      const need = obj.minTier ?? "Neutral";
+      let any = false;
+      for (const fid of Object.keys(state.standings ?? {})) {
+        const best = state.bestStanding?.[fid] ?? state.standings[fid];
+        if (tierAtLeast(best, need)) { any = true; break; }
+      }
+      if (!any) ok = false;
+    } else if (t === "AnyFlagSet") {
+      let any = false;
+      for (const id of (obj.ids ?? [])) if (hasFlag(id)) { any = true; break; }
+      if (!any) ok = false;
+    } else if (t === "HasFlag") {
+      if (!hasFlag(obj.id)) ok = false;
+    } else if (t === "HasSpouse") {
+      ensureFamilyState();
+      if (!state.family?.spouse && !hasFlag("has_spouse")) ok = false;
+    } else if (t === "HasHeir") {
+      ensureFamilyState();
+      if (!((state.family?.heirs ?? []).length) && !hasFlag("has_heir")) ok = false;
+    } else if (t === "NotCondition") {
+      if (!lifeEnd) ok = false;
+      else if (hasCondition(obj.id)) ok = false;
+    } else if (t === "AgeAtLeast") {
+      if ((state.age ?? 0) < (Number(obj.age ?? 0) || 0)) ok = false;
+    }
+  }
+
+  if (!ok) return false;
+
+  // Mark completed and reward once.
+  state.ambitionCompleted = true;
+  if (!state.ambitionRewarded) {
+    state.ambitionRewarded = true;
+    const scrip = Number(amb?.rewards?.onComplete?.Scrip ?? 0) || 0;
+    if (scrip) awardScrip(scrip, "Ambition");
+    awardHeirlooms(3, "Ambition");
+  }
+  log(`★ Ambition completed: ${amb.name}`);
+  return true;
+}
+
+
 
 
 btnStart.addEventListener("click", () => {
@@ -6238,12 +6899,14 @@ btnStart.addEventListener("click", () => {
     return;
   }
 
+
   if ((DATA_LINT?.report?.errors?.length ?? 0) > 0 && !DATA_LINT.override) {
     showLintModal();
     return;
   }
 
   startRunWithOptionalAmbition(bg, given, family);
+
 });
 
 if (btnLegacy) {
@@ -6512,16 +7175,7 @@ function populateBackgroundSelect() {
 
 // ONLY wire this once:
 bgSelect.addEventListener("change", () => {
-  // Browsing backgrounds should not reroll trait offers or clear selected traits.
-  // We only want a fresh trait roll when starting a brand-new run.
-  const savedOffer = Array.isArray(creation.traitOfferIds) ? [...creation.traitOfferIds] : null;
-  const savedTraits = new Set(creation.traits);
-
   resetCreation();
-
-  creation.traitOfferIds = savedOffer;
-  creation.traits = savedTraits;
-
   renderCreationUI();
 });
 
@@ -6611,7 +7265,13 @@ function startRunFromBuilder(bg, givenName, familyName) {
     standings: normalizeStartStandings(bg.startStandings ?? bg.startStanding),
     masterDeck: [...starterDeck],
     drawPile: shuffle([...starterDeck]),
-    discardPile: []
+    discardPile: [],
+    lifeSignatureCards: [],
+    heirloomsGainedThisLife: 0,
+    peakRes: { ...finalRes },
+    bestStanding: { ...normalizeStartStandings(bg.startStandings ?? bg.startStanding) },
+    ambitionCompleted: false,
+    ambitionRewarded: false
   };
 
   // Enable background-specific event packs (bev_*) that use HasFlag bg_<backgroundId>.
@@ -6678,9 +7338,7 @@ async function boot() {
 
     ensureStatScale();
 
-    
-    try { initPerLifeMeta(); } catch {}
-showGame();
+    showGame();
     logEl.textContent = "";
     log("Loaded saved run state.");
     loadRandomEvent();
@@ -6701,8 +7359,7 @@ function initPerLifeMeta() {
       redrawTokens: trunkRank("t_better_odds") ?? 0,
       mulliganUsed: false,
       secondBreathUsed: false,
-      lastEventIndex: -1,
-      peaks: { ...(state.res ?? {}) }
+      lastEventIndex: -1
     };
   }
 }
