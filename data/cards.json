@@ -75,7 +75,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Feet blister; pride doesn’t."
+    "flavor": "Feet blister; pride doesn\u2019t."
   },
   {
     "id": "cornered_beast",
@@ -102,7 +102,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "When there’s no room to flee, you bite back."
+    "flavor": "When there\u2019s no room to flee, you bite back."
   },
   {
     "id": "crushing_blow",
@@ -234,7 +234,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Numbers don’t lie—people do."
+    "flavor": "Numbers don\u2019t lie\u2014people do."
   },
   {
     "id": "keen_observation",
@@ -281,7 +281,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Let them spring the trap—on your terms."
+    "flavor": "Let them spring the trap\u2014on your terms."
   },
   {
     "id": "forensic_reading",
@@ -394,7 +394,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "A purse is easiest to lift before it’s missed."
+    "flavor": "A purse is easiest to lift before it\u2019s missed."
   },
   {
     "id": "silent_entry",
@@ -414,7 +414,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Locks aren’t promises. They’re suggestions."
+    "flavor": "Locks aren\u2019t promises. They\u2019re suggestions."
   },
   {
     "id": "misdirection",
@@ -620,7 +620,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Act certain; they’ll do the rest for you."
+    "flavor": "Act certain; they\u2019ll do the rest for you."
   },
   {
     "id": "oath_of_service",
@@ -640,7 +640,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "You trade freedom for protection—carefully."
+    "flavor": "You trade freedom for protection\u2014carefully."
   },
   {
     "id": "turn_the_blame",
@@ -756,7 +756,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "The dark doesn’t scare you. You’ve met it before."
+    "flavor": "The dark doesn\u2019t scare you. You\u2019ve met it before."
   },
   {
     "id": "steady_breath",
@@ -974,7 +974,7 @@
       "Lore"
     ],
     "rarity": "Uncommon",
-    "flavor": "If it’s cleaned now, it won’t fester later.",
+    "flavor": "If it\u2019s cleaned now, it won\u2019t fester later.",
     "levels": [
       {
         "level": 1,
@@ -1036,7 +1036,7 @@
       "Lore"
     ],
     "rarity": "Rare",
-    "flavor": "Light makes liars careful—and friends braver.",
+    "flavor": "Light makes liars careful\u2014and friends braver.",
     "levels": [
       {
         "level": 1,
@@ -1164,7 +1164,7 @@
         "onPlay": {}
       }
     ],
-    "flavor": "Numbers don't lie—people do."
+    "flavor": "Numbers don't lie\u2014people do."
   },
   {
     "id": "ledger_clerk_margin_gloss",
@@ -1639,7 +1639,7 @@
         "onPlay": {}
       }
     ],
-    "flavor": "Nothing to declare—nothing you can prove."
+    "flavor": "Nothing to declare\u2014nothing you can prove."
   },
   {
     "id": "outlaw_highway_toll",
@@ -1888,5 +1888,760 @@
       }
     ],
     "flavor": "A message carried clean is power delivered."
+  },
+  {
+    "id": "sig_banner_charge",
+    "name": "Banner Charge",
+    "discipline": "Steel",
+    "contexts": [
+      "Strife",
+      "Journey"
+    ],
+    "rarity": "Uncommon",
+    "isSignature": true,
+    "heirloomCost": 3,
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 14,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 2,
+        "bonus": 16,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            },
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 3,
+        "bonus": 18,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 2
+            },
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "A standard lifted high turns fear into forward motion."
+  },
+  {
+    "id": "sig_hold_the_line",
+    "name": "Hold the Line",
+    "discipline": "Steel",
+    "contexts": [
+      "Strife",
+      "Journey"
+    ],
+    "rarity": "Rare",
+    "isSignature": true,
+    "heirloomCost": 5,
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 14,
+        "partialOnFail": false,
+        "rerollOnFail": true,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 2,
+        "bonus": 16,
+        "partialOnFail": false,
+        "rerollOnFail": true,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Remove"
+            }
+          ],
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 3,
+        "bonus": 18,
+        "partialOnFail": true,
+        "rerollOnFail": true,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Remove"
+            }
+          ],
+          "resources": [
+            {
+              "resource": "Renown",
+              "amount": 2
+            }
+          ]
+        },
+        "onFailure": {
+          "conditions": [
+            {
+              "id": "Wounded",
+              "mode": "Downgrade"
+            }
+          ]
+        }
+      }
+    ],
+    "flavor": "When the world breaks, you do not."
+  },
+  {
+    "id": "sig_cited_precedent",
+    "name": "Cited Precedent",
+    "discipline": "Quill",
+    "contexts": [
+      "Court",
+      "Lore"
+    ],
+    "rarity": "Uncommon",
+    "isSignature": true,
+    "heirloomCost": 3,
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 12,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 2,
+        "bonus": 14,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            },
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 3,
+        "bonus": 16,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 2
+            },
+            {
+              "resource": "Renown",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "In the right margin, the law becomes a weapon."
+  },
+  {
+    "id": "sig_greyvault_decipher",
+    "name": "Greyvault Decipher",
+    "discipline": "Quill",
+    "contexts": [
+      "Lore",
+      "Scheme"
+    ],
+    "rarity": "Rare",
+    "isSignature": true,
+    "heirloomCost": 5,
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 14,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "special": [
+            {
+              "type": "GainRedrawTokens",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 2,
+        "bonus": 16,
+        "partialOnFail": false,
+        "rerollOnFail": true,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ],
+          "special": [
+            {
+              "type": "GainRedrawTokens",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 3,
+        "bonus": 18,
+        "partialOnFail": true,
+        "rerollOnFail": true,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 2
+            }
+          ],
+          "special": [
+            {
+              "type": "GainRedrawTokens",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        }
+      }
+    ],
+    "flavor": "Ink remembers what people beg you to forget."
+  },
+  {
+    "id": "sig_shadow_brokerage",
+    "name": "Shadow Brokerage",
+    "discipline": "Veil",
+    "contexts": [
+      "Scheme",
+      "Court"
+    ],
+    "rarity": "Uncommon",
+    "isSignature": true,
+    "heirloomCost": 3,
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 12,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 2,
+        "bonus": 14,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            },
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 3,
+        "bonus": 16,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 2
+            },
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "Every whisper has a price. You collect it."
+  },
+  {
+    "id": "sig_vanishing_route",
+    "name": "Vanishing Route",
+    "discipline": "Veil",
+    "contexts": [
+      "Scheme",
+      "Journey"
+    ],
+    "rarity": "Rare",
+    "isSignature": true,
+    "heirloomCost": 5,
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 14,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 2,
+        "bonus": 16,
+        "partialOnFail": false,
+        "rerollOnFail": true,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 3,
+        "bonus": 18,
+        "partialOnFail": true,
+        "rerollOnFail": true,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Remove"
+            }
+          ],
+          "resources": [
+            {
+              "resource": "Secrets",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {
+          "conditions": [
+            {
+              "id": "Wanted",
+              "mode": "Remove"
+            }
+          ]
+        }
+      }
+    ],
+    "flavor": "You leave nothing behind but doubt."
+  },
+  {
+    "id": "sig_stamped_writ",
+    "name": "Stamped Writ",
+    "discipline": "Seal",
+    "contexts": [
+      "Court",
+      "Journey"
+    ],
+    "rarity": "Uncommon",
+    "isSignature": true,
+    "heirloomCost": 3,
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 12,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 2,
+        "bonus": 14,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            },
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 3,
+        "bonus": 16,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 2
+            },
+            {
+              "resource": "Coin",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "An official seal turns doors into corridors."
+  },
+  {
+    "id": "sig_letter_of_exception",
+    "name": "Letter of Exception",
+    "discipline": "Seal",
+    "contexts": [
+      "Court",
+      "Lore"
+    ],
+    "rarity": "Rare",
+    "isSignature": true,
+    "heirloomCost": 5,
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 14,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 2,
+        "bonus": 16,
+        "partialOnFail": false,
+        "rerollOnFail": true,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Remove"
+            }
+          ],
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {
+          "special": [
+            {
+              "type": "GainRedrawTokens",
+              "amount": 1
+            }
+          ]
+        }
+      },
+      {
+        "level": 3,
+        "bonus": 18,
+        "partialOnFail": true,
+        "rerollOnFail": true,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Disgraced",
+              "mode": "Remove"
+            }
+          ],
+          "resources": [
+            {
+              "resource": "Influence",
+              "amount": 2
+            }
+          ]
+        },
+        "onFailure": {
+          "special": [
+            {
+              "type": "GainRedrawTokens",
+              "amount": 1
+            }
+          ]
+        }
+      }
+    ],
+    "flavor": "The right paperwork makes shame a clerical error."
+  },
+  {
+    "id": "sig_basin_oath",
+    "name": "Basin Oath",
+    "discipline": "Hearth",
+    "contexts": [
+      "Journey",
+      "Court"
+    ],
+    "rarity": "Uncommon",
+    "isSignature": true,
+    "heirloomCost": 3,
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 10,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 2,
+        "bonus": 12,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Remove"
+            }
+          ],
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 1
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 3,
+        "bonus": 14,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Exhausted",
+              "mode": "Remove"
+            }
+          ],
+          "resources": [
+            {
+              "resource": "Supplies",
+              "amount": 2
+            }
+          ]
+        },
+        "onFailure": {}
+      }
+    ],
+    "flavor": "A vow spoken over water steadies trembling hands."
+  },
+  {
+    "id": "sig_green_vigil",
+    "name": "Green Vigil",
+    "discipline": "Hearth",
+    "contexts": [
+      "Lore",
+      "Journey",
+      "Court"
+    ],
+    "rarity": "Rare",
+    "isSignature": true,
+    "heirloomCost": 5,
+    "levels": [
+      {
+        "level": 1,
+        "bonus": 12,
+        "partialOnFail": false,
+        "rerollOnFail": false,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            },
+            {
+              "id": "Exhausted",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 2,
+        "bonus": 14,
+        "partialOnFail": false,
+        "rerollOnFail": true,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            },
+            {
+              "id": "Wounded",
+              "mode": "Downgrade"
+            },
+            {
+              "id": "Exhausted",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {}
+      },
+      {
+        "level": 3,
+        "bonus": 16,
+        "partialOnFail": true,
+        "rerollOnFail": true,
+        "onSuccess": {
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            },
+            {
+              "id": "Wounded",
+              "mode": "Downgrade"
+            },
+            {
+              "id": "Exhausted",
+              "mode": "Remove"
+            }
+          ]
+        },
+        "onFailure": {
+          "conditions": [
+            {
+              "id": "Ill",
+              "mode": "Downgrade"
+            }
+          ]
+        }
+      }
+    ],
+    "flavor": "You keep watch beside suffering until it loosens its grip."
   }
 ]
