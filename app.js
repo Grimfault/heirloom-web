@@ -182,7 +182,6 @@ function loadMeta() {
     }
   } catch {}
   ensureMetaTree();
-  try { migrateLegacyBranchesToV2(); } catch {}
 }
 
 function saveMeta() {
@@ -385,240 +384,306 @@ function draftSignaturesForFocus(focusStat, onDone) {
 
   doSlot(1);
 }
-// ---------- Legacy Tree (Meta Progression) ----------
-// Stored in META.legacyTree (localStorage). Safe to evolve: missing fields are defaulted.
-const TRUNK_RANK_COSTS = [2, 3, 4, 6, 8];   // ranks 1..5
-const BRANCH_RANK_COSTS = [3, 5, 7, 9, 11]; // ranks 1..5
 
+// ---------- Legacy Tree (Meta Progression) — v2 (Interconnected Trunk + Discipline Branches) ----------
+// Stored in META.legacyTreeV2 (localStorage). v2 is boolean nodes + single-rank branches.
+// v1 (ranked trunk + multi-node branches) is still read for one-time respec migration.
+
+// ---- v2 pricing ----
+const V2_SEED_COST = 2;     // Tier 1
+const V2_FOOTING_COST = 5;  // Tier 2
+const V2_MASTERY_COST = 9;  // Tier 3
+const V2_BRANCH_RANK_COSTS = [3, 5, 7, 9, 11]; // ranks 1..5
+const V2_CAPSTONE_COST = 30;
+
+// Tier 4 (Major trunk nodes)
+const V2_MAJOR_COSTS = {
+  b_heirloom_vault: 18,
+  b_fate_stitching: 22,
+  b_second_breath: 28,
+  b_dynastic_curriculum: 22
+};
+
+// ---- v1 respec migration constants (best-effort refund) ----
+const V1_TRUNK_RANK_COSTS = [2, 3, 4, 6, 8];
+const V1_BRANCH_RANK_COSTS = [4, 6, 8, 10, 12];
+const V1_TRUNK_IDS = [
+  "t_packed_satchel","t_stashed_coin","t_known_name","t_old_introductions","t_quiet_compromises",
+  "t_hardened_years","t_steady_hands","t_better_odds","t_heirs_upbringing","t_dynastic_memory"
+];
+const V1_BIG_COSTS = {
+  b_heirloom_vault: 35,
+  b_second_breath: 45,
+  b_fate_stitching: 45,
+  // old branch capstones
+  s_battle_tempo: 50,
+  q_archivists_certainty: 50,
+  v_shadow_alias: 50,
+  se_network: 50,
+  h_unbroken_year: 50
+};
+
+function sumRankCosts(costs, rank) {
+  const r = clamp(Number(rank ?? 0) || 0, 0, 5);
+  let s = 0;
+  for (let i = 0; i < r; i++) s += (costs[i] ?? 0);
+  return s;
+}
+
+// ---- v2 tree definition ----
+// IDs are intentionally stable — do not change without a migration.
 const LEGACY_TREE = {
-  trunk: [
-    { id: "t_packed_satchel",    name: "Packed Satchel",    max: 5, desc: "+1 starting Supplies per rank." },
-    { id: "t_stashed_coin",      name: "Stashed Coin",      max: 5, desc: "+1 starting Coin per rank." },
-    { id: "t_known_name",        name: "Known Name",        max: 5, desc: "+1 starting Renown per rank." },
-    { id: "t_old_introductions", name: "Old Introductions", max: 5, desc: "+1 starting Influence per rank." },
-    { id: "t_quiet_compromises", name: "Quiet Compromises", max: 5, desc: "+1 starting Secrets per rank." },
-    { id: "t_hardened_years",    name: "Hardened Years",    max: 5, desc: "-1% Mortality chance per rank." },
-    { id: "t_steady_hands",      name: "Steady Hands",      max: 5, desc: "+1% success chance per rank." },
-    { id: "t_better_odds",       name: "Better Odds",       max: 5, desc: "+1 Redraw token per life per rank (redraw your hand during an event)." },
-    { id: "t_heirs_upbringing",  name: "Heir’s Upbringing", max: 5, desc: "Succession: additional +Focus stat at ranks 3 and 5." },
-    { id: "t_dynastic_memory",   name: "Dynastic Memory",   max: 5, desc: "+1 Legacy gained at end-of-life per rank." }
-  ],
-  big: [
-    { id: "b_heirloom_vault",  name: "Heirloom Vault", cost: 35, desc: "Start each new run with the Wild card “Candle Witness” added to your deck." , prereqTrunkIndex: 2 },
-    { id: "b_second_breath",   name: "Second Breath",  cost: 45, desc: "Once per life, survive a fatal Mortality Check with a severe consequence.", prereqTrunkIndex: 6 },
-    { id: "b_fate_stitching",  name: "Fate Stitching", cost: 45, desc: "Once per life, you may Mulligan your hand (free redraw).", prereqTrunkIndex: 9 }
-  ],
+  tiers: {
+    seeds: [
+      { id: "seed_coinseed",    name: "Coinseed",     cost: V2_SEED_COST, desc: "Start +2 Coin." },
+      { id: "seed_stores",      name: "Stores",       cost: V2_SEED_COST, desc: "Start +2 Supplies." },
+      { id: "seed_good_name",   name: "Good Name",    cost: V2_SEED_COST, desc: "Start +1 Renown." },
+      { id: "seed_old_contacts",name: "Old Contacts", cost: V2_SEED_COST, desc: "Start +1 Influence." },
+      { id: "seed_quiet_sins",  name: "Quiet Sins",   cost: V2_SEED_COST, desc: "Start +1 Secrets." }
+    ],
+    footings: [
+      { id: "foot_strife",  name: "Strife Footing: Martial Habit",      cost: V2_FOOTING_COST, desc: "In Strife events: +5% success. Start +1 Supplies.", context: "Strife" },
+      { id: "foot_court",   name: "Court Footing: Polished Etiquette",  cost: V2_FOOTING_COST, desc: "In Court events: +5% success. Start +1 Influence.", context: "Court" },
+      { id: "foot_scheme",  name: "Scheme Footing: Underhanded Bearings",cost: V2_FOOTING_COST, desc: "In Scheme events: +5% success. Start +1 Secrets.", context: "Scheme" },
+      { id: "foot_journey", name: "Journey Footing: Roadwise",          cost: V2_FOOTING_COST, desc: "In Journey events: +5% success. Start +1 Supplies.", context: "Journey" },
+      { id: "foot_lore",    name: "Lore Footing: Ink & Memory",         cost: V2_FOOTING_COST, desc: "In Lore events: +5% success. Start +1 Renown.", context: "Lore" }
+    ],
+    masteries: [
+      { id: "mast_strife",  name: "Strife Mastery: Battle Cadence",  cost: V2_MASTERY_COST, desc: "Once per life in a Strife event: reroll resolution (keep the better). On Strife success: +1 Renown (max 1/event).", context: "Strife",
+        reqAll: ["foot_strife"], reqAny: ["foot_journey","foot_scheme"] },
+      { id: "mast_scheme",  name: "Scheme Mastery: Clean Hands",     cost: V2_MASTERY_COST, desc: "Once per life in a Scheme event: reroll resolution (keep the better). On Scheme success: +1 Secrets (max 1/event).", context: "Scheme",
+        reqAll: ["foot_scheme"], reqAny: ["foot_strife","foot_court"] },
+      { id: "mast_court",   name: "Court Mastery: Favor of the Hall", cost: V2_MASTERY_COST, desc: "Once per life in a Court event: reroll resolution (keep the better). On Court success: +1 Influence (max 1/event).", context: "Court",
+        reqAll: ["foot_court"], reqAny: ["foot_scheme","foot_lore"] },
+      { id: "mast_lore",    name: "Lore Mastery: Read Between",       cost: V2_MASTERY_COST, desc: "Once per life in a Lore event: reroll resolution (keep the better). On Lore success: +1 Renown (max 1/event).", context: "Lore",
+        reqAll: ["foot_lore"], reqAny: ["foot_court","foot_journey"] },
+      { id: "mast_journey", name: "Journey Mastery: Packed Light",    cost: V2_MASTERY_COST, desc: "Once per life in a Journey event: reroll resolution (keep the better). First time Supplies would hit 0 each life: set to 1.", context: "Journey",
+        reqAll: ["foot_journey"], reqAny: ["foot_lore","foot_strife"] }
+    ],
+    majors: [
+      { id: "b_heirloom_vault",       name: "Heirloom Vault",      cost: V2_MAJOR_COSTS.b_heirloom_vault,      desc: "Start each new run with the Wild card “Candle of Witness” added to your deck." },
+      { id: "b_fate_stitching",       name: "Fate Stitching",      cost: V2_MAJOR_COSTS.b_fate_stitching,      desc: "Once per life: Mulligan your hand (discard hand, draw 4) before choosing an outcome." },
+      { id: "b_second_breath",        name: "Second Breath",       cost: V2_MAJOR_COSTS.b_second_breath,       desc: "Once per life: survive a fatal Mortality Check with a severe consequence and resource loss." },
+      { id: "b_dynastic_curriculum",  name: "Dynastic Curriculum", cost: V2_MAJOR_COSTS.b_dynastic_curriculum, desc: "Succession: draft heir traits/signatures instead of purely random (prototype support)." }
+    ]
+  },
   branches: {
-    steel: {
-      title: "Steel",
-      subtitle: "Warcraft: momentum, survivability, Renown.",
-      nodes: [
-        { id: "core", name: "Steelcraft", max: 5, desc: "Ranks 1–5: +2% success if you commit a Steel card; on success +Renown; +Strife reroll; Wounded mitigation; avoid one perilous Strife Mortality Check on fail." }
-      ],
-      capstone: { id: "s_battle_tempo", name: "Warbred Reflexes", cost: 30, desc: "In Strife events, draw 5 cards instead of 4." }
-    },
-    quill: {
-      title: "Quill",
-      subtitle: "Scholarcraft: consistency, Renown, planning.",
-      nodes: [
-        { id: "core", name: "Quillcraft", max: 5, desc: "Ranks 1–5: +2% success if you commit a Quill card; on success +Renown; +Lore reroll; once/life reduce Difficulty by 1 when committing Quill." }
-      ],
-      capstone: { id: "q_archivists_certainty", name: "Archivist’s Hand", cost: 30, desc: "In Lore events, draw 5 cards instead of 4." }
-    },
-    veil: {
-      title: "Veil",
-      subtitle: "Shadowcraft: control, Secrets, escape.",
-      nodes: [
-        { id: "core", name: "Veilcraft", max: 5, desc: "Ranks 1–5: +2% success if you commit a Veil card; on success +Secrets; +Scheme reroll; Wanted mitigation; once/life spend 1 Secret to reroll a failed attempt." }
-      ],
-      capstone: { id: "v_shadow_alias", name: "Night Moves", cost: 30, desc: "In Scheme events, draw 5 cards instead of 4." }
-    },
-    seal: {
-      title: "Seal",
-      subtitle: "Statecraft: Influence, standing, protection from disgrace.",
-      nodes: [
-        { id: "core", name: "Sealcraft", max: 5, desc: "Ranks 1–5: +2% success if you commit a Seal card; on success +Influence; +Court reroll; prevent first Disgraced each life." }
-      ],
-      capstone: { id: "se_network", name: "The Open Court", cost: 30, desc: "In Court events, draw 5 cards instead of 4." }
-    },
-    hearth: {
-      title: "Hearth",
-      subtitle: "Endurance: Supplies, condition control, mortality resilience.",
-      nodes: [
-        { id: "core", name: "Hearthcraft", max: 5, desc: "Ranks 1–5: +2% success if you commit a Hearth card; on success remove Exhausted (Minor) or gain Supplies; +Journey reroll; downgrade first Severe condition (except Cursed); halve first Mortality Check chance." }
-      ],
-      capstone: { id: "h_unbroken_year", name: "Wayfarer’s Kit", cost: 30, desc: "In Journey events, draw 5 cards instead of 4." }
-    }
+    steel:  { title: "Steel",  subtitle: "Strife-forward: momentum and survivability.", masteryId: "mast_strife",  capstoneId: "cap_steel_warbred_reflexes",
+      capstoneName: "Warbred Reflexes", capstoneDesc: "In Strife events, draw 5 cards instead of 4." },
+    quill:  { title: "Quill",  subtitle: "Lore & planning: consistency and insight.",    masteryId: "mast_lore",    capstoneId: "cap_quill_archivists_hand",
+      capstoneName: "Archivist’s Hand", capstoneDesc: "In Lore events, draw 5 cards instead of 4." },
+    veil:   { title: "Veil",   subtitle: "Scheme control: leverage and escape.",        masteryId: "mast_scheme",  capstoneId: "cap_veil_night_moves",
+      capstoneName: "Night Moves", capstoneDesc: "In Scheme events, draw 5 cards instead of 4." },
+    seal:   { title: "Seal",   subtitle: "Court power: standing and authority.",        masteryId: "mast_court",   capstoneId: "cap_seal_open_court",
+      capstoneName: "The Open Court", capstoneDesc: "In Court events, draw 5 cards instead of 4." },
+    hearth: { title: "Hearth", subtitle: "Journey endurance: grit and recovery.",       masteryId: "mast_journey", capstoneId: "cap_hearth_wayfarers_kit",
+      capstoneName: "Wayfarer’s Kit", capstoneDesc: "In Journey events, draw 5 cards instead of 4." }
   }
 };
 
+// ---- v2 meta helpers ----
 function ensureMetaTree() {
-  META.signatureUnlocks ??= {};
-  META.legacyTree ??= {};
+  // keep v1 shape for back-compat reads
+  META.legacyTree ??= { trunk: {}, big: {}, branches: {} };
   META.legacyTree.trunk ??= {};
   META.legacyTree.big ??= {};
   META.legacyTree.branches ??= {};
-  for (const k of Object.keys(LEGACY_TREE.branches)) META.legacyTree.branches[k] ??= {};
+  // v2 shape
+  META.legacyTreeV2 ??= { v: 2, unlocked: {}, branchRanks: {} };
+  META.legacyTreeV2.unlocked ??= {};
+  META.legacyTreeV2.branchRanks ??= {};
 }
 
-
-function migrateLegacyBranchesToV2() {
+// One-time migration: convert v1 purchases into a legacy refund and reset v1 tree.
+// (This avoids silently losing value when the structure changes.)
+function maybeRespecV1ToV2() {
   ensureMetaTree();
-  const v = Number(META.legacyTree.__branchV2 ?? 0) || 0;
-  if (v >= 1) return;
+  const v2 = META.legacyTreeV2;
+  if (v2?.respecFromV1) return;
+  const v1 = META.legacyTree;
+  if (!v1 || typeof v1 !== "object") { v2.respecFromV1 = true; return; }
 
-  const maps = {
-    steel: ["s_hard_blows", "s_battle_reputation", "s_scar_tissue"],
-    quill: ["q_keen_eye", "q_methodical", "q_notes"],
-    veil:  ["v_slip_net", "v_dirty_leverage", "v_cool_head"],
-    seal:  ["se_presence", "se_favors", "se_immunity"],
-    hearth:["h_endure", "h_clean_living", "h_second_wind"]
-  };
+  let spent = 0;
 
-  for (const [bk, oldIds] of Object.entries(maps)) {
-    const cur = Number(META.legacyTree.branches?.[bk]?.core ?? 0) || 0;
-    if (cur > 0) continue;
-    let best = 0;
-    for (const oid of oldIds) {
-      const r = Number(META.legacyTree.branches?.[bk]?.[oid] ?? 0) || 0;
-      if (r > best) best = r;
+  // trunk ranks
+  for (const id of V1_TRUNK_IDS) spent += sumRankCosts(V1_TRUNK_RANK_COSTS, v1?.trunk?.[id]);
+
+  // branch ranks
+  try {
+    for (const bk of Object.keys(v1?.branches ?? {})) {
+      const nodes = v1.branches[bk] ?? {};
+      for (const nid of Object.keys(nodes)) spent += sumRankCosts(V1_BRANCH_RANK_COSTS, nodes[nid]);
     }
-    if (best > 0) META.legacyTree.branches[bk].core = clamp(best, 0, 5);
+  } catch {}
+
+  // big unlocks (boons + old capstones)
+  try {
+    for (const bid of Object.keys(v1?.big ?? {})) {
+      if (v1.big[bid]) spent += (V1_BIG_COSTS[bid] ?? 0);
+    }
+  } catch {}
+
+  if (spent > 0) {
+    META.legacy = (META.legacy ?? 0) + spent;
+    log(`Legacy Tree updated. Refunded ${spent} Legacy for a free respec.`);
   }
 
-  META.legacyTree.__branchV2 = 1;
+  // clear v1 so nothing double-applies later
+  META.legacyTree = { trunk: {}, big: {}, branches: {} };
+
+  v2.respecFromV1 = true;
   saveMeta();
 }
 
-function trunkRank(id) {
+function v2Unlocked(id) {
   ensureMetaTree();
-  return clamp(Number(META.legacyTree.trunk[id] ?? 0) || 0, 0, 5);
+  return Boolean(META.legacyTreeV2?.unlocked?.[id]);
 }
-function branchRank(branchKey, id) {
+function v2Unlock(id) {
   ensureMetaTree();
-  return clamp(Number(META.legacyTree.branches?.[branchKey]?.[id] ?? 0) || 0, 0, 5);
+  META.legacyTreeV2.unlocked[id] = true;
 }
+function branchRank(branchKey) {
+  ensureMetaTree();
+  return clamp(Number(META.legacyTreeV2.branchRanks?.[branchKey] ?? 0) || 0, 0, 5);
+}
+function setBranchRank(branchKey, r) {
+  ensureMetaTree();
+  META.legacyTreeV2.branchRanks[branchKey] = clamp(r, 0, 5);
+}
+
 function bigUnlocked(id) {
+  // Unified check: majors + capstones live in v2 unlocked map.
   ensureMetaTree();
-  return Boolean(META.legacyTree.big?.[id]);
+  return v2Unlocked(id);
 }
 
-function trunkNodeUnlocked(idx) {
-  if (idx <= 0) return true;
-  const prev = LEGACY_TREE.trunk[idx - 1]?.id;
-  return trunkRank(prev) >= 1;
+// v1 trunkRank is deprecated; keep as a safe stub for old callers.
+function trunkRank(_id) { return 0; }
+
+function countUnlocked(ids) {
+  let n = 0;
+  for (const id of (ids ?? [])) if (v2Unlocked(id)) n += 1;
+  return n;
 }
-function trunkAllTouched() {
-  return LEGACY_TREE.trunk.every(n => trunkRank(n.id) >= 1);
+function anyUnlocked(ids) {
+  for (const id of (ids ?? [])) if (v2Unlocked(id)) return true;
+  return false;
 }
 
-function branchNodeUnlocked(branchKey, idx) {
-  // Branches are available immediately; nodes still unlock in-order.
-  if (idx <= 0) return true;
-  const prev = LEGACY_TREE.branches[branchKey].nodes[idx - 1]?.id;
-  return branchRank(branchKey, prev) >= 1;
+// ---- v2 gating rules ----
+function canBuyFootings() {
+  const seeds = LEGACY_TREE.tiers.seeds.map(x => x.id);
+  return countUnlocked(seeds) >= 1;
 }
-function branchCapUnlocked(branchKey) {
-  const capId = LEGACY_TREE.branches[branchKey]?.capstone?.id;
-  return capId ? bigUnlocked(capId) : false;
+function canBuyMasteries() {
+  const foots = LEGACY_TREE.tiers.footings.map(x => x.id);
+  return countUnlocked(foots) >= 2;
+}
+function canBuyMajors() {
+  const masts = LEGACY_TREE.tiers.masteries.map(x => x.id);
+  return countUnlocked(masts) >= 2;
+}
+function masteryUnlockedForBranch(branchKey) {
+  const b = LEGACY_TREE.branches?.[branchKey];
+  if (!b) return false;
+  return v2Unlocked(b.masteryId);
+}
+function canBuyBranch(branchKey) {
+  return masteryUnlockedForBranch(branchKey);
+}
+function canBuyCapstone(branchKey) {
+  const b = LEGACY_TREE.branches?.[branchKey];
+  if (!b) return false;
+  return canBuyBranch(branchKey) && branchRank(branchKey) >= 5;
 }
 
-function nextRankCost(costs, nextRank) {
-  if (nextRank < 1 || nextRank > 5) return null;
-  return costs[nextRank - 1];
+// Mastery prerequisite lattice: reqAll + (reqAny OR)
+function masteryReqMet(node) {
+  if (!node) return false;
+  if (!canBuyMasteries()) return false;
+  for (const id of (node.reqAll ?? [])) if (!v2Unlocked(id)) return false;
+  const any = (node.reqAny ?? []);
+  if (any.length) return anyUnlocked(any);
+  return true;
 }
 
-function buyTrunkRank(nodeId) {
+function afford(cost) {
+  return (META.legacy ?? 0) >= (cost ?? 0);
+}
+
+function spendLegacy(cost) {
+  META.legacy = (META.legacy ?? 0) - (cost ?? 0);
+  if (META.legacy < 0) META.legacy = 0;
+}
+
+// ---- buying ----
+function buyNode(nodeId) {
   ensureMetaTree();
-  const node = LEGACY_TREE.trunk.find(n => n.id === nodeId);
-  if (!node) return { ok: false, msg: "Unknown trunk node." };
-  const idx = LEGACY_TREE.trunk.findIndex(n => n.id === nodeId);
-  if (!trunkNodeUnlocked(idx)) return { ok: false, msg: "Locked. Unlock the previous trunk node first." };
+  maybeRespecV1ToV2();
 
-  const cur = trunkRank(nodeId);
-  if (cur >= node.max) return { ok: false, msg: "Already max rank." };
-  const next = cur + 1;
-  const cost = nextRankCost(TRUNK_RANK_COSTS, next);
-  if ((META.legacy ?? 0) < cost) return { ok: false, msg: "Not enough Legacy." };
+  // Find node in tiers
+  const tiers = LEGACY_TREE.tiers;
+  const all = [...tiers.seeds, ...tiers.footings, ...tiers.masteries, ...tiers.majors];
+  const node = all.find(n => n.id === nodeId);
+  if (!node) return { ok: false, msg: "Unknown node." };
+  if (v2Unlocked(nodeId)) return { ok: false, msg: "Already unlocked." };
 
-  META.legacy -= cost;
-  META.legacyTree.trunk[nodeId] = next;
+  // gating
+  const inSeeds = tiers.seeds.some(n => n.id === nodeId);
+  const inFoot = tiers.footings.some(n => n.id === nodeId);
+  const inMast = tiers.masteries.some(n => n.id === nodeId);
+  const inMaj  = tiers.majors.some(n => n.id === nodeId);
+
+  if (inFoot && !canBuyFootings()) return { ok: false, msg: "Locked. Unlock any Seed first." };
+  if (inMast && !masteryReqMet(node)) return { ok: false, msg: "Locked. Meet the Mastery prerequisites." };
+  if (inMaj && !canBuyMajors()) return { ok: false, msg: "Locked. Unlock any 2 Masteries first." };
+
+  const cost = Number(node.cost ?? 0) || 0;
+  if (!afford(cost)) return { ok: false, msg: "Not enough Legacy." };
+
+  spendLegacy(cost);
+  v2Unlock(nodeId);
   saveMeta();
-  return { ok: true };
+  updateLegacyUIBadges();
+  return { ok: true, msg: `Unlocked ${node.name}.` };
 }
 
-function buyBig(id) {
+function buyBranchRank(branchKey) {
   ensureMetaTree();
-  const boons = LEGACY_TREE.big.slice();
-  // also allow branch capstones as "big" unlocks
-  for (const k of Object.keys(LEGACY_TREE.branches)) {
-    boons.push(LEGACY_TREE.branches[k].capstone);
-  }
-  const node = boons.find(n => n.id === id);
-  if (!node) return { ok: false, msg: "Unknown boon." };
-  if (bigUnlocked(id)) return { ok: false, msg: "Already unlocked." };
+  maybeRespecV1ToV2();
 
-  // Prereq gating for trunk big boons
-  const trunkBoon = LEGACY_TREE.big.find(n => n.id === id);
-  if (trunkBoon) {
-    const needIdx = trunkBoon.prereqTrunkIndex ?? 0;
-    if (!trunkNodeUnlocked(needIdx) || trunkRank(LEGACY_TREE.trunk[needIdx]?.id) < 1) {
-      return { ok: false, msg: "Locked. Advance further down the trunk." };
-    }
-  }
-  // Branch capstones require the branch to be fully ranked (Rank 5).
-  for (const k of Object.keys(LEGACY_TREE.branches)) {
-    const cap = LEGACY_TREE.branches[k].capstone;
-    if (cap?.id === id) {
-      const node0 = LEGACY_TREE.branches[k].nodes?.[0];
-      const coreId = node0?.id;
-      const need = node0?.max ?? 5;
-      const have = coreId ? branchRank(k, coreId) : 0;
-      if (have < need) return { ok: false, msg: `Locked. Reach Rank ${need} in ${LEGACY_TREE.branches[k].title} first.` };
-    }
-  }
+  if (!canBuyBranch(branchKey)) return { ok: false, msg: "Locked. Unlock the matching Mastery first." };
+  const r = branchRank(branchKey);
+  if (r >= 5) return { ok: false, msg: "Max rank." };
+  const nextCost = V2_BRANCH_RANK_COSTS[r] ?? null;
+  if (!nextCost || !afford(nextCost)) return { ok: false, msg: "Not enough Legacy." };
 
-  const cost = node.cost ?? 0;
-  if ((META.legacy ?? 0) < cost) return { ok: false, msg: "Not enough Legacy." };
-
-  META.legacy -= cost;
-  META.legacyTree.big[id] = true;
+  spendLegacy(nextCost);
+  setBranchRank(branchKey, r + 1);
   saveMeta();
-  return { ok: true };
+  updateLegacyUIBadges();
+  return { ok: true, msg: `Upgraded ${LEGACY_TREE.branches[branchKey].title} to Rank ${r + 1}.` };
 }
 
-function buyBranchRank(branchKey, nodeId) {
+function buyCapstone(branchKey) {
   ensureMetaTree();
-  const branch = LEGACY_TREE.branches[branchKey];
-  if (!branch) return { ok: false, msg: "Unknown branch." };
-  const idx = branch.nodes.findIndex(n => n.id === nodeId);
-  if (idx < 0) return { ok: false, msg: "Unknown branch node." };
-  if (!branchNodeUnlocked(branchKey, idx)) {
-    return { ok: false, msg: trunkAllTouched() ? "Locked. Unlock the previous branch node first." : "Locked. Unlock every trunk node at least once." };
-  }
-  const node = branch.nodes[idx];
-  const cur = branchRank(branchKey, nodeId);
-  if (cur >= node.max) return { ok: false, msg: "Already max rank." };
-  const next = cur + 1;
-  const cost = nextRankCost(BRANCH_RANK_COSTS, next);
-  if ((META.legacy ?? 0) < cost) return { ok: false, msg: "Not enough Legacy." };
+  maybeRespecV1ToV2();
 
-  META.legacy -= cost;
-  META.legacyTree.branches[branchKey][nodeId] = next;
+  const b = LEGACY_TREE.branches?.[branchKey];
+  if (!b) return { ok: false, msg: "Unknown branch." };
+  if (bigUnlocked(b.capstoneId)) return { ok: false, msg: "Already unlocked." };
+  if (!canBuyCapstone(branchKey)) return { ok: false, msg: "Locked. Reach Rank 5 first." };
+  if (!afford(V2_CAPSTONE_COST)) return { ok: false, msg: "Not enough Legacy." };
+
+  spendLegacy(V2_CAPSTONE_COST);
+  v2Unlock(b.capstoneId);
   saveMeta();
-  return { ok: true };
+  updateLegacyUIBadges();
+  return { ok: true, msg: `Unlocked ${b.capstoneName}.` };
 }
 
-
-function escapeHtml(str) {
-  return String(str ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
+// ---- Legacy UI ----
 function fmtLegacy(n) { return `${Math.max(0, Math.floor(n ?? 0))}`; }
 
 function updateLegacyUIBadges() {
@@ -636,109 +701,128 @@ function nodeCard({ title, meta, desc, locked=false, actions=[] }) {
       <div class="nodeName">${escapeHtml(title)}</div>
       <div class="nodeMeta">${meta}</div>
     </div>
-    <div class="nodeDesc muted">${escapeHtml(desc)}</div>
+    <div class="nodeDesc">${escapeHtml(desc ?? "")}</div>
     <div class="nodeActions">${actionsHtml}</div>
   `;
-  // Attach handlers after innerHTML
+
+  // Wire up button actions
   const btns = el.querySelectorAll("button[data-action]");
   for (const b of btns) {
     const action = b.getAttribute("data-action");
     const payload = b.getAttribute("data-payload");
-    if (action === "trunk") b.addEventListener("click", () => { buyTrunkRank(payload); renderLegacyPage(); });
+    if (action === "node") b.addEventListener("click", () => { const r = buyNode(payload); if (r?.msg) log(r.msg); renderLegacyPage(); });
     if (action === "branch") {
-      const [bk, nid] = payload.split("|");
-      b.addEventListener("click", () => { buyBranchRank(bk, nid); renderLegacyPage(); });
+      b.addEventListener("click", () => { const r = buyBranchRank(payload); if (r?.msg) log(r.msg); renderLegacyPage(); });
     }
-    if (action === "big") b.addEventListener("click", () => { buyBig(payload); renderLegacyPage(); });
+    if (action === "cap") {
+      b.addEventListener("click", () => { const r = buyCapstone(payload); if (r?.msg) log(r.msg); renderLegacyPage(); });
+    }
     if (action === "sig") b.addEventListener("click", () => { const r = unlockSignatureCard(payload); if (r?.msg) log(r.msg); renderLegacyPage(); });
   }
   return el;
 }
 
+function sectionHeader(text) {
+  const h = document.createElement("h3");
+  h.textContent = text;
+  h.style.marginTop = "18px";
+  return h;
+}
+
+function renderTierNodes(container, title, nodes, lockedNoteFn) {
+  if (!container) return;
+  container.appendChild(sectionHeader(title));
+  for (const n of nodes) {
+    const unlocked = v2Unlocked(n.id);
+    const meta = unlocked ? `<span class="rankPill">Unlocked</span>` : `<span class="rankPill">Cost ${n.cost}</span>`;
+    const btn = document.createElement("button");
+    btn.className = unlocked ? "btn ghost small" : "btn primary small";
+    btn.textContent = unlocked ? "Unlocked" : "Unlock";
+    btn.disabled = unlocked || !afford(n.cost);
+    btn.setAttribute("data-action", "node");
+    btn.setAttribute("data-payload", n.id);
+
+    const actions = [btn];
+    const note = lockedNoteFn?.(n);
+    if (note) {
+      const d = document.createElement("div");
+      d.className = "muted small";
+      d.textContent = note;
+      actions.push(d);
+      btn.disabled = true;
+    }
+    container.appendChild(nodeCard({ title: n.name, meta, desc: n.desc, locked: Boolean(note), actions }));
+  }
+}
+
 function renderLegacyPage() {
   if (!elLegacy) return;
   ensureMetaTree();
+  maybeRespecV1ToV2();
   updateLegacyUIBadges();
 
   if (legacyTrunkEl) legacyTrunkEl.innerHTML = "";
   if (legacyBranchesEl) legacyBranchesEl.innerHTML = "";
   if (heirloomVaultEl) heirloomVaultEl.innerHTML = "";
 
-  // Trunk (+ Great Boons interleaved after trunk nodes 3, 7, 10)
+  // Trunk (tiers)
   if (legacyTrunkEl) {
-    LEGACY_TREE.trunk.forEach((n, idx) => {
-      const r = trunkRank(n.id);
-      const unlocked = trunkNodeUnlocked(idx);
-      const nextCost = (r < n.max) ? nextRankCost(TRUNK_RANK_COSTS, r + 1) : null;
-      const meta =
-        `<span class="rankPill">Rank ${r}/${n.max}</span>` +
-        (nextCost ? `<span class="muted small">Next: ${nextCost} Legacy</span>` : `<span class="muted small">Max</span>`);
+    const tiers = LEGACY_TREE.tiers;
 
-      const actions = [];
-      const btn = document.createElement("button");
-      btn.className = "btn primary small";
-      btn.textContent = (r < n.max) ? `Upgrade (+${r + 1})` : "Maxed";
-      btn.disabled = !unlocked || r >= n.max || (META.legacy ?? 0) < (nextCost ?? 0);
-      btn.setAttribute("data-action", "trunk");
-      btn.setAttribute("data-payload", n.id);
-      actions.push(btn);
+    renderTierNodes(
+      legacyTrunkEl,
+      "Tier 1 — Seeds",
+      tiers.seeds,
+      (_n) => null
+    );
 
-      if (!unlocked) {
-        const lock = document.createElement("div");
-        lock.className = "muted small";
-        lock.textContent = "Unlock the previous trunk node to access this.";
-        actions.push(lock);
+    renderTierNodes(
+      legacyTrunkEl,
+      "Tier 2 — Footings",
+      tiers.footings,
+      (_n) => canBuyFootings() ? null : "Unlock any Seed to access Footings."
+    );
+
+    renderTierNodes(
+      legacyTrunkEl,
+      "Tier 3 — Masteries",
+      tiers.masteries,
+      (n) => {
+        if (!canBuyMasteries()) return "Unlock any 2 Footings to access Masteries.";
+        // mastery prereqs
+        for (const id of (n.reqAll ?? [])) if (!v2Unlocked(id)) return "Requires its matching Footing.";
+        const any = (n.reqAny ?? []);
+        if (any.length && !anyUnlocked(any)) return "Requires one adjacent Footing (see trunk lattice).";
+        return null;
       }
+    );
 
-      legacyTrunkEl.appendChild(nodeCard({ title: n.name, meta, desc: n.desc, locked: !unlocked, actions }));
-
-      // Insert Great Boons that unlock after this trunk node
-      const boonsHere = (LEGACY_TREE.big ?? []).filter(b => (b.prereqTrunkIndex ?? -1) === idx);
-      for (const b of boonsHere) {
-        const boonUnlocked = bigUnlocked(b.id);
-        const cost = b.cost ?? 0;
-
-        const prereqNode = LEGACY_TREE.trunk[idx];
-        const prereqMet = prereqNode ? (trunkRank(prereqNode.id) >= 1) : true;
-
-        const boonMeta = boonUnlocked
-          ? `<span class="rankPill">Great Boon • Unlocked</span>`
-          : `<span class="rankPill">Great Boon • Cost ${cost}</span>`;
-
-        const boonBtn = document.createElement("button");
-        boonBtn.className = boonUnlocked ? "btn ghost small" : "btn primary small";
-        boonBtn.textContent = boonUnlocked ? "Unlocked" : "Unlock";
-        boonBtn.disabled = boonUnlocked || !prereqMet || (META.legacy ?? 0) < cost;
-        boonBtn.setAttribute("data-action", "big");
-        boonBtn.setAttribute("data-payload", b.id);
-
-        const boonActions = [boonBtn];
-
-        if (!prereqMet) {
-          const note = document.createElement("div");
-          note.className = "muted small";
-          note.textContent = `Unlock Rank 1+ in “${prereqNode?.name ?? "the prerequisite trunk node"}” to access this boon.`;
-          boonActions.push(note);
-        }
-
-        legacyTrunkEl.appendChild(nodeCard({ title: b.name, meta: boonMeta, desc: b.desc, locked: !prereqMet, actions: boonActions }));
-      }
-    });
+    renderTierNodes(
+      legacyTrunkEl,
+      "Tier 4 — Major Nodes",
+      tiers.majors,
+      (_n) => canBuyMajors() ? null : "Unlock any 2 Masteries to access Major Nodes."
+    );
   }
 
   // Branches
   if (legacyBranchesEl) {
-    for (const [key, branch] of Object.entries(LEGACY_TREE.branches)) {
+    const note = document.createElement("div");
+    note.className = "muted";
+    note.textContent = "Branches unlock from Masteries (Tier 3). Nothing is mutually exclusive.";
+    legacyBranchesEl.appendChild(note);
+
+    for (const [key, b] of Object.entries(LEGACY_TREE.branches)) {
       const group = document.createElement("div");
       group.className = "branchGroup";
 
       const header = document.createElement("div");
       header.className = "branchHeader";
       const h = document.createElement("h4");
-      h.textContent = branch.title;
+      h.textContent = b.title;
       const sub = document.createElement("div");
       sub.className = "muted small";
-      sub.textContent = branch.subtitle;
+      sub.textContent = b.subtitle;
       header.appendChild(h);
       header.appendChild(sub);
       group.appendChild(header);
@@ -746,44 +830,68 @@ function renderLegacyPage() {
       const nodesWrap = document.createElement("div");
       nodesWrap.className = "branchNodes";
 
-      branch.nodes.forEach((n, idx) => {
-        const r = branchRank(key, n.id);
-        const unlocked = branchNodeUnlocked(key, idx);
-        const nextCost = (r < n.max) ? nextRankCost(BRANCH_RANK_COSTS, r + 1) : null;
-        const meta =
-          `<span class="rankPill">Rank ${r}/${n.max}</span>` +
-          (nextCost ? `<span class="muted small">Next: ${nextCost} Legacy</span>` : `<span class="muted small">Max</span>`);
+      const unlocked = canBuyBranch(key);
+      const r = branchRank(key);
+      const nextCost = (r < 5) ? (V2_BRANCH_RANK_COSTS[r] ?? null) : null;
+      const meta =
+        `<span class="rankPill">Rank ${r}/5</span>` +
+        (nextCost ? `<span class="muted small">Next: ${nextCost} Legacy</span>` : `<span class="muted small">Max</span>`);
 
-        const btn = document.createElement("button");
-        btn.className = "btn primary small";
-        btn.textContent = (r < n.max) ? "Upgrade" : "Maxed";
-        btn.disabled = !unlocked || r >= n.max || (META.legacy ?? 0) < (nextCost ?? 0);
-        btn.setAttribute("data-action", "branch");
-        btn.setAttribute("data-payload", `${key}|${n.id}`);
+      const btn = document.createElement("button");
+      btn.className = "btn primary small";
+      btn.textContent = (r < 5) ? "Upgrade" : "Maxed";
+      btn.disabled = !unlocked || r >= 5 || !afford(nextCost ?? 0);
+      btn.setAttribute("data-action", "branch");
+      btn.setAttribute("data-payload", key);
 
-        nodesWrap.appendChild(nodeCard({ title: n.name, meta, desc: n.desc, locked: !unlocked, actions: [btn] }));
-      });
+      const actions = [btn];
+      if (!unlocked) {
+        const d = document.createElement("div");
+        d.className = "muted small";
+        d.textContent = "Unlock the matching Mastery to access this branch.";
+        actions.push(d);
+      }
 
-      // Capstone block (still rendered inside each branch)
-      const cap = branch.capstone;
-      const capUnlocked = bigUnlocked(cap.id);
-      const capCost = cap.cost ?? 0;
-      const allTouched = branch.nodes.every(n => branchRank(key, n.id) >= (n.max ?? 1));
-      const capMeta = capUnlocked ? `<span class="rankPill">Unlocked</span>` : `<span class="rankPill">Cost ${capCost}</span>`;
+      nodesWrap.appendChild(nodeCard({
+        title: `${b.title} Branch`,
+        meta,
+        desc: "Ranks: +2% commit bonus (R1), success drip (R2), +1 extra context reroll/life (R3), mitigation (R4), clutch (R5).",
+        locked: !unlocked,
+        actions
+      }));
 
+      // Capstone
+      const capUnlocked = bigUnlocked(b.capstoneId);
+      const capMeta = capUnlocked ? `<span class="rankPill">Unlocked</span>` : `<span class="rankPill">Cost ${V2_CAPSTONE_COST}</span>`;
       const capBtn = document.createElement("button");
       capBtn.className = capUnlocked ? "btn ghost small" : "btn primary small";
       capBtn.textContent = capUnlocked ? "Unlocked" : "Unlock Capstone";
-      capBtn.disabled = capUnlocked || !allTouched || (META.legacy ?? 0) < capCost;
-      capBtn.setAttribute("data-action", "big");
-      capBtn.setAttribute("data-payload", cap.id);
+      capBtn.disabled = capUnlocked || !canBuyCapstone(key) || !afford(V2_CAPSTONE_COST);
+      capBtn.setAttribute("data-action", "cap");
+      capBtn.setAttribute("data-payload", key);
 
-      nodesWrap.appendChild(nodeCard({ title: cap.name, meta: capMeta, desc: cap.desc, locked: !allTouched, actions: [capBtn] }));
+      const capActions = [capBtn];
+      if (!canBuyCapstone(key) && !capUnlocked) {
+        const d = document.createElement("div");
+        d.className = "muted small";
+        d.textContent = "Reach Rank 5 to access the capstone.";
+        capActions.push(d);
+      }
+
+      nodesWrap.appendChild(nodeCard({
+        title: b.capstoneName,
+        meta: capMeta,
+        desc: b.capstoneDesc,
+        locked: !canBuyCapstone(key) && !capUnlocked,
+        actions: capActions
+      }));
 
       group.appendChild(nodesWrap);
       legacyBranchesEl.appendChild(group);
     }
   }
+
+  // Heirloom Vault (Signature Cards) stays below (rendered elsewhere).
 }
 
 
@@ -6082,14 +6190,6 @@ function advanceTime() {
 }
 
 function finishEvent(evJustResolved) {
-  // Bloodline Victory (prototype): the age-50 Vernal Major Beat ends the run.
-  try {
-    if (state && state.age === 50 && state.seasonIndex === 0 && isMajorBeatAt(state.age, state.seasonIndex)) {
-      openBloodlineVictoryModal();
-      return;
-    }
-  } catch {}
-
   // Advance time (and tick condition/story timers).
   advanceTime();
 
@@ -6248,25 +6348,7 @@ function resolveSelectedOutcome() {
   const evJustResolved = currentEvent;
 
   // Compute success chance
-  const committedIds = committedCardIds();
-  let oForRoll = o;
-  // Quill Rank 4: once per life, reduce Difficulty by 1 when committing Quill.
-  try {
-    initPerLifeMeta();
-    if (branchRank("quill", "core") >= 4 && !state.metaPerLife.quillPreparedUsed) {
-      const hasQuill = committedIds.some(cid => DATA.cardsById[cid]?.discipline === "Quill");
-      if (hasQuill) {
-        const d0 = Number(o.diff ?? 3) || 3;
-        const d1 = Math.max(1, d0 - 1);
-        if (d1 !== d0) {
-          oForRoll = { ...o, diff: d1 };
-          state.metaPerLife.quillPreparedUsed = true;
-          log("✦ Prepared Answer: Difficulty reduced by 1.");
-        }
-      }
-    }
-  } catch {}
-  const chance = computeChance(oForRoll, committedIds);
+  const chance = computeChance(o, committedCardIds());
   let roll = rInt(1, 100);
   let success = roll <= chance;
 
@@ -6285,38 +6367,6 @@ function resolveSelectedOutcome() {
         success = true;
       }
     }
-  }
-
-  // Branch v2: context reroll (Rank 3) — once per life per context.
-  if (!success) {
-    try {
-      initPerLifeMeta();
-      const ctx = currentEvent?.context;
-      const remaining = state.metaPerLife.ctxRerolls?.[ctx] ?? 0;
-      if (ctx && remaining > 0) {
-        const reroll = rInt(1, 100);
-        const rerollSuccess = reroll <= chance;
-        log(`↻ ${ctx} reroll: ${rerollSuccess ? "SUCCESS" : "FAIL"} (${reroll} ${rerollSuccess ? "≤" : ">"} ${chance})`);
-        state.metaPerLife.ctxRerolls[ctx] = remaining - 1;
-        if (rerollSuccess) { roll = reroll; success = true; }
-      }
-    } catch {}
-  }
-
-  // Veil Rank 5: once per life, spend 1 Secret to reroll a failed attempt (if you committed Veil).
-  if (!success) {
-    try {
-      initPerLifeMeta();
-      const hasVeil = committedIds.some(cid => DATA.cardsById[cid]?.discipline === "Veil");
-      if (hasVeil && branchRank("veil", "core") >= 5 && !state.metaPerLife.veilSecretRerollUsed && (state.res?.Secrets ?? 0) >= 1) {
-        state.metaPerLife.veilSecretRerollUsed = true;
-        applyResourceDelta({ resource: "Secrets", amount: -1 });
-        const reroll = rInt(1, 100);
-        const rerollSuccess = reroll <= chance;
-        log(`✦ The Long Con: spent 1 Secret to reroll — ${rerollSuccess ? "SUCCESS" : "FAIL"} (${reroll} ${rerollSuccess ? "≤" : ">"} ${chance})`);
-        if (rerollSuccess) { roll = reroll; success = true; }
-      }
-    } catch {}
   }
 
   // Tracking for result + any post-event modals
@@ -6417,35 +6467,11 @@ function resolveSelectedOutcome() {
   if (perilous) mortalityTriggered = true;
   if (gainedSevere && hadSevereAlready) mortalityTriggered = true;
 
-  // Steel Rank 5: once per life, if you FAIL a perilous Strife outcome, cancel the Mortality Check from that peril.
-  if (mortalityTriggered && perilous && !success && currentEvent?.context === "Strife") {
-    try {
-      initPerLifeMeta();
-      if (branchRank("steel", "core") >= 5 && !state.metaPerLife.steelPerilCancelUsed) {
-        state.metaPerLife.steelPerilCancelUsed = true;
-        mortalityTriggered = false;
-        log("✦ Press the Advantage: Mortality Check avoided.");
-      }
-    } catch {}
-  }
-
   if (mortalityTriggered) {
         const mitigation = (pair?.mortalityMitigation ?? 0);
     let mChance = computeMortalityChance(mitigation);
     // Mortality triggers should always carry *some* risk, even for high-Resolve builds.
     mChance = Math.max(1, mChance);
-
-    // Hearth Rank 5: your first Mortality Check each life has its final death chance halved.
-    try {
-      initPerLifeMeta();
-      if (branchRank("hearth", "core") >= 5 && !state.metaPerLife.hearthMortHalvedUsed) {
-        state.metaPerLife.hearthMortHalvedUsed = true;
-        const before = mChance;
-        mChance = Math.floor(mChance / 2);
-        mChance = Math.max(1, mChance);
-        log(`✦ Hardy Soul: Mortality chance halved (${before}% → ${mChance}%).`);
-      }
-    } catch {}
     const mRoll = rInt(1, 100);
     log(`Mortality Check: ${mChance}% (roll ${mRoll})`);
     if (mRoll <= mChance) {
@@ -6652,54 +6678,6 @@ function openBloodlineEndModal() {
 
   openModal("Bloodline End", wrap, { locked: true });
 }
-
-function openBloodlineVictoryModal() {
-  const conds = (state.conditions ?? []).map(c => `${c.id} (${c.severity})`).join(", ") || "None";
-
-  // Award meta currency
-  const legacyGained = computeLegacyGain();
-  META.legacy += legacyGained;
-
-  // Heirloom Shards: Bloodline Victory payout
-  awardHeirlooms(8, "Bloodline Victory");
-
-  saveMeta();
-
-  const wrap = document.createElement("div");
-  wrap.innerHTML = `
-    <p><b>Bloodline Victory!</b> You endured to age ${state.age} and secured your line’s place in the Vale.</p>
-    <p class="muted">Final conditions: ${conds}</p>
-    <div class="spacer"></div>
-    <div class="resultGrid">
-      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div></div>
-      <div class="resultBlock"><div class="muted small">Heirloom Shards</div><div class="big">+8</div></div>
-    </div>
-    <div class="spacer"></div>
-    <p class="muted small">Your dynasty’s next chapter begins with what you’ve unlocked in the Legacy Tree and Heirloom Vault.</p>
-  `;
-
-  const actions = document.createElement("div");
-  actions.className = "modalActions";
-
-  const newRun = document.createElement("button");
-  newRun.className = "btn primary";
-  newRun.textContent = "Begin a New Bloodline";
-  newRun.addEventListener("click", () => {
-    localStorage.removeItem(SAVE_KEY);
-    state = null;
-    logEl.textContent = "";
-    freshStartBuilder = true;
-    modalLocked = false;
-    closeModal();
-    showMenu();
-  });
-
-  actions.appendChild(newRun);
-  wrap.appendChild(actions);
-
-  openModal("Bloodline Victory", wrap, { locked: true });
-}
-
 
 function handleDeath() {
   ensureFamilyState();
@@ -7502,31 +7480,21 @@ function initPerLifeMeta() {
       redrawTokens: trunkRank("t_better_odds") ?? 0,
       mulliganUsed: false,
       secondBreathUsed: false,
-      // Branch v2 per-life uses
-      ctxRerolls: {
-        Strife:  (branchRank("steel", "core") >= 3) ? 1 : 0,
-        Lore:    (branchRank("quill", "core") >= 3) ? 1 : 0,
-        Scheme:  (branchRank("veil",  "core") >= 3) ? 1 : 0,
-        Court:   (branchRank("seal",  "core") >= 3) ? 1 : 0,
-        Journey: (branchRank("hearth","core") >= 3) ? 1 : 0
-      },
-      quillPreparedUsed: false,
-      veilSecretRerollUsed: false,
-      steelPerilCancelUsed: false,
-      hearthMortHalvedUsed: false,
-      // Mitigation toggles
-      steelWoundedDowngraded: false,
-      veilWantedDowngraded: false,
-      sealDisgracedPrevented: false,
-      hearthSevereDowngraded: false,
       lastEventIndex: -1
     };
   }
 }
 
 function legacyContextChanceBonus(ev) {
-  // Context bonuses were replaced by Branch v2 (commit-based success bumps + per-life rerolls).
-  return 0;
+  if (!ev) return 0;
+  const ctx = ev.context;
+  let bonus = 0;
+  if (ctx === "Strife") bonus += (branchRank("steel", "s_hard_blows") * 2);
+  if (ctx === "Lore")   bonus += (branchRank("quill", "q_keen_eye") * 2);
+  if (ctx === "Scheme") bonus += (branchRank("veil", "v_slip_net") * 2);
+  if (ctx === "Court")  bonus += (branchRank("seal", "se_presence") * 2);
+  // Hearth has no flat context bonus; it shows up in mortality/conditions.
+  return bonus;
 }
 
 function applyLegacyStartDeckBonus() {
@@ -7573,76 +7541,73 @@ computeMortalityChance = function(extraMitigation = 0) {
   return Math.max(0, base);
 };
 
-// Wrap computeChanceParts for steady hands + Branch v2 commit bonuses.
+// Wrap computeChanceParts for steady hands + context bonus, and tweak gap penalty for Quill.
 const __origComputeChanceParts = computeChanceParts;
 computeChanceParts = function(outcome, committedCids, opts = {}) {
   const parts = __origComputeChanceParts(outcome, committedCids, opts);
-
-  // Trunk: Steady Hands (legacy)
+  const ev = opts.ev ?? currentEvent;
   const steady = trunkRank("t_steady_hands");
+  const ctxBonus = legacyContextChanceBonus(ev);
 
-  // Branch v2: Rank 1 = +2% success when committing a card of that discipline.
-  const discs = new Set((committedCids ?? []).map(cid => DATA.cardsById[cid]?.discipline).filter(Boolean));
-  let branchBonus = 0;
-  if (discs.has("Steel")  && branchRank("steel",  "core") >= 1) branchBonus += 2;
-  if (discs.has("Quill")  && branchRank("quill",  "core") >= 1) branchBonus += 2;
-  if (discs.has("Veil")   && branchRank("veil",   "core") >= 1) branchBonus += 2;
-  if (discs.has("Seal")   && branchRank("seal",   "core") >= 1) branchBonus += 2;
-  if (discs.has("Hearth") && branchRank("hearth", "core") >= 1) branchBonus += 2;
+  // Quill: reduce stat gap pressure
+  const quillGapReduce = branchRank("quill", "q_methodical");
+  const newGapPenalty = Math.max(0, (parts.gapPenalty ?? 0) - quillGapReduce);
+  const deltaGap = (parts.gapPenalty ?? 0) - newGapPenalty;
 
-  parts.raw = (parts.raw ?? 0) + steady + branchBonus;
+  parts.gapPenalty = newGapPenalty;
+  parts.raw = (parts.raw ?? 0) + steady + ctxBonus + deltaGap;
   parts.chance = clamp(parts.raw, 5, 95);
   return parts;
 };
 
-// Wrap handSizeForEvent for branch capstones (Rank 5 draw).
+// Wrap handSizeForEvent for branch capstones.
 const __origHandSizeForEvent = handSizeForEvent;
 handSizeForEvent = function(ev) {
   let n = __origHandSizeForEvent(ev);
 
-  if (ev?.context === "Strife"  && bigUnlocked("s_battle_tempo")) n += 1;
-  if (ev?.context === "Lore"    && bigUnlocked("q_archivists_certainty")) n += 1;
-  if (ev?.context === "Scheme"  && bigUnlocked("v_shadow_alias")) n += 1;
-  if (ev?.context === "Court"   && bigUnlocked("se_network")) n += 1;
-  if (ev?.context === "Journey" && bigUnlocked("h_unbroken_year")) n += 1;
+  if (ev?.context === "Strife" && bigUnlocked("s_battle_tempo")) n += 1;
+  if (ev?.context === "Lore"   && bigUnlocked("q_archivists_certainty")) n += 1;
+  if (ev?.context === "Court"  && bigUnlocked("se_network")) n += 1;
 
   return Math.max(1, n);
 };
 
-// Wrap addCondition for Branch v2 mitigation.
+// Wrap addCondition for branch mitigation
 const __origAddCondition = addCondition;
 addCondition = function(id, severity, opts = {}) {
   const norm = normalizeConditionId(id);
-  const sev = (severity === "Severe") ? "Severe" : "Minor";
 
-  initPerLifeMeta();
-
-  // Steel Rank 4: first Severe Wounded becomes Minor.
-  if (norm === "Wounded" && sev === "Severe" && branchRank("steel", "core") >= 4 && !state.metaPerLife.steelWoundedDowngraded) {
-    state.metaPerLife.steelWoundedDowngraded = true;
-    return __origAddCondition(norm, "Minor", opts);
+  // Veil capstone: first Wanted(Severe) per life becomes Minor.
+  if (norm === "Wanted" && severity === "Severe" && bigUnlocked("v_shadow_alias")) {
+    initPerLifeMeta();
+    if (!state.metaPerLife.wantedAliasUsed) {
+      state.metaPerLife.wantedAliasUsed = true;
+      severity = "Minor";
+      opts = { ...opts, source: (opts.source ? opts.source + " +Alias" : "Alias") };
+    }
   }
 
-  // Veil Rank 4: first Severe Wanted becomes Minor.
-  if (norm === "Wanted" && sev === "Severe" && branchRank("veil", "core") >= 4 && !state.metaPerLife.veilWantedDowngraded) {
-    state.metaPerLife.veilWantedDowngraded = true;
-    return __origAddCondition(norm, "Minor", opts);
+  // Steel mitigation: Wounded(Severe) becomes Minor at higher ranks.
+  if (norm === "Wounded" && severity === "Severe") {
+    const scar = branchRank("steel", "s_scar_tissue");
+    if (scar >= 3) severity = "Minor";
   }
 
-  // Seal Rank 4: prevent first Disgraced each life.
-  if (norm === "Disgraced" && branchRank("seal", "core") >= 4 && !state.metaPerLife.sealDisgracedPrevented) {
-    state.metaPerLife.sealDisgracedPrevented = true;
-    log("✦ Unblemished: Disgraced prevented.");
-    return;
+  // Seal mitigation: Disgraced gets downgraded at higher ranks.
+  if (norm === "Disgraced" && severity === "Severe") {
+    const mask = branchRank("seal", "se_immunity");
+    if (mask >= 4) severity = "Minor";
   }
 
-  // Hearth Rank 4: first Severe condition becomes Minor (except Cursed).
-  if (sev === "Severe" && norm !== "Cursed" && branchRank("hearth", "core") >= 4 && !state.metaPerLife.hearthSevereDowngraded) {
-    state.metaPerLife.hearthSevereDowngraded = true;
-    return __origAddCondition(norm, "Minor", opts);
+  // Hearth: shorten Minor condition durations.
+  const clean = branchRank("hearth", "h_clean_living");
+  if (clean > 0 && severity === "Minor") {
+    const d = (opts.durationEvents ?? defaultConditionDurationEvents(norm, severity));
+    const cut = Math.min(d, Math.floor(clean / 2)); // small, meaningful
+    if (Number.isFinite(d) && d > 0 && cut > 0) opts = { ...opts, durationEvents: Math.max(1, d - cut) };
   }
 
-  return __origAddCondition(norm, sev, opts);
+  return __origAddCondition(id, severity, opts);
 };
 
 // Wrap beginEvent to init per-life and per-event, and apply Hearth capstone on major events.
@@ -7670,27 +7635,29 @@ beginEvent = function(ev) {
 
 // Add simple post-success bonuses for some branches.
 function legacySuccessBonusBundle(ev, success) {
-  if (!success || !ev || !state) return null;
-
-  const ids = committedCardIds();
-  const discs = new Set(ids.map(cid => DATA.cardsById[cid]?.discipline).filter(Boolean));
-
-  const out = { resources: [], conditions: [] };
-
-  // Rank 2 drips (max 1/event each; only if you committed that discipline)
-  if (discs.has("Steel") && branchRank("steel", "core") >= 2) out.resources.push({ resource: "Renown", amount: 1 });
-  if (discs.has("Quill") && branchRank("quill", "core") >= 2) out.resources.push({ resource: "Renown", amount: 1 });
-  if (discs.has("Veil")  && branchRank("veil",  "core") >= 2) out.resources.push({ resource: "Secrets", amount: 1 });
-  if (discs.has("Seal")  && branchRank("seal",  "core") >= 2) out.resources.push({ resource: "Influence", amount: 1 });
-
-  if (discs.has("Hearth") && branchRank("hearth", "core") >= 2) {
-    // If Exhausted (Minor), remove it; otherwise +1 Supplies.
-    if (hasCondition("Exhausted", "Minor")) out.conditions.push({ id: "Exhausted", mode: "Remove", severity: "Minor" });
-    else out.resources.push({ resource: "Supplies", amount: 1 });
+  if (!success || !ev) return null;
+  const ctx = ev.context;
+  if (ctx === "Strife") {
+    const r = branchRank("steel", "s_battle_reputation");
+    const amt = (r >= 5) ? 2 : (r >= 2 ? 1 : 0);
+    if (amt) return { resources: [{ resource: "Renown", amount: amt }], text: "" };
   }
-
-  if (!out.resources.length && !out.conditions.length) return null;
-  return out;
+  if (ctx === "Scheme") {
+    const r = branchRank("veil", "v_dirty_leverage");
+    const amt = (r >= 5) ? 2 : (r >= 2 ? 1 : 0);
+    if (amt) return { resources: [{ resource: "Secrets", amount: amt }], text: "" };
+  }
+  if (ctx === "Court") {
+    const r = branchRank("seal", "se_favors");
+    const amt = (r >= 5) ? 2 : (r >= 2 ? 1 : 0);
+    if (amt) return { resources: [{ resource: "Influence", amount: amt }], text: "" };
+  }
+  if (ctx === "Lore") {
+    const r = branchRank("quill", "q_notes");
+    const amt = (r >= 5) ? 2 : (r >= 2 ? 1 : 0);
+    if (amt) return { resources: [{ resource: "Secrets", amount: amt }], text: "" };
+  }
+  return null;
 }
 
 // Patch resolveSelectedOutcome mortality to respect Second Breath and apply branch bonuses.
