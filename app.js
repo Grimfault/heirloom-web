@@ -182,6 +182,7 @@ function loadMeta() {
     }
   } catch {}
   ensureMetaTree();
+  try { migrateLegacyBranchesToV2(); } catch {}
 }
 
 function saveMeta() {
@@ -387,7 +388,7 @@ function draftSignaturesForFocus(focusStat, onDone) {
 // ---------- Legacy Tree (Meta Progression) ----------
 // Stored in META.legacyTree (localStorage). Safe to evolve: missing fields are defaulted.
 const TRUNK_RANK_COSTS = [2, 3, 4, 6, 8];   // ranks 1..5
-const BRANCH_RANK_COSTS = [4, 6, 8, 10, 12]; // ranks 1..5
+const BRANCH_RANK_COSTS = [3, 5, 7, 9, 11]; // ranks 1..5
 
 const LEGACY_TREE = {
   trunk: [
@@ -410,53 +411,43 @@ const LEGACY_TREE = {
   branches: {
     steel: {
       title: "Steel",
-      subtitle: "Strife-forward: decisive, risky, respected.",
+      subtitle: "Warcraft: momentum, survivability, Renown.",
       nodes: [
-        { id: "s_hard_blows",       name: "Hard Blows",       max: 5, desc: "+2% success chance per rank in Strife." },
-        { id: "s_battle_reputation",name: "Battle Reputation",max: 5, desc: "On Strife success, gain bonus Renown (stronger at higher ranks)." },
-        { id: "s_scar_tissue",      name: "Scar Tissue",      max: 5, desc: "Wounded is less punishing (downgrades at higher ranks)." }
+        { id: "core", name: "Steelcraft", max: 5, desc: "Ranks 1–5: +2% success if you commit a Steel card; on success +Renown; +Strife reroll; Wounded mitigation; avoid one perilous Strife Mortality Check on fail." }
       ],
-      capstone: { id: "s_battle_tempo", name: "Battle Tempo", cost: 50, desc: "In Strife events, draw +1 card (before condition caps)." }
+      capstone: { id: "s_battle_tempo", name: "Warbred Reflexes", cost: 30, desc: "In Strife events, draw 5 cards instead of 4." }
     },
     quill: {
       title: "Quill",
-      subtitle: "Lore & planning: knowledge wins wars you never fight.",
+      subtitle: "Scholarcraft: consistency, Renown, planning.",
       nodes: [
-        { id: "q_keen_eye",    name: "Keen Eye",    max: 5, desc: "+2% success chance per rank in Lore." },
-        { id: "q_methodical",  name: "Methodical",  max: 5, desc: "Reduce the 'stat gap' penalty by 1 per rank." },
-        { id: "q_notes",       name: "Margin Notes",max: 5, desc: "On Lore success, gain bonus Secrets (stronger at higher ranks)." }
+        { id: "core", name: "Quillcraft", max: 5, desc: "Ranks 1–5: +2% success if you commit a Quill card; on success +Renown; +Lore reroll; once/life reduce Difficulty by 1 when committing Quill." }
       ],
-      capstone: { id: "q_archivists_certainty", name: "Archivist’s Certainty", cost: 50, desc: "In Lore events, draw +1 card (before condition caps)." }
+      capstone: { id: "q_archivists_certainty", name: "Archivist’s Hand", cost: 30, desc: "In Lore events, draw 5 cards instead of 4." }
     },
     veil: {
       title: "Veil",
-      subtitle: "Schemes & shadows: leverage, escape, quiet power.",
+      subtitle: "Shadowcraft: control, Secrets, escape.",
       nodes: [
-        { id: "v_slip_net",    name: "Slip the Net", max: 5, desc: "+2% success chance per rank in Scheme." },
-        { id: "v_dirty_leverage", name: "Dirty Leverage", max: 5, desc: "On Scheme success, gain bonus Secrets (stronger at higher ranks)." },
-        { id: "v_cool_head",   name: "Cool Head", max: 5, desc: "Wanted is less punishing (downgrades at higher ranks)." }
+        { id: "core", name: "Veilcraft", max: 5, desc: "Ranks 1–5: +2% success if you commit a Veil card; on success +Secrets; +Scheme reroll; Wanted mitigation; once/life spend 1 Secret to reroll a failed attempt." }
       ],
-      capstone: { id: "v_shadow_alias", name: "Shadow Alias", cost: 50, desc: "The first time you would gain Wanted (Severe) each life, it becomes Minor instead." }
+      capstone: { id: "v_shadow_alias", name: "Night Moves", cost: 30, desc: "In Scheme events, draw 5 cards instead of 4." }
     },
     seal: {
       title: "Seal",
-      subtitle: "Court & influence: alliances, favors, and public weight.",
+      subtitle: "Statecraft: Influence, standing, protection from disgrace.",
       nodes: [
-        { id: "se_presence",  name: "Court Presence", max: 5, desc: "+2% success chance per rank in Court." },
-        { id: "se_favors",    name: "Favors Called",  max: 5, desc: "On Court success, gain bonus Influence (stronger at higher ranks)." },
-        { id: "se_immunity",  name: "Polished Mask",  max: 5, desc: "Disgraced is less punishing (downgrades at higher ranks)." }
+        { id: "core", name: "Sealcraft", max: 5, desc: "Ranks 1–5: +2% success if you commit a Seal card; on success +Influence; +Court reroll; prevent first Disgraced each life." }
       ],
-      capstone: { id: "se_network", name: "Network of Favors", cost: 50, desc: "In Court events, draw +1 card (before condition caps)." }
+      capstone: { id: "se_network", name: "The Open Court", cost: 30, desc: "In Court events, draw 5 cards instead of 4." }
     },
     hearth: {
       title: "Hearth",
-      subtitle: "Endurance & recovery: survive long enough to matter.",
+      subtitle: "Endurance: Supplies, condition control, mortality resilience.",
       nodes: [
-        { id: "h_endure",   name: "Endure", max: 5, desc: "-1% additional Mortality chance per rank." },
-        { id: "h_clean_living", name: "Clean Living", max: 5, desc: "Reduce duration of new Minor conditions (stronger at higher ranks)." },
-        { id: "h_second_wind", name: "Second Wind", max: 5, desc: "After Major Events, remove one Minor condition (chance improves with ranks)." }
+        { id: "core", name: "Hearthcraft", max: 5, desc: "Ranks 1–5: +2% success if you commit a Hearth card; on success remove Exhausted (Minor) or gain Supplies; +Journey reroll; downgrade first Severe condition (except Cursed); halve first Mortality Check chance." }
       ],
-      capstone: { id: "h_unbroken_year", name: "Unbroken Year", cost: 50, desc: "At the start of each Major Event, remove one Minor condition." }
+      capstone: { id: "h_unbroken_year", name: "Wayfarer’s Kit", cost: 30, desc: "In Journey events, draw 5 cards instead of 4." }
     }
   }
 };
@@ -468,6 +459,35 @@ function ensureMetaTree() {
   META.legacyTree.big ??= {};
   META.legacyTree.branches ??= {};
   for (const k of Object.keys(LEGACY_TREE.branches)) META.legacyTree.branches[k] ??= {};
+}
+
+
+function migrateLegacyBranchesToV2() {
+  ensureMetaTree();
+  const v = Number(META.legacyTree.__branchV2 ?? 0) || 0;
+  if (v >= 1) return;
+
+  const maps = {
+    steel: ["s_hard_blows", "s_battle_reputation", "s_scar_tissue"],
+    quill: ["q_keen_eye", "q_methodical", "q_notes"],
+    veil:  ["v_slip_net", "v_dirty_leverage", "v_cool_head"],
+    seal:  ["se_presence", "se_favors", "se_immunity"],
+    hearth:["h_endure", "h_clean_living", "h_second_wind"]
+  };
+
+  for (const [bk, oldIds] of Object.entries(maps)) {
+    const cur = Number(META.legacyTree.branches?.[bk]?.core ?? 0) || 0;
+    if (cur > 0) continue;
+    let best = 0;
+    for (const oid of oldIds) {
+      const r = Number(META.legacyTree.branches?.[bk]?.[oid] ?? 0) || 0;
+      if (r > best) best = r;
+    }
+    if (best > 0) META.legacyTree.branches[bk].core = clamp(best, 0, 5);
+  }
+
+  META.legacyTree.__branchV2 = 1;
+  saveMeta();
 }
 
 function trunkRank(id) {
@@ -493,7 +513,7 @@ function trunkAllTouched() {
 }
 
 function branchNodeUnlocked(branchKey, idx) {
-  if (!trunkAllTouched()) return false;
+  // Branches are available immediately; nodes still unlock in-order.
   if (idx <= 0) return true;
   const prev = LEGACY_TREE.branches[branchKey].nodes[idx - 1]?.id;
   return branchRank(branchKey, prev) >= 1;
@@ -546,14 +566,15 @@ function buyBig(id) {
       return { ok: false, msg: "Locked. Advance further down the trunk." };
     }
   }
-
-  // Branch capstones require branch fully touched (all branch nodes at least rank 1)
+  // Branch capstones require the branch to be fully ranked (Rank 5).
   for (const k of Object.keys(LEGACY_TREE.branches)) {
     const cap = LEGACY_TREE.branches[k].capstone;
     if (cap?.id === id) {
-      if (!trunkAllTouched()) return { ok: false, msg: "Locked. Unlock every trunk node at least once." };
-      const allTouched = LEGACY_TREE.branches[k].nodes.every(n => branchRank(k, n.id) >= 1);
-      if (!allTouched) return { ok: false, msg: "Locked. Unlock each branch node at least once." };
+      const node0 = LEGACY_TREE.branches[k].nodes?.[0];
+      const coreId = node0?.id;
+      const need = node0?.max ?? 5;
+      const have = coreId ? branchRank(k, coreId) : 0;
+      if (have < need) return { ok: false, msg: `Locked. Reach Rank ${need} in ${LEGACY_TREE.branches[k].title} first.` };
     }
   }
 
@@ -707,14 +728,6 @@ function renderLegacyPage() {
 
   // Branches
   if (legacyBranchesEl) {
-    const unlockedBranches = trunkAllTouched();
-    if (!unlockedBranches) {
-      const note = document.createElement("div");
-      note.className = "muted";
-      note.textContent = "Branches are locked. Unlock at least one rank in every trunk node first.";
-      legacyBranchesEl.appendChild(note);
-    }
-
     for (const [key, branch] of Object.entries(LEGACY_TREE.branches)) {
       const group = document.createElement("div");
       group.className = "branchGroup";
@@ -755,7 +768,7 @@ function renderLegacyPage() {
       const cap = branch.capstone;
       const capUnlocked = bigUnlocked(cap.id);
       const capCost = cap.cost ?? 0;
-      const allTouched = trunkAllTouched() && branch.nodes.every(n => branchRank(key, n.id) >= 1);
+      const allTouched = branch.nodes.every(n => branchRank(key, n.id) >= (n.max ?? 1));
       const capMeta = capUnlocked ? `<span class="rankPill">Unlocked</span>` : `<span class="rankPill">Cost ${capCost}</span>`;
 
       const capBtn = document.createElement("button");
@@ -6069,6 +6082,14 @@ function advanceTime() {
 }
 
 function finishEvent(evJustResolved) {
+  // Bloodline Victory (prototype): the age-50 Vernal Major Beat ends the run.
+  try {
+    if (state && state.age === 50 && state.seasonIndex === 0 && isMajorBeatAt(state.age, state.seasonIndex)) {
+      openBloodlineVictoryModal();
+      return;
+    }
+  } catch {}
+
   // Advance time (and tick condition/story timers).
   advanceTime();
 
@@ -6227,7 +6248,25 @@ function resolveSelectedOutcome() {
   const evJustResolved = currentEvent;
 
   // Compute success chance
-  const chance = computeChance(o, committedCardIds());
+  const committedIds = committedCardIds();
+  let oForRoll = o;
+  // Quill Rank 4: once per life, reduce Difficulty by 1 when committing Quill.
+  try {
+    initPerLifeMeta();
+    if (branchRank("quill", "core") >= 4 && !state.metaPerLife.quillPreparedUsed) {
+      const hasQuill = committedIds.some(cid => DATA.cardsById[cid]?.discipline === "Quill");
+      if (hasQuill) {
+        const d0 = Number(o.diff ?? 3) || 3;
+        const d1 = Math.max(1, d0 - 1);
+        if (d1 !== d0) {
+          oForRoll = { ...o, diff: d1 };
+          state.metaPerLife.quillPreparedUsed = true;
+          log("✦ Prepared Answer: Difficulty reduced by 1.");
+        }
+      }
+    }
+  } catch {}
+  const chance = computeChance(oForRoll, committedIds);
   let roll = rInt(1, 100);
   let success = roll <= chance;
 
@@ -6246,6 +6285,38 @@ function resolveSelectedOutcome() {
         success = true;
       }
     }
+  }
+
+  // Branch v2: context reroll (Rank 3) — once per life per context.
+  if (!success) {
+    try {
+      initPerLifeMeta();
+      const ctx = currentEvent?.context;
+      const remaining = state.metaPerLife.ctxRerolls?.[ctx] ?? 0;
+      if (ctx && remaining > 0) {
+        const reroll = rInt(1, 100);
+        const rerollSuccess = reroll <= chance;
+        log(`↻ ${ctx} reroll: ${rerollSuccess ? "SUCCESS" : "FAIL"} (${reroll} ${rerollSuccess ? "≤" : ">"} ${chance})`);
+        state.metaPerLife.ctxRerolls[ctx] = remaining - 1;
+        if (rerollSuccess) { roll = reroll; success = true; }
+      }
+    } catch {}
+  }
+
+  // Veil Rank 5: once per life, spend 1 Secret to reroll a failed attempt (if you committed Veil).
+  if (!success) {
+    try {
+      initPerLifeMeta();
+      const hasVeil = committedIds.some(cid => DATA.cardsById[cid]?.discipline === "Veil");
+      if (hasVeil && branchRank("veil", "core") >= 5 && !state.metaPerLife.veilSecretRerollUsed && (state.res?.Secrets ?? 0) >= 1) {
+        state.metaPerLife.veilSecretRerollUsed = true;
+        applyResourceDelta({ resource: "Secrets", amount: -1 });
+        const reroll = rInt(1, 100);
+        const rerollSuccess = reroll <= chance;
+        log(`✦ The Long Con: spent 1 Secret to reroll — ${rerollSuccess ? "SUCCESS" : "FAIL"} (${reroll} ${rerollSuccess ? "≤" : ">"} ${chance})`);
+        if (rerollSuccess) { roll = reroll; success = true; }
+      }
+    } catch {}
   }
 
   // Tracking for result + any post-event modals
@@ -6346,11 +6417,35 @@ function resolveSelectedOutcome() {
   if (perilous) mortalityTriggered = true;
   if (gainedSevere && hadSevereAlready) mortalityTriggered = true;
 
+  // Steel Rank 5: once per life, if you FAIL a perilous Strife outcome, cancel the Mortality Check from that peril.
+  if (mortalityTriggered && perilous && !success && currentEvent?.context === "Strife") {
+    try {
+      initPerLifeMeta();
+      if (branchRank("steel", "core") >= 5 && !state.metaPerLife.steelPerilCancelUsed) {
+        state.metaPerLife.steelPerilCancelUsed = true;
+        mortalityTriggered = false;
+        log("✦ Press the Advantage: Mortality Check avoided.");
+      }
+    } catch {}
+  }
+
   if (mortalityTriggered) {
         const mitigation = (pair?.mortalityMitigation ?? 0);
     let mChance = computeMortalityChance(mitigation);
     // Mortality triggers should always carry *some* risk, even for high-Resolve builds.
     mChance = Math.max(1, mChance);
+
+    // Hearth Rank 5: your first Mortality Check each life has its final death chance halved.
+    try {
+      initPerLifeMeta();
+      if (branchRank("hearth", "core") >= 5 && !state.metaPerLife.hearthMortHalvedUsed) {
+        state.metaPerLife.hearthMortHalvedUsed = true;
+        const before = mChance;
+        mChance = Math.floor(mChance / 2);
+        mChance = Math.max(1, mChance);
+        log(`✦ Hardy Soul: Mortality chance halved (${before}% → ${mChance}%).`);
+      }
+    } catch {}
     const mRoll = rInt(1, 100);
     log(`Mortality Check: ${mChance}% (roll ${mRoll})`);
     if (mRoll <= mChance) {
@@ -6557,6 +6652,54 @@ function openBloodlineEndModal() {
 
   openModal("Bloodline End", wrap, { locked: true });
 }
+
+function openBloodlineVictoryModal() {
+  const conds = (state.conditions ?? []).map(c => `${c.id} (${c.severity})`).join(", ") || "None";
+
+  // Award meta currency
+  const legacyGained = computeLegacyGain();
+  META.legacy += legacyGained;
+
+  // Heirloom Shards: Bloodline Victory payout
+  awardHeirlooms(8, "Bloodline Victory");
+
+  saveMeta();
+
+  const wrap = document.createElement("div");
+  wrap.innerHTML = `
+    <p><b>Bloodline Victory!</b> You endured to age ${state.age} and secured your line’s place in the Vale.</p>
+    <p class="muted">Final conditions: ${conds}</p>
+    <div class="spacer"></div>
+    <div class="resultGrid">
+      <div class="resultBlock"><div class="muted small">Legacy gained</div><div class="big">+${legacyGained}</div></div>
+      <div class="resultBlock"><div class="muted small">Heirloom Shards</div><div class="big">+8</div></div>
+    </div>
+    <div class="spacer"></div>
+    <p class="muted small">Your dynasty’s next chapter begins with what you’ve unlocked in the Legacy Tree and Heirloom Vault.</p>
+  `;
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+
+  const newRun = document.createElement("button");
+  newRun.className = "btn primary";
+  newRun.textContent = "Begin a New Bloodline";
+  newRun.addEventListener("click", () => {
+    localStorage.removeItem(SAVE_KEY);
+    state = null;
+    logEl.textContent = "";
+    freshStartBuilder = true;
+    modalLocked = false;
+    closeModal();
+    showMenu();
+  });
+
+  actions.appendChild(newRun);
+  wrap.appendChild(actions);
+
+  openModal("Bloodline Victory", wrap, { locked: true });
+}
+
 
 function handleDeath() {
   ensureFamilyState();
@@ -7359,21 +7502,31 @@ function initPerLifeMeta() {
       redrawTokens: trunkRank("t_better_odds") ?? 0,
       mulliganUsed: false,
       secondBreathUsed: false,
+      // Branch v2 per-life uses
+      ctxRerolls: {
+        Strife:  (branchRank("steel", "core") >= 3) ? 1 : 0,
+        Lore:    (branchRank("quill", "core") >= 3) ? 1 : 0,
+        Scheme:  (branchRank("veil",  "core") >= 3) ? 1 : 0,
+        Court:   (branchRank("seal",  "core") >= 3) ? 1 : 0,
+        Journey: (branchRank("hearth","core") >= 3) ? 1 : 0
+      },
+      quillPreparedUsed: false,
+      veilSecretRerollUsed: false,
+      steelPerilCancelUsed: false,
+      hearthMortHalvedUsed: false,
+      // Mitigation toggles
+      steelWoundedDowngraded: false,
+      veilWantedDowngraded: false,
+      sealDisgracedPrevented: false,
+      hearthSevereDowngraded: false,
       lastEventIndex: -1
     };
   }
 }
 
 function legacyContextChanceBonus(ev) {
-  if (!ev) return 0;
-  const ctx = ev.context;
-  let bonus = 0;
-  if (ctx === "Strife") bonus += (branchRank("steel", "s_hard_blows") * 2);
-  if (ctx === "Lore")   bonus += (branchRank("quill", "q_keen_eye") * 2);
-  if (ctx === "Scheme") bonus += (branchRank("veil", "v_slip_net") * 2);
-  if (ctx === "Court")  bonus += (branchRank("seal", "se_presence") * 2);
-  // Hearth has no flat context bonus; it shows up in mortality/conditions.
-  return bonus;
+  // Context bonuses were replaced by Branch v2 (commit-based success bumps + per-life rerolls).
+  return 0;
 }
 
 function applyLegacyStartDeckBonus() {
@@ -7420,73 +7573,76 @@ computeMortalityChance = function(extraMitigation = 0) {
   return Math.max(0, base);
 };
 
-// Wrap computeChanceParts for steady hands + context bonus, and tweak gap penalty for Quill.
+// Wrap computeChanceParts for steady hands + Branch v2 commit bonuses.
 const __origComputeChanceParts = computeChanceParts;
 computeChanceParts = function(outcome, committedCids, opts = {}) {
   const parts = __origComputeChanceParts(outcome, committedCids, opts);
-  const ev = opts.ev ?? currentEvent;
+
+  // Trunk: Steady Hands (legacy)
   const steady = trunkRank("t_steady_hands");
-  const ctxBonus = legacyContextChanceBonus(ev);
 
-  // Quill: reduce stat gap pressure
-  const quillGapReduce = branchRank("quill", "q_methodical");
-  const newGapPenalty = Math.max(0, (parts.gapPenalty ?? 0) - quillGapReduce);
-  const deltaGap = (parts.gapPenalty ?? 0) - newGapPenalty;
+  // Branch v2: Rank 1 = +2% success when committing a card of that discipline.
+  const discs = new Set((committedCids ?? []).map(cid => DATA.cardsById[cid]?.discipline).filter(Boolean));
+  let branchBonus = 0;
+  if (discs.has("Steel")  && branchRank("steel",  "core") >= 1) branchBonus += 2;
+  if (discs.has("Quill")  && branchRank("quill",  "core") >= 1) branchBonus += 2;
+  if (discs.has("Veil")   && branchRank("veil",   "core") >= 1) branchBonus += 2;
+  if (discs.has("Seal")   && branchRank("seal",   "core") >= 1) branchBonus += 2;
+  if (discs.has("Hearth") && branchRank("hearth", "core") >= 1) branchBonus += 2;
 
-  parts.gapPenalty = newGapPenalty;
-  parts.raw = (parts.raw ?? 0) + steady + ctxBonus + deltaGap;
+  parts.raw = (parts.raw ?? 0) + steady + branchBonus;
   parts.chance = clamp(parts.raw, 5, 95);
   return parts;
 };
 
-// Wrap handSizeForEvent for branch capstones.
+// Wrap handSizeForEvent for branch capstones (Rank 5 draw).
 const __origHandSizeForEvent = handSizeForEvent;
 handSizeForEvent = function(ev) {
   let n = __origHandSizeForEvent(ev);
 
-  if (ev?.context === "Strife" && bigUnlocked("s_battle_tempo")) n += 1;
-  if (ev?.context === "Lore"   && bigUnlocked("q_archivists_certainty")) n += 1;
-  if (ev?.context === "Court"  && bigUnlocked("se_network")) n += 1;
+  if (ev?.context === "Strife"  && bigUnlocked("s_battle_tempo")) n += 1;
+  if (ev?.context === "Lore"    && bigUnlocked("q_archivists_certainty")) n += 1;
+  if (ev?.context === "Scheme"  && bigUnlocked("v_shadow_alias")) n += 1;
+  if (ev?.context === "Court"   && bigUnlocked("se_network")) n += 1;
+  if (ev?.context === "Journey" && bigUnlocked("h_unbroken_year")) n += 1;
 
   return Math.max(1, n);
 };
 
-// Wrap addCondition for branch mitigation
+// Wrap addCondition for Branch v2 mitigation.
 const __origAddCondition = addCondition;
 addCondition = function(id, severity, opts = {}) {
   const norm = normalizeConditionId(id);
+  const sev = (severity === "Severe") ? "Severe" : "Minor";
 
-  // Veil capstone: first Wanted(Severe) per life becomes Minor.
-  if (norm === "Wanted" && severity === "Severe" && bigUnlocked("v_shadow_alias")) {
-    initPerLifeMeta();
-    if (!state.metaPerLife.wantedAliasUsed) {
-      state.metaPerLife.wantedAliasUsed = true;
-      severity = "Minor";
-      opts = { ...opts, source: (opts.source ? opts.source + " +Alias" : "Alias") };
-    }
+  initPerLifeMeta();
+
+  // Steel Rank 4: first Severe Wounded becomes Minor.
+  if (norm === "Wounded" && sev === "Severe" && branchRank("steel", "core") >= 4 && !state.metaPerLife.steelWoundedDowngraded) {
+    state.metaPerLife.steelWoundedDowngraded = true;
+    return __origAddCondition(norm, "Minor", opts);
   }
 
-  // Steel mitigation: Wounded(Severe) becomes Minor at higher ranks.
-  if (norm === "Wounded" && severity === "Severe") {
-    const scar = branchRank("steel", "s_scar_tissue");
-    if (scar >= 3) severity = "Minor";
+  // Veil Rank 4: first Severe Wanted becomes Minor.
+  if (norm === "Wanted" && sev === "Severe" && branchRank("veil", "core") >= 4 && !state.metaPerLife.veilWantedDowngraded) {
+    state.metaPerLife.veilWantedDowngraded = true;
+    return __origAddCondition(norm, "Minor", opts);
   }
 
-  // Seal mitigation: Disgraced gets downgraded at higher ranks.
-  if (norm === "Disgraced" && severity === "Severe") {
-    const mask = branchRank("seal", "se_immunity");
-    if (mask >= 4) severity = "Minor";
+  // Seal Rank 4: prevent first Disgraced each life.
+  if (norm === "Disgraced" && branchRank("seal", "core") >= 4 && !state.metaPerLife.sealDisgracedPrevented) {
+    state.metaPerLife.sealDisgracedPrevented = true;
+    log("✦ Unblemished: Disgraced prevented.");
+    return;
   }
 
-  // Hearth: shorten Minor condition durations.
-  const clean = branchRank("hearth", "h_clean_living");
-  if (clean > 0 && severity === "Minor") {
-    const d = (opts.durationEvents ?? defaultConditionDurationEvents(norm, severity));
-    const cut = Math.min(d, Math.floor(clean / 2)); // small, meaningful
-    if (Number.isFinite(d) && d > 0 && cut > 0) opts = { ...opts, durationEvents: Math.max(1, d - cut) };
+  // Hearth Rank 4: first Severe condition becomes Minor (except Cursed).
+  if (sev === "Severe" && norm !== "Cursed" && branchRank("hearth", "core") >= 4 && !state.metaPerLife.hearthSevereDowngraded) {
+    state.metaPerLife.hearthSevereDowngraded = true;
+    return __origAddCondition(norm, "Minor", opts);
   }
 
-  return __origAddCondition(id, severity, opts);
+  return __origAddCondition(norm, sev, opts);
 };
 
 // Wrap beginEvent to init per-life and per-event, and apply Hearth capstone on major events.
@@ -7514,29 +7670,27 @@ beginEvent = function(ev) {
 
 // Add simple post-success bonuses for some branches.
 function legacySuccessBonusBundle(ev, success) {
-  if (!success || !ev) return null;
-  const ctx = ev.context;
-  if (ctx === "Strife") {
-    const r = branchRank("steel", "s_battle_reputation");
-    const amt = (r >= 5) ? 2 : (r >= 2 ? 1 : 0);
-    if (amt) return { resources: [{ resource: "Renown", amount: amt }], text: "" };
+  if (!success || !ev || !state) return null;
+
+  const ids = committedCardIds();
+  const discs = new Set(ids.map(cid => DATA.cardsById[cid]?.discipline).filter(Boolean));
+
+  const out = { resources: [], conditions: [] };
+
+  // Rank 2 drips (max 1/event each; only if you committed that discipline)
+  if (discs.has("Steel") && branchRank("steel", "core") >= 2) out.resources.push({ resource: "Renown", amount: 1 });
+  if (discs.has("Quill") && branchRank("quill", "core") >= 2) out.resources.push({ resource: "Renown", amount: 1 });
+  if (discs.has("Veil")  && branchRank("veil",  "core") >= 2) out.resources.push({ resource: "Secrets", amount: 1 });
+  if (discs.has("Seal")  && branchRank("seal",  "core") >= 2) out.resources.push({ resource: "Influence", amount: 1 });
+
+  if (discs.has("Hearth") && branchRank("hearth", "core") >= 2) {
+    // If Exhausted (Minor), remove it; otherwise +1 Supplies.
+    if (hasCondition("Exhausted", "Minor")) out.conditions.push({ id: "Exhausted", mode: "Remove", severity: "Minor" });
+    else out.resources.push({ resource: "Supplies", amount: 1 });
   }
-  if (ctx === "Scheme") {
-    const r = branchRank("veil", "v_dirty_leverage");
-    const amt = (r >= 5) ? 2 : (r >= 2 ? 1 : 0);
-    if (amt) return { resources: [{ resource: "Secrets", amount: amt }], text: "" };
-  }
-  if (ctx === "Court") {
-    const r = branchRank("seal", "se_favors");
-    const amt = (r >= 5) ? 2 : (r >= 2 ? 1 : 0);
-    if (amt) return { resources: [{ resource: "Influence", amount: amt }], text: "" };
-  }
-  if (ctx === "Lore") {
-    const r = branchRank("quill", "q_notes");
-    const amt = (r >= 5) ? 2 : (r >= 2 ? 1 : 0);
-    if (amt) return { resources: [{ resource: "Secrets", amount: amt }], text: "" };
-  }
-  return null;
+
+  if (!out.resources.length && !out.conditions.length) return null;
+  return out;
 }
 
 // Patch resolveSelectedOutcome mortality to respect Second Breath and apply branch bonuses.
