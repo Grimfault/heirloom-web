@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Heirloom (Prototype)</title>
-<link href="styles.css?v=8.4" rel="stylesheet"/>
+<link href="styles.css?v=9.0" rel="stylesheet"/>
 </head>
 <body>
 <div class="app" id="app">
@@ -103,6 +103,7 @@
 <h2>Legacy</h2>
 <p class="muted">Spend Legacy to strengthen future rulers. Trunk upgrades support any playstyle; branches specialize.</p>
 <div class="muted">Available Legacy: <b><span id="legacyTotal">0</span></b></div>
+<div class="muted">Available Heirloom Shards: <b><span id="heirloomTotal">0</span></b></div>
 <div class="hint">Branches unlock after you’ve unlocked at least one rank in every trunk node.</div>
 </div>
 <button class="btn ghost" id="btnLegacyBack">Back</button>
@@ -113,6 +114,10 @@
 <div class="spacer"></div>
 <h3>Branches</h3>
 <div class="legacyBranches" id="legacyBranches"></div>
+<div class="spacer"></div>
+<h3>Heirloom Vault</h3>
+<p class="muted">Spend Heirloom Shards to unlock Signature cards. Signature cards are offered to heirs at succession (up to 2 slots if your branch capstone is unlocked).</p>
+<div class="legacyList" id="heirloomVault"></div>
 </section>
 
 <!-- Game Screen -->
