@@ -6512,7 +6512,16 @@ function populateBackgroundSelect() {
 
 // ONLY wire this once:
 bgSelect.addEventListener("change", () => {
+  // Browsing backgrounds should not reroll trait offers or clear selected traits.
+  // We only want a fresh trait roll when starting a brand-new run.
+  const savedOffer = Array.isArray(creation.traitOfferIds) ? [...creation.traitOfferIds] : null;
+  const savedTraits = new Set(creation.traits);
+
   resetCreation();
+
+  creation.traitOfferIds = savedOffer;
+  creation.traits = savedTraits;
+
   renderCreationUI();
 });
 
