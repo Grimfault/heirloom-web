@@ -1618,7 +1618,9 @@ const heirloomVaultEl = document.getElementById("heirloomVault");
 
 const bgSelect = document.getElementById("bgSelect");
 const btnStart = document.getElementById("btnStart");
-const btnReset = document.getElementById("btnReset");
+const btnBackToMenu = document.getElementById("btnBackToMenu");
+const btnTotalReset = document.getElementById("btnTotalReset");
+const btnMenuTotalReset = document.getElementById("btnMenuTotalReset");
 const btnResolve = document.getElementById("btnResolve");
 const btnNewEvent = document.getElementById("btnNewEvent");
 const btnDebugPickEvent = document.getElementById("btnDebugPickEvent");
@@ -6866,7 +6868,7 @@ function openBloodlineEndModal() {
 
   const newRun = document.createElement("button");
   newRun.className = "btn primary";
-  newRun.textContent = "New Run";
+  newRun.textContent = "Back to Menu";
   newRun.addEventListener("click", () => {
     localStorage.removeItem(SAVE_KEY);
     state = null;
@@ -6997,13 +6999,97 @@ function proceedSuccession(primary) {
 
 
 // ---------- UI wiring ----------
-btnReset.addEventListener("click", () => {
-  localStorage.removeItem(SAVE_KEY);
+function forceCloseModal() {
+  // For actions that must exit any overlay (even "locked" modals).
+  modalBackdrop.classList.add("hidden");
+  modalLocked = false;
+  document.body.style.overflow = "";
+  btnModalClose.style.display = "";
+  modalOnClose = null;
+}
+
+function backToMenu() {
+  try { localStorage.removeItem(SAVE_KEY); } catch {}
   state = null;
+  currentEvent = null;
+  selectedOutcomeIndex = null;
+  hand = [];
+  committed = [];
+  nextHandIid = 1;
+  resolvingOutcome = false;
   logEl.textContent = "";
   freshStartBuilder = true;
+  forceCloseModal();
   showMenu();
-});
+}
+
+function doTotalReset() {
+  try {
+    localStorage.removeItem(SAVE_KEY);
+    localStorage.removeItem(META_KEY);
+    localStorage.removeItem(THEME_KEY);
+  } catch {}
+
+  state = null;
+  currentEvent = null;
+  selectedOutcomeIndex = null;
+  hand = [];
+  committed = [];
+  nextHandIid = 1;
+  resolvingOutcome = false;
+  META = {
+    legacy: 0,
+    heirlooms: 0,
+    signatureUnlocks: {},
+    legacyTree: { trunk: {}, big: {}, branches: {} },
+    legacyTreeV2: { v: 2, unlocked: {}, branchRanks: {} }
+  };
+  ensureMetaTree();
+  saveMeta();
+
+  logEl.textContent = "";
+  freshStartBuilder = true;
+
+  // Reset theme to default
+  applyTheme("ink");
+
+  forceCloseModal();
+  showMenu();
+  updateLegacyUIBadges();
+}
+
+function confirmTotalReset() {
+  const wrap = document.createElement("div");
+  wrap.innerHTML = `
+    <p><b>This will erase EVERYTHING</b>: your current run, legacy, heirlooms/shards, upgrades, and vault unlocks.</p>
+    <p class="muted small">This cannot be undone.</p>
+  `;
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+
+  const cancel = document.createElement("button");
+  cancel.className = "btn ghost";
+  cancel.textContent = "Cancel";
+  cancel.addEventListener("click", () => closeModal());
+
+  const wipe = document.createElement("button");
+  wipe.className = "btn danger";
+  wipe.textContent = "Erase Everything";
+  wipe.addEventListener("click", () => {
+    doTotalReset();
+  });
+
+  actions.appendChild(cancel);
+  actions.appendChild(wipe);
+  wrap.appendChild(actions);
+
+  openModal("Total Reset", wrap, { locked: false });
+}
+
+if (btnBackToMenu) btnBackToMenu.addEventListener("click", backToMenu);
+if (btnTotalReset) btnTotalReset.addEventListener("click", confirmTotalReset);
+if (btnMenuTotalReset) btnMenuTotalReset.addEventListener("click", confirmTotalReset);
 
 if (btnMenuStart) {
   btnMenuStart.addEventListener("click", () => {
@@ -7479,7 +7565,7 @@ function openBloodlineVictoryModal(amb) {
 
   const newRun = document.createElement("button");
   newRun.className = "btn primary";
-  newRun.textContent = "New Run";
+  newRun.textContent = "Back to Menu";
   newRun.addEventListener("click", () => {
     localStorage.removeItem(SAVE_KEY);
     state = null;
@@ -9221,5 +9307,3 @@ boot();
   } else { __run_ui_helpers__(); }
 })();
 // === END ui enhancements ===
-
-
