@@ -231,19 +231,21 @@ function branchKeyForDiscipline(disc) {
 }
 function signatureAccessForDiscipline(disc) {
   const bk = branchKeyForDiscipline(disc);
-  const branch = bk ? LEGACY_TREE.branches?.[bk] : null;
-  if (!branch) return null;
+  if (!bk) return null;
+  const b = LEGACY_TREE.branches?.[bk];
+  if (!b) return null;
 
-  const ranks = (branch.nodes ?? []).map(n => branchRank(bk, n.id));
-  const maxR = Math.max(0, ...(ranks.length ? ranks : [0]));
-  const capUnlocked = bigUnlocked(branch.capstone?.id);
+  const r = branchRank(bk);
+  const capUnlocked = bigUnlocked(b.capstoneId);
 
-  const slotCount = capUnlocked ? 2 : (maxR >= 3 ? 1 : 0);
+  // Slots + draft depth follow Option B:
+  // Rank 3 => 1 slot, Rank 5 => 1-of-2 draft, Capstone => 2 slots + 1-of-3 draft + signature starts at L2.
+  const slotCount = capUnlocked ? 2 : (r >= 3 ? 1 : 0);
   if (slotCount <= 0) return null;
 
   return {
     slotCount,
-    pickCount: capUnlocked ? 3 : (maxR >= 5 ? 2 : 1),
+    pickCount: capUnlocked ? 3 : (r >= 5 ? 2 : 1),
     minLevel: capUnlocked ? 2 : 1
   };
 }
@@ -891,9 +893,142 @@ function renderLegacyPage() {
     }
   }
 
-  // Heirloom Vault (Signature Cards) stays below (rendered elsewhere).
+  // Heirloom Vault (Signature Cards)
+  renderHeirloomVault();
 }
 
+function sigEffectSummary(card) {
+  try {
+    const levels = Array.isArray(card?.levels) ? card.levels : [];
+    const lvl1 = levels.find(l => Number(l?.level ?? 0) === 1) ?? levels[0];
+    if (!lvl1) return "";
+    const parts = [];
+    const b = Number(lvl1.bonus ?? 0);
+    if (Number.isFinite(b) && b) parts.push(`Bonus +${Math.floor(b)}`);
+
+    const res = lvl1?.onSuccess?.resources;
+    if (Array.isArray(res) && res.length) {
+      const rs = res.map(x => `${x.resource} ${fmtDelta(x.amount ?? 0)}`).join(", ");
+      if (rs) parts.push(`On success: ${rs}`);
+    }
+
+    const cond = lvl1?.onSuccess?.conditions;
+    if (Array.isArray(cond) && cond.length) {
+      const cs = cond.map(x => `${x.id}${x.severity ? ` (${x.severity})` : ""}`).join(", ");
+      if (cs) parts.push(`On success: ${cs}`);
+    }
+
+    if (lvl1.partialOnFail) parts.push("Partial on fail");
+    if (lvl1.rerollOnFail) parts.push("Reroll on fail");
+
+    return parts.join(" • ");
+  } catch {
+    return "";
+  }
+}
+
+function renderHeirloomVault() {
+  if (!heirloomVaultEl) return;
+  heirloomVaultEl.innerHTML = "";
+
+  const all = (DATA?.cards ?? []).filter(c => c && c.isSignature);
+  if (!all.length) {
+    const p = document.createElement("div");
+    p.className = "muted";
+    p.textContent = "No Signature cards found in cards.json.";
+    heirloomVaultEl.appendChild(p);
+    return;
+  }
+
+  const note = document.createElement("div");
+  note.className = "muted";
+  note.textContent = "Unlock Signature cards with Heirloom Shards. They are offered at succession when you unlock Signature Slots (Branch Rank 3+).";
+  heirloomVaultEl.appendChild(note);
+
+  const groups = [
+    { disc: "Steel",  title: "Steel",  subtitle: "Warcraft: momentum and survivability." },
+    { disc: "Quill",  title: "Quill",  subtitle: "Scholarcraft: consistency and insight." },
+    { disc: "Veil",   title: "Veil",   subtitle: "Shadowcraft: leverage and escape." },
+    { disc: "Seal",   title: "Seal",   subtitle: "Statecraft: standing and authority." },
+    { disc: "Hearth", title: "Hearth", subtitle: "Endurance: grit and recovery." }
+  ];
+
+  for (const g of groups) {
+    const cards = all
+      .filter(c => c.discipline === g.disc)
+      .sort((a,b) => {
+        const ca = Number(a.heirloomCost ?? 0) || 0;
+        const cb = Number(b.heirloomCost ?? 0) || 0;
+        if (ca !== cb) return ca - cb;
+        return String(a.name ?? "").localeCompare(String(b.name ?? ""));
+      });
+    if (!cards.length) continue;
+
+    const unlockedCount = cards.filter(c => isSignatureUnlocked(c.id)).length;
+
+    const group = document.createElement("div");
+    group.className = "branchGroup";
+
+    const header = document.createElement("div");
+    header.className = "branchHeader";
+
+    const h = document.createElement("h4");
+    h.textContent = g.title;
+
+    const sub = document.createElement("div");
+    sub.className = "muted small";
+    sub.textContent = g.subtitle;
+
+    const pill = document.createElement("div");
+    pill.className = "rankPill";
+    pill.textContent = `${unlockedCount}/${cards.length} unlocked`;
+
+    header.appendChild(h);
+    header.appendChild(sub);
+    header.appendChild(pill);
+    group.appendChild(header);
+
+    const list = document.createElement("div");
+    list.className = "branchNodes";
+
+    for (const c of cards) {
+      const unlocked = isSignatureUnlocked(c.id);
+      const cost = Number(c.heirloomCost ?? 0) || 0;
+      const ctx = Array.isArray(c.contexts) ? c.contexts.join(", ") : "";
+
+      const meta = unlocked
+        ? `<span class="rankPill">Unlocked</span><span class="muted small">${escapeHtml(c.rarity ?? "")} ${ctx ? "• " + escapeHtml(ctx) : ""}</span>`
+        : `<span class="rankPill">Cost ${cost}</span><span class="muted small">${escapeHtml(c.rarity ?? "")} ${ctx ? "• " + escapeHtml(ctx) : ""}</span>`;
+
+      const btn = document.createElement("button");
+      btn.className = unlocked ? "btn ghost small" : "btn primary small";
+      btn.textContent = unlocked ? "Unlocked" : "Unlock";
+      btn.disabled = unlocked || (META.heirlooms ?? 0) < cost;
+      btn.setAttribute("data-action", "sig");
+      btn.setAttribute("data-payload", c.id);
+
+      const actions = [btn];
+      if (!unlocked && (META.heirlooms ?? 0) < cost) {
+        const d = document.createElement("div");
+        d.className = "muted small";
+        d.textContent = `Need ${cost} Heirloom Shard${cost === 1 ? "" : "s"}.`;
+        actions.push(d);
+      }
+
+      const desc = sigEffectSummary(c) || "Signature card.";
+      list.appendChild(nodeCard({
+        title: c.name ?? c.id,
+        meta,
+        desc,
+        locked: false,
+        actions
+      }));
+    }
+
+    group.appendChild(list);
+    heirloomVaultEl.appendChild(group);
+  }
+}
 
 
 // Tunables (meaningful, not run-trivializing)
@@ -1432,7 +1567,9 @@ let DATA = {
   backgrounds: [],
   factions: [],
   ambitions: [],
+  bloodlineAmbitions: [],
   ambitionsMeta: null,
+  bloodlineAmbitionsMeta: null,
   cardsById: {},
   eventsById: {},
   backgroundsById: {},
@@ -2843,15 +2980,15 @@ function normalizeAmbitionsJson(raw) {
     objectiveTypes: null
   };
 
-  if (!raw) return { meta, ambitions: [] };
+  if (!raw) return { meta, ambitions: [], bloodlineAmbitions: [] };
 
   // Allow the "just an array" legacy form: [{id,name,...}]
   if (Array.isArray(raw)) {
     meta.enabled = raw.length > 0;
-    return { meta, ambitions: raw };
+    return { meta, ambitions: raw, bloodlineAmbitions: [] };
   }
 
-  if (typeof raw !== "object") return { meta, ambitions: [] };
+  if (typeof raw !== "object") return { meta, ambitions: [], bloodlineAmbitions: [] };
 
   meta.version = raw.version ?? null;
   meta.updated = raw.updated ?? null;
@@ -2859,8 +2996,10 @@ function normalizeAmbitionsJson(raw) {
   meta.objectiveTypes = (raw.objectiveTypes && typeof raw.objectiveTypes === "object") ? raw.objectiveTypes : null;
 
   const ambitions = Array.isArray(raw.ambitions) ? raw.ambitions : [];
-  meta.enabled = ambitions.length > 0;
-  return { meta, ambitions };
+  const bloodlineAmbitions = Array.isArray(raw.bloodlineAmbitions) ? raw.bloodlineAmbitions : [];
+
+  meta.enabled = (ambitions.length + bloodlineAmbitions.length) > 0;
+  return { meta, ambitions, bloodlineAmbitions };
 }
 
 function indexData() {
@@ -3417,6 +3556,13 @@ function applyResourceDelta(d) {
     if (after > prev) state.peakRes[k] = after;
   } catch {}
 
+  // Track bloodline peaks for Bloodline Ambitions (persist across rulers).
+  try {
+    state.bloodlinePeakRes ??= { ...state.res };
+    const prevB = state.bloodlinePeakRes[k] ?? 0;
+    if (after > prevB) state.bloodlinePeakRes[k] = after;
+  } catch {}
+
   // Resource floor consequences (only when crossing from >0 to 0 due to a loss).
   // These don't kill you directly; they add pressure conditions.
   if (before > 0 && after === 0 && amt < 0) {
@@ -3594,6 +3740,12 @@ function applyStandingDelta(s) {
     state.bestStanding ??= { ...state.standings };
     const prev = state.bestStanding[s.factionId] ?? "Hostile";
     if (tierIndex(TIERS[next]) > tierIndex(prev)) state.bestStanding[s.factionId] = TIERS[next];
+  } catch {}
+
+  try {
+    state.bloodlineBestStanding ??= { ...state.standings };
+    const prevB = state.bloodlineBestStanding[s.factionId] ?? "Hostile";
+    if (tierIndex(TIERS[next]) > tierIndex(prevB)) state.bloodlineBestStanding[s.factionId] = TIERS[next];
   } catch {}
 }
 
@@ -4380,7 +4532,9 @@ function renderStatus() {
   const kids = state.family.heirs?.length ?? 0;
   const kidsStr = kids ? ` • Children: ${kids}` : "";
   const ambStr = state?.ambitionName ? ` • Ambition: ${state.ambitionName}` : "";
-  statusLine.textContent = `${who} • Age ${state.age} • ${season} • Heirs Ruled ${state.heirCount ?? 0}${spouseStr}${kidsStr}${ambStr}`;
+  const mat = bloodlineMaturity();
+  const matStr = ` • Bloodline Maturity ${mat}/10`;
+  statusLine.textContent = `${who} • Age ${state.age} • ${season} • Heirs Ruled ${state.heirCount ?? 0}${matStr}${spouseStr}${kidsStr}${ambStr}`;
 
   const hf = state.heirFocus ? ` (Heir Focus: ${state.heirFocus})` : "";
   statsLine.textContent =
@@ -4856,6 +5010,9 @@ function renderTrackers(){
       </div>
     `;
   }
+
+  // ---- Bloodline Ambition ----
+  try { appendBloodlineAmbitionTracker(); } catch {}
 
   // ---- Storylines ----
   const active = activeStorylineIds();
@@ -6211,6 +6368,9 @@ function finishEvent(evJustResolved) {
   saveState();
   renderAll();
 
+  // Bloodline ambition progress check (may trigger Bloodline Victory).
+  try { if (checkBloodlineAmbitionProgress({ lifeEnd: false })) return; } catch {}
+
   // Start the next event (avoid immediate repeat of what you just played when possible).
   const avoid = evJustResolved?.id ? [evJustResolved.id] : [];
 
@@ -6685,6 +6845,9 @@ function handleDeath() {
   // Final ambition check at life end (supports NotCondition objectives).
   try { checkAmbitionProgress({ lifeEnd: true }); } catch {}
 
+  // Bloodline ambition check at life end (supports NotCondition objectives).
+  try { if (checkBloodlineAmbitionProgress({ lifeEnd: true })) return; } catch {}
+
   // Award death bonus now (shown in the Run End screen).
   awardScrip(SCRIP_ON_DEATH_BONUS, "Death");
 
@@ -6768,6 +6931,10 @@ function proceedSuccession(primary) {
 
   log(`Heir takes over: ${state.charName} ${state.familyName}. Focus bonus: ${state.heirFocus ? `+1 ${state.heirFocus}` : "None"}. Heirs ruled so far: ${state.heirCount}.`);
 
+  // Bloodline Maturity unlock banner (one-time) → then prompt Bloodline Ambition (ruler 11+).
+  maybeShowBloodlineMaturityUnlockModal(() => {
+    maybePromptBloodlineAmbition(() => {
+
   // Draft Signatures for the new ruler (if unlocked), then rebuild draw pile.
   draftSignaturesForFocus(state.heirFocus, () => {
     state.drawPile = shuffle([...new Set([...(state.masterDeck ?? []), ...(state.lifeSignatureCards ?? [])])]);
@@ -6779,6 +6946,8 @@ function proceedSuccession(primary) {
     saveState();
     renderAll();
     loadRandomEvent();
+  });
+    });
   });
 }
 
@@ -6994,6 +7163,435 @@ function checkAmbitionProgress({ lifeEnd = false } = {}) {
   log(`★ Ambition completed: ${amb.name}`);
   return true;
 }
+
+
+
+// ---------- Bloodline Ambitions (late-game victory) ----------
+function isBloodlineAmbitionEligible() {
+  return (state?.heirCount ?? 0) >= 10;
+}
+
+function getActiveBloodlineAmbition() {
+  const id = state?.bloodlineAmbitionId;
+  if (!id) return null;
+  return (DATA?.bloodlineAmbitions ?? []).find(a => a && a.id === id) ?? null;
+}
+
+
+function bloodlineMaturity() {
+  const hc = Number(state?.heirCount ?? 0);
+  const n = Number.isFinite(hc) ? hc : 0;
+  return clamp(n, 0, 10);
+}
+
+function maybeShowBloodlineMaturityUnlockModal(onDone) {
+  if (!state) return onDone?.();
+  if (bloodlineMaturity() < 10) return onDone?.();
+  if (state.bloodlineMaturityNotified) return onDone?.();
+
+  state.bloodlineMaturityNotified = true;
+  saveState();
+
+  const wrap = document.createElement("div");
+  wrap.innerHTML = `
+    <p><b>Bloodline Maturity Reached</b></p>
+    <p class="muted">Your bloodline has reached <b>10/10</b> maturity (10 rulers). <b>Bloodline Ambitions</b> are now available. Completing one grants a <b>Bloodline Victory</b> (+8 Heirloom Shards).</p>
+  `;
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+
+  const btn = document.createElement("button");
+  btn.className = "btn primary";
+  btn.textContent = "Continue";
+  btn.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onDone?.();
+  });
+
+  actions.appendChild(btn);
+  wrap.appendChild(actions);
+
+  openModal("Bloodline Maturity", wrap, { locked: true });
+}
+
+function openBloodlineAmbitionPickerModal(onPick) {
+  const pool = Array.isArray(DATA.bloodlineAmbitions) ? DATA.bloodlineAmbitions.filter(a => a && a.id) : [];
+  if (!pool.length) { onPick?.(null); return; }
+
+  const OFFER_COUNT = Math.min(2, pool.length);
+
+  const pickOffer = () => {
+    // Prefer two different ambitions; if pool is tiny, just show all.
+    const shuffled = shuffle([...pool]);
+    return shuffled.slice(0, OFFER_COUNT);
+  };
+
+  let offered = pickOffer();
+  let chosen = null;
+
+  const wrap = document.createElement("div");
+
+  const hint = document.createElement("p");
+  hint.className = "muted";
+  hint.textContent = `Choose 1 of ${OFFER_COUNT}. Completing a Bloodline Ambition triggers a Bloodline Victory (+8 Heirloom Shards) and ends the run.`;
+  wrap.appendChild(hint);
+
+  const grid = document.createElement("div");
+  grid.className = "hand";
+  wrap.appendChild(grid);
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+  actions.style.marginTop = "12px";
+
+  const btnSkip = document.createElement("button");
+  btnSkip.className = "btn ghost";
+  btnSkip.textContent = "Not yet";
+  btnSkip.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onPick?.(null);
+  });
+
+  const btnConfirm = document.createElement("button");
+  btnConfirm.className = "btn";
+  btnConfirm.textContent = "Commit Bloodline Ambition";
+  btnConfirm.disabled = true;
+  btnConfirm.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onPick?.(chosen);
+  });
+
+  // One-time reroll (per bloodline) to refresh the offered ambitions.
+  const canReroll = (pool.length > OFFER_COUNT) && !state?.bloodlineAmbitionRerollUsed;
+  const btnReroll = document.createElement("button");
+  btnReroll.className = "btn ghost";
+  btnReroll.textContent = canReroll ? "Reroll options (1)" : "Reroll used";
+  btnReroll.disabled = !canReroll;
+
+  btnReroll.addEventListener("click", () => {
+    if (btnReroll.disabled) return;
+    state.bloodlineAmbitionRerollUsed = true;
+    saveState();
+    offered = pickOffer();
+    renderOffered();
+    btnReroll.disabled = true;
+    btnReroll.textContent = "Reroll used";
+    log("◆ Bloodline Ambition options rerolled.");
+  });
+
+  const renderTile = (amb) => {
+    const tile = document.createElement("div");
+    tile.className = "cardbtn";
+    tile.tabIndex = 0;
+
+    const objLines = (amb?.objectives ?? [])
+      .map(o => o?.text)
+      .filter(Boolean)
+      .slice(0, 5)
+      .map(t => `<div class="muted small">• ${escapeHtml(t)}</div>`)
+      .join("");
+
+    tile.innerHTML = `
+      <div class="row space" style="align-items:flex-start;">
+        <div>
+          <div class="cardname">${escapeHtml(amb?.name ?? amb?.id ?? "Bloodline Ambition")}</div>
+          <div class="muted small" style="margin-top:4px;">${escapeHtml(amb?.desc ?? "")}</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;">${objLines}</div>
+    `;
+
+    const pickThis = () => {
+      chosen = amb;
+      [...grid.children].forEach(x => x.classList.remove("committed"));
+      tile.classList.add("committed");
+      btnConfirm.disabled = false;
+    };
+
+    tile.addEventListener("click", pickThis);
+    tile.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") pickThis(); });
+
+    return tile;
+  };
+
+  function renderOffered() {
+    grid.innerHTML = "";
+    chosen = null;
+    btnConfirm.disabled = true;
+    for (const amb of offered) grid.appendChild(renderTile(amb));
+  }
+  renderOffered();
+
+  // Order: reroll (if available) → Not yet → Commit
+  if (pool.length > OFFER_COUNT) actions.appendChild(btnReroll);
+  actions.appendChild(btnSkip);
+  actions.appendChild(btnConfirm);
+  wrap.appendChild(actions);
+
+  openModal("Choose a Bloodline Ambition", wrap, { locked: true });
+}
+
+
+
+function maybePromptBloodlineAmbition(onDone) {
+  if (!state) return onDone?.();
+  if (!isBloodlineAmbitionEligible()) return onDone?.();
+  if (state.bloodlineVictoryAchieved) return onDone?.();
+  if (state.bloodlineAmbitionId) return onDone?.();
+  if (state.bloodlineAmbitionPrompted) return onDone?.();
+
+  state.bloodlineAmbitionPrompted = true;
+  saveState();
+
+  openBloodlineAmbitionPickerModal((amb) => {
+    if (amb?.id) {
+      state.bloodlineAmbitionId = amb.id;
+      state.bloodlineAmbitionName = amb.name ?? amb.id;
+      saveState();
+      log(`◆ Bloodline Ambition chosen: ${state.bloodlineAmbitionName}`);
+      renderAll();
+    }
+    onDone?.();
+  });
+}
+
+function evalBloodlineAmbitionObjective(obj, { lifeEnd = false } = {}) {
+  try {
+    if (!obj?.type) return { done: false, meta: "" };
+    const t = obj.type;
+    const tierAtLeast = (cur, need) => tierIndex(cur) >= tierIndex(need);
+
+    if (t === "PeakResourceAtLeast") {
+      const peak = state.bloodlinePeakRes?.[obj.resource] ?? (state.res?.[obj.resource] ?? 0);
+      const need = Number(obj.amount ?? 0) || 0;
+      return { done: peak >= need, meta: `${peak}/${need}` };
+    }
+    if (t === "MinStanding") {
+      const best = state.bloodlineBestStanding?.[obj.factionId] ?? state.standings?.[obj.factionId] ?? "Neutral";
+      return { done: tierAtLeast(best, obj.minTier ?? "Neutral"), meta: best };
+    }
+    if (t === "AnyStandingAtLeast") {
+      const need = obj.minTier ?? "Neutral";
+      let any = false;
+      for (const fid of Object.keys(state.standings ?? {})) {
+        const best = state.bloodlineBestStanding?.[fid] ?? state.standings[fid];
+        if (tierAtLeast(best, need)) { any = true; break; }
+      }
+      return { done: any, meta: any ? "Met" : "—" };
+    }
+    if (t === "AnyFlagSet") {
+      let any = false;
+      for (const id of (obj.ids ?? [])) if (hasFlag(id)) { any = true; break; }
+      return { done: any, meta: any ? "Met" : "—" };
+    }
+    if (t === "HasFlag") {
+      return { done: hasFlag(obj.id), meta: hasFlag(obj.id) ? "Yes" : "No" };
+    }
+    if (t === "HasSpouse") {
+      ensureFamilyState();
+      const ok = Boolean(state.family?.spouse) || hasFlag("has_spouse");
+      return { done: ok, meta: ok ? "Yes" : "No" };
+    }
+    if (t === "HasHeir") {
+      ensureFamilyState();
+      const ok = Boolean((state.family?.heirs ?? []).length) || hasFlag("has_heir");
+      return { done: ok, meta: ok ? "Yes" : "No" };
+    }
+    if (t === "NotCondition") {
+      if (!lifeEnd) return { done: false, meta: "End of life" };
+      const has = hasCondition(obj.id);
+      return { done: !has, meta: has ? "Present" : "Clear" };
+    }
+    if (t === "AgeAtLeast") {
+      const need = Number(obj.age ?? 0) || 0;
+      const cur = Number(state.age ?? 0) || 0;
+      return { done: cur >= need, meta: `${cur}/${need}` };
+    }
+  } catch {}
+  return { done: false, meta: "" };
+}
+
+function openBloodlineVictoryModal(amb) {
+  const wrap = document.createElement("div");
+  wrap.innerHTML = `
+    <p><b>Bloodline Victory</b></p>
+    <p class="muted">${escapeHtml(amb?.name ?? "A bloodline ambition")} has been achieved after <b>${state.heirCount ?? 0}</b> rulers.</p>
+    <div class="spacer"></div>
+    <div class="resultGrid">
+      <div class="resultBlock"><div class="muted small">Heirloom Shards gained</div><div class="big">+8</div></div>
+      <div class="resultBlock"><div class="muted small">Legacy kept</div><div class="big">${Math.floor(META.legacy ?? 0)}</div></div>
+      <div class="resultBlock"><div class="muted small">Heirloom Shards total</div><div class="big">${Math.floor(META.heirlooms ?? 0)}</div></div>
+    </div>
+    <div class="spacer"></div>
+    <p class="muted">This bloodline ends in triumph. Start a new run to pursue a new legacy.</p>
+  `;
+
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+
+  const newRun = document.createElement("button");
+  newRun.className = "btn primary";
+  newRun.textContent = "New Run";
+  newRun.addEventListener("click", () => {
+    localStorage.removeItem(SAVE_KEY);
+    state = null;
+    logEl.textContent = "";
+    freshStartBuilder = true;
+    modalLocked = false;
+    closeModal();
+    showMenu();
+  });
+
+  actions.appendChild(newRun);
+  wrap.appendChild(actions);
+
+  openModal("Bloodline Victory", wrap, { locked: true });
+}
+
+function checkBloodlineAmbitionProgress({ lifeEnd = false } = {}) {
+  if (!state) return false;
+  if (state.bloodlineVictoryAchieved) return false;
+  if (!state.bloodlineAmbitionId) return false;
+  if (state.bloodlineAmbitionCompleted) return false;
+
+  const amb = getActiveBloodlineAmbition();
+  if (!amb) return false;
+
+  let ok = true;
+  for (const obj of (amb.objectives ?? [])) {
+    const r = evalBloodlineAmbitionObjective(obj, { lifeEnd });
+    if (!r.done) { ok = false; break; }
+  }
+  if (!ok) return false;
+
+  state.bloodlineAmbitionCompleted = true;
+  state.bloodlineVictoryAchieved = true;
+  saveState();
+
+  awardHeirlooms(8, "Bloodline Victory");
+  log(`★★ Bloodline Victory achieved: ${amb.name}`);
+
+  openBloodlineVictoryModal(amb);
+  return true;
+}
+
+function appendBloodlineAmbitionTracker() {
+  if (!ambitionTrackerEl || !state) return;
+
+  const maturity = bloodlineMaturity();
+  const eligible = isBloodlineAmbitionEligible();
+  const amb = getActiveBloodlineAmbition();
+  const pool = Array.isArray(DATA.bloodlineAmbitions) ? DATA.bloodlineAmbitions : [];
+
+  const wrap = document.createElement("div");
+  wrap.style.marginTop = "12px";
+
+  const remaining = Math.max(0, 10 - maturity);
+  const maturityNote = (maturity >= 10)
+    ? "Mature — Bloodline Ambitions unlocked."
+    : `Unlocks Bloodline Ambitions at 10/10. ${remaining} ruler(s) to go.`;
+
+  const maturityHtml = `
+    <div class="trackerHead">
+      <div class="trackerTitle">Bloodline Maturity</div>
+      <div class="trackerPill ${maturity >= 10 ? "good" : ""}">${maturity}/10</div>
+    </div>
+    <div class="trackerBody">
+      <div class="muted">${maturityNote}</div>
+    </div>
+  `;
+
+  // ---- Ambition section ----
+  let ambitionHtml = "";
+
+  if (!eligible) {
+    ambitionHtml = `
+      <div class="spacer" style="height:10px;"></div>
+      <div class="trackerHead">
+        <div class="trackerTitle">Bloodline Ambition</div>
+        <div class="trackerPill">Locked</div>
+      </div>
+      <div class="trackerBody">
+        <div class="muted">Becomes available once the bloodline reaches <b>10/10</b> maturity.</div>
+      </div>
+    `;
+    wrap.innerHTML = maturityHtml + ambitionHtml;
+    ambitionTrackerEl.appendChild(wrap);
+    return;
+  }
+
+  if (!amb) {
+    const rerollStr = state.bloodlineAmbitionRerollUsed ? "Reroll used" : "1 reroll available";
+    ambitionHtml = `
+      <div class="spacer" style="height:10px;"></div>
+      <div class="trackerHead">
+        <div class="trackerTitle">Bloodline Ambition</div>
+        <div class="trackerPill good">Unlocked</div>
+      </div>
+      <div class="trackerBody">
+        <div class="muted">Choose a dynasty-spanning goal for a <b>Bloodline Victory</b> (+8 Heirloom Shards). <span class="objMeta">${rerollStr}</span></div>
+        <div style="margin-top:10px;"><button class="btn ghost small" id="btnPickBloodlineAmb">Choose Bloodline Ambition</button></div>
+      </div>
+    `;
+    wrap.innerHTML = maturityHtml + ambitionHtml;
+    ambitionTrackerEl.appendChild(wrap);
+
+    const btn = wrap.querySelector("#btnPickBloodlineAmb");
+    if (btn) {
+      btn.disabled = !pool.length;
+      btn.addEventListener("click", () => {
+        openBloodlineAmbitionPickerModal((picked) => {
+          if (picked?.id) {
+            state.bloodlineAmbitionId = picked.id;
+            state.bloodlineAmbitionName = picked.name ?? picked.id;
+            saveState();
+            log(`◆ Bloodline Ambition chosen: ${state.bloodlineAmbitionName}`);
+            renderAll();
+          }
+        });
+      });
+    }
+    return;
+  }
+
+  const objs = (amb.objectives ?? []).map(o => {
+    const r = evalBloodlineAmbitionObjective(o, { lifeEnd: false });
+    const done = !!r.done;
+    const meta = r.meta ? `<span class="objMeta">${escapeHtml(String(r.meta))}</span>` : "";
+    return `
+      <div class="objRow ${done ? "done" : ""}">
+        <div class="objCheck">${done ? "✓" : ""}</div>
+        <div class="objText">${escapeHtml(o.text ?? o.id ?? o.type ?? "Objective")}${meta}</div>
+      </div>
+    `;
+  }).join("");
+
+  const doneCount = (amb.objectives ?? []).filter(o => evalBloodlineAmbitionObjective(o, { lifeEnd: false }).done).length;
+  const total = (amb.objectives ?? []).length || 0;
+  const pill = `${doneCount}/${total}`;
+  const pillClass = (total && doneCount === total) ? "good" : "";
+
+  ambitionHtml = `
+    <div class="spacer" style="height:10px;"></div>
+    <div class="trackerHead">
+      <div class="trackerTitle">Bloodline Ambition</div>
+      <div class="trackerPill ${pillClass}">${pill}</div>
+    </div>
+    <div class="trackerBody">
+      <div class="cardname" style="margin-bottom:2px;">${escapeHtml(amb.name ?? amb.id)}</div>
+      <div class="muted small">${escapeHtml(amb.desc ?? "")}</div>
+      <div class="objList">${objs || `<div class="muted">No objectives.</div>`}</div>
+    </div>
+  `;
+
+  wrap.innerHTML = maturityHtml + ambitionHtml;
+  ambitionTrackerEl.appendChild(wrap);
+}
+
 
 
 
@@ -7391,6 +7989,18 @@ function startRunFromBuilder(bg, givenName, familyName) {
     heirloomsGainedThisLife: 0,
     peakRes: { ...finalRes },
     bestStanding: { ...normalizeStartStandings(bg.startStandings ?? bg.startStanding) },
+
+    // Bloodline ambition (unlocks after the 10th ruler dies; chosen on ruler 11+)
+    bloodlineMaturityNotified: false,
+    bloodlineAmbitionRerollUsed: false,
+    bloodlineAmbitionId: null,
+    bloodlineAmbitionName: null,
+    bloodlineAmbitionCompleted: false,
+    bloodlineVictoryAchieved: false,
+    bloodlineAmbitionPrompted: false,
+    bloodlinePeakRes: { ...finalRes },
+    bloodlineBestStanding: { ...normalizeStartStandings(bg.startStandings ?? bg.startStanding) },
+
     ambitionCompleted: false,
     ambitionRewarded: false
   };
@@ -7843,6 +8453,8 @@ openResultModal = function(opts) {
         const ambNorm = normalizeAmbitionsJson(ambitionsRaw);
         DATA.ambitionsMeta = ambNorm.meta;
         DATA.ambitions = ambNorm.ambitions;
+        DATA.bloodlineAmbitionsMeta = ambNorm.meta;
+        DATA.bloodlineAmbitions = ambNorm.bloodlineAmbitions;
 
         indexData();
         annotateEventSignals();
