@@ -1,6 +1,6 @@
 {
-  "version": "0.2",
-  "updated": "2026-02-21",
+  "version": "0.3",
+  "updated": "2026-02-26",
   "notes": [
     "Personal Ambitions are per-life goals. Progress uses peak resources and best-standing to avoid punishing spending.",
     "NotCondition objectives finalize at life end (they show as pending mid-life).",
@@ -56,7 +56,7 @@
     {
       "id": "amb_make_a_name",
       "name": "Make a Name",
-      "desc": "Become known beyond your station\u2014through deed, leverage, or story. When people speak of you, it changes what doors open.",
+      "desc": "Become known beyond your station—through deed, leverage, or story. When people speak of you, it changes what doors open.",
       "ui": {
         "icon": "Renown"
       },
@@ -99,7 +99,7 @@
     },
     {
       "id": "amb_fortunes_hand",
-      "name": "Fortune\u2019s Hand",
+      "name": "Fortune’s Hand",
       "desc": "Accumulate real leverage: coin in the strongbox and influence in the right rooms.",
       "ui": {
         "icon": "Coin"
@@ -164,7 +164,7 @@
         {
           "id": "sl_mg_done",
           "type": "HasFlag",
-          "text": "Complete The Merchant\u2019s Gambit."
+          "text": "Complete The Merchant’s Gambit."
         }
       ],
       "rewards": {
@@ -205,7 +205,7 @@
             "sl_mg_done",
             "sl_wc_done"
           ],
-          "text": "Complete The Merchant\u2019s Gambit or The Wolf Court."
+          "text": "Complete The Merchant’s Gambit or The Wolf Court."
         }
       ],
       "rewards": {
@@ -220,7 +220,7 @@
     {
       "id": "amb_keeper_of_truth",
       "name": "Keeper of Truth",
-      "desc": "Secure knowledge that outlives you\u2014then decide whether it becomes a lantern or a weapon.",
+      "desc": "Secure knowledge that outlives you—then decide whether it becomes a lantern or a weapon.",
       "ui": {
         "icon": "Quill"
       },
@@ -256,8 +256,8 @@
     },
     {
       "id": "amb_mercys_thread",
-      "name": "Mercy\u2019s Thread",
-      "desc": "Hold people together when fear would tear them apart. Make mercy practical, and you\u2019ll be remembered for it.",
+      "name": "Mercy’s Thread",
+      "desc": "Hold people together when fear would tear them apart. Make mercy practical, and you’ll be remembered for it.",
       "ui": {
         "icon": "Hearth"
       },
@@ -294,7 +294,7 @@
     {
       "id": "amb_unbroken_ring",
       "name": "The Unbroken Ring",
-      "desc": "Pay the price of an oath and keep paying it\u2014until the world learns you do not bend.",
+      "desc": "Pay the price of an oath and keep paying it—until the world learns you do not bend.",
       "ui": {
         "icon": "Covenant"
       },
@@ -368,7 +368,7 @@
     {
       "id": "amb_quiet_succession",
       "name": "Quiet Succession",
-      "desc": "Build a household that can outlive a bad season: a spouse, an heir, and a name that doesn\u2019t crumble under gossip.",
+      "desc": "Build a household that can outlive a bad season: a spouse, an heir, and a name that doesn’t crumble under gossip.",
       "ui": {
         "icon": "Dynasty"
       },
@@ -549,8 +549,8 @@
     },
     {
       "id": "amb_black_mantles_notice",
-      "name": "Black Mantle\u2019s Notice",
-      "desc": "Earn the Crown\u2019s attention without becoming its quarry. Influence, not infamy.",
+      "name": "Black Mantle’s Notice",
+      "desc": "Earn the Crown’s attention without becoming its quarry. Influence, not infamy.",
       "ui": {
         "icon": "Seal"
       },
@@ -647,6 +647,143 @@
         },
         "onLifeEndIfCompleted": {
           "Legacy": 5
+        }
+      }
+    }
+  ],
+  "bloodlineAmbitions": [
+    {
+      "id": "bl_amb_kingmakers_oath",
+      "name": "Kingmaker’s Oath",
+      "desc": "Bind the Vale to your will through public honor and hard power. This is a dynasty-spanning ambition; achieve it and your bloodline wins a special victory.",
+      "ui": {
+        "icon": "Crown"
+      },
+      "objectives": [
+        {
+          "id": "renown_peak",
+          "type": "PeakResourceAtLeast",
+          "resource": "Renown",
+          "amount": 45,
+          "text": "Reach bloodline peak Renown 45+."
+        },
+        {
+          "id": "influence_peak",
+          "type": "PeakResourceAtLeast",
+          "resource": "Influence",
+          "amount": 18,
+          "text": "Reach bloodline peak Influence 18+."
+        },
+        {
+          "id": "crown_exalted",
+          "type": "MinStanding",
+          "factionId": "crown",
+          "minTier": "Exalted",
+          "text": "Reach Exalted standing with the Crown of Valewyr."
+        },
+        {
+          "id": "league_favored",
+          "type": "MinStanding",
+          "factionId": "league",
+          "minTier": "Favored",
+          "text": "Reach Favored standing with the Marcher League."
+        },
+        {
+          "id": "covenant_favored",
+          "type": "MinStanding",
+          "factionId": "covenant",
+          "minTier": "Favored",
+          "text": "Reach Favored standing with the Iron Covenant."
+        }
+      ],
+      "rewards": {
+        "onComplete": {
+          "Heirlooms": 8
+        }
+      }
+    },
+    {
+      "id": "bl_amb_gilded_dynasty",
+      "name": "Gilded Dynasty",
+      "desc": "Turn generations into leverage: coin in the vault, supplies in the granary, favors in every hall.",
+      "ui": {
+        "icon": "Coin"
+      },
+      "objectives": [
+        {
+          "id": "coin_peak",
+          "type": "PeakResourceAtLeast",
+          "resource": "Coin",
+          "amount": 60,
+          "text": "Reach bloodline peak Coin 60+."
+        },
+        {
+          "id": "supplies_peak",
+          "type": "PeakResourceAtLeast",
+          "resource": "Supplies",
+          "amount": 60,
+          "text": "Reach bloodline peak Supplies 60+."
+        },
+        {
+          "id": "influence_peak",
+          "type": "PeakResourceAtLeast",
+          "resource": "Influence",
+          "amount": 16,
+          "text": "Reach bloodline peak Influence 16+."
+        },
+        {
+          "id": "any_exalted",
+          "type": "AnyStandingAtLeast",
+          "minTier": "Exalted",
+          "text": "Reach Exalted standing with any faction."
+        }
+      ],
+      "rewards": {
+        "onComplete": {
+          "Heirlooms": 8
+        }
+      }
+    },
+    {
+      "id": "bl_amb_silent_throne",
+      "name": "The Silent Throne",
+      "desc": "Rule from the shadows: secrets, favors, and fear. Your dynasty becomes the unseen hand.",
+      "ui": {
+        "icon": "Secrets"
+      },
+      "objectives": [
+        {
+          "id": "secrets_peak",
+          "type": "PeakResourceAtLeast",
+          "resource": "Secrets",
+          "amount": 25,
+          "text": "Reach bloodline peak Secrets 25+."
+        },
+        {
+          "id": "influence_peak",
+          "type": "PeakResourceAtLeast",
+          "resource": "Influence",
+          "amount": 14,
+          "text": "Reach bloodline peak Influence 14+."
+        },
+        {
+          "id": "emirate_favored",
+          "type": "MinStanding",
+          "factionId": "emirate",
+          "minTier": "Favored",
+          "text": "Reach Favored standing with the Ashen Emirate."
+        },
+        {
+          "id": "collegium_favored",
+          "type": "MinStanding",
+          "factionId": "collegium",
+          "minTier": "Favored",
+          "text": "Reach Favored standing with the Grey Collegium."
+        }
+      ],
+      "rewards": {
+        "onComplete": {
+          "Heirlooms": 8
         }
       }
     }
