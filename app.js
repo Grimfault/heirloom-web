@@ -3060,10 +3060,11 @@ function conditionMortalityBonus(cond) {
   }
 }
 
-function computeMortalityChance() {
+function computeMortalityChance(mitigation = 0) {
   let chance = baseMortalityByAge(state.age);
   for (const c of state.conditions) chance += conditionMortalityBonus(c);
   chance -= (MORTALITY_RESOLVE_MULT * (state.stats.Resolve ?? 0));
+  chance -= (mitigation ?? 0);
   return Math.max(0, chance);
 }
 
@@ -3274,6 +3275,27 @@ function unmetReasons(requirements) {
   }
   return reasons;
 }
+
+// Compute the maximum amount of a resource an outcome might spend (across success/fail/partial).
+// Used to hard-block selecting outcomes that would spend Coin you don't have.
+function outcomeMaxPotentialSpend(o, resource) {
+  let need = 0;
+  if (!o) return need;
+  const branches = ["success", "fail", "partial"];
+  for (const b of branches) {
+    const bundle = o[b];
+    if (!bundle || typeof bundle !== "object") continue;
+    const res = Array.isArray(bundle.resources) ? bundle.resources : [];
+    let net = 0;
+    for (const d of res) {
+      if (d?.resource === resource) net += (d.amount ?? 0);
+    }
+    if (net < 0) need = Math.max(need, -net);
+  }
+  return need;
+}
+
+
 
 // ---------- Deck ----------
 function shuffle(arr) {
@@ -4804,7 +4826,13 @@ function renderOutcomes() {
   currentEvent.outcomes.forEach((o, idx) => {
     const baseReasons = unmetReasons(o.requirements);
     const cond = outcomeConditionRules(currentEvent, o);
-    const reasons = [...baseReasons, ...(cond.reasons ?? [])];
+
+    // Hard-block selecting outcomes that may spend Coin you don't have.
+    const coinNeed = outcomeMaxPotentialSpend(o, "Coin");
+    const coinHave = state.res?.Coin ?? 0;
+    const coinReasons = (coinNeed > 0 && coinHave < coinNeed) ? [`Need ${coinNeed} Coin`] : [];
+
+    const reasons = [...baseReasons, ...(cond.reasons ?? []), ...coinReasons];
     const disabled = reasons.length > 0;
 
     const item = document.createElement("button");
@@ -5301,7 +5329,13 @@ function renderOutcomes() {
   currentEvent.outcomes.forEach((o, idx) => {
     const baseReasons = unmetReasons(o.requirements);
     const cond = outcomeConditionRules(currentEvent, o);
-    const reasons = [...baseReasons, ...(cond.reasons ?? [])];
+
+    // Hard-block selecting outcomes that may spend Coin you don't have.
+    const coinNeed = outcomeMaxPotentialSpend(o, "Coin");
+    const coinHave = state.res?.Coin ?? 0;
+    const coinReasons = (coinNeed > 0 && coinHave < coinNeed) ? [`Need ${coinNeed} Coin`] : [];
+
+    const reasons = [...baseReasons, ...(cond.reasons ?? []), ...coinReasons];
     const disabled = reasons.length > 0;
 
     const item = document.createElement("button");
@@ -6660,7 +6694,20 @@ function resolveSelectedOutcome() {
 
   const o = currentEvent.outcomes[selectedOutcomeIndex];
 
-  const evJustResolved = currentEvent;
+    // Block selecting outcomes that may spend Coin you don't have.
+    const coinNeed = outcomeMaxPotentialSpend(o, "Coin");
+    const coinHave = state.res?.Coin ?? 0;
+    if (coinNeed > 0 && coinHave < coinNeed) {
+      log(`Blocked: ${o.title} requires ${coinNeed} Coin.`);
+      resolvingOutcome = false;
+      try { btnResolve.disabled = false; } catch {}
+      try { btnNewEvent.disabled = false; } catch {}
+      try { btnDebugPickEvent.disabled = false; } catch {}
+      renderAll();
+      return;
+    }
+
+    const evJustResolved = currentEvent;
 
   // Compute success chance
   const chance = computeChance(o, committedCardIds());
@@ -6810,6 +6857,9 @@ if (!success) {
   if (perilous) mortalityTriggered = true;
   if (gainedSevere && hadSevereAlready) mortalityTriggered = true;
 
+
+  // Health-based mortality: if you're Ill, Wounded, or Starving, roll every event.
+  if (hasCondition("Ill") || hasCondition("Wounded") || hasCondition("Starving")) mortalityTriggered = true;
   if (mortalityTriggered) {
         const mitigation = (pair?.mortalityMitigation ?? 0);
     let mChance = computeMortalityChance(mitigation);
@@ -9193,6 +9243,20 @@ function syncBgStyleUI(bg) {
     btnDebugPickEvent.disabled = true;
 
     const o = currentEvent.outcomes[selectedOutcomeIndex];
+
+    // Block selecting outcomes that may spend Coin you don't have.
+    const coinNeed = outcomeMaxPotentialSpend(o, "Coin");
+    const coinHave = state.res?.Coin ?? 0;
+    if (coinNeed > 0 && coinHave < coinNeed) {
+      log(`Blocked: ${o.title} requires ${coinNeed} Coin.`);
+      resolvingOutcome = false;
+      try { btnResolve.disabled = false; } catch {}
+      try { btnNewEvent.disabled = false; } catch {}
+      try { btnDebugPickEvent.disabled = false; } catch {}
+      renderAll();
+      return;
+    }
+
     const evJustResolved = currentEvent;
 
     const committedCidsSnapshot = committedCardIds();
@@ -9326,6 +9390,9 @@ function syncBgStyleUI(bg) {
     if (perilous) mortalityTriggered = true;
     if (gainedSevere && hadSevereAlready) mortalityTriggered = true;
 
+
+  // Health-based mortality: if you're Ill, Wounded, or Starving, roll every event.
+  if (hasCondition("Ill") || hasCondition("Wounded") || hasCondition("Starving")) mortalityTriggered = true;
     if (mortalityTriggered) {
       const mitigation = pair?.mortalityMitigation ?? 0;
       const mChance = computeMortalityChance(mitigation);
@@ -9507,5 +9574,3 @@ boot();
   } else { __run_ui_helpers__(); }
 })();
 // === END ui enhancements ===
-
-
