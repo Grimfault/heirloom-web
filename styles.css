@@ -1414,11 +1414,11 @@ html, body { overflow-x: hidden; }
 }
 
 /* Fix candle selector (previously used html[data-theme="candle"]) */
-:root[data-theme="candlelit-light"] .scenePill{
+:root[data-theme="candle"] .scenePill{
   border-color: rgba(0,0,0,0.14) !important;
   background: rgba(255,255,255,0.70) !important;
 }
-:root[data-theme="candlelit-light"] .iconBadge{
+:root[data-theme="candle"] .iconBadge{
   /* keep dark backing so white pixels read */
   background: rgba(0,0,0,0.86) !important;
   border-color: rgba(0,0,0,0.28) !important;
