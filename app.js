@@ -1,6 +1,3 @@
-window.__HEIRLOOM_BOOT_STARTED__ = true;
-window.__HEIRLOOM_BOOT_OK__ = false;
-
 /* 
  Heirloom Web Prototype - Single JS Bundle
  Includes:
@@ -8430,22 +8427,21 @@ openResultModal = function(opts) {
   };
 
   // --- Data loading: keep JSON base path aligned ---
+  // Prefer /data first (common in GitHub Pages repos) to avoid noisy 404s.
+  // Fall back to repo root for local/simple deployments.
   loadAllData = async function() {
-    const bases = [
-      { cards: "./cards.json", events: "./events.json", backgrounds: "./backgrounds_p2.json" },
-      { cards: "./cards.json", events: "./events.json", backgrounds: "./backgrounds.json" },
-      { cards: "./data/cards.json", events: "./data/events.json", backgrounds: "./data/backgrounds_p2.json" },
-      { cards: "./data/cards.json", events: "./data/events.json", backgrounds: "./data/backgrounds.json" }
-    ];
+    const baseRoots = ["./data", "."];
     let lastErr = null;
-    for (const b of bases) {
+
+    for (const base of baseRoots) {
+      const root = (base === ".") ? "." : base;
       try {
         const [cards, events, backgrounds, factions, ambitionsRaw] = await Promise.all([
-          fetchJson(b.cards),
-          fetchJson(b.events),
-          fetchJson(b.backgrounds),
-          fetchJsonAny(["./data/factions.json", "./factions.json"]).catch(() => ([])),
-          fetchJsonAny(["./data/ambitions.json", "./ambitions.json"]).catch(() => (null))
+          fetchJson(`${root}/cards.json`),
+          fetchJson(`${root}/events.json`),
+          fetchJson(`${root}/backgrounds.json`),
+          fetchJsonAny([`${root}/factions.json`, "./data/factions.json", "./factions.json"]).catch(() => ([])),
+          fetchJsonAny([`${root}/ambitions.json`, "./data/ambitions.json", "./ambitions.json"]).catch(() => (null))
         ]);
 
         DATA.cards = cards;
@@ -8453,11 +8449,12 @@ openResultModal = function(opts) {
         DATA.events = events;
         DATA.backgrounds = backgrounds;
         DATA.factions = (Array.isArray(factions) && factions.length) ? factions : DEFAULT_FACTIONS;
+
         const ambNorm = normalizeAmbitionsJson(ambitionsRaw);
         DATA.ambitionsMeta = ambNorm.meta;
         DATA.ambitions = ambNorm.ambitions;
         DATA.bloodlineAmbitionsMeta = ambNorm.meta;
-        DATA.bloodlineAmbitions = ambNorm.bloodlineAmbitions;
+        DATA.bloodlineAmbitions = ambNorm.bloodlineAmbitions ?? [];
 
         indexData();
         annotateEventSignals();
@@ -8489,6 +8486,7 @@ openResultModal = function(opts) {
         lastErr = e;
       }
     }
+
     throw (lastErr ?? new Error("Failed to load data JSON"));
   };
 
@@ -9242,7 +9240,3 @@ boot();
   } else { __run_ui_helpers__(); }
 })();
 // === END ui enhancements ===
-
-
-// Boot flag set at end of bundle (if we got this far)
-window.__HEIRLOOM_BOOT_OK__ = true;
