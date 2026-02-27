@@ -1,3 +1,6 @@
+window.__HEIRLOOM_BOOT_STARTED__ = true;
+window.__HEIRLOOM_BOOT_OK__ = false;
+
 /* 
  Heirloom Web Prototype - Single JS Bundle
  Includes:
@@ -144,6 +147,18 @@ const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const rInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const deepCopy = (obj) => (obj == null ? null : JSON.parse(JSON.stringify(obj)));
+
+
+
+// ---------- HTML escape (used by Legacy UI + trackers) ----------
+function escapeHtml(str) {
+  return String(str ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 const MAJOR_AGES = new Set([20,25,30,35,40,45,50]);
 const SEASONS = ["Vernal", "Autumnal"];
@@ -5691,9 +5706,8 @@ function storyDueIndex(id) {
   return Number.isFinite(due) ? due : Infinity;
 }
 function isMajorBeatAt(age, seasonIndex) {
-  // Major beats happen on Vernal (seasonIndex 0) at ages 20+ every 5 years.
-  const a = Number(age ?? 0) || 0;
-  return seasonIndex === 0 && a >= 20 && (a % 5 === 0);
+  // Major beats happen on Vernal (seasonIndex 0) at key ages.
+  return seasonIndex === 0 && MAJOR_AGES.has(age);
 }
 function simulateAgeSeason(age, seasonIndex, steps) {
   let a = age;
@@ -8423,41 +8437,27 @@ openResultModal = function(opts) {
     try {
       state.bankedCardCid ??= null;
       state.exhaustedCards = Array.isArray(state.exhaustedCards) ? state.exhaustedCards : [];
-      // Background style id migration (v2026-02-27):
-      // Older saves used "tourney" for multiple backgrounds. Keep saves stable after ids were split.
-      if (state?.backgroundStyleId === "tourney") {
-        if (state?.backgroundId === "squire") state.backgroundStyleId = "lancer";
-        if (state?.backgroundId === "minor_noble") state.backgroundStyleId = "herald";
-      }
-      // If we have a known background, refresh the style name from current data.
-      try {
-        const bg = DATA?.backgroundsById?.[state?.backgroundId];
-        if (bg && Array.isArray(bg.styles) && state?.backgroundStyleId) {
-          const st = bg.styles.find(s => s.id === state.backgroundStyleId);
-          if (st?.name) state.backgroundStyleName = st.name;
-        }
-      } catch {}
-
     } catch {}
     return true;
   };
 
   // --- Data loading: keep JSON base path aligned ---
-  // Prefer /data first (common in GitHub Pages repos) to avoid noisy 404s.
-  // Fall back to repo root for local/simple deployments.
   loadAllData = async function() {
-    const baseRoots = ["./data", "."];
+    const bases = [
+      { cards: "./cards.json", events: "./events.json", backgrounds: "./backgrounds_p2.json" },
+      { cards: "./cards.json", events: "./events.json", backgrounds: "./backgrounds.json" },
+      { cards: "./data/cards.json", events: "./data/events.json", backgrounds: "./data/backgrounds_p2.json" },
+      { cards: "./data/cards.json", events: "./data/events.json", backgrounds: "./data/backgrounds.json" }
+    ];
     let lastErr = null;
-
-    for (const base of baseRoots) {
-      const root = (base === ".") ? "." : base;
+    for (const b of bases) {
       try {
         const [cards, events, backgrounds, factions, ambitionsRaw] = await Promise.all([
-          fetchJson(`${root}/cards.json`),
-          fetchJson(`${root}/events.json`),
-          fetchJson(`${root}/backgrounds.json`),
-          fetchJsonAny([`${root}/factions.json`, "./data/factions.json", "./factions.json"]).catch(() => ([])),
-          fetchJsonAny([`${root}/ambitions.json`, "./data/ambitions.json", "./ambitions.json"]).catch(() => (null))
+          fetchJson(b.cards),
+          fetchJson(b.events),
+          fetchJson(b.backgrounds),
+          fetchJsonAny(["./data/factions.json", "./factions.json"]).catch(() => ([])),
+          fetchJsonAny(["./data/ambitions.json", "./ambitions.json"]).catch(() => (null))
         ]);
 
         DATA.cards = cards;
@@ -8465,12 +8465,11 @@ openResultModal = function(opts) {
         DATA.events = events;
         DATA.backgrounds = backgrounds;
         DATA.factions = (Array.isArray(factions) && factions.length) ? factions : DEFAULT_FACTIONS;
-
         const ambNorm = normalizeAmbitionsJson(ambitionsRaw);
         DATA.ambitionsMeta = ambNorm.meta;
         DATA.ambitions = ambNorm.ambitions;
         DATA.bloodlineAmbitionsMeta = ambNorm.meta;
-        DATA.bloodlineAmbitions = ambNorm.bloodlineAmbitions ?? [];
+        DATA.bloodlineAmbitions = ambNorm.bloodlineAmbitions;
 
         indexData();
         annotateEventSignals();
@@ -8502,7 +8501,6 @@ openResultModal = function(opts) {
         lastErr = e;
       }
     }
-
     throw (lastErr ?? new Error("Failed to load data JSON"));
   };
 
@@ -8619,21 +8617,6 @@ function syncBgStyleUI(bg) {
       state.backgroundStyleName = info.styleName;
       state.bankedCardCid ??= null;
       state.exhaustedCards = Array.isArray(state.exhaustedCards) ? state.exhaustedCards : [];
-      // Background style id migration (v2026-02-27):
-      // Older saves used "tourney" for multiple backgrounds. Keep saves stable after ids were split.
-      if (state?.backgroundStyleId === "tourney") {
-        if (state?.backgroundId === "squire") state.backgroundStyleId = "lancer";
-        if (state?.backgroundId === "minor_noble") state.backgroundStyleId = "herald";
-      }
-      // If we have a known background, refresh the style name from current data.
-      try {
-        const bg = DATA?.backgroundsById?.[state?.backgroundId];
-        if (bg && Array.isArray(bg.styles) && state?.backgroundStyleId) {
-          const st = bg.styles.find(s => s.id === state.backgroundStyleId);
-          if (st?.name) state.backgroundStyleName = st.name;
-        }
-      } catch {}
-
       saveState();
     } catch {}
   };
@@ -9271,3 +9254,7 @@ boot();
   } else { __run_ui_helpers__(); }
 })();
 // === END ui enhancements ===
+
+
+// Boot flag set at end of bundle (if we got this far)
+window.__HEIRLOOM_BOOT_OK__ = true;
