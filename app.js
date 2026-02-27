@@ -1,3 +1,8 @@
+/* Heirloom Web Prototype — app.js (merged, no functionality removed)
+   - Base: your current app (1).js (Bloodline Maturity + Legacy v2)
+   - Fix: cache-bust friendly; no duplicate helpers required.
+*/
+
 window.__HEIRLOOM_BOOT_STARTED__ = true;
 window.__HEIRLOOM_BOOT_OK__ = false;
 
