@@ -1612,7 +1612,6 @@ const btnLegacyBack = document.getElementById("btnLegacyBack");
 const legacyTotalEl = document.getElementById("legacyTotal");
 const legacyStartLineEl = document.getElementById("legacyStartLine");
 const legacyTrunkEl = document.getElementById("legacyTrunk");
-const legacyBigEl = document.getElementById("legacyBig");
 const legacyBranchesEl = document.getElementById("legacyBranches");
 const heirloomTotalEl = document.getElementById("heirloomTotal");
 const heirloomVaultEl = document.getElementById("heirloomVault");
@@ -3030,35 +3029,60 @@ function indexData() {
 }
 
 async function loadAllData() {
-  const [cards, events, backgrounds, factions] = await Promise.all([
-    fetchJsonAny(["./data/cards.json", "./cards.json"]),
-    fetchJsonAny(["./data/events.json", "./events.json"]),
-    fetchJsonAny(["./data/backgrounds.json", "./backgrounds.json"]),
-    fetchJsonAny(["./data/factions.json", "./factions.json"]).catch(() => ([]))
+  // Deterministic data path (no noisy probing). Override in index.html via window.HEIRLOOM_DATA_PATH.
+  const baseRaw = (typeof window !== "undefined" && window.HEIRLOOM_DATA_PATH != null)
+    ? String(window.HEIRLOOM_DATA_PATH)
+    : "./data/";
+  const base = baseRaw.endsWith("/") ? baseRaw : (baseRaw + "/");
+  const p = (f) => base + f;
+
+  const [cards, events, backgrounds, factions, ambitionsRaw] = await Promise.all([
+    fetchJson(p("cards.json")),
+    fetchJson(p("events.json")),
+    fetchJson(p("backgrounds.json")),
+    fetchJson(p("factions.json")).catch(() => ([])),
+    fetchJson(p("ambitions.json")).catch(() => (null))
   ]);
 
   DATA.cards = cards;
   // Restore 3-level upgrade loop even when JSON cards only define a single baseline level.
   ensureThreeLevelCards(DATA.cards);
+
   DATA.events = events;
   DATA.backgrounds = backgrounds;
   DATA.factions = (Array.isArray(factions) && factions.length) ? factions : DEFAULT_FACTIONS;
+
+  // Ambitions (personal + bloodline)
+  const ambNorm = normalizeAmbitionsJson(ambitionsRaw);
+  DATA.ambitionsMeta = ambNorm.meta;
+  DATA.ambitions = ambNorm.ambitions;
+  DATA.ambitionsById = Object.fromEntries((DATA.ambitions ?? []).map(a => [a.id, a]));
+
+  DATA.bloodlineAmbitionsMeta = ambNorm.meta;
+  DATA.bloodlineAmbitions = ambNorm.bloodlineAmbitions;
+  DATA.bloodlineAmbitionsById = Object.fromEntries((DATA.bloodlineAmbitions ?? []).map(a => [a.id, a]));
+
   indexData();
   annotateEventSignals();
   DATA.storylineMetaById = null; // rebuilt lazily
 
-  // Minimal validation (helps catch typos early)
+  // Minimal validation (helps catch typos early) — supports deck OR coreDeck+styles.
   for (const bg of DATA.backgrounds) {
-    const deckIds = expandDeck(bg.deck);
+    const deckIds = [];
+    if (bg?.coreDeck && Array.isArray(bg.styles) && bg.styles.length) {
+      deckIds.push(...expandDeck(bg.coreDeck));
+      for (const s of bg.styles) deckIds.push(...expandDeck(s?.deck));
+    } else {
+      deckIds.push(...expandDeck(bg.deck));
+    }
     for (const cid of deckIds) {
-      if (!DATA.cardsById[cid]) console.warn(`Background ${bg.id} references missing cardId: ${cid}`);
+      if (cid && !DATA.cardsById[cid]) console.warn(`Background ${bg.id} references missing cardId: ${cid}`);
     }
   }
+
   for (const ev of DATA.events) {
     const n = ev.outcomes?.length ?? 0;
-    if (n < 2 || n > 5) {
-      console.warn(`Event ${ev.id} should have 2–5 outcomes (has ${n}).`);
-    }
+    if (n < 2 || n > 5) console.warn(`Event ${ev.id} should have 2–5 outcomes (has ${n}).`);
   }
 }
 
@@ -8096,6 +8120,8 @@ async function boot() {
   } else {
     showMenu();
   }
+
+  window.__HEIRLOOM_BOOT_OK__ = true;
 }
 
 
@@ -8445,70 +8471,6 @@ openResultModal = function(opts) {
     } catch {}
     return true;
   };
-
-  // --- Data loading: keep JSON base path aligned ---
-  loadAllData = async function() {
-    const bases = [
-      { cards: "./cards.json", events: "./events.json", backgrounds: "./backgrounds_p2.json" },
-      { cards: "./cards.json", events: "./events.json", backgrounds: "./backgrounds.json" },
-      { cards: "./data/cards.json", events: "./data/events.json", backgrounds: "./data/backgrounds_p2.json" },
-      { cards: "./data/cards.json", events: "./data/events.json", backgrounds: "./data/backgrounds.json" }
-    ];
-    let lastErr = null;
-    for (const b of bases) {
-      try {
-        const [cards, events, backgrounds, factions, ambitionsRaw] = await Promise.all([
-          fetchJson(b.cards),
-          fetchJson(b.events),
-          fetchJson(b.backgrounds),
-          fetchJsonAny(["./data/factions.json", "./factions.json"]).catch(() => ([])),
-          fetchJsonAny(["./data/ambitions.json", "./ambitions.json"]).catch(() => (null))
-        ]);
-
-        DATA.cards = cards;
-        ensureThreeLevelCards(DATA.cards);
-        DATA.events = events;
-        DATA.backgrounds = backgrounds;
-        DATA.factions = (Array.isArray(factions) && factions.length) ? factions : DEFAULT_FACTIONS;
-        const ambNorm = normalizeAmbitionsJson(ambitionsRaw);
-        DATA.ambitionsMeta = ambNorm.meta;
-        DATA.ambitions = ambNorm.ambitions;
-        DATA.bloodlineAmbitionsMeta = ambNorm.meta;
-        DATA.bloodlineAmbitions = ambNorm.bloodlineAmbitions;
-
-        indexData();
-        annotateEventSignals();
-        DATA.storylineMetaById = null;
-
-        // Validate decks (supports deck OR coreDeck+styles)
-        for (const bg of DATA.backgrounds) {
-          const deckIds = [];
-          if (bg?.coreDeck && Array.isArray(bg.styles) && bg.styles.length) {
-            deckIds.push(...expandDeck(bg.coreDeck));
-            for (const s of bg.styles) deckIds.push(...expandDeck(s?.deck));
-          } else {
-            deckIds.push(...expandDeck(bg.deck));
-          }
-          for (const cid of deckIds) {
-            if (cid && !DATA.cardsById[cid]) {
-              console.warn(`Background ${bg.id} references missing cardId: ${cid}`);
-            }
-          }
-        }
-
-        for (const ev of DATA.events) {
-          const n = ev.outcomes?.length ?? 0;
-          if (n < 2 || n > 5) console.warn(`Event ${ev.id} should have 2–5 outcomes (has ${n}).`);
-        }
-
-        return;
-      } catch (e) {
-        lastErr = e;
-      }
-    }
-    throw (lastErr ?? new Error("Failed to load data JSON"));
-  };
-
   // --- Background styles (Core 6 + Style 6) ---
   creation.bgStyleId ??= null;
 
@@ -9261,5 +9223,3 @@ boot();
 // === END ui enhancements ===
 
 
-// Boot flag set at end of bundle (if we got this far)
-window.__HEIRLOOM_BOOT_OK__ = true;
