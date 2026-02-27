@@ -218,7 +218,7 @@ label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px;
   bottom: 0;
   margin-top: 2px;
   padding-top: 10px;
-  background: linear-gradient(180deg, rgba(23,26,33,0) 0%, rgba(23,26,33,0.85) 30%, rgba(23,26,33,0.95) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, var(--topbarB) 35%, var(--topbarA) 100%);
 }
 
 .row { display:flex; align-items:center; gap:10px; }
