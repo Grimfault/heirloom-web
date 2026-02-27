@@ -167,7 +167,7 @@ const OPPORTUNITY_GAP_MAX = 6;
 // Legacy: earned ONLY when the bloodline ends (no heir). Banked for a future bloodline tree.
 // Heirlooms: rare meta currency (future) used to unlock permanent cards / event packs / storylines.
 const META_KEY = "heirloom_meta_v01";
-let META = { legacy: 0, heirlooms: 0, signatureUnlocks: {}, legacyTree: { trunk: {}, big: {}, branches: {} } };
+let META = { legacy: 0, heirlooms: 0, signatureUnlocks: {}, legacyTree: { trunk: {}, big: {}, branches: {} }, legacyTreeV2: { nodes: {}, branchRanks: {}, branchCaps: {} } };
 
 function loadMeta() {
   try {
@@ -179,6 +179,7 @@ function loadMeta() {
       META.heirlooms = Number.isFinite(m.heirlooms) ? m.heirlooms : 0;
       META.signatureUnlocks = (m.signatureUnlocks && typeof m.signatureUnlocks === "object") ? m.signatureUnlocks : {};
       if (m.legacyTree && typeof m.legacyTree === "object") META.legacyTree = m.legacyTree;
+      if (m.legacyTreeV2 && typeof m.legacyTreeV2 === "object") META.legacyTreeV2 = m.legacyTreeV2;
     }
   } catch {}
   ensureMetaTree();
@@ -232,23 +233,21 @@ function branchKeyForDiscipline(disc) {
 function signatureAccessForDiscipline(disc) {
   const bk = branchKeyForDiscipline(disc);
   if (!bk) return null;
-  const b = LEGACY_TREE.branches?.[bk];
-  if (!b) return null;
+  ensureMetaTreeV2();
 
-  const r = branchRank(bk);
-  const capUnlocked = bigUnlocked(b.capstoneId);
+  const r = v2BranchRank(bk);
+  const capUnlocked = v2CapUnlocked(bk);
 
-  // Slots + draft depth follow Option B:
-  // Rank 3 => 1 slot, Rank 5 => 1-of-2 draft, Capstone => 2 slots + 1-of-3 draft + signature starts at L2.
   const slotCount = capUnlocked ? 2 : (r >= 3 ? 1 : 0);
   if (slotCount <= 0) return null;
 
-  return {
-    slotCount,
-    pickCount: capUnlocked ? 3 : (r >= 5 ? 2 : 1),
-    minLevel: capUnlocked ? 2 : 1
-  };
+  // Rank 5 upgrades draft size to 1-of-2; capstone upgrades to 1-of-3 and signatures start at Level II.
+  const pickCount = capUnlocked ? 3 : (r >= 5 ? 2 : 1);
+  const minLevel = capUnlocked ? 2 : 1;
+
+  return { slotCount, pickCount, minLevel };
 }
+
 function unlockedSignatureCardsForDiscipline(disc) {
   return (DATA?.cards ?? []).filter(c => c && c.isSignature && c.discipline === disc && isSignatureUnlocked(c.id));
 }
@@ -495,6 +494,326 @@ function ensureMetaTree() {
   META.legacyTreeV2.unlocked ??= {};
   META.legacyTreeV2.branchRanks ??= {};
 }
+
+// ---------- Legacy Tree v2 (Interconnected Trunk → Discipline Branches) ----------
+// v2 is authoritative for the Legacy UI + runtime effects.
+// (The v1 tree remains in the bundle only for backward-compat with old saves.)
+
+const V2_BRANCH_RANK_COSTS = [3, 5, 7, 9, 11];
+const V2_CAPSTONE_COST = 30;
+
+const LEGACY_V2 = {
+  tiers: {
+    seeds: [
+      { id: "seed_coinseed", name: "Coinseed", cost: 2, desc: "Start +2 Coin.", start: { Coin: 2 } },
+      { id: "seed_stores", name: "Stores", cost: 2, desc: "Start +2 Supplies.", start: { Supplies: 2 } },
+      { id: "seed_good_name", name: "Good Name", cost: 2, desc: "Start +1 Renown.", start: { Renown: 1 } },
+      { id: "seed_old_contacts", name: "Old Contacts", cost: 2, desc: "Start +1 Influence.", start: { Influence: 1 } },
+      { id: "seed_quiet_sins", name: "Quiet Sins", cost: 2, desc: "Start +1 Secrets.", start: { Secrets: 1 } },
+    ],
+    footings: [
+      { id: "footing_strife", name: "Martial Habit", cost: 5, context: "Strife", desc: "In Strife events: +5% success. Start +1 Supplies.", start: { Supplies: 1 }, bonusPct: 5 },
+      { id: "footing_court", name: "Polished Etiquette", cost: 5, context: "Court", desc: "In Court events: +5% success. Start +1 Influence.", start: { Influence: 1 }, bonusPct: 5 },
+      { id: "footing_scheme", name: "Underhanded Bearings", cost: 5, context: "Scheme", desc: "In Scheme events: +5% success. Start +1 Secrets.", start: { Secrets: 1 }, bonusPct: 5 },
+      { id: "footing_journey", name: "Roadwise", cost: 5, context: "Journey", desc: "In Journey events: +5% success. Start +1 Supplies.", start: { Supplies: 1 }, bonusPct: 5 },
+      { id: "footing_lore", name: "Ink & Memory", cost: 5, context: "Lore", desc: "In Lore events: +5% success. Start +1 Renown.", start: { Renown: 1 }, bonusPct: 5 },
+    ],
+    masteries: [
+      { id: "mastery_strife", name: "Battle Cadence", cost: 9, context: "Strife", desc: "Once per life in a Strife event: reroll resolution (keep better). On Strife success: +1 Renown (max 1/event).", reqAll: ["footing_strife"], reqAny: ["footing_journey", "footing_scheme"], rerollsPerLife: 1, successDrip: { Renown: 1 } },
+      { id: "mastery_scheme", name: "Clean Hands", cost: 9, context: "Scheme", desc: "Once per life in a Scheme event: reroll resolution (keep better). On Scheme success: +1 Secrets (max 1/event).", reqAll: ["footing_scheme"], reqAny: ["footing_strife", "footing_court"], rerollsPerLife: 1, successDrip: { Secrets: 1 } },
+      { id: "mastery_court", name: "Favor of the Hall", cost: 9, context: "Court", desc: "Once per life in a Court event: reroll resolution (keep better). On Court success: +1 Influence (max 1/event).", reqAll: ["footing_court"], reqAny: ["footing_scheme", "footing_lore"], rerollsPerLife: 1, successDrip: { Influence: 1 } },
+      { id: "mastery_lore", name: "Read Between", cost: 9, context: "Lore", desc: "Once per life in a Lore event: reroll resolution (keep better). On Lore success: +1 Renown (max 1/event).", reqAll: ["footing_lore"], reqAny: ["footing_court", "footing_journey"], rerollsPerLife: 1, successDrip: { Renown: 1 } },
+      { id: "mastery_journey", name: "Packed Light", cost: 9, context: "Journey", desc: "Once per life in a Journey event: reroll resolution (keep better). First time Supplies would hit 0 each life: set to 1.", reqAll: ["footing_journey"], reqAny: ["footing_lore", "footing_strife"], rerollsPerLife: 1, suppliesFloorOnce: true },
+    ],
+    majors: [
+      { id: "b_heirloom_vault", name: "Heirloom Vault", cost: 18, desc: "Start each life with 1 Wild card added to your starting deck.", reqMasteries: 2 },
+      { id: "b_fate_stitching", name: "Fate Stitching", cost: 22, desc: "Once per life: Mulligan your hand (discard hand, draw 4) before choosing an outcome.", reqMasteries: 2 },
+      { id: "b_dynastic_curriculum", name: "Dynastic Curriculum", cost: 22, desc: "When an heir comes of age: choose 1 of 2 traits and 1 of 2 signature cards (instead of random).", reqMasteries: 2 },
+      { id: "b_second_breath", name: "Second Breath", cost: 28, desc: "Once per life: when a Mortality Check would kill you, you survive with a severe consequence.", reqMasteries: 2 },
+    ]
+  },
+  branches: {
+    steel:  { title: "Steel",  subtitle: "Warcraft — momentum, renown, survivability.", masteryId: "mastery_strife", context: "Strife", capstoneName: "Warbred Reflexes", capstoneDesc: "In Strife events, draw 5 cards instead of 4." },
+    quill:  { title: "Quill",  subtitle: "Scholarcraft — consistency and preparation.", masteryId: "mastery_lore", context: "Lore", capstoneName: "Archivist’s Hand", capstoneDesc: "In Lore events, draw 5 cards instead of 4." },
+    veil:   { title: "Veil",   subtitle: "Shadowcraft — control, secrets, escape.", masteryId: "mastery_scheme", context: "Scheme", capstoneName: "Night Moves", capstoneDesc: "In Scheme events, draw 5 cards instead of 4." },
+    seal:   { title: "Seal",   subtitle: "Statecraft — influence and standing.", masteryId: "mastery_court", context: "Court", capstoneName: "The Open Court", capstoneDesc: "In Court events, draw 5 cards instead of 4." },
+    hearth: { title: "Hearth", subtitle: "Endurance — recovery and mortality control.", masteryId: "mastery_journey", context: "Journey", capstoneName: "Wayfarer’s Kit", capstoneDesc: "In Journey events, draw 5 cards instead of 4." },
+  }
+};
+
+function ensureMetaTreeV2() {
+  ensureMetaTree();
+  META.legacyTreeV2 ??= {};
+  META.legacyTreeV2.nodes ??= {};
+  META.legacyTreeV2.branchRanks ??= {};
+  META.legacyTreeV2.branchCaps ??= {};
+  for (const k of Object.keys(LEGACY_V2.branches)) {
+    META.legacyTreeV2.branchRanks[k] ??= 0;
+    META.legacyTreeV2.branchCaps[k] ??= false;
+  }
+}
+
+function v2NodeUnlocked(id) {
+  ensureMetaTreeV2();
+  return Boolean(META.legacyTreeV2.nodes?.[id]);
+}
+
+function v2UnlockNode(id) {
+  ensureMetaTreeV2();
+  META.legacyTreeV2.nodes[id] = true;
+}
+
+function v2BranchRank(key) {
+  ensureMetaTreeV2();
+  return Math.max(0, Math.min(5, Number(META.legacyTreeV2.branchRanks?.[key] ?? 0) || 0));
+}
+
+function v2CapUnlocked(key) {
+  ensureMetaTreeV2();
+  return Boolean(META.legacyTreeV2.branchCaps?.[key]);
+}
+
+function v2HasAnySeed() {
+  return LEGACY_V2.tiers.seeds.some(n => v2NodeUnlocked(n.id));
+}
+function v2FootingsUnlockedCount() {
+  return LEGACY_V2.tiers.footings.reduce((a,n)=>a+(v2NodeUnlocked(n.id)?1:0),0);
+}
+function v2MasteriesUnlockedCount() {
+  return LEGACY_V2.tiers.masteries.reduce((a,n)=>a+(v2NodeUnlocked(n.id)?1:0),0);
+}
+function v2CanBuyFootings() { return v2HasAnySeed(); }
+function v2CanBuyMasteries() { return v2FootingsUnlockedCount() >= 2; }
+function v2CanBuyMajors() { return v2MasteriesUnlockedCount() >= 2; }
+
+function v2AnyUnlocked(ids) {
+  for (const id of (ids ?? [])) if (v2NodeUnlocked(id)) return true;
+  return false;
+}
+
+function v2CanUnlockMastery(n) {
+  if (!v2CanBuyMasteries()) return false;
+  for (const id of (n.reqAll ?? [])) if (!v2NodeUnlocked(id)) return false;
+  const any = (n.reqAny ?? []);
+  if (any.length && !v2AnyUnlocked(any)) return false;
+  return true;
+}
+
+function v2CanUnlockMajor(_n) {
+  return v2CanBuyMajors();
+}
+
+function buyV2Node(id) {
+  ensureMetaTreeV2();
+  const all = [...LEGACY_V2.tiers.seeds, ...LEGACY_V2.tiers.footings, ...LEGACY_V2.tiers.masteries, ...LEGACY_V2.tiers.majors];
+  const n = all.find(x => x.id === id);
+  if (!n) return { ok:false, msg: "Unknown node." };
+  if (v2NodeUnlocked(id)) return { ok:false, msg: "Already unlocked." };
+
+  // Gating
+  if (LEGACY_V2.tiers.footings.some(x => x.id === id) && !v2CanBuyFootings()) {
+    return { ok:false, msg: "Unlock any Seed to access Footings." };
+  }
+  if (LEGACY_V2.tiers.masteries.some(x => x.id === id) && !v2CanUnlockMastery(n)) {
+    return { ok:false, msg: "Mastery locked (need its Footing + adjacent Footing)." };
+  }
+  if (LEGACY_V2.tiers.majors.some(x => x.id === id) && !v2CanUnlockMajor(n)) {
+    return { ok:false, msg: "Major nodes require any 2 Masteries." };
+  }
+
+  const cost = Number(n.cost ?? 0) || 0;
+  if ((META.legacy ?? 0) < cost) return { ok:false, msg: "Not enough Legacy." };
+
+  META.legacy -= cost;
+  v2UnlockNode(id);
+  saveMeta();
+  updateLegacyUIBadges();
+  return { ok:true, msg: `Unlocked ${n.name}.` };
+}
+
+function canBuyBranchV2(key) {
+  const b = LEGACY_V2.branches?.[key];
+  if (!b) return false;
+  return v2NodeUnlocked(b.masteryId);
+}
+
+function buyBranchRankV2(key) {
+  ensureMetaTreeV2();
+  if (!canBuyBranchV2(key)) return { ok:false, msg: "Unlock the matching Mastery first." };
+  const r = v2BranchRank(key);
+  if (r >= 5) return { ok:false, msg: "Already max rank." };
+  const cost = V2_BRANCH_RANK_COSTS[r] ?? 0;
+  if ((META.legacy ?? 0) < cost) return { ok:false, msg: "Not enough Legacy." };
+  META.legacy -= cost;
+  META.legacyTreeV2.branchRanks[key] = r + 1;
+  saveMeta();
+  updateLegacyUIBadges();
+  return { ok:true, msg: `Upgraded ${LEGACY_V2.branches[key].title} to Rank ${r+1}.` };
+}
+
+function canBuyCapstoneV2(key) {
+  if (!canBuyBranchV2(key)) return false;
+  return v2BranchRank(key) >= 5;
+}
+
+function buyCapstoneV2(key) {
+  ensureMetaTreeV2();
+  if (v2CapUnlocked(key)) return { ok:false, msg: "Capstone already unlocked." };
+  if (!canBuyCapstoneV2(key)) return { ok:false, msg: "Reach Rank 5 first." };
+  if ((META.legacy ?? 0) < V2_CAPSTONE_COST) return { ok:false, msg: "Not enough Legacy." };
+  META.legacy -= V2_CAPSTONE_COST;
+  META.legacyTreeV2.branchCaps[key] = true;
+  saveMeta();
+  updateLegacyUIBadges();
+  return { ok:true, msg: `Unlocked ${LEGACY_V2.branches[key].capstoneName}.` };
+}
+
+function v2StartResourceBonuses() {
+  const out = { Coin:0, Supplies:0, Renown:0, Influence:0, Secrets:0 };
+  for (const n of LEGACY_V2.tiers.seeds) {
+    if (!v2NodeUnlocked(n.id)) continue;
+    for (const [k,v] of Object.entries(n.start ?? {})) out[k] = (out[k] ?? 0) + (Number(v) || 0);
+  }
+  for (const n of LEGACY_V2.tiers.footings) {
+    if (!v2NodeUnlocked(n.id)) continue;
+    for (const [k,v] of Object.entries(n.start ?? {})) out[k] = (out[k] ?? 0) + (Number(v) || 0);
+  }
+  return out;
+}
+
+function v2FootingChanceBonus(ev) {
+  const ctx = ev?.context;
+  if (!ctx) return 0;
+  const n = LEGACY_V2.tiers.footings.find(x => x.context === ctx);
+  if (!n) return 0;
+  return v2NodeUnlocked(n.id) ? (Number(n.bonusPct ?? 0) || 0) : 0;
+}
+
+function v2BranchCommitBonus(committedCids) {
+  let bonus = 0;
+  const discs = new Set((committedCids ?? []).map(cid => DATA?.cardsById?.[cid]?.discipline).filter(Boolean));
+  if (discs.has('Steel')  && v2BranchRank('steel')  >= 1) bonus += 2;
+  if (discs.has('Quill')  && v2BranchRank('quill')  >= 1) bonus += 2;
+  if (discs.has('Veil')   && v2BranchRank('veil')   >= 1) bonus += 2;
+  if (discs.has('Seal')   && v2BranchRank('seal')   >= 1) bonus += 2;
+  if (discs.has('Hearth') && v2BranchRank('hearth') >= 1) bonus += 2;
+  return bonus;
+}
+
+function v2ContextRerollsPerLife(ctx) {
+  // Base from mastery
+  let n = 0;
+  const m = LEGACY_V2.tiers.masteries.find(x => x.context === ctx);
+  if (m && v2NodeUnlocked(m.id)) n += (m.rerollsPerLife ?? 0) || 0;
+  // +1 if branch rank >= 3
+  const map = { Strife:'steel', Lore:'quill', Scheme:'veil', Court:'seal', Journey:'hearth' };
+  const bk = map[ctx];
+  if (bk && v2BranchRank(bk) >= 3) n += 1;
+  return n;
+}
+
+function v2CapstoneAddsHand(ev) {
+  const ctx = ev?.context;
+  const map = { Strife:'steel', Lore:'quill', Scheme:'veil', Court:'seal', Journey:'hearth' };
+  const bk = map[ctx];
+  if (!bk) return 0;
+  return v2CapUnlocked(bk) ? 1 : 0;
+}
+
+function renderV2Tier(container, title, nodes, lockNoteFn) {
+  const h = document.createElement('h3');
+  h.textContent = title;
+  container.appendChild(h);
+  for (const n of (nodes ?? [])) {
+    const unlocked = v2NodeUnlocked(n.id);
+    const meta = unlocked ? `<span class="rankPill">Unlocked</span>` : `<span class="rankPill">Cost ${n.cost}</span>`;
+
+    const btn = document.createElement('button');
+    btn.className = unlocked ? 'btn ghost small' : 'btn primary small';
+    btn.textContent = unlocked ? 'Unlocked' : 'Unlock';
+    btn.disabled = unlocked || (META.legacy ?? 0) < (Number(n.cost ?? 0) || 0);
+    btn.setAttribute('data-action','v2node');
+    btn.setAttribute('data-payload', n.id);
+
+    const actions = [btn];
+    const note = lockNoteFn(n);
+    if (note) {
+      const d = document.createElement('div');
+      d.className = 'muted small';
+      d.textContent = note;
+      actions.push(d);
+      btn.disabled = true;
+    }
+
+    container.appendChild(nodeCard({ title: n.name, meta, desc: n.desc, locked: Boolean(note), actions }));
+  }
+}
+
+function renderHeirloomVaultGrouped() {
+  if (!heirloomVaultEl) return;
+  heirloomVaultEl.innerHTML = '';
+  const sigs = (DATA?.cards ?? []).filter(c => c && c.isSignature);
+  if (!sigs.length) {
+    const d = document.createElement('div');
+    d.className = 'muted';
+    d.textContent = 'No signature cards found in cards.json (isSignature:true).';
+    heirloomVaultEl.appendChild(d);
+    return;
+  }
+  const order = ['Steel','Quill','Veil','Seal','Hearth','Wild'];
+  const groups = {};
+  for (const c of sigs) {
+    const disc = c.discipline || 'Wild';
+    groups[disc] ??= [];
+    groups[disc].push(c);
+  }
+
+  for (const disc of order) {
+    const list = groups[disc];
+    if (!list || !list.length) continue;
+
+    const group = document.createElement('div');
+    group.className = 'branchGroup';
+
+    const unlockedN = list.filter(c => isSignatureUnlocked(c.id)).length;
+
+    const header = document.createElement('div');
+    header.className = 'branchHeader';
+    const h = document.createElement('h4');
+    h.textContent = disc;
+    const sub = document.createElement('div');
+    sub.className = 'muted small';
+    sub.textContent = `${unlockedN}/${list.length} unlocked`;
+    header.appendChild(h);
+    header.appendChild(sub);
+    group.appendChild(header);
+
+    const wrap = document.createElement('div');
+    wrap.className = 'branchNodes';
+
+    for (const c of list.sort((a,b)=>(a.heirloomCost??0)-(b.heirloomCost??0))) {
+      const unlocked = isSignatureUnlocked(c.id);
+      const cost = Number(c.heirloomCost ?? 0) || 0;
+      const ctx = (c.contexts ?? []).join(', ') || 'Any';
+      const meta = unlocked ? `<span class="rankPill">Unlocked</span>` : `<span class="rankPill">Cost ${cost} Shards</span>`;
+
+      const btn = document.createElement('button');
+      btn.className = unlocked ? 'btn ghost small' : 'btn primary small';
+      btn.textContent = unlocked ? 'Unlocked' : 'Unlock';
+      btn.disabled = unlocked || (META.heirlooms ?? 0) < cost;
+      btn.setAttribute('data-action','sig');
+      btn.setAttribute('data-payload', c.id);
+
+      const desc = `${ctx} • Signature`;
+      wrap.appendChild(nodeCard({ title: c.name, meta, desc, locked: false, actions: [btn] }));
+    }
+
+    group.appendChild(wrap);
+    heirloomVaultEl.appendChild(group);
+  }
+}
+
+
 
 // One-time migration: convert v1 purchases into a legacy refund and reset v1 tree.
 // (This avoids silently losing value when the structure changes.)
@@ -759,8 +1078,7 @@ function renderTierNodes(container, title, nodes, lockedNoteFn) {
 
 function renderLegacyPage() {
   if (!elLegacy) return;
-  ensureMetaTree();
-  maybeRespecV1ToV2();
+  ensureMetaTreeV2();
   updateLegacyUIBadges();
 
   if (legacyTrunkEl) legacyTrunkEl.innerHTML = "";
@@ -769,114 +1087,110 @@ function renderLegacyPage() {
 
   // Trunk (tiers)
   if (legacyTrunkEl) {
-    const tiers = LEGACY_TREE.tiers;
-
-    renderTierNodes(
+    renderV2Tier(
       legacyTrunkEl,
       "Tier 1 — Seeds",
-      tiers.seeds,
+      LEGACY_V2.tiers.seeds,
       (_n) => null
     );
 
-    renderTierNodes(
+    renderV2Tier(
       legacyTrunkEl,
       "Tier 2 — Footings",
-      tiers.footings,
-      (_n) => canBuyFootings() ? null : "Unlock any Seed to access Footings."
+      LEGACY_V2.tiers.footings,
+      (_n) => v2CanBuyFootings() ? null : "Unlock any 1 Seed to access Footings."
     );
 
-    renderTierNodes(
+    renderV2Tier(
       legacyTrunkEl,
       "Tier 3 — Masteries",
-      tiers.masteries,
+      LEGACY_V2.tiers.masteries,
       (n) => {
-        if (!canBuyMasteries()) return "Unlock any 2 Footings to access Masteries.";
-        // mastery prereqs
-        for (const id of (n.reqAll ?? [])) if (!v2Unlocked(id)) return "Requires its matching Footing.";
+        if (!v2CanBuyMasteries()) return "Unlock any 2 Footings to access Masteries.";
+        for (const id of (n.reqAll ?? [])) if (!v2NodeUnlocked(id)) return "Requires its matching Footing.";
         const any = (n.reqAny ?? []);
-        if (any.length && !anyUnlocked(any)) return "Requires one adjacent Footing (see trunk lattice).";
+        if (any.length && !v2AnyUnlocked(any)) return "Requires one adjacent Footing (trunk lattice).";
         return null;
       }
     );
 
-    renderTierNodes(
+    renderV2Tier(
       legacyTrunkEl,
       "Tier 4 — Major Nodes",
-      tiers.majors,
-      (_n) => canBuyMajors() ? null : "Unlock any 2 Masteries to access Major Nodes."
+      LEGACY_V2.tiers.majors,
+      (_n) => v2CanBuyMajors() ? null : "Unlock any 2 Masteries to access Major Nodes."
     );
   }
 
   // Branches
   if (legacyBranchesEl) {
-    const note = document.createElement("div");
-    note.className = "muted";
-    note.textContent = "Branches unlock from Masteries (Tier 3). Nothing is mutually exclusive.";
+    const note = document.createElement('div');
+    note.className = 'muted';
+    note.textContent = 'Branches unlock from Masteries (Tier 3). Depth beats breadth.';
     legacyBranchesEl.appendChild(note);
 
-    for (const [key, b] of Object.entries(LEGACY_TREE.branches)) {
-      const group = document.createElement("div");
-      group.className = "branchGroup";
+    for (const [key, b] of Object.entries(LEGACY_V2.branches)) {
+      const group = document.createElement('div');
+      group.className = 'branchGroup';
 
-      const header = document.createElement("div");
-      header.className = "branchHeader";
-      const h = document.createElement("h4");
+      const header = document.createElement('div');
+      header.className = 'branchHeader';
+      const h = document.createElement('h4');
       h.textContent = b.title;
-      const sub = document.createElement("div");
-      sub.className = "muted small";
+      const sub = document.createElement('div');
+      sub.className = 'muted small';
       sub.textContent = b.subtitle;
       header.appendChild(h);
       header.appendChild(sub);
       group.appendChild(header);
 
-      const nodesWrap = document.createElement("div");
-      nodesWrap.className = "branchNodes";
+      const nodesWrap = document.createElement('div');
+      nodesWrap.className = 'branchNodes';
 
-      const unlocked = canBuyBranch(key);
-      const r = branchRank(key);
+      const unlocked = canBuyBranchV2(key);
+      const r = v2BranchRank(key);
       const nextCost = (r < 5) ? (V2_BRANCH_RANK_COSTS[r] ?? null) : null;
-      const meta =
-        `<span class="rankPill">Rank ${r}/5</span>` +
-        (nextCost ? `<span class="muted small">Next: ${nextCost} Legacy</span>` : `<span class="muted small">Max</span>`);
+      const meta = `<span class="rankPill">Rank ${r}/5</span>` + (nextCost ? `<span class="muted small">Next: ${nextCost} Legacy</span>` : `<span class="muted small">Max</span>`);
 
-      const btn = document.createElement("button");
-      btn.className = "btn primary small";
-      btn.textContent = (r < 5) ? "Upgrade" : "Maxed";
-      btn.disabled = !unlocked || r >= 5 || !afford(nextCost ?? 0);
-      btn.setAttribute("data-action", "branch");
-      btn.setAttribute("data-payload", key);
+      const btn = document.createElement('button');
+      btn.className = 'btn primary small';
+      btn.textContent = (r < 5) ? 'Upgrade' : 'Maxed';
+      btn.disabled = !unlocked || r >= 5 || (META.legacy ?? 0) < (nextCost ?? 0);
+      btn.setAttribute('data-action','v2branch');
+      btn.setAttribute('data-payload', key);
 
       const actions = [btn];
       if (!unlocked) {
-        const d = document.createElement("div");
-        d.className = "muted small";
-        d.textContent = "Unlock the matching Mastery to access this branch.";
+        const d = document.createElement('div');
+        d.className = 'muted small';
+        d.textContent = 'Unlock the matching Mastery to access this branch.';
         actions.push(d);
+        btn.disabled = true;
       }
 
       nodesWrap.appendChild(nodeCard({
         title: `${b.title} Branch`,
         meta,
-        desc: "Ranks: +2% commit bonus (R1), success drip (R2), +1 extra context reroll/life (R3), mitigation (R4), clutch (R5).",
+        desc: 'Ranks: +2% commit bonus (R1), success drip (R2), +1 extra context reroll/life (R3), mitigation (R4), clutch (R5).',
         locked: !unlocked,
         actions
       }));
 
       // Capstone
-      const capUnlocked = bigUnlocked(b.capstoneId);
+      const capUnlocked = v2CapUnlocked(key);
       const capMeta = capUnlocked ? `<span class="rankPill">Unlocked</span>` : `<span class="rankPill">Cost ${V2_CAPSTONE_COST}</span>`;
-      const capBtn = document.createElement("button");
-      capBtn.className = capUnlocked ? "btn ghost small" : "btn primary small";
-      capBtn.textContent = capUnlocked ? "Unlocked" : "Unlock Capstone";
-      capBtn.disabled = capUnlocked || !canBuyCapstone(key) || !afford(V2_CAPSTONE_COST);
-      capBtn.setAttribute("data-action", "cap");
-      capBtn.setAttribute("data-payload", key);
+      const capBtn = document.createElement('button');
+      capBtn.className = capUnlocked ? 'btn ghost small' : 'btn primary small';
+      capBtn.textContent = capUnlocked ? 'Unlocked' : 'Unlock Capstone';
+      capBtn.disabled = capUnlocked || !canBuyCapstoneV2(key) || (META.legacy ?? 0) < V2_CAPSTONE_COST;
+      capBtn.setAttribute('data-action','v2cap');
+      capBtn.setAttribute('data-payload', key);
 
       const capActions = [capBtn];
-      if (!canBuyCapstone(key) && !capUnlocked) {
-        const d = document.createElement("div");
-        d.className = "muted small";
-        d.textContent = "Reach Rank 5 to access the capstone.";
+      if (!canBuyCapstoneV2(key) && !capUnlocked) {
+        const d = document.createElement('div');
+        d.className = 'muted small';
+        d.textContent = 'Reach Rank 5 to access the capstone.';
         capActions.push(d);
       }
 
@@ -884,7 +1198,7 @@ function renderLegacyPage() {
         title: b.capstoneName,
         meta: capMeta,
         desc: b.capstoneDesc,
-        locked: !canBuyCapstone(key) && !capUnlocked,
+        locked: !canBuyCapstoneV2(key) && !capUnlocked,
         actions: capActions
       }));
 
@@ -894,8 +1208,9 @@ function renderLegacyPage() {
   }
 
   // Heirloom Vault (Signature Cards)
-  renderHeirloomVault();
+  renderHeirloomVaultGrouped();
 }
+
 
 function sigEffectSummary(card) {
   try {
@@ -4532,9 +4847,7 @@ function renderStatus() {
   const kids = state.family.heirs?.length ?? 0;
   const kidsStr = kids ? ` • Children: ${kids}` : "";
   const ambStr = state?.ambitionName ? ` • Ambition: ${state.ambitionName}` : "";
-  const mat = bloodlineMaturity();
-  const matStr = ` • Bloodline Maturity ${mat}/10`;
-  statusLine.textContent = `${who} • Age ${state.age} • ${season} • Heirs Ruled ${state.heirCount ?? 0}${matStr}${spouseStr}${kidsStr}${ambStr}`;
+  statusLine.textContent = `${who} • Age ${state.age} • ${season} • Heirs Ruled ${state.heirCount ?? 0}${spouseStr}${kidsStr}${ambStr}`;
 
   const hf = state.heirFocus ? ` (Heir Focus: ${state.heirFocus})` : "";
   statsLine.textContent =
@@ -4967,6 +5280,20 @@ function storylineNextStepFlag(id){
 function renderTrackers(){
   if (!ambitionTrackerEl || !storyTrackerEl) return;
 
+  // ---- Bloodline Maturity ----
+  const maturity = Math.min(10, state?.heirCount ?? 0);
+  const maturityPill = (maturity >= 10) ? 'Mature' : `${maturity}/10`;
+  const maturityClass = (maturity >= 10) ? 'good' : '';
+  const maturityHtml = `
+    <div class="trackerHead" style="margin-top:6px;">
+      <div class="trackerTitle">Bloodline Maturity</div>
+      <div class="trackerPill ${maturityClass}">${maturityPill}</div>
+    </div>
+    <div class="trackerBody">
+      <div class="muted small">Bloodline Ambitions unlock at <b>10/10</b>.</div>
+    </div>
+  `;
+
   // ---- Ambition ----
   const amb = getActiveAmbition();
   if (!amb) {
@@ -4977,6 +5304,7 @@ function renderTrackers(){
         <div class="trackerTitle">Ambition</div>
         <div class="trackerPill ${pillClass}">${pill}</div>
       </div>
+      ${maturityHtml}
       <div class="trackerBody">
         <div class="muted">Pick an ambition to earn bonus Legacy/Scrip. Objectives will track here.</div>
       </div>
@@ -5003,6 +5331,7 @@ function renderTrackers(){
         <div class="trackerTitle">Ambition</div>
         <div class="trackerPill ${pillClass}">${pill}</div>
       </div>
+      ${maturityHtml}
       <div class="trackerBody">
         <div class="cardname" style="margin-bottom:2px;">${escapeHtml(amb.name ?? amb.id)}</div>
         <div class="muted small">${escapeHtml(amb.desc ?? "")}</div>
@@ -6931,9 +7260,8 @@ function proceedSuccession(primary) {
 
   log(`Heir takes over: ${state.charName} ${state.familyName}. Focus bonus: ${state.heirFocus ? `+1 ${state.heirFocus}` : "None"}. Heirs ruled so far: ${state.heirCount}.`);
 
-  // Bloodline Maturity unlock banner (one-time) → then prompt Bloodline Ambition (ruler 11+).
-  maybeShowBloodlineMaturityUnlockModal(() => {
-    maybePromptBloodlineAmbition(() => {
+  // Bloodline Ambition (unlocks after the 10th ruler): prompt once on ruler 11+.
+  maybePromptBloodlineAmbition(() => {
 
   // Draft Signatures for the new ruler (if unlocked), then rebuild draw pile.
   draftSignaturesForFocus(state.heirFocus, () => {
@@ -6947,7 +7275,7 @@ function proceedSuccession(primary) {
     renderAll();
     loadRandomEvent();
   });
-    });
+
   });
 }
 
@@ -7177,111 +7505,21 @@ function getActiveBloodlineAmbition() {
   return (DATA?.bloodlineAmbitions ?? []).find(a => a && a.id === id) ?? null;
 }
 
-
-function bloodlineMaturity() {
-  const hc = Number(state?.heirCount ?? 0);
-  const n = Number.isFinite(hc) ? hc : 0;
-  return clamp(n, 0, 10);
-}
-
-function maybeShowBloodlineMaturityUnlockModal(onDone) {
-  if (!state) return onDone?.();
-  if (bloodlineMaturity() < 10) return onDone?.();
-  if (state.bloodlineMaturityNotified) return onDone?.();
-
-  state.bloodlineMaturityNotified = true;
-  saveState();
-
-  const wrap = document.createElement("div");
-  wrap.innerHTML = `
-    <p><b>Bloodline Maturity Reached</b></p>
-    <p class="muted">Your bloodline has reached <b>10/10</b> maturity (10 rulers). <b>Bloodline Ambitions</b> are now available. Completing one grants a <b>Bloodline Victory</b> (+8 Heirloom Shards).</p>
-  `;
-
-  const actions = document.createElement("div");
-  actions.className = "modalActions";
-
-  const btn = document.createElement("button");
-  btn.className = "btn primary";
-  btn.textContent = "Continue";
-  btn.addEventListener("click", () => {
-    modalLocked = false;
-    closeModal();
-    onDone?.();
-  });
-
-  actions.appendChild(btn);
-  wrap.appendChild(actions);
-
-  openModal("Bloodline Maturity", wrap, { locked: true });
-}
-
 function openBloodlineAmbitionPickerModal(onPick) {
   const pool = Array.isArray(DATA.bloodlineAmbitions) ? DATA.bloodlineAmbitions.filter(a => a && a.id) : [];
   if (!pool.length) { onPick?.(null); return; }
 
-  const OFFER_COUNT = Math.min(2, pool.length);
-
-  const pickOffer = () => {
-    // Prefer two different ambitions; if pool is tiny, just show all.
-    const shuffled = shuffle([...pool]);
-    return shuffled.slice(0, OFFER_COUNT);
-  };
-
-  let offered = pickOffer();
   let chosen = null;
-
   const wrap = document.createElement("div");
 
   const hint = document.createElement("p");
   hint.className = "muted";
-  hint.textContent = `Choose 1 of ${OFFER_COUNT}. Completing a Bloodline Ambition triggers a Bloodline Victory (+8 Heirloom Shards) and ends the run.`;
+  hint.textContent = "A Bloodline Ambition is a dynasty-spanning goal. Completing it triggers a Bloodline Victory (+8 Heirloom Shards) and ends the run.";
   wrap.appendChild(hint);
 
   const grid = document.createElement("div");
   grid.className = "hand";
   wrap.appendChild(grid);
-
-  const actions = document.createElement("div");
-  actions.className = "modalActions";
-  actions.style.marginTop = "12px";
-
-  const btnSkip = document.createElement("button");
-  btnSkip.className = "btn ghost";
-  btnSkip.textContent = "Not yet";
-  btnSkip.addEventListener("click", () => {
-    modalLocked = false;
-    closeModal();
-    onPick?.(null);
-  });
-
-  const btnConfirm = document.createElement("button");
-  btnConfirm.className = "btn";
-  btnConfirm.textContent = "Commit Bloodline Ambition";
-  btnConfirm.disabled = true;
-  btnConfirm.addEventListener("click", () => {
-    modalLocked = false;
-    closeModal();
-    onPick?.(chosen);
-  });
-
-  // One-time reroll (per bloodline) to refresh the offered ambitions.
-  const canReroll = (pool.length > OFFER_COUNT) && !state?.bloodlineAmbitionRerollUsed;
-  const btnReroll = document.createElement("button");
-  btnReroll.className = "btn ghost";
-  btnReroll.textContent = canReroll ? "Reroll options (1)" : "Reroll used";
-  btnReroll.disabled = !canReroll;
-
-  btnReroll.addEventListener("click", () => {
-    if (btnReroll.disabled) return;
-    state.bloodlineAmbitionRerollUsed = true;
-    saveState();
-    offered = pickOffer();
-    renderOffered();
-    btnReroll.disabled = true;
-    btnReroll.textContent = "Reroll used";
-    log("◆ Bloodline Ambition options rerolled.");
-  });
 
   const renderTile = (amb) => {
     const tile = document.createElement("div");
@@ -7318,24 +7556,37 @@ function openBloodlineAmbitionPickerModal(onPick) {
     return tile;
   };
 
-  function renderOffered() {
-    grid.innerHTML = "";
-    chosen = null;
-    btnConfirm.disabled = true;
-    for (const amb of offered) grid.appendChild(renderTile(amb));
-  }
-  renderOffered();
+  for (const amb of pool) grid.appendChild(renderTile(amb));
 
-  // Order: reroll (if available) → Not yet → Commit
-  if (pool.length > OFFER_COUNT) actions.appendChild(btnReroll);
+  const actions = document.createElement("div");
+  actions.className = "modalActions";
+  actions.style.marginTop = "12px";
+
+  const btnSkip = document.createElement("button");
+  btnSkip.className = "btn ghost";
+  btnSkip.textContent = "Not yet";
+  btnSkip.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onPick?.(null);
+  });
+
+  const btnConfirm = document.createElement("button");
+  btnConfirm.className = "btn";
+  btnConfirm.textContent = "Commit Bloodline Ambition";
+  btnConfirm.disabled = true;
+  btnConfirm.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onPick?.(chosen);
+  });
+
   actions.appendChild(btnSkip);
   actions.appendChild(btnConfirm);
   wrap.appendChild(actions);
 
   openModal("Choose a Bloodline Ambition", wrap, { locked: true });
 }
-
-
 
 function maybePromptBloodlineAmbition(onDone) {
   if (!state) return onDone?.();
@@ -7482,7 +7733,6 @@ function checkBloodlineAmbitionProgress({ lifeEnd = false } = {}) {
 function appendBloodlineAmbitionTracker() {
   if (!ambitionTrackerEl || !state) return;
 
-  const maturity = bloodlineMaturity();
   const eligible = isBloodlineAmbitionEligible();
   const amb = getActiveBloodlineAmbition();
   const pool = Array.isArray(DATA.bloodlineAmbitions) ? DATA.bloodlineAmbitions : [];
@@ -7490,56 +7740,32 @@ function appendBloodlineAmbitionTracker() {
   const wrap = document.createElement("div");
   wrap.style.marginTop = "12px";
 
-  const remaining = Math.max(0, 10 - maturity);
-  const maturityNote = (maturity >= 10)
-    ? "Mature — Bloodline Ambitions unlocked."
-    : `Unlocks Bloodline Ambitions at 10/10. ${remaining} ruler(s) to go.`;
-
-  const maturityHtml = `
-    <div class="trackerHead">
-      <div class="trackerTitle">Bloodline Maturity</div>
-      <div class="trackerPill ${maturity >= 10 ? "good" : ""}">${maturity}/10</div>
-    </div>
-    <div class="trackerBody">
-      <div class="muted">${maturityNote}</div>
-    </div>
-  `;
-
-  // ---- Ambition section ----
-  let ambitionHtml = "";
-
   if (!eligible) {
-    ambitionHtml = `
-      <div class="spacer" style="height:10px;"></div>
+    wrap.innerHTML = `
       <div class="trackerHead">
         <div class="trackerTitle">Bloodline Ambition</div>
         <div class="trackerPill">Locked</div>
       </div>
       <div class="trackerBody">
-        <div class="muted">Becomes available once the bloodline reaches <b>10/10</b> maturity.</div>
+        <div class="muted">Bloodline Maturity: <b>${Math.min(10, state?.heirCount ?? 0)}/10</b>. Unlocks after the <b>10th ruler</b> in a bloodline.</div>
       </div>
     `;
-    wrap.innerHTML = maturityHtml + ambitionHtml;
     ambitionTrackerEl.appendChild(wrap);
     return;
   }
 
   if (!amb) {
-    const rerollStr = state.bloodlineAmbitionRerollUsed ? "Reroll used" : "1 reroll available";
-    ambitionHtml = `
-      <div class="spacer" style="height:10px;"></div>
+    wrap.innerHTML = `
       <div class="trackerHead">
         <div class="trackerTitle">Bloodline Ambition</div>
-        <div class="trackerPill good">Unlocked</div>
+        <div class="trackerPill">Available</div>
       </div>
       <div class="trackerBody">
-        <div class="muted">Choose a dynasty-spanning goal for a <b>Bloodline Victory</b> (+8 Heirloom Shards). <span class="objMeta">${rerollStr}</span></div>
+        <div class="muted">Choose a dynasty-spanning goal for a <b>Bloodline Victory</b> (+8 Heirloom Shards).</div>
         <div style="margin-top:10px;"><button class="btn ghost small" id="btnPickBloodlineAmb">Choose Bloodline Ambition</button></div>
       </div>
     `;
-    wrap.innerHTML = maturityHtml + ambitionHtml;
     ambitionTrackerEl.appendChild(wrap);
-
     const btn = wrap.querySelector("#btnPickBloodlineAmb");
     if (btn) {
       btn.disabled = !pool.length;
@@ -7575,8 +7801,7 @@ function appendBloodlineAmbitionTracker() {
   const pill = `${doneCount}/${total}`;
   const pillClass = (total && doneCount === total) ? "good" : "";
 
-  ambitionHtml = `
-    <div class="spacer" style="height:10px;"></div>
+  wrap.innerHTML = `
     <div class="trackerHead">
       <div class="trackerTitle">Bloodline Ambition</div>
       <div class="trackerPill ${pillClass}">${pill}</div>
@@ -7588,11 +7813,8 @@ function appendBloodlineAmbitionTracker() {
     </div>
   `;
 
-  wrap.innerHTML = maturityHtml + ambitionHtml;
   ambitionTrackerEl.appendChild(wrap);
 }
-
-
 
 
 
@@ -7991,8 +8213,6 @@ function startRunFromBuilder(bg, givenName, familyName) {
     bestStanding: { ...normalizeStartStandings(bg.startStandings ?? bg.startStanding) },
 
     // Bloodline ambition (unlocks after the 10th ruler dies; chosen on ruler 11+)
-    bloodlineMaturityNotified: false,
-    bloodlineAmbitionRerollUsed: false,
     bloodlineAmbitionId: null,
     bloodlineAmbitionName: null,
     bloodlineAmbitionCompleted: false,
