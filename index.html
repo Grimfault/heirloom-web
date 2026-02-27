@@ -104,7 +104,7 @@
 <p class="muted">Spend Legacy to strengthen future rulers. Trunk upgrades support any playstyle; branches specialize.</p>
 <div class="muted">Available Legacy: <b><span id="legacyTotal">0</span></b></div>
 <div class="muted">Available Heirloom Shards: <b><span id="heirloomTotal">0</span></b></div>
-<div class="hint">Branches unlock after you’ve unlocked at least one rank in every trunk node.</div>
+<div class="hint">Branches unlock from Masteries (Tier 3). Masteries unlock via Footings adjacency; nothing is mutually exclusive.</div>
 </div>
 <button class="btn ghost" id="btnLegacyBack">Back</button>
 </div>
@@ -207,6 +207,96 @@
       Tip: commit cards that match both the event context and the outcome’s allowed disciplines.
     </footer>
 </div>
-<script defer src="app.js?v=legacyfix5"></script>
+<script defer="" src="app.js?v=legacyfix5"></script>
+
+<script>
+(function(){
+  function qs(id){ return document.getElementById(id); }
+  function show(el){ if(el) el.classList.remove("hidden"); }
+  function hide(el){ if(el) el.classList.add("hidden"); }
+
+  function toggleTheme(){
+    try{
+      const key="heirloom_theme";
+      const current = (document.documentElement.dataset.theme === "candle") ? "candle" : "ink";
+      const next = (current === "ink") ? "candle" : "ink";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem(key, next);
+      const label = (next === "ink") ? "Ink" : "Candle";
+      const menuLabel = (next === "ink") ? "Theme: Ink" : "Theme: Candle";
+      const btnTheme = qs("btnTheme"); if(btnTheme) btnTheme.textContent = menuLabel;
+      const btnMenuTheme = qs("btnMenuTheme"); if(btnMenuTheme) btnMenuTheme.textContent = menuLabel;
+    }catch(e){}
+  }
+
+  function bindFallbackNav(){
+    const menu = qs("menuScreen");
+    const start = qs("startScreen");
+    const legacy = qs("legacyScreen");
+    const game = qs("gameScreen");
+    const topbar = qs("topbar");
+    const footer = qs("footerTip");
+
+    // basic screen swap helpers
+    function goMenu(){
+      show(menu); hide(start); hide(legacy); hide(game);
+      hide(topbar); hide(footer);
+    }
+    function goStart(){
+      hide(menu); show(start); hide(legacy); hide(game);
+      hide(topbar); hide(footer);
+    }
+    function goLegacy(){
+      hide(menu); hide(start); show(legacy); hide(game);
+      hide(topbar); hide(footer);
+    }
+
+    const btnStart = qs("btnMenuStart");
+    const btnLegacy = qs("btnLegacy");
+    const btnTheme = qs("btnMenuTheme");
+    const btnStartBack = qs("btnStartBack");
+    const btnLegacyBack = qs("btnLegacyBack");
+
+    if(btnStart) btnStart.onclick = goStart;
+    if(btnLegacy) btnLegacy.onclick = goLegacy;
+    if(btnTheme) btnTheme.onclick = toggleTheme;
+    if(btnStartBack) btnStartBack.onclick = goMenu;
+    if(btnLegacyBack) btnLegacyBack.onclick = goMenu;
+
+    // Also bind header buttons if they exist
+    const btnHeaderTheme = qs("btnTheme");
+    const btnHeaderReset = qs("btnReset");
+    if(btnHeaderTheme) btnHeaderTheme.onclick = toggleTheme;
+    if(btnHeaderReset) btnHeaderReset.onclick = function(){ try{ localStorage.clear(); location.reload(); }catch(e){} };
+
+    // Message to user
+    const bootMsg = qs("bootMsg");
+    if(bootMsg){
+      bootMsg.innerHTML = '⚠️ The app script did not finish initializing on this load. Navigation fallback is active so you can reach Upgrades. If this persists, do a hard refresh / clear site data.';
+      bootMsg.style.color = "var(--muted, #aaa)";
+    }
+  }
+
+  window.addEventListener("error", function(ev){
+    // Surface error in boot message
+    try{
+      const bootMsg = qs("bootMsg");
+      if(bootMsg){
+        bootMsg.innerHTML = '⚠️ Script error: ' + (ev && ev.message ? ev.message : 'unknown') + '<br/>Fallback navigation will be enabled.';
+      }
+    }catch(e){}
+  });
+
+  window.addEventListener("DOMContentLoaded", function(){
+    // Give deferred app.js a moment to run; if it didn't mark boot OK, enable fallback.
+    setTimeout(function(){
+      if(window.__HEIRLOOM_BOOT_OK__ !== true){
+        bindFallbackNav();
+      }
+    }, 50);
+  });
+})();
+</script>
+
 </body>
 </html>
