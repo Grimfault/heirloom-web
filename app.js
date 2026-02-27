@@ -384,6 +384,24 @@ function draftSignaturesForFocus(focusStat, onDone) {
     if (!remaining.length) return onDone?.();
 
     if (access.pickCount <= 1) {
+      // Dynastic Curriculum (Major): draft Signatures instead of a purely random pick.
+      if (bigUnlocked("b_dynastic_curriculum")) {
+        const choices = pickUnique(remaining, Math.min(3, remaining.length));
+        if (choices.length <= 1) {
+          const pick = choices[0];
+          if (pick) applySignaturePick(pick, { minLevel: access.minLevel });
+          return doSlot(slotIndex + 1);
+        }
+
+        openSignatureDraftModal(disc, choices, {
+          slotIndex,
+          minLevel: access.minLevel,
+          onPicked: () => doSlot(slotIndex + 1),
+          onSkip: () => doSlot(slotIndex + 1)
+        });
+        return;
+      }
+
       const pick = pickUnique(remaining, 1)[0];
       if (pick) applySignaturePick(pick, { minLevel: access.minLevel });
       return doSlot(slotIndex + 1);
@@ -404,7 +422,87 @@ function draftSignaturesForFocus(focusStat, onDone) {
     });
   };
 
-  doSlot(1);
+  
+// ---------- Dynastic Curriculum (Succession Draft) ----------
+const DYNASTIC_CURRICULUM_PACKS = [
+  { id: "dc_stewardship", name: "Stewardship Lessons", desc: "On succession: gain +2 Coin.", bundle: { resources: [{ resource: "Coin", amount: 2 }] } },
+  { id: "dc_logistics",   name: "Logistics Drills",    desc: "On succession: gain +2 Supplies.", bundle: { resources: [{ resource: "Supplies", amount: 2 }] } },
+  { id: "dc_court",       name: "Court Tutors",        desc: "On succession: gain +1 Influence.", bundle: { resources: [{ resource: "Influence", amount: 1 }] } },
+  { id: "dc_whispers",    name: "Whispered Lore",      desc: "On succession: gain +1 Secrets.", bundle: { resources: [{ resource: "Secrets", amount: 1 }] } },
+  { id: "dc_chronicle",   name: "Chronicle Keeping",   desc: "On succession: gain +1 Renown.", bundle: { resources: [{ resource: "Renown", amount: 1 }] } }
+];
+
+function openDynasticCurriculumDraftModal(options, onPick) {
+  const wrap = document.createElement("div");
+  const p = document.createElement("p");
+  p.className = "muted";
+  p.textContent = "Dynastic Curriculum — choose one lesson to guide the new ruler.";
+  wrap.appendChild(p);
+
+  const grid = document.createElement("div");
+  grid.className = "hand";
+  wrap.appendChild(grid);
+
+  let chosen = null;
+
+  const btn = document.createElement("button");
+  btn.className = "btn primary";
+  btn.textContent = "Confirm";
+  btn.style.marginTop = "12px";
+  btn.disabled = true;
+
+  function update() { btn.disabled = !chosen; }
+
+  for (const opt of options) {
+    const b = document.createElement("div");
+    b.className = "cardbtn";
+    b.tabIndex = 0;
+    b.innerHTML = `<div class="cardname">${escapeHtml(opt.name)}</div><div class="muted small">${escapeHtml(opt.desc)}</div>`;
+    const pick = () => {
+      chosen = opt;
+      [...grid.children].forEach(x => x.classList.remove("committed"));
+      b.classList.add("committed");
+      update();
+    };
+    b.addEventListener("click", pick);
+    b.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") pick(); });
+    grid.appendChild(b);
+  }
+
+  btn.addEventListener("click", () => {
+    modalLocked = false;
+    closeModal();
+    onPick?.(chosen);
+  });
+
+  wrap.appendChild(btn);
+
+  openModal("Dynastic Curriculum", wrap, { locked: true });
+}
+
+function draftDynasticCurriculumOnSuccession(onDone) {
+  if (!bigUnlocked("b_dynastic_curriculum")) return onDone?.();
+
+  const pool = DYNASTIC_CURRICULUM_PACKS.slice();
+  shuffle(pool);
+  const options = pool.slice(0, Math.min(3, pool.length));
+
+  if (options.length <= 1) {
+    const pick = options[0];
+    if (pick?.bundle) applyBundle(pick.bundle);
+    if (pick) log(`✦ Dynastic Curriculum: ${pick.name}.`);
+    return onDone?.();
+  }
+
+  openDynasticCurriculumDraftModal(options, (pick) => {
+    if (pick?.bundle) applyBundle(pick.bundle);
+    if (pick) log(`✦ Dynastic Curriculum: ${pick.name}.`);
+    saveState();
+    renderAll();
+    onDone?.();
+  });
+}
+doSlot(1);
 }
 
 // ---------- Legacy Tree (Meta Progression) — v2 (Interconnected Trunk + Discipline Branches) ----------
@@ -3593,7 +3691,18 @@ function applyResourceDelta(d) {
   const amt = d.amount ?? 0;
 
   const before = state.res[k] ?? 0;
-  const after = clamp(before + amt, 0, 99);
+  let after = clamp(before + amt, 0, 99);
+
+  // v2 Journey Mastery: first time Supplies would hit 0 each life, set it to 1 instead.
+  if (k === "Supplies" && amt < 0 && before > 0 && after === 0 && v2Unlocked("mast_journey")) {
+    initPerLifeMeta();
+    if (!state.metaPerLife.journeySuppliesGuardUsed) {
+      state.metaPerLife.journeySuppliesGuardUsed = true;
+      after = 1;
+      log("✦ Journey Mastery: you scrape by with 1 Supplies.");
+    }
+  }
+
   state.res[k] = after;
   // Track per-life peaks for ambition objectives.
   try {
@@ -6573,9 +6682,28 @@ function resolveSelectedOutcome() {
         success = true;
       }
     }
-  }
+}
 
-  // Tracking for result + any post-event modals
+// v2 Masteries: once per life (per mastery) reroll resolution on fail (keep the better).
+if (!success) {
+  const mid = v2MasteryIdForContext(evJustResolved?.context);
+  if (mid && v2Unlocked(mid)) {
+    initPerLifeMeta();
+    state.metaPerLife.masteryRerollsUsed ??= {};
+    if (!state.metaPerLife.masteryRerollsUsed[mid]) {
+      const reroll = rInt(1, 100);
+      const rerollSuccess = reroll <= chance;
+      log(`✦ Mastery reroll: ${rerollSuccess ? "SUCCESS" : "FAIL"} (${reroll} ${rerollSuccess ? "≤" : ">"} ${chance})`);
+      state.metaPerLife.masteryRerollsUsed[mid] = true;
+      if (rerollSuccess) {
+        roll = reroll;
+        success = true;
+      }
+    }
+  }
+}
+
+// Tracking for result + any post-event modals
   let bundleForSummary = null;
   let isPartial = false;
   let postActions = [];
@@ -6597,7 +6725,16 @@ function resolveSelectedOutcome() {
 
   if (success) {
     const cardBundle = bundleFromCommittedCards(committedCardIds(), "onSuccess");
-    const merged = mergeBundles(o.success, cardBundle);
+    let merged = mergeBundles(o.success, cardBundle);
+
+    // v2 Mastery success drip (max 1/event; applied once here).
+    const masteryDelta = v2MasterySuccessBonusDelta(evJustResolved?.context);
+    if (masteryDelta) {
+      if (!merged) merged = { text: "", resources: [], conditions: [], flags: [], standings: [], special: [] };
+      merged.resources ??= [];
+      merged.resources.push(masteryDelta);
+    }
+
     postActions.push(...applyBundle(merged));
     bundleForSummary = merged;
     log(`SUCCESS (${roll} ≤ ${chance}) → ${o.title}`);
@@ -6981,8 +7118,9 @@ function proceedSuccession(primary) {
   maybeShowBloodlineMaturityUnlockModal(() => {
     maybePromptBloodlineAmbition(() => {
 
-  // Draft Signatures for the new ruler (if unlocked), then rebuild draw pile.
-  draftSignaturesForFocus(state.heirFocus, () => {
+  // Dynastic Curriculum (if unlocked), then draft signatures, then rebuild draw pile.
+  draftDynasticCurriculumOnSuccession(() => {
+    draftSignaturesForFocus(state.heirFocus, () => {
     state.drawPile = shuffle([...new Set([...(state.masterDeck ?? []), ...(state.lifeSignatureCards ?? [])])]);
     state.discardPile = [];
     hand = [];
@@ -6992,6 +7130,7 @@ function proceedSuccession(primary) {
     saveState();
     renderAll();
     loadRandomEvent();
+    });
   });
     });
   });
@@ -8222,9 +8361,88 @@ function initPerLifeMeta() {
       redrawTokens: trunkRank("t_better_odds") ?? 0,
       mulliganUsed: false,
       secondBreathUsed: false,
-      lastEventIndex: -1
+      lastEventIndex: -1,
+      // v2 masteries: once-per-life trackers
+      masteryRerollsUsed: {},
+      journeySuppliesGuardUsed: false
     };
   }
+
+function v2FootingIdForContext(ctx) {
+  switch (ctx) {
+    case "Strife": return "foot_strife";
+    case "Court": return "foot_court";
+    case "Scheme": return "foot_scheme";
+    case "Journey": return "foot_journey";
+    case "Lore": return "foot_lore";
+    default: return null;
+  }
+}
+function v2MasteryIdForContext(ctx) {
+  switch (ctx) {
+    case "Strife": return "mast_strife";
+    case "Court": return "mast_court";
+    case "Scheme": return "mast_scheme";
+    case "Journey": return "mast_journey";
+    case "Lore": return "mast_lore";
+    default: return null;
+  }
+}
+function v2CapstoneIdForContext(ctx) {
+  switch (ctx) {
+    case "Strife": return "cap_steel_warbred_reflexes";
+    case "Court": return "cap_seal_open_court";
+    case "Scheme": return "cap_veil_night_moves";
+    case "Journey": return "cap_hearth_wayfarers_kit";
+    case "Lore": return "cap_quill_archivists_hand";
+    default: return null;
+  }
+}
+
+function v2FootingChanceBonus(ev) {
+  const ctx = ev?.context;
+  const id = v2FootingIdForContext(ctx);
+  return (id && v2Unlocked(id)) ? 5 : 0;
+}
+
+function applyV2StartResourceBonuses(res) {
+  if (!res) return res;
+
+  // Tier 1 — Seeds (start-of-run resources)
+  if (v2Unlocked("seed_coinseed"))      res.Coin = (res.Coin ?? 0) + 2;
+  if (v2Unlocked("seed_stores"))        res.Supplies = (res.Supplies ?? 0) + 2;
+  if (v2Unlocked("seed_good_name"))     res.Renown = (res.Renown ?? 0) + 1;
+  if (v2Unlocked("seed_old_contacts"))  res.Influence = (res.Influence ?? 0) + 1;
+  if (v2Unlocked("seed_quiet_sins"))    res.Secrets = (res.Secrets ?? 0) + 1;
+
+  // Tier 2 — Footings (start-of-run kicker)
+  if (v2Unlocked("foot_strife"))   res.Supplies = (res.Supplies ?? 0) + 1;
+  if (v2Unlocked("foot_court"))    res.Influence = (res.Influence ?? 0) + 1;
+  if (v2Unlocked("foot_scheme"))   res.Secrets = (res.Secrets ?? 0) + 1;
+  if (v2Unlocked("foot_journey"))  res.Supplies = (res.Supplies ?? 0) + 1;
+  if (v2Unlocked("foot_lore"))     res.Renown = (res.Renown ?? 0) + 1;
+
+  // Clamp
+  for (const k of RES) res[k] = clamp(res[k] ?? 0, 0, 99);
+
+  return res;
+}
+
+function v2MasterySuccessBonusDelta(ctx) {
+  // Max 1/event; this helper is called once per resolution.
+  if (!ctx) return null;
+  const mid = v2MasteryIdForContext(ctx);
+  if (!mid || !v2Unlocked(mid)) return null;
+
+  // Journey mastery has a different perk (Supplies floor save), no success drip.
+  if (ctx === "Journey") return null;
+
+  if (ctx === "Strife") return { resource: "Renown", amount: 1 };
+  if (ctx === "Scheme") return { resource: "Secrets", amount: 1 };
+  if (ctx === "Court")  return { resource: "Influence", amount: 1 };
+  if (ctx === "Lore")   return { resource: "Renown", amount: 1 };
+  return null;
+}
 }
 
 function legacyContextChanceBonus(ev) {
@@ -8262,16 +8480,11 @@ function tryRemoveOneMinorCondition(reason = "") {
   return false;
 }
 
-// Wrap computeFinalResources to include trunk start resource bonuses.
+// Wrap computeFinalResources to include v2 Seed/Footing start bonuses.
 const __origComputeFinalResources = computeFinalResources;
 computeFinalResources = function(bg) {
   const r = __origComputeFinalResources(bg);
-  r.Supplies  = clamp((r.Supplies  ?? 0) + trunkRank("t_packed_satchel"), 0, 99);
-  r.Coin      = clamp((r.Coin      ?? 0) + trunkRank("t_stashed_coin"), 0, 99);
-  r.Renown    = clamp((r.Renown    ?? 0) + trunkRank("t_known_name"), 0, 99);
-  r.Influence = clamp((r.Influence ?? 0) + trunkRank("t_old_introductions"), 0, 99);
-  r.Secrets   = clamp((r.Secrets   ?? 0) + trunkRank("t_quiet_compromises"), 0, 99);
-  return r;
+  return applyV2StartResourceBonuses(r);
 };
 
 // Wrap computeMortalityChance for trunk + hearth endurance.
@@ -8290,6 +8503,7 @@ computeChanceParts = function(outcome, committedCids, opts = {}) {
   const ev = opts.ev ?? currentEvent;
   const steady = trunkRank("t_steady_hands");
   const ctxBonus = legacyContextChanceBonus(ev);
+  const footingBonus = v2FootingChanceBonus(ev);
 
   // Quill: reduce stat gap pressure
   const quillGapReduce = branchRank("quill", "q_methodical");
@@ -8297,7 +8511,7 @@ computeChanceParts = function(outcome, committedCids, opts = {}) {
   const deltaGap = (parts.gapPenalty ?? 0) - newGapPenalty;
 
   parts.gapPenalty = newGapPenalty;
-  parts.raw = (parts.raw ?? 0) + steady + ctxBonus + deltaGap;
+  parts.raw = (parts.raw ?? 0) + steady + ctxBonus + footingBonus + deltaGap;
   parts.chance = clamp(parts.raw, 5, 95);
   return parts;
 };
@@ -8307,9 +8521,11 @@ const __origHandSizeForEvent = handSizeForEvent;
 handSizeForEvent = function(ev) {
   let n = __origHandSizeForEvent(ev);
 
-  if (ev?.context === "Strife" && bigUnlocked("s_battle_tempo")) n += 1;
-  if (ev?.context === "Lore"   && bigUnlocked("q_archivists_certainty")) n += 1;
-  if (ev?.context === "Court"  && bigUnlocked("se_network")) n += 1;
+  // Capstones increase the *base* hand size (4→5). If conditions squeezed the hand below 4, do not override the squeeze.
+  if (n >= 4) {
+    const capId = v2CapstoneIdForContext(ev?.context);
+    if (capId && v2Unlocked(capId)) n += 1;
+  }
 
   return Math.max(1, n);
 };
@@ -8318,16 +8534,6 @@ handSizeForEvent = function(ev) {
 const __origAddCondition = addCondition;
 addCondition = function(id, severity, opts = {}) {
   const norm = normalizeConditionId(id);
-
-  // Veil capstone: first Wanted(Severe) per life becomes Minor.
-  if (norm === "Wanted" && severity === "Severe" && bigUnlocked("v_shadow_alias")) {
-    initPerLifeMeta();
-    if (!state.metaPerLife.wantedAliasUsed) {
-      state.metaPerLife.wantedAliasUsed = true;
-      severity = "Minor";
-      opts = { ...opts, source: (opts.source ? opts.source + " +Alias" : "Alias") };
-    }
-  }
 
   // Steel mitigation: Wounded(Severe) becomes Minor at higher ranks.
   if (norm === "Wounded" && severity === "Severe") {
@@ -8361,12 +8567,6 @@ beginEvent = function(ev) {
   // Per-event reset
   state.metaPerLife.lastEventIndex = state.runEventIndex ?? 0;
   state.metaPerLife.redrawUsedThisEvent = false;
-
-  // Hearth capstone: before a Major Event begins, remove one Minor condition.
-  if (bigUnlocked("h_unbroken_year")) {
-    const isMajor = (ev?.kind === "major");
-    if (isMajor) tryRemoveOneMinorCondition("Unbroken Year");
-  }
 
   __origBeginEvent(ev);
 
@@ -9307,3 +9507,5 @@ boot();
   } else { __run_ui_helpers__(); }
 })();
 // === END ui enhancements ===
+
+
