@@ -75,7 +75,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Feet blister; pride doesn\u2019t."
+    "flavor": "Feet blister; pride doesn’t."
   },
   {
     "id": "cornered_beast",
@@ -102,7 +102,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "When there\u2019s no room to flee, you bite back."
+    "flavor": "When there’s no room to flee, you bite back."
   },
   {
     "id": "crushing_blow",
@@ -234,7 +234,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Numbers don\u2019t lie\u2014people do."
+    "flavor": "Numbers don’t lie—people do."
   },
   {
     "id": "keen_observation",
@@ -281,7 +281,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Let them spring the trap\u2014on your terms."
+    "flavor": "Let them spring the trap—on your terms."
   },
   {
     "id": "forensic_reading",
@@ -394,7 +394,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "A purse is easiest to lift before it\u2019s missed."
+    "flavor": "A purse is easiest to lift before it’s missed."
   },
   {
     "id": "silent_entry",
@@ -414,7 +414,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Locks aren\u2019t promises. They\u2019re suggestions."
+    "flavor": "Locks aren’t promises. They’re suggestions."
   },
   {
     "id": "misdirection",
@@ -620,7 +620,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "Act certain; they\u2019ll do the rest for you."
+    "flavor": "Act certain; they’ll do the rest for you."
   },
   {
     "id": "oath_of_service",
@@ -640,7 +640,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "You trade freedom for protection\u2014carefully."
+    "flavor": "You trade freedom for protection—carefully."
   },
   {
     "id": "turn_the_blame",
@@ -756,7 +756,7 @@
         "onFailure": {}
       }
     ],
-    "flavor": "The dark doesn\u2019t scare you. You\u2019ve met it before."
+    "flavor": "The dark doesn’t scare you. You’ve met it before."
   },
   {
     "id": "steady_breath",
@@ -974,7 +974,7 @@
       "Lore"
     ],
     "rarity": "Uncommon",
-    "flavor": "If it\u2019s cleaned now, it won\u2019t fester later.",
+    "flavor": "If it’s cleaned now, it won’t fester later.",
     "levels": [
       {
         "level": 1,
@@ -1036,7 +1036,7 @@
       "Lore"
     ],
     "rarity": "Rare",
-    "flavor": "Light makes liars careful\u2014and friends braver.",
+    "flavor": "Light makes liars careful—and friends braver.",
     "levels": [
       {
         "level": 1,
@@ -1164,7 +1164,7 @@
         "onPlay": {}
       }
     ],
-    "flavor": "Numbers don't lie\u2014people do."
+    "flavor": "Numbers don't lie—people do."
   },
   {
     "id": "ledger_clerk_margin_gloss",
@@ -1639,7 +1639,7 @@
         "onPlay": {}
       }
     ],
-    "flavor": "Nothing to declare\u2014nothing you can prove."
+    "flavor": "Nothing to declare—nothing you can prove."
   },
   {
     "id": "outlaw_highway_toll",
