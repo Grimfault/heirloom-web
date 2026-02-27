@@ -82,7 +82,7 @@
     ],
     "styles": [
       {
-        "id": "tourney",
+        "id": "lancer",
         "name": "Lancer",
         "desc": "Steel polish and public glory—win clean, or win loud.",
         "deck": [
@@ -701,7 +701,7 @@
         ]
       },
       {
-        "id": "tourney",
+        "id": "herald",
         "name": "Herald",
         "desc": "Heralds, wagers, and patronage—turn the lists into leverage.",
         "deck": [
@@ -1096,7 +1096,21 @@
         "factionId": "synod",
         "tier": "Favored"
       }
-    ]
+    ],
+    "startStats": {
+      "Might": 1,
+      "Wit": 4,
+      "Guile": 2,
+      "Gravitas": 1,
+      "Resolve": 3
+    },
+    "startRes": {
+      "Coin": 1,
+      "Supplies": 2,
+      "Renown": 0,
+      "Influence": 0,
+      "Secrets": 0
+    }
   },
   {
     "id": "guild_factor",
@@ -1284,7 +1298,21 @@
         "factionId": "league",
         "tier": "Favored"
       }
-    ]
+    ],
+    "startStats": {
+      "Might": 1,
+      "Wit": 3,
+      "Guile": 1,
+      "Gravitas": 4,
+      "Resolve": 2
+    },
+    "startRes": {
+      "Coin": 3,
+      "Supplies": 2,
+      "Renown": 0,
+      "Influence": 1,
+      "Secrets": 0
+    }
   },
   {
     "id": "outlaw",
@@ -1468,7 +1496,21 @@
         "factionId": "league",
         "tier": "Wary"
       }
-    ]
+    ],
+    "startStats": {
+      "Might": 3,
+      "Wit": 1,
+      "Guile": 4,
+      "Gravitas": 1,
+      "Resolve": 2
+    },
+    "startRes": {
+      "Coin": 1,
+      "Supplies": 2,
+      "Renown": 0,
+      "Influence": 0,
+      "Secrets": 2
+    }
   },
   {
     "id": "hedge_knight",
@@ -1656,7 +1698,21 @@
         "factionId": "crown",
         "tier": "Wary"
       }
-    ]
+    ],
+    "startStats": {
+      "Might": 4,
+      "Wit": 1,
+      "Guile": 1,
+      "Gravitas": 3,
+      "Resolve": 2
+    },
+    "startRes": {
+      "Coin": 2,
+      "Supplies": 3,
+      "Renown": 1,
+      "Influence": 0,
+      "Secrets": 0
+    }
   },
   {
     "id": "caravan_scout",
@@ -1844,6 +1900,20 @@
         "factionId": "emirate",
         "tier": "Wary"
       }
-    ]
+    ],
+    "startStats": {
+      "Might": 3,
+      "Wit": 3,
+      "Guile": 3,
+      "Gravitas": 1,
+      "Resolve": 1
+    },
+    "startRes": {
+      "Coin": 2,
+      "Supplies": 4,
+      "Renown": 0,
+      "Influence": 0,
+      "Secrets": 1
+    }
   }
 ]
