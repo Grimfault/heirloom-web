@@ -5691,8 +5691,9 @@ function storyDueIndex(id) {
   return Number.isFinite(due) ? due : Infinity;
 }
 function isMajorBeatAt(age, seasonIndex) {
-  // Major beats happen on Vernal (seasonIndex 0) at key ages.
-  return seasonIndex === 0 && MAJOR_AGES.has(age);
+  // Major beats happen on Vernal (seasonIndex 0) at ages 20+ every 5 years.
+  const a = Number(age ?? 0) || 0;
+  return seasonIndex === 0 && a >= 20 && (a % 5 === 0);
 }
 function simulateAgeSeason(age, seasonIndex, steps) {
   let a = age;
@@ -8422,6 +8423,21 @@ openResultModal = function(opts) {
     try {
       state.bankedCardCid ??= null;
       state.exhaustedCards = Array.isArray(state.exhaustedCards) ? state.exhaustedCards : [];
+      // Background style id migration (v2026-02-27):
+      // Older saves used "tourney" for multiple backgrounds. Keep saves stable after ids were split.
+      if (state?.backgroundStyleId === "tourney") {
+        if (state?.backgroundId === "squire") state.backgroundStyleId = "lancer";
+        if (state?.backgroundId === "minor_noble") state.backgroundStyleId = "herald";
+      }
+      // If we have a known background, refresh the style name from current data.
+      try {
+        const bg = DATA?.backgroundsById?.[state?.backgroundId];
+        if (bg && Array.isArray(bg.styles) && state?.backgroundStyleId) {
+          const st = bg.styles.find(s => s.id === state.backgroundStyleId);
+          if (st?.name) state.backgroundStyleName = st.name;
+        }
+      } catch {}
+
     } catch {}
     return true;
   };
@@ -8603,6 +8619,21 @@ function syncBgStyleUI(bg) {
       state.backgroundStyleName = info.styleName;
       state.bankedCardCid ??= null;
       state.exhaustedCards = Array.isArray(state.exhaustedCards) ? state.exhaustedCards : [];
+      // Background style id migration (v2026-02-27):
+      // Older saves used "tourney" for multiple backgrounds. Keep saves stable after ids were split.
+      if (state?.backgroundStyleId === "tourney") {
+        if (state?.backgroundId === "squire") state.backgroundStyleId = "lancer";
+        if (state?.backgroundId === "minor_noble") state.backgroundStyleId = "herald";
+      }
+      // If we have a known background, refresh the style name from current data.
+      try {
+        const bg = DATA?.backgroundsById?.[state?.backgroundId];
+        if (bg && Array.isArray(bg.styles) && state?.backgroundStyleId) {
+          const st = bg.styles.find(s => s.id === state.backgroundStyleId);
+          if (st?.name) state.backgroundStyleName = st.name;
+        }
+      } catch {}
+
       saveState();
     } catch {}
   };
