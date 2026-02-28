@@ -8698,6 +8698,10 @@ function applyV2StartResourceBonuses(res) {
   return res;
 }
 
+// Expose for other scripts / handlers (avoids scope issues across builds).
+window.applyV2StartResourceBonuses = applyV2StartResourceBonuses;
+
+
 function v2MasterySuccessBonusDelta(ctx) {
   // Max 1/event; this helper is called once per resolution.
   if (!ctx) return null;
@@ -8754,7 +8758,7 @@ function tryRemoveOneMinorCondition(reason = "") {
 const __origComputeFinalResources = computeFinalResources;
 computeFinalResources = function(bg) {
   const r = __origComputeFinalResources(bg);
-  return applyV2StartResourceBonuses(r);
+  return ((typeof window.applyV2StartResourceBonuses === "function") ? window.applyV2StartResourceBonuses(r) : r);
 };
 
 // Wrap computeMortalityChance for trunk + hearth endurance.
