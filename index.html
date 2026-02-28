@@ -7,10 +7,6 @@
 <title>Heirloom (Prototype)</title>
 <link href="styles.css?v=9.1" rel="stylesheet"/>
 <link rel="icon" href="favicon.ico">
-
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
-
 <script>
 /* Heirloom boot config (clean build) */
 (function(){
@@ -179,7 +175,6 @@
 <div class="row gap handTools">
 <button class="btn ghost small" id="btnRedrawHand">Redraw Hand</button>
 <button class="btn ghost small" id="btnMulliganHand">Mulligan</button>
-<button class="btn ghost small" id="btnHandFilter" disabled="">Show all cards</button>
 <div class="muted small" id="handTokens"></div>
 </div>
 
@@ -201,7 +196,7 @@
 <div class="muted" id="chanceBreakdown"></div>
 </div>
 <div class="row" style="gap:8px;">
-<button class="btn ghost" disabled="" id="btnChanceMath">Details</button>
+<button class="btn ghost" disabled="" id="btnChanceMath">Math</button>
 <button class="btn primary" disabled="" id="btnResolve">Resolve</button>
 </div>
 </div>
@@ -223,7 +218,7 @@
 </div>
 </main>
 <footer class="footer muted hidden" id="footerTip">
-      Tip: pick an outcome to highlight usable cards. Use Details if you want the exact odds.
+      Tip: commit cards that match both the event context and the outcome’s allowed disciplines.
     </footer>
 </div>
 <script defer="" src="app.js?v=clean1"></script>
