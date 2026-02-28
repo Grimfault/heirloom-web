@@ -8,6 +8,7 @@ window.__HEIRLOOM_BOOT_OK__ = false;
 
 // --- ABC Fix3 Guard (prevents missing applyV2StartResourceBonuses from halting Start) ---
 console.log("[Heirloom] ABC-fix3-20260228a");
+console.log("[Heirloom] ABC-fix4-20260228b");
 if (typeof window.applyV2StartResourceBonuses !== "function") {
   window.applyV2StartResourceBonuses = function(res){ return res; };
 }
@@ -16,6 +17,54 @@ if (typeof applyV2StartResourceBonuses !== "function") {
   // eslint-disable-next-line no-var
   var applyV2StartResourceBonuses = window.applyV2StartResourceBonuses;
 }
+
+// --- ABC Fix4 Guard (ensures v2 context helpers exist globally; prevents blank event render) ---
+(function(){
+  // v2MasteryIdForContext
+  if (typeof window.v2MasteryIdForContext !== "function") {
+    if (typeof v2MasteryIdForContext === "function") {
+      window.v2MasteryIdForContext = v2MasteryIdForContext;
+    } else {
+      window.v2MasteryIdForContext = function(ctx){
+        switch (ctx) {
+          case "Strife": return "mast_strife";
+          case "Court": return "mast_court";
+          case "Scheme": return "mast_scheme";
+          case "Journey": return "mast_journey";
+          case "Lore": return "mast_lore";
+          default: return null;
+        }
+      };
+    }
+  }
+  if (typeof v2MasteryIdForContext !== "function") {
+    // eslint-disable-next-line no-var
+    var v2MasteryIdForContext = window.v2MasteryIdForContext;
+  }
+
+  // v2CapstoneIdForContext
+  if (typeof window.v2CapstoneIdForContext !== "function") {
+    if (typeof v2CapstoneIdForContext === "function") {
+      window.v2CapstoneIdForContext = v2CapstoneIdForContext;
+    } else {
+      window.v2CapstoneIdForContext = function(ctx){
+        switch (ctx) {
+          case "Strife": return "cap_steel_warbred_reflexes";
+          case "Court": return "cap_seal_open_court";
+          case "Scheme": return "cap_veil_night_moves";
+          case "Journey": return "cap_hearth_wayfarers_kit";
+          case "Lore": return "cap_quill_archivists_hand";
+          default: return null;
+        }
+      };
+    }
+  }
+  if (typeof v2CapstoneIdForContext !== "function") {
+    // eslint-disable-next-line no-var
+    var v2CapstoneIdForContext = window.v2CapstoneIdForContext;
+  }
+})();
+
 // --- end guard ---
 
 /* 
