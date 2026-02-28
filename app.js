@@ -3012,9 +3012,6 @@ let committed = [];   // [iid, iid]
 let nextHandIid = 1;
 
 let showChanceDetails = false;
-  showHandAll = false;
-  resetEventPrep(true);
-
 let showHandAll = false;
 
 /**
@@ -3183,62 +3180,89 @@ function indexData() {
 }
 
 async function loadAllData() {
-  // Deterministic data path (no noisy probing). Override in index.html via window.HEIRLOOM_DATA_PATH.
+  /*
+    Data loading robustness (2026-02-28)
+    Why: some deployments keep JSON in ./data/, others in repo root ./,
+         and this project also uses an events file named events.clarity_pass.json.
+    Behavior:
+      - Respects optional window.HEIRLOOM_DATA_PATH
+      - Falls back to ./data/ then ./
+      - Supports events filename variants
+  */
   const baseRaw = (typeof window !== "undefined" && window.HEIRLOOM_DATA_PATH != null)
     ? String(window.HEIRLOOM_DATA_PATH)
     : "./data/";
-  const base = baseRaw.endsWith("/") ? baseRaw : (baseRaw + "/");
-  const p = (f) => base + f;
 
-  const [cards, events, backgrounds, factions, ambitionsRaw] = await Promise.all([
-    fetchJson(p("cards.json")),
-    fetchJson(p("events.json")),
-    fetchJson(p("backgrounds.json")),
-    fetchJson(p("factions.json")).catch(() => ([])),
-    fetchJson(p("ambitions.json")).catch(() => (null))
+  const normalizeBase = (b) => {
+    const s = String(b || "./");
+    return s.endsWith("/") ? s : (s + "/");
+  };
+
+  // Candidate bases (unique, in priority order)
+  const bases = [];
+  const pushBase = (b) => {
+    const nb = normalizeBase(b);
+    if (!bases.includes(nb)) bases.push(nb);
+  };
+  pushBase(baseRaw);
+  pushBase("./data/");
+  pushBase("./");
+
+  const urls = (file) => bases.map((b) => b + file);
+
+  // Load core data with fallbacks for common hosting layouts
+  const cards = await fetchJsonAny(urls("cards.json"));
+  const events = await fetchJsonAny([
+    ...urls("events.json"),
+    ...urls("events.clarity_pass.json"),
+    ...urls("events.clarity-pass.json"),
+    ...urls("events.clarity.json")
   ]);
+  const backgrounds = await fetchJsonAny(urls("backgrounds.json"));
+  const factions = await fetchJsonAny(urls("factions.json")).catch(() => ([]));
+  const ambitionsRaw = await fetchJsonAny(urls("ambitions.json")).catch(() => (null));
 
   DATA.cards = cards;
-  // Restore 3-level upgrade loop even when JSON cards only define a single baseline level.
-  ensureThreeLevelCards(DATA.cards);
-
-  DATA.events = events;
-  DATA.backgrounds = backgrounds;
-  DATA.factions = (Array.isArray(factions) && factions.length) ? factions : DEFAULT_FACTIONS;
-
-  // Ambitions (personal + bloodline)
-  const ambNorm = normalizeAmbitionsJson(ambitionsRaw);
-  DATA.ambitionsMeta = ambNorm.meta;
-  DATA.ambitions = ambNorm.ambitions;
-  DATA.ambitionsById = Object.fromEntries((DATA.ambitions ?? []).map(a => [a.id, a]));
-
-  DATA.bloodlineAmbitionsMeta = ambNorm.meta;
-  DATA.bloodlineAmbitions = ambNorm.bloodlineAmbitions;
-  DATA.bloodlineAmbitionsById = Object.fromEntries((DATA.bloodlineAmbitions ?? []).map(a => [a.id, a]));
-
-  indexData();
-  annotateEventSignals();
-  DATA.storylineMetaById = null; // rebuilt lazily
-
-  // Minimal validation (helps catch typos early) — supports deck OR coreDeck+styles.
-  for (const bg of DATA.backgrounds) {
-    const deckIds = [];
-    if (bg?.coreDeck && Array.isArray(bg.styles) && bg.styles.length) {
-      deckIds.push(...expandDeck(bg.coreDeck));
-      for (const s of bg.styles) deckIds.push(...expandDeck(s?.deck));
-    } else {
-      deckIds.push(...expandDeck(bg.deck));
+    // Restore 3-level upgrade loop even when JSON cards only define a single baseline level.
+    ensureThreeLevelCards(DATA.cards);
+  
+    DATA.events = events;
+    DATA.backgrounds = backgrounds;
+    DATA.factions = (Array.isArray(factions) && factions.length) ? factions : DEFAULT_FACTIONS;
+  
+    // Ambitions (personal + bloodline)
+    const ambNorm = normalizeAmbitionsJson(ambitionsRaw);
+    DATA.ambitionsMeta = ambNorm.meta;
+    DATA.ambitions = ambNorm.ambitions;
+    DATA.ambitionsById = Object.fromEntries((DATA.ambitions ?? []).map(a => [a.id, a]));
+  
+    DATA.bloodlineAmbitionsMeta = ambNorm.meta;
+    DATA.bloodlineAmbitions = ambNorm.bloodlineAmbitions;
+    DATA.bloodlineAmbitionsById = Object.fromEntries((DATA.bloodlineAmbitions ?? []).map(a => [a.id, a]));
+  
+    indexData();
+    annotateEventSignals();
+    DATA.storylineMetaById = null; // rebuilt lazily
+  
+    // Minimal validation (helps catch typos early) — supports deck OR coreDeck+styles.
+    for (const bg of DATA.backgrounds) {
+      const deckIds = [];
+      if (bg?.coreDeck && Array.isArray(bg.styles) && bg.styles.length) {
+        deckIds.push(...expandDeck(bg.coreDeck));
+        for (const s of bg.styles) deckIds.push(...expandDeck(s?.deck));
+      } else {
+        deckIds.push(...expandDeck(bg.deck));
+      }
+      for (const cid of deckIds) {
+        if (cid && !DATA.cardsById[cid]) console.warn(`Background ${bg.id} references missing cardId: ${cid}`);
+      }
     }
-    for (const cid of deckIds) {
-      if (cid && !DATA.cardsById[cid]) console.warn(`Background ${bg.id} references missing cardId: ${cid}`);
+  
+    for (const ev of DATA.events) {
+      const n = ev.outcomes?.length ?? 0;
+      if (n < 2 || n > 5) console.warn(`Event ${ev.id} should have 2–5 outcomes (has ${n}).`);
     }
   }
-
-  for (const ev of DATA.events) {
-    const n = ev.outcomes?.length ?? 0;
-    if (n < 2 || n > 5) console.warn(`Event ${ev.id} should have 2–5 outcomes (has ${n}).`);
-  }
-}
 
 // ---------- Requirements ----------
 
