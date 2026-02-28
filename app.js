@@ -6,6 +6,18 @@
 window.__HEIRLOOM_BOOT_STARTED__ = true;
 window.__HEIRLOOM_BOOT_OK__ = false;
 
+// --- ABC Fix3 Guard (prevents missing applyV2StartResourceBonuses from halting Start) ---
+console.log("[Heirloom] ABC-fix3-20260228a");
+if (typeof window.applyV2StartResourceBonuses !== "function") {
+  window.applyV2StartResourceBonuses = function(res){ return res; };
+}
+// Some builds call the identifier directly; ensure a global binding exists safely.
+if (typeof applyV2StartResourceBonuses !== "function") {
+  // eslint-disable-next-line no-var
+  var applyV2StartResourceBonuses = window.applyV2StartResourceBonuses;
+}
+// --- end guard ---
+
 /* 
  Heirloom Web Prototype - Single JS Bundle
  Includes:
