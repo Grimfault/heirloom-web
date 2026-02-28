@@ -1753,6 +1753,7 @@ const handHint = document.getElementById("handHint");
 const handTitle = document.getElementById("handTitle");
 const btnRedrawHand = document.getElementById("btnRedrawHand");
 const btnMulliganHand = document.getElementById("btnMulliganHand");
+const btnHandFilter = document.getElementById("btnHandFilter");
 const handTokensEl = document.getElementById("handTokens");
 
 const slot1 = document.getElementById("slot1");
@@ -3011,6 +3012,58 @@ let committed = [];   // [iid, iid]
 let nextHandIid = 1;
 
 let showChanceDetails = false;
+  showHandAll = false;
+  resetEventPrep(true);
+
+let showHandAll = false;
+
+/**
+ * Per-event, per-outcome "preparations" that make resources feel like levers.
+ * - Costs are paid immediately; toggling off refunds the cost.
+ * - Switching outcomes or abandoning the event refunds any paid costs.
+ * - Resolving the outcome consumes costs (no refund) and clears the prep.
+ */
+let eventPrep = {
+  spent: {},           // { Coin: 1, Influence: 1, ... } positive amounts already deducted
+  coinReroll: false,   // spend 1 Coin to reroll on fail (this outcome only)
+  ignoreAllowed: false // spend 1 Influence to ignore Allowed discipline (this outcome only)
+};
+
+function resetEventPrep(refund = true) {
+  try {
+    if (refund && state && state.res && eventPrep && eventPrep.spent) {
+      for (const [r, amt] of Object.entries(eventPrep.spent)) {
+        const a = Number(amt || 0);
+        if (!a) continue;
+        state.res[r] = (state.res[r] ?? 0) + a;
+      }
+    }
+  } catch {}
+  eventPrep = { spent: {}, coinReroll: false, ignoreAllowed: false };
+}
+
+function toggleEventPrepFlag(flagName, resource, cost) {
+  if (!state || !state.res) return;
+  const c = Math.max(0, Number(cost || 0));
+  if (!c) return;
+
+  const active = Boolean(eventPrep?.[flagName]);
+  if (active) {
+    // Refund
+    state.res[resource] = (state.res[resource] ?? 0) + c;
+    eventPrep.spent[resource] = Math.max(0, (eventPrep.spent[resource] ?? 0) - c);
+    eventPrep[flagName] = false;
+  } else {
+    const have = (state.res[resource] ?? 0);
+    if (have < c) return;
+    state.res[resource] = have - c;
+    eventPrep.spent[resource] = (eventPrep.spent[resource] ?? 0) + c;
+    eventPrep[flagName] = true;
+  }
+
+  saveState();
+  renderAll();
+}
 
 let resolvingOutcome = false; // prevents double-advances / modal-close weirdness
 
@@ -3627,38 +3680,48 @@ function isCardUsable(cardId, outcomeIndex) {
   const o = currentEvent?.outcomes?.[outcomeIndex];
   if (!card || !o) return false;
 
-
   if (isWildCard(card)) return true;
 
-  const contextOk = (card.contexts ?? []).includes(currentEvent.context);
-  const disciplineOk = (o.allowed ?? []).includes(card.discipline);
+  const sceneOk = (card.contexts ?? []).includes(currentEvent.context);
 
-  return contextOk && disciplineOk;
+  const allowedList = (o.allowed ?? []);
+  const allowedOkRaw = allowedList.length ? allowedList.includes(card.discipline) : true;
+  const allowedOk = (eventPrep?.ignoreAllowed && allowedList.length) ? true : allowedOkRaw;
+
+  return sceneOk && allowedOk;
 }
 
 function cardUsabilityDetails(cardId, outcomeIndex) {
   const card = DATA.cardsById[cardId];
   const o = currentEvent?.outcomes?.[outcomeIndex];
   if (!card || !o) {
-    return { playable: false, isWild: false, sceneOk: false, allowedOk: false, reason: "Unavailable" };
+    return { playable: false, isWild: false, sceneOk: false, allowedOk: false, sceneLabel: "Scene ✗", allowedLabel: "Allowed ✗", reason: "Unavailable" };
   }
 
   const isWild = isWildCard(card);
   if (isWild) {
-    return { playable: true, isWild: true, sceneOk: true, allowedOk: true, reason: "Wild — usable anytime." };
+    return { playable: true, isWild: true, sceneOk: true, allowedOk: true, sceneLabel: "Scene ✓", allowedLabel: "Allowed ✓", reason: "Wild — usable anytime." };
   }
 
   const sceneOk = (card.contexts ?? []).includes(currentEvent.context);
-  const allowedOk = (o.allowed ?? []).includes(card.discipline);
+
+  const allowedList = (o.allowed ?? []);
+  const allowedOkRaw = allowedList.length ? allowedList.includes(card.discipline) : true;
+  const allowedOver = Boolean(eventPrep?.ignoreAllowed && allowedList.length);
+  const allowedOk = allowedOver ? true : allowedOkRaw;
+
   const playable = sceneOk && allowedOk;
+
+  const sceneLabel = sceneOk ? "Scene ✓" : "Scene ✗";
+  const allowedLabel = allowedOk ? (allowedOver ? "Allowed ✓ (favor)" : "Allowed ✓") : "Allowed ✗";
 
   let reason = "";
   if (playable) reason = `Playable (${currentEvent.context} + ${card.discipline})`;
-  else if (!sceneOk && !allowedOk) reason = `Not usable (needs ${currentEvent.context} and ${(o.allowed ?? []).join("/")})`;
+  else if (!sceneOk && !allowedOk) reason = `Not usable (needs ${currentEvent.context} and ${(allowedList.length ? allowedList.join("/") : "any discipline")})`;
   else if (!sceneOk) reason = `Wrong scene (needs ${currentEvent.context})`;
-  else reason = `Not allowed (needs ${(o.allowed ?? []).join("/")})`;
+  else reason = `Not allowed (needs ${(allowedList.length ? allowedList.join("/") : "any discipline")})`;
 
-  return { playable, isWild, sceneOk, allowedOk, reason };
+  return { playable, isWild, sceneOk, allowedOk, sceneLabel, allowedLabel, reason };
 }
 
 function countCommitReadyCardsForOutcome(outcomeIndex) {
@@ -4765,7 +4828,7 @@ function renderOutcomes() {
   if (selectedOutcomeIndex == null) {
     focus.innerHTML = `
       <div class="focusTitle">Choose an approach</div>
-      <div class="muted">Select an outcome to see costs, results, and highlight playable cards.</div>
+      <div class="muted">Select an outcome to see costs, results, highlight usable cards, and optional preparations.</div>
     `;
   } else {
     const o = currentEvent.outcomes[selectedOutcomeIndex];
@@ -4788,7 +4851,7 @@ function renderOutcomes() {
       </div>
     `;
 
-    // Attempt cost
+    // Attempt cost (paid regardless of success/failure)
     if (attemptBundle) {
       const row = document.createElement("div");
       row.className = "resultRow";
@@ -4796,6 +4859,53 @@ function renderOutcomes() {
       row.appendChild(renderResultBadges(attemptBundle));
       focus.appendChild(row);
     }
+
+    // Optional preparations: spend now for a concrete lever this outcome.
+    const prepWrap = document.createElement("div");
+    prepWrap.className = "prepWrap";
+
+    const prepTop = document.createElement("div");
+    prepTop.className = "resultRow";
+    prepTop.innerHTML = `<div class="resultLabel">Preparations (optional)</div>`;
+    prepWrap.appendChild(prepTop);
+
+    const btnRow = document.createElement("div");
+    btnRow.className = "prepBtns";
+
+    // Coin: last-chance reroll on fail.
+    const btnCoin = document.createElement("button");
+    btnCoin.type = "button";
+    btnCoin.className = "btn ghost small";
+    btnCoin.textContent = eventPrep?.coinReroll
+      ? "✓ Grease the hinges (reroll secured)"
+      : "Spend 1 Coin: Grease the hinges (reroll on fail)";
+    const coinNeedSel = outcomeMaxPotentialSpend(o, "Coin");
+    btnCoin.disabled = (!eventPrep?.coinReroll) && ((state.res?.Coin ?? 0) < (coinNeedSel + 1));
+    btnCoin.addEventListener("click", () => toggleEventPrepFlag("coinReroll", "Coin", 1));
+    btnRow.appendChild(btnCoin);
+
+    // Influence: ignore Allowed discipline for this outcome (cards still need the right scene).
+    if ((o.allowed ?? []).length) {
+      const btnInf = document.createElement("button");
+      btnInf.type = "button";
+      btnInf.className = "btn ghost small";
+      btnInf.textContent = eventPrep?.ignoreAllowed
+        ? "✓ Called in a favor (any discipline allowed)"
+        : "Spend 1 Influence: Call in a favor (any discipline allowed)";
+      const wouldBreakWantedCourt = hasCondition("Wanted") && currentEvent?.context === "Court" && ((state.res?.Secrets ?? 0) < 1) && ((state.res?.Influence ?? 0) < 2);
+      btnInf.disabled = (!eventPrep?.ignoreAllowed) && (wouldBreakWantedCourt || ((state.res?.Influence ?? 0) < 1));
+      btnInf.addEventListener("click", () => toggleEventPrepFlag("ignoreAllowed", "Influence", 1));
+      btnRow.appendChild(btnInf);
+    }
+
+    prepWrap.appendChild(btnRow);
+
+    const prepNote = document.createElement("div");
+    prepNote.className = "muted small";
+    prepNote.textContent = "Spent now. Refunded if you switch outcomes or draw a new event.";
+    prepWrap.appendChild(prepNote);
+
+    focus.appendChild(prepWrap);
 
     // Results: Success / Failure
     const res = document.createElement("div");
@@ -4854,6 +4964,8 @@ function renderOutcomes() {
       selectedOutcomeIndex = idx;
       committed = [];
       showChanceDetails = false;
+      showHandAll = false;
+      resetEventPrep(true);
       renderAll();
     });
 
@@ -4880,12 +4992,16 @@ function renderHand() {
   slot2.classList.toggle("disabled", !slot2Enabled);
 
   const hasOutcome = (selectedOutcomeIndex != null);
+
+  if (btnHandFilter) {
+    btnHandFilter.disabled = !hasOutcome;
+    btnHandFilter.textContent = hasOutcome ? (showHandAll ? "Show usable only" : "Show all cards") : "Show all cards";
+  }
+
   if (!hasOutcome) {
-    handHint.textContent = "Pick an outcome to commit cards. (Wild cards can be used anytime.)";
+    handHint.textContent = "Pick an outcome to see which cards apply. (Wild cards can be used anytime.)";
   } else {
-    const commitReady = countCommitReadyCardsForOutcome(selectedOutcomeIndex);
-    const wildCount = countWildCardsInHand();
-    handHint.textContent = `Commit-ready: ${commitReady} • Wild usable: ${wildCount} • Tap highlighted cards to commit/uncommit (max ${cap}).`;
+    handHint.textContent = `Highlighted cards are usable for this outcome. Tap to commit/uncommit (max ${cap}).${showHandAll ? "" : " Showing usable cards only."}`;
   }
 
   handEl.innerHTML = "";
@@ -4898,13 +5014,17 @@ function renderHand() {
     const playable = isWild ? true : (hasOutcome ? isCardUsable(cid, selectedOutcomeIndex) : false);
     const isCommitted = committed.includes(entry.iid);
 
+    // Default: when an outcome is selected, show only usable cards (plus committed/Wild).
+    if (hasOutcome && !showHandAll && !isWild && !playable && !isCommitted) continue;
+
     const lvlData = getCardLevelData(c);
     const arrowsText = isWild ? "✦" : (arrowsForBonus(lvlData.bonus) || "—");
     const arrowsClass = isWild ? "muted" : (arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted");
     const rarityMark = cardRarityMark(c);
     const riderText = cardRiderText(c);
     const scenesText = cardScenesText(c);
-    const line3 = isWild ? riderText : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""))
+    const line3 = isWild ? riderText : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""));
+
     let usabilityHtml = "";
     if (hasOutcome) {
       const d = cardUsabilityDetails(cid, selectedOutcomeIndex);
@@ -4912,20 +5032,18 @@ function renderHand() {
         usabilityHtml = `<div class="cardchips"><span class="chip chipWild">Wild</span><span class="chip chipGood">Scene ✓</span><span class="chip chipGood">Allowed ✓</span></div>`;
       } else {
         usabilityHtml = `<div class="cardchips">`
-          + `<span class="chip ${d.sceneOk ? "chipGood" : "chipBad"}">Scene ${d.sceneOk ? "✓" : "✗"}</span>`
-          + `<span class="chip ${d.allowedOk ? "chipGood" : "chipBad"}">Allowed ${d.allowedOk ? "✓" : "✗"}</span>`
+          + `<span class="chip ${d.sceneOk ? "chipGood" : "chipBad"}">${d.sceneLabel}</span>`
+          + `<span class="chip ${d.allowedOk ? "chipGood" : "chipBad"}">${d.allowedLabel}</span>`
           + `</div>`;
       }
     } else if (isWild) {
       usabilityHtml = `<div class="cardchips"><span class="chip chipWild">Wild</span></div>`;
     }
-;
 
     const div = document.createElement("div");
     div.className = "cardbtn"
       + (isCommitted ? " committed" : "")
       + ((hasOutcome || isWild) ? (playable ? " playable" : " dim") : "");
-
 
     div.dataset.rarity = (c.rarity || "");
     div.dataset.discipline = (c.discipline || "");
@@ -4976,7 +5094,6 @@ function renderHand() {
       </div>
     `;
 
-
     div.addEventListener("click", () => {
       if (isWild) {
         playWildCard(entry.iid);
@@ -5004,7 +5121,7 @@ function renderChance() {
   if (btnChanceMath) {
     const hasSel = (selectedOutcomeIndex != null);
     btnChanceMath.disabled = !hasSel;
-    btnChanceMath.textContent = hasSel ? (showChanceDetails ? "Hide math" : "Math") : "Math";
+    btnChanceMath.textContent = hasSel ? (showChanceDetails ? "Hide details" : "Details") : "Details";
   }
 
   if (selectedOutcomeIndex == null) {
@@ -5022,7 +5139,9 @@ function renderChance() {
 
   const cls = (chance >= 60) ? "good" : (chance <= 35) ? "bad" : "";
   const band = chanceBand(chance);
-  chanceLine.innerHTML = `Chance: <span class="${cls}">${band}</span> <span class="muted">(${chance}%)</span>`;
+
+  // Default: show a simple band label. Exact % + breakdown live in Details.
+  chanceLine.innerHTML = `Chance: <span class="${cls}">${band}</span>`;
 
   if (!showChanceDetails) {
     chanceBreakdown.textContent = "";
@@ -5044,7 +5163,10 @@ function renderChance() {
   if (gapPart) bits.push(`− Gap ${gapPart}`);
   if (condPart) bits.push(`${condPart > 0 ? "+" : "−"} Conditions ${Math.abs(condPart)}`);
 
-  chanceBreakdown.textContent = bits.join(" ");
+  chanceBreakdown.innerHTML = `
+    <div class="muted small">Exact: <b>${chance}%</b></div>
+    <div class="muted small">${bits.join(" ")}</div>
+  `;
 }
 
 function tierValue(tier){
@@ -5268,7 +5390,7 @@ function renderOutcomes() {
   if (selectedOutcomeIndex == null) {
     focus.innerHTML = `
       <div class="focusTitle">Choose an approach</div>
-      <div class="muted">Select an outcome to see costs, results, and highlight playable cards.</div>
+      <div class="muted">Select an outcome to see costs, results, highlight usable cards, and optional preparations.</div>
     `;
   } else {
     const o = currentEvent.outcomes[selectedOutcomeIndex];
@@ -5291,7 +5413,7 @@ function renderOutcomes() {
       </div>
     `;
 
-    // Attempt cost
+    // Attempt cost (paid regardless of success/failure)
     if (attemptBundle) {
       const row = document.createElement("div");
       row.className = "resultRow";
@@ -5299,6 +5421,53 @@ function renderOutcomes() {
       row.appendChild(renderResultBadges(attemptBundle));
       focus.appendChild(row);
     }
+
+    // Optional preparations: spend now for a concrete lever this outcome.
+    const prepWrap = document.createElement("div");
+    prepWrap.className = "prepWrap";
+
+    const prepTop = document.createElement("div");
+    prepTop.className = "resultRow";
+    prepTop.innerHTML = `<div class="resultLabel">Preparations (optional)</div>`;
+    prepWrap.appendChild(prepTop);
+
+    const btnRow = document.createElement("div");
+    btnRow.className = "prepBtns";
+
+    // Coin: last-chance reroll on fail.
+    const btnCoin = document.createElement("button");
+    btnCoin.type = "button";
+    btnCoin.className = "btn ghost small";
+    btnCoin.textContent = eventPrep?.coinReroll
+      ? "✓ Grease the hinges (reroll secured)"
+      : "Spend 1 Coin: Grease the hinges (reroll on fail)";
+    const coinNeedSel = outcomeMaxPotentialSpend(o, "Coin");
+    btnCoin.disabled = (!eventPrep?.coinReroll) && ((state.res?.Coin ?? 0) < (coinNeedSel + 1));
+    btnCoin.addEventListener("click", () => toggleEventPrepFlag("coinReroll", "Coin", 1));
+    btnRow.appendChild(btnCoin);
+
+    // Influence: ignore Allowed discipline for this outcome (cards still need the right scene).
+    if ((o.allowed ?? []).length) {
+      const btnInf = document.createElement("button");
+      btnInf.type = "button";
+      btnInf.className = "btn ghost small";
+      btnInf.textContent = eventPrep?.ignoreAllowed
+        ? "✓ Called in a favor (any discipline allowed)"
+        : "Spend 1 Influence: Call in a favor (any discipline allowed)";
+      const wouldBreakWantedCourt = hasCondition("Wanted") && currentEvent?.context === "Court" && ((state.res?.Secrets ?? 0) < 1) && ((state.res?.Influence ?? 0) < 2);
+      btnInf.disabled = (!eventPrep?.ignoreAllowed) && (wouldBreakWantedCourt || ((state.res?.Influence ?? 0) < 1));
+      btnInf.addEventListener("click", () => toggleEventPrepFlag("ignoreAllowed", "Influence", 1));
+      btnRow.appendChild(btnInf);
+    }
+
+    prepWrap.appendChild(btnRow);
+
+    const prepNote = document.createElement("div");
+    prepNote.className = "muted small";
+    prepNote.textContent = "Spent now. Refunded if you switch outcomes or draw a new event.";
+    prepWrap.appendChild(prepNote);
+
+    focus.appendChild(prepWrap);
 
     // Results: Success / Failure
     const res = document.createElement("div");
@@ -5357,6 +5526,8 @@ function renderOutcomes() {
       selectedOutcomeIndex = idx;
       committed = [];
       showChanceDetails = false;
+      showHandAll = false;
+      resetEventPrep(true);
       renderAll();
     });
 
@@ -5383,12 +5554,16 @@ function renderHand() {
   slot2.classList.toggle("disabled", !slot2Enabled);
 
   const hasOutcome = (selectedOutcomeIndex != null);
+
+  if (btnHandFilter) {
+    btnHandFilter.disabled = !hasOutcome;
+    btnHandFilter.textContent = hasOutcome ? (showHandAll ? "Show usable only" : "Show all cards") : "Show all cards";
+  }
+
   if (!hasOutcome) {
-    handHint.textContent = "Pick an outcome to commit cards. (Wild cards can be used anytime.)";
+    handHint.textContent = "Pick an outcome to see which cards apply. (Wild cards can be used anytime.)";
   } else {
-    const commitReady = countCommitReadyCardsForOutcome(selectedOutcomeIndex);
-    const wildCount = countWildCardsInHand();
-    handHint.textContent = `Commit-ready: ${commitReady} • Wild usable: ${wildCount} • Tap highlighted cards to commit/uncommit (max ${cap}).`;
+    handHint.textContent = `Highlighted cards are usable for this outcome. Tap to commit/uncommit (max ${cap}).${showHandAll ? "" : " Showing usable cards only."}`;
   }
 
   handEl.innerHTML = "";
@@ -5401,13 +5576,17 @@ function renderHand() {
     const playable = isWild ? true : (hasOutcome ? isCardUsable(cid, selectedOutcomeIndex) : false);
     const isCommitted = committed.includes(entry.iid);
 
+    // Default: when an outcome is selected, show only usable cards (plus committed/Wild).
+    if (hasOutcome && !showHandAll && !isWild && !playable && !isCommitted) continue;
+
     const lvlData = getCardLevelData(c);
     const arrowsText = isWild ? "✦" : (arrowsForBonus(lvlData.bonus) || "—");
     const arrowsClass = isWild ? "muted" : (arrowsForBonus(lvlData.bonus) ? (lvlData.bonus >= 0 ? "good" : "bad") : "muted");
     const rarityMark = cardRarityMark(c);
     const riderText = cardRiderText(c);
     const scenesText = cardScenesText(c);
-    const line3 = isWild ? riderText : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""))
+    const line3 = isWild ? riderText : ([scenesText, riderText].filter(Boolean).join(" • ") + (lvlData.partialOnFail ? " • partial on failure" : ""));
+
     let usabilityHtml = "";
     if (hasOutcome) {
       const d = cardUsabilityDetails(cid, selectedOutcomeIndex);
@@ -5415,20 +5594,18 @@ function renderHand() {
         usabilityHtml = `<div class="cardchips"><span class="chip chipWild">Wild</span><span class="chip chipGood">Scene ✓</span><span class="chip chipGood">Allowed ✓</span></div>`;
       } else {
         usabilityHtml = `<div class="cardchips">`
-          + `<span class="chip ${d.sceneOk ? "chipGood" : "chipBad"}">Scene ${d.sceneOk ? "✓" : "✗"}</span>`
-          + `<span class="chip ${d.allowedOk ? "chipGood" : "chipBad"}">Allowed ${d.allowedOk ? "✓" : "✗"}</span>`
+          + `<span class="chip ${d.sceneOk ? "chipGood" : "chipBad"}">${d.sceneLabel}</span>`
+          + `<span class="chip ${d.allowedOk ? "chipGood" : "chipBad"}">${d.allowedLabel}</span>`
           + `</div>`;
       }
     } else if (isWild) {
       usabilityHtml = `<div class="cardchips"><span class="chip chipWild">Wild</span></div>`;
     }
-;
 
     const div = document.createElement("div");
     div.className = "cardbtn"
       + (isCommitted ? " committed" : "")
       + ((hasOutcome || isWild) ? (playable ? " playable" : " dim") : "");
-
 
     div.dataset.rarity = (c.rarity || "");
     div.dataset.discipline = (c.discipline || "");
@@ -5479,7 +5656,6 @@ function renderHand() {
       </div>
     `;
 
-
     div.addEventListener("click", () => {
       if (isWild) {
         playWildCard(entry.iid);
@@ -5507,7 +5683,7 @@ function renderChance() {
   if (btnChanceMath) {
     const hasSel = (selectedOutcomeIndex != null);
     btnChanceMath.disabled = !hasSel;
-    btnChanceMath.textContent = hasSel ? (showChanceDetails ? "Hide math" : "Math") : "Math";
+    btnChanceMath.textContent = hasSel ? (showChanceDetails ? "Hide details" : "Details") : "Details";
   }
 
   if (selectedOutcomeIndex == null) {
@@ -5525,7 +5701,9 @@ function renderChance() {
 
   const cls = (chance >= 60) ? "good" : (chance <= 35) ? "bad" : "";
   const band = chanceBand(chance);
-  chanceLine.innerHTML = `Chance: <span class="${cls}">${band}</span> <span class="muted">(${chance}%)</span>`;
+
+  // Default: show a simple band label. Exact % + breakdown live in Details.
+  chanceLine.innerHTML = `Chance: <span class="${cls}">${band}</span>`;
 
   if (!showChanceDetails) {
     chanceBreakdown.textContent = "";
@@ -5547,7 +5725,10 @@ function renderChance() {
   if (gapPart) bits.push(`− Gap ${gapPart}`);
   if (condPart) bits.push(`${condPart > 0 ? "+" : "−"} Conditions ${Math.abs(condPart)}`);
 
-  chanceBreakdown.textContent = bits.join(" ");
+  chanceBreakdown.innerHTML = `
+    <div class="muted small">Exact: <b>${chance}%</b></div>
+    <div class="muted small">${bits.join(" ")}</div>
+  `;
 }
 
 
@@ -6709,6 +6890,10 @@ function resolveSelectedOutcome() {
 
     const evJustResolved = currentEvent;
 
+  const prepSnapshot = { ...(eventPrep || {}), spent: { ...((eventPrep && eventPrep.spent) ? eventPrep.spent : {}) } };
+  resetEventPrep(false);
+
+
   // Compute success chance
   const chance = computeChance(o, committedCardIds());
   let roll = rInt(1, 100);
@@ -6747,6 +6932,17 @@ if (!success) {
         success = true;
       }
     }
+  }
+}
+
+// Spend Coin prep: if you greased the hinges, you get a last-chance reroll on fail.
+if (!success && prepSnapshot?.coinReroll) {
+  const reroll = rInt(1, 100);
+  const rerollSuccess = reroll <= chance;
+  log(`◇ Coin spent: last-chance reroll ${rerollSuccess ? "SUCCESS" : "FAIL"} (${reroll} ${rerollSuccess ? "≤" : ">"} ${chance})`);
+  if (rerollSuccess) {
+    roll = reroll;
+    success = true;
   }
 }
 
@@ -8736,6 +8932,14 @@ if (btnMulliganHand) {
     if (state.metaPerLife.mulliganUsed) return;
     state.metaPerLife.mulliganUsed = true;
     redrawHandCore({ consumeToken: false, markMulligan: true });
+  });
+}
+
+if (btnHandFilter) {
+  btnHandFilter.addEventListener("click", () => {
+    if (selectedOutcomeIndex == null) return;
+    showHandAll = !showHandAll;
+    renderAll();
   });
 }
 
