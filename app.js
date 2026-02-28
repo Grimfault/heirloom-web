@@ -16,6 +16,25 @@ if (typeof window.applyV2StartResourceBonuses !== "function") {
 if (typeof applyV2StartResourceBonuses !== "function") {
   // eslint-disable-next-line no-var
   var applyV2StartResourceBonuses = window.applyV2StartResourceBonuses;
+// --- ABC Fix5 Guard (prevents missing v2FootingChanceBonus from spamming console / breaking chance calc) ---
+console.log("[Heirloom] ABC-fix5-20260228c");
+if (typeof window.v2FootingChanceBonus !== "function") {
+  window.v2FootingChanceBonus = function(ev){
+  try{
+    const ctx = ev && ev.context;
+    const id = (typeof v2FootingIdForContext === "function") ? v2FootingIdForContext(ctx) : null;
+    const unlocked = (id && typeof v2Unlocked === "function") ? !!v2Unlocked(id) : false;
+    return unlocked ? 5 : 0;
+  } catch(e){
+    return 0;
+  }
+};
+}
+if (typeof v2FootingChanceBonus !== "function") {
+  // eslint-disable-next-line no-var
+  var v2FootingChanceBonus = window.v2FootingChanceBonus;
+}
+
 }
 
 // --- ABC Fix4 Guard (ensures v2 context helpers exist globally; prevents blank event render) ---
