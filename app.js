@@ -17,7 +17,7 @@ if (typeof applyV2StartResourceBonuses !== "function") {
   // eslint-disable-next-line no-var
   var applyV2StartResourceBonuses = window.applyV2StartResourceBonuses;
 // --- ABC Fix5 Guard (prevents missing v2FootingChanceBonus from spamming console / breaking chance calc) ---
-console.log("[Heirloom] ABC-fix5-20260228c");
+console.log("[Heirloom] ABC-fix7-20260228e");
 if (typeof window.v2FootingChanceBonus !== "function") {
   window.v2FootingChanceBonus = function(ev){
   try{
@@ -2148,7 +2148,9 @@ function computeChanceParts(outcome, committedCids, opts = {}) {
   const majorBeat = Boolean(opts.majorBeat ?? (typeof isMajorEventNow === "function" ? isMajorEventNow() : false));
 
   const statVal = state.stats[outcome.stat] ?? 0;
-  const diffRating = outcome.diff ?? 3;
+  const diffRatingBase = outcome.diff ?? 3;
+  const usingSecretLeverage = Boolean(eventPrep?.secretLeverage && (opts.ev ?? currentEvent) === currentEvent && selectedOutcomeIndex != null && currentEvent?.outcomes?.[selectedOutcomeIndex] === outcome && diffRatingBase > 1);
+  const diffRating = usingSecretLeverage ? Math.max(1, diffRatingBase - 1) : diffRatingBase;
   const diff = diffRating * DIFF_SCALE;
 
   const cardBonus = (committedCids ?? []).reduce((sum, cid) => {
@@ -2176,6 +2178,8 @@ function computeChanceParts(outcome, committedCids, opts = {}) {
     statVal,
     diff,
     diffRating,
+    diffRatingBase,
+    usingSecretLeverage,
     cardBonus,
     gapPenalty,
     condMod,
@@ -3102,8 +3106,9 @@ let showHandAll = false;
  */
 let eventPrep = {
   spent: {},           // { Coin: 1, Influence: 1, ... } positive amounts already deducted
-  coinReroll: false,   // spend 1 Coin to reroll on fail (this outcome only)
-  ignoreAllowed: false // spend 1 Influence to ignore Allowed discipline (this outcome only)
+  coinReroll: false,   // spend Coin to reroll on fail (this outcome only; cost scales by Diff)
+  ignoreAllowed: false,// spend Influence to ignore Allowed discipline (this outcome only; cost scales by Diff)
+  secretLeverage: false// spend Secrets to reduce Diff by 1 (this outcome only; cost scales by Diff)
 };
 
 function resetEventPrep(refund = true) {
@@ -3116,7 +3121,27 @@ function resetEventPrep(refund = true) {
       }
     }
   } catch {}
-  eventPrep = { spent: {}, coinReroll: false, ignoreAllowed: false };
+  eventPrep = { spent: {}, coinReroll: false, ignoreAllowed: false, secretLeverage: false };
+}
+
+function prepCoinCost(outcome){
+  const d = Number(outcome?.diff ?? 3);
+  if (d <= 2) return 1;
+  if (d === 3) return 2;
+  if (d === 4) return 3;
+  return 4; // Diff 5+
+}
+function prepInfluenceCost(outcome){
+  const d = Number(outcome?.diff ?? 3);
+  if (d <= 2) return 1;
+  if (d <= 4) return 2;
+  return 3;
+}
+function prepSecretsCost(outcome){
+  const d = Number(outcome?.diff ?? 3);
+  if (d <= 2) return 1;
+  if (d <= 4) return 2;
+  return 3;
 }
 
 function toggleEventPrepFlag(flagName, resource, cost) {
@@ -4980,26 +5005,43 @@ function renderOutcomes() {
     const btnCoin = document.createElement("button");
     btnCoin.type = "button";
     btnCoin.className = "btn ghost small";
+    const coinCost = prepCoinCost(o);
     btnCoin.textContent = eventPrep?.coinReroll
       ? "✓ Grease the hinges (reroll secured)"
-      : "Spend 1 Coin: Grease the hinges (reroll on fail)";
+      : `Spend ${coinCost} Coin: Grease the hinges (reroll on fail)`;
     const coinNeedSel = outcomeMaxPotentialSpend(o, "Coin");
-    btnCoin.disabled = (!eventPrep?.coinReroll) && ((state.res?.Coin ?? 0) < (coinNeedSel + 1));
-    btnCoin.addEventListener("click", () => toggleEventPrepFlag("coinReroll", "Coin", 1));
-    btnRow.appendChild(btnCoin);
+    btnCoin.disabled = (!eventPrep?.coinReroll) && ((state.res?.Coin ?? 0) < (coinNeedSel + coinCost));
+    btnCoin.addEventListener("click", () => toggleEventPrepFlag("coinReroll", "Coin", coinCost));
+btnRow.appendChild(btnCoin);
 
     // Influence: ignore Allowed discipline for this outcome (cards still need the right scene).
     if ((o.allowed ?? []).length) {
       const btnInf = document.createElement("button");
       btnInf.type = "button";
       btnInf.className = "btn ghost small";
+      const infCost = prepInfluenceCost(o);
       btnInf.textContent = eventPrep?.ignoreAllowed
         ? "✓ Called in a favor (any discipline allowed)"
-        : "Spend 1 Influence: Call in a favor (any discipline allowed)";
-      const wouldBreakWantedCourt = hasCondition("Wanted") && currentEvent?.context === "Court" && ((state.res?.Secrets ?? 0) < 1) && ((state.res?.Influence ?? 0) < 2);
-      btnInf.disabled = (!eventPrep?.ignoreAllowed) && (wouldBreakWantedCourt || ((state.res?.Influence ?? 0) < 1));
-      btnInf.addEventListener("click", () => toggleEventPrepFlag("ignoreAllowed", "Influence", 1));
-      btnRow.appendChild(btnInf);
+        : `Spend ${infCost} Influence: Call in a favor (any discipline allowed)`;
+      const wouldBreakWantedCourt = hasCondition("Wanted") && currentEvent?.context === "Court" && ((state.res?.Secrets ?? 0) < 1) && ((state.res?.Influence ?? 0) < (infCost + 1));
+      btnInf.disabled = (!eventPrep?.ignoreAllowed) && (wouldBreakWantedCourt || ((state.res?.Influence ?? 0) < infCost));
+      btnInf.addEventListener("click", () => toggleEventPrepFlag("ignoreAllowed", "Influence", infCost));
+btnRow.appendChild(btnInf);
+    }
+
+    // Secrets: reduce Diff by 1 for this outcome (resolution only).
+    if ((o.diff ?? 3) > 1) {
+      const btnSec = document.createElement("button");
+      btnSec.type = "button";
+      btnSec.className = "btn ghost small";
+      const secCost = prepSecretsCost(o);
+      btnSec.textContent = eventPrep?.secretLeverage
+        ? "✓ Uncovered leverage (-1 Diff applied)"
+        : `Spend ${secCost} Secrets: Uncover leverage (-1 Diff)`;
+      const secNeedSel = outcomeMaxPotentialSpend(o, "Secrets");
+      btnSec.disabled = (!eventPrep?.secretLeverage) && ((state.res?.Secrets ?? 0) < (secNeedSel + secCost));
+      btnSec.addEventListener("click", () => toggleEventPrepFlag("secretLeverage", "Secrets", secCost));
+      btnRow.appendChild(btnSec);
     }
 
     prepWrap.appendChild(btnRow);
@@ -5542,26 +5584,43 @@ function renderOutcomes() {
     const btnCoin = document.createElement("button");
     btnCoin.type = "button";
     btnCoin.className = "btn ghost small";
+    const coinCost = prepCoinCost(o);
     btnCoin.textContent = eventPrep?.coinReroll
       ? "✓ Grease the hinges (reroll secured)"
-      : "Spend 1 Coin: Grease the hinges (reroll on fail)";
+      : `Spend ${coinCost} Coin: Grease the hinges (reroll on fail)`;
     const coinNeedSel = outcomeMaxPotentialSpend(o, "Coin");
-    btnCoin.disabled = (!eventPrep?.coinReroll) && ((state.res?.Coin ?? 0) < (coinNeedSel + 1));
-    btnCoin.addEventListener("click", () => toggleEventPrepFlag("coinReroll", "Coin", 1));
-    btnRow.appendChild(btnCoin);
+    btnCoin.disabled = (!eventPrep?.coinReroll) && ((state.res?.Coin ?? 0) < (coinNeedSel + coinCost));
+    btnCoin.addEventListener("click", () => toggleEventPrepFlag("coinReroll", "Coin", coinCost));
+btnRow.appendChild(btnCoin);
 
     // Influence: ignore Allowed discipline for this outcome (cards still need the right scene).
     if ((o.allowed ?? []).length) {
       const btnInf = document.createElement("button");
       btnInf.type = "button";
       btnInf.className = "btn ghost small";
+      const infCost = prepInfluenceCost(o);
       btnInf.textContent = eventPrep?.ignoreAllowed
         ? "✓ Called in a favor (any discipline allowed)"
-        : "Spend 1 Influence: Call in a favor (any discipline allowed)";
-      const wouldBreakWantedCourt = hasCondition("Wanted") && currentEvent?.context === "Court" && ((state.res?.Secrets ?? 0) < 1) && ((state.res?.Influence ?? 0) < 2);
-      btnInf.disabled = (!eventPrep?.ignoreAllowed) && (wouldBreakWantedCourt || ((state.res?.Influence ?? 0) < 1));
-      btnInf.addEventListener("click", () => toggleEventPrepFlag("ignoreAllowed", "Influence", 1));
-      btnRow.appendChild(btnInf);
+        : `Spend ${infCost} Influence: Call in a favor (any discipline allowed)`;
+      const wouldBreakWantedCourt = hasCondition("Wanted") && currentEvent?.context === "Court" && ((state.res?.Secrets ?? 0) < 1) && ((state.res?.Influence ?? 0) < (infCost + 1));
+      btnInf.disabled = (!eventPrep?.ignoreAllowed) && (wouldBreakWantedCourt || ((state.res?.Influence ?? 0) < infCost));
+      btnInf.addEventListener("click", () => toggleEventPrepFlag("ignoreAllowed", "Influence", infCost));
+btnRow.appendChild(btnInf);
+    }
+
+    // Secrets: reduce Diff by 1 for this outcome (resolution only).
+    if ((o.diff ?? 3) > 1) {
+      const btnSec = document.createElement("button");
+      btnSec.type = "button";
+      btnSec.className = "btn ghost small";
+      const secCost = prepSecretsCost(o);
+      btnSec.textContent = eventPrep?.secretLeverage
+        ? "✓ Uncovered leverage (-1 Diff applied)"
+        : `Spend ${secCost} Secrets: Uncover leverage (-1 Diff)`;
+      const secNeedSel = outcomeMaxPotentialSpend(o, "Secrets");
+      btnSec.disabled = (!eventPrep?.secretLeverage) && ((state.res?.Secrets ?? 0) < (secNeedSel + secCost));
+      btnSec.addEventListener("click", () => toggleEventPrepFlag("secretLeverage", "Secrets", secCost));
+      btnRow.appendChild(btnSec);
     }
 
     prepWrap.appendChild(btnRow);
