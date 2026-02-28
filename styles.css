@@ -527,6 +527,22 @@ inset: 0;
 }
 
 .resultRow{ margin-top: 10px; }
+
+/* Optional prep levers (spend-now buttons inside outcome focus) */
+.prepWrap{
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--washBorder);
+}
+.prepBtns{
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Chance details block spacing */
+#chanceBreakdown{ margin-top: 6px; }
 .resultCol{
   border: 1px solid var(--washBorder);
   border-radius: 12px;
